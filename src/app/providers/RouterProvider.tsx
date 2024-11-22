@@ -1,9 +1,10 @@
 import { Route, Routes } from 'react-router-dom';
 
-import Community from '#/pages/community/index';
-import Home from '#/pages/Home/index';
-import NotFound from '#/pages/NotFoundPage/index';
-import { ROUTES } from '#/shared/config/routes';
+import Community from 'pages/community';
+import Home from 'pages/Home';
+import NotFound from 'pages/NotFoundPage';
+
+import { ROUTES } from 'shared/config/routes';
 
 export const AppRouter = () => {
   return (
