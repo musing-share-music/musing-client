@@ -1,15 +1,16 @@
-import { Routes, Route } from 'react-router-dom';
-import { ROUTES } from '../../shared/config/routes';
-import Home from '../../pages/Home/index';
-import Community from '../../pages/community/index'
-import NotFound from '../../pages/NotFoundPage/index';
+import { Route, Routes } from 'react-router-dom';
+
+import Community from '#/pages/community/index';
+import Home from '#/pages/Home/index';
+import NotFound from '#/pages/NotFoundPage/index';
+import { ROUTES } from '#/shared/config/routes';
 
 export const AppRouter = () => {
   return (
     <Routes>
-      <Route path={ROUTES.HOME} element={<Home/>} /> 
-      <Route path={ROUTES.COMMUNITY.COMMUNITY} element={<Community/>} /> 
-      <Route path="*" element={<NotFound />} /> 
+      <Route path={ROUTES.HOME} element={<Home />} />
+      <Route path={ROUTES.COMMUNITY.COMMUNITY} element={<Community />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

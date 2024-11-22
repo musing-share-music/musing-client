@@ -10,7 +10,7 @@ export const ROUTES = {
   COMMUNITY: {
     COMMUNITY: '/community',
     DETAIL: '/detail',
-  }
+  },
 
   // 인증 관련 라우트
   // AUTH: {

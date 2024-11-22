@@ -1,6 +1,6 @@
-import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
 import axios from 'axios';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const navigate = useNavigate();
@@ -9,14 +9,15 @@ function Home() {
   function fetchTest() {
     axios
       .get('https://jsonplaceholder.typicode.com/posts/1')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((response: { data: any }) => {
         setData(response.data); // response에 타입 지정
       })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .catch((error: any) => {
         console.error('Error fetching data:', error);
       });
   }
-  
 
   return (
     <div>
