@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import noRelativeImportPaths from 'eslint-plugin-no-relative-import-paths';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import globals from 'globals';
@@ -29,6 +30,7 @@ export default tseslint.config(
       'react-refresh': reactRefresh,
       import: importPlugin,
       'jsx-a11y': jsxA11y,
+      'no-relative-import-paths': noRelativeImportPaths,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -40,8 +42,6 @@ export default tseslint.config(
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'jsx-a11y/alt-text': 'error',
-
-      /* import 규칙 */
       'sort-imports': [
         'error',
         {
@@ -51,6 +51,7 @@ export default tseslint.config(
           allowSeparatedGroups: true,
         },
       ],
+      // import 순서는 FSD를 따름
       'import/order': [
         'error',
         {
@@ -103,6 +104,8 @@ export default tseslint.config(
           },
         },
       ],
+      // 같은 폴더인 경우를 제외하고 import 경로는 항상 절대 경로를 사용
+      'no-relative-import-paths/no-relative-import-paths': ['warn', { allowSameFolder: true, rootDir: 'src' }],
     },
   },
 );
