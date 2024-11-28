@@ -113,16 +113,31 @@ musing 음악공유사이트
     │
     └── index.tsx # 애플리케이션 최종 진입점
 
-# Create
-    npx create-react-app musing --template typescript
+# Code Convention Guide 📝
 
-# Start & Build
-    npm start
-    npm run build
+1. 변수 및 함수명 규칙
+    1) 변수명과 함수명은 camelCase 스타일을 사용
+        // Good ✅
+        let userMessage = 'Hello';
+        function fetchData() { ... }
+        
+        // Bad ❌
+        let user_message = 'Hello';  // snake_case
+        let UserMessage = 'Hello';   // PascalCase
+        function FetchData() { ... } // PascalCase
 
-# Install npm
-    Axios (서버 통신)
-        - npm install axios
+   2) 컴포넌트 이름은 PascalCase로 작성
+        // Good ✅
+        const ChatComponent = () => { ... }
+        
+        // Bad ❌
+        const chat_component = () => { ... }  // snake_case
 
-    React Router (라우터)
-        - npm i react-router-dom 
+   3) 상수는 대문자: 상수는 대문자로 작성하고, 단어는 _로 구분
+        // Good ✅
+        const MAX_COUNT = 100;
+        const API_URL = 'https://example.com';
+        
+        // Bad ❌
+        const maxCount = 100;        // camelCase
+        const apiUrl = 'example';    // camelCase
