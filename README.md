@@ -117,6 +117,7 @@ musing 음악공유사이트
 
 1. 변수 및 함수명 규칙
     1) 변수명과 함수명은 camelCase 스타일을 사용
+        ```
         // Good ✅
         let userMessage = 'Hello';
         function fetchData() { ... }
@@ -125,15 +126,19 @@ musing 음악공유사이트
         let user_message = 'Hello';  // snake_case
         let UserMessage = 'Hello';   // PascalCase
         function FetchData() { ... } // PascalCase
+        ```
 
    2) 컴포넌트 이름은 PascalCase로 작성
+        ```
         // Good ✅
         const ChatComponent = () => { ... }
         
         // Bad ❌
         const chat_component = () => { ... }  // snake_case
+        ```
 
    3) 상수는 대문자: 상수는 대문자로 작성하고, 단어는 _로 구분
+        ```
         // Good ✅
         const MAX_COUNT = 100;
         const API_URL = 'https://example.com';
@@ -141,3 +146,4 @@ musing 음악공유사이트
         // Bad ❌
         const maxCount = 100;        // camelCase
         const apiUrl = 'example';    // camelCase
+        ```
