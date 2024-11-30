@@ -1,5 +1,5 @@
 import { Input } from 'shared/ui/input';
-import Test from 'shared/ui/input/Test';
+import Test from 'shared/ui/input/test';
 
 import '#/App.css';
 import logo from '#/logo.svg';

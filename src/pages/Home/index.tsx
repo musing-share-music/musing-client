@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Home() {
+const Home = () => {
   const navigate = useNavigate();
   const [data, setData] = useState(null); // 상태 선언
 

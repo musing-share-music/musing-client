@@ -1,8 +1,8 @@
 // src/app/index.tsx
 import { BrowserRouter } from 'react-router-dom';
 
-import QueryClientProvider from './providers/QueryClientProvider';
-import { AppRouter } from './providers/RouterProvider';
+import QueryClientProvider from './providers/queryClientProvider';
+import { AppRouter } from './providers/routerProvider';
 // import { ThemeProvider } from './providers/ThemeProvider';
 
 const App = () => {

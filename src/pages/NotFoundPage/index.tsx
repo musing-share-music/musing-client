@@ -1,5 +1,7 @@
-function NotFound() {
-  return <div>404 페이지 입니다</div>;
+const NotFoundPage = () => {
+  return (
+    <div>404 페이지 입니다</div>
+  )
 }
 
-export default NotFound;
+export default NotFoundPage;
