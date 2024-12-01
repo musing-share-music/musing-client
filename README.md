@@ -178,14 +178,15 @@ musing 음악공유사이트
             ```
 
 2. 네이밍 규칙
-   1) 디렉토리와 파밀 이름은 camelCase 스타일을 사용
+   1) 디렉토리와 파일 이름은 camelCase 스타일을 사용 (tsx파일은 PascalCase로 사용)
+        *index.tsx파일 제외*
         ```
          src/
         │
         ├── app/
         │   ├── providers/
-        │   │   ├── themeProvider.tsx
-        │   │   └── routerProvider.tsx
+        │   │   ├── ThemeProvider.tsx
+        │   │   └── RouterProvider.tsx
         │   ├── styles/
         │   │   ├── global.css
         │   │   └── reset.css

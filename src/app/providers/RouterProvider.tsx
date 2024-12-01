@@ -1,8 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 
-import Community from 'pages/community';
-import Home from 'pages/home';
-import NotFoundPage from 'pages/notFoundPage';
+import Community from 'pages/community/Community';
+import Home from 'pages/home/Home';
+import NotFound from 'pages/notFound/NotFound';
 
 import { ROUTES } from 'shared/config/routes';
 
@@ -11,7 +11,7 @@ export const AppRouter = () => {
     <Routes>
       <Route path={ROUTES.HOME} element={<Home />} />
       <Route path={ROUTES.COMMUNITY.COMMUNITY} element={<Community />} />
-      <Route path="*" element={<NotFoundPage />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
