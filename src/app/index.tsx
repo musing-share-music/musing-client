@@ -3,17 +3,17 @@ import { BrowserRouter } from 'react-router-dom';
 
 import QueryClientProvider from './providers/QueryClientProvider';
 import { AppRouter } from './providers/RouterProvider';
-// import { ThemeProvider } from './providers/ThemeProvider';
+import { ThemeProvider } from './providers/ThemeProvider';
 
 const App = () => {
   return (
-    // <ThemeProvider>
-    <BrowserRouter>
-      <QueryClientProvider>
-        <AppRouter />
-      </QueryClientProvider>
-    </BrowserRouter>
-    // </ThemeProvider>
+    <ThemeProvider>
+      <BrowserRouter>
+        <QueryClientProvider>
+          <AppRouter />
+        </QueryClientProvider>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 };
 
