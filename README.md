@@ -113,16 +113,134 @@ musing 음악공유사이트
     │
     └── index.tsx # 애플리케이션 최종 진입점
 
-# Create
-    npx create-react-app musing --template typescript
+# Code Convention Guide 📝
 
-# Start & Build
-    npm start
-    npm run build
+1. 일반 스타일
+    1) 들여쓰기 (스페이스 2칸 사용)
+        ```
+        function example() {
+          console.log("Hello, world!");
+        }
+        ```
+        
+    2) 줄바꿈 (한 줄의 최대 길이는 120자로 제한. 긴 코드는 적절히 줄바꿈.)
+        ```
+        function example() {
+          console.log("Hello, world!");
+        }
+        ```
 
-# Install npm
-    Axios (서버 통신)
-        - npm install axios
+    3) 세미콜론 (항상 사용)
+        ```
+        const message = "Hello, world!";
+        ```
 
-    React Router (라우터)
-        - npm i react-router-dom 
+    4) 코멘트 (적절한 주석 작성 (한 줄 주석과 블록 주석 혼용).)
+        ```
+        // TODO: 기능 추가 예정
+        /* 
+          - 작성자: 남재상
+          - 역할: 퇴사
+        */
+        ```
+
+    5) import 경로
+        - fsd환경에 맞는 import order 규칙 적용: import를 할 때, app부터 shared 순서에 맞게 import합니다
+            ```
+            // Good ✅
+            import { bar } 'pages/bar';
+            import { foo } 'shared/foo';
+            
+            // Bad ❌
+            import { foo } 'shared/foo';
+            import { bar } 'pages/bar';
+            ```
+            
+        - 절대 경로 import 규칙 적용: import하는 모듈의 레이어를 명확하게 하기 위해 절대 경로 import 규칙을 적용했습니다.
+            ```
+            // Good ✅
+            import { foo } 'shared/foo';
+            
+            // Bad ❌
+            import { foo } '../../foo';
+             ```
+
+    6) 문자열과 JSX 속성에 대한 따옴표 사용 규칙
+        - 문자열은 단일 따옴표(')를 사용하며, JSX 속성에는 큰 따옴표(")를 사용
+            ```
+            import React from 'react';
+            
+            const Button = () => (
+              <button className="primary-button" onClick={() => alert('Clicked!')}>
+              Click me
+              </button>
+            );
+            ```
+
+2. 네이밍 규칙
+   1) 디렉토리와 파밀 이름은 camelCase 스타일을 사용
+        ```
+         src/
+        │
+        ├── app/
+        │   ├── providers/
+        │   │   ├── themeProvider.tsx
+        │   │   └── routerProvider.tsx
+        │   ├── styles/
+        │   │   ├── global.css
+        │   │   └── reset.css
+        │   └── index.tsx
+        ```
+    
+    
+   2) 컴포넌트 이름은 PascalCase로 작성
+        ```
+        // Good ✅
+        const ChatComponent = () => { ... }
+        
+        // Bad ❌
+        const chat_component = () => { ... }  // snake_case
+        ```
+
+    3) 변수명과 함수명은 camelCase 스타일을 사용
+        ```
+        // Good ✅
+        let userMessage = 'Hello';
+        function fetchData() { ... }
+        
+        // Bad ❌
+        let user_message = 'Hello';  // snake_case
+        let UserMessage = 'Hello';   // PascalCase
+        function FetchData() { ... } // PascalCase
+        ```
+
+   4) 상수는 대문자: 상수는 대문자로 작성하고, 단어는 _로 구분
+        ```
+        // Good ✅
+        const MAX_COUNT = 100;
+        const API_URL = 'https://example.com';
+        
+        // Bad ❌
+        const maxCount = 100;        // camelCase
+        const apiUrl = 'example';    // camelCase
+        ```
+        
+    5) Boolean 타입의 변수 작명규칙
+        ```
+        // Good ✅
+        let isLoading = false;
+        
+        // Bad ❌
+        let loading = false;        // 접두사 없음
+        ```
+
+3. Git 커밋 메시지 컨벤션
+    ```
+    // 커밋 메시지 템플릿
+    <type>(<scope>): <subject>
+    
+    // 예시
+    feat(jsnam): 새로운 기능을 추가하였습니다     //새로운 기능 추가 커밋
+    fix(jsnam): 코드 실수하여 수정하였습니다      //버그수정
+    chore(jsnam): 폴더구조를 수정하였습니다       //기타 잡다한 작업
+    ```
