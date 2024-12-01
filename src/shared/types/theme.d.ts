@@ -3,6 +3,7 @@ import { SerializedStyles } from '@emotion/react';
 
 declare module '@emotion/react' {
   // 테마 인터페이스 정의
+  // https://emotion.sh/docs/typescript#define-a-theme
   export interface Theme {
     colors: {
       primary1: string;
