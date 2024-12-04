@@ -4,7 +4,7 @@ import { Header } from 'shared/ui';
 const Demo = () => {
   return (
     <>
-      <Header />
+      <Header isLoggedIn />
     </>
   );
 };
