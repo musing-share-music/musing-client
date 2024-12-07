@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 
+import { HEADER_HEIGHT } from './constants';
 import IconGoogle from './icon-google.png';
 import IconProfile from './icon-profile.png';
 
@@ -12,10 +13,10 @@ const HeaderBlock = styled.header`
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas: '. logo user';
   width: 100%;
-  height: 80px;
+  height: ${HEADER_HEIGHT}px;
   padding: 0 32px;
   background: ${({ theme }) => theme.colors[800]};
-  backdrop-filter: blur(8px);
+  opacity: 80%;
 `;
 
 const LogoBox = styled.div`
@@ -62,16 +63,14 @@ export const Header = ({ isLoggedIn }: HeaderProps) => {
   const userProfileSrc = isLoggedIn ? IconProfile : IconGoogle;
 
   return (
-    <>
-      <HeaderBlock>
-        <LogoBox>
-          <LogoText>MUSING</LogoText>
-          <LogoCaption>· 뮤징에서 음악을 디깅하는 중•••</LogoCaption>
-        </LogoBox>
-        <UserButton>
-          <UserBox src={userProfileSrc}></UserBox>
-        </UserButton>
-      </HeaderBlock>
-    </>
+    <HeaderBlock>
+      <LogoBox>
+        <LogoText>MUSING</LogoText>
+        <LogoCaption>· 뮤징에서 음악을 디깅하는 중•••</LogoCaption>
+      </LogoBox>
+      <UserButton>
+        <UserBox src={userProfileSrc}></UserBox>
+      </UserButton>
+    </HeaderBlock>
   );
 };
