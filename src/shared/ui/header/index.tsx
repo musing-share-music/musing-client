@@ -9,10 +9,13 @@ interface HeaderProps {
 }
 
 const HeaderBlock = styled.header`
+  position: absolute;
+  left: 0;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas: '. logo user';
   width: 100%;
+  min-width: 1280px;
   height: ${HEADER_HEIGHT}px;
   padding: 0 32px;
   background: ${({ theme }) => theme.colors[800]};
