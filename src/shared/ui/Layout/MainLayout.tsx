@@ -50,4 +50,5 @@ const ContentsContainer = styled.div`
   margin: 0 auto;
   min-width: 1280px;
   width: 1280px;
+  scroll-behavior: smooth; // 스크롤 시 부드러운 애니메이션
 `;
