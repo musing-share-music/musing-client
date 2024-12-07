@@ -1,7 +1,7 @@
-const test = () => {
-  return (
-    <div>test</div>
-  )
-}
+import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 
-export default test;
+import { theme } from 'shared/styles/theme';
+
+export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
+  return <EmotionThemeProvider theme={theme}>{children}</EmotionThemeProvider>;
+};

@@ -1,14 +1,14 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import HOME from '#/app/';
-import '#/index.css';
+import App from '#/app/';
 import reportWebVitals from '#/reportWebVitals';
+import 'shared/styles/reset';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <StrictMode>
-    <HOME />
+    <App />
   </StrictMode>,
 );
 

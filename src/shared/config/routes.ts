@@ -12,6 +12,9 @@ export const ROUTES = {
     DETAIL: '/detail',
   },
 
+  // 컴포넌트 demo용 페이지
+  DEMO: '/demo',
+
   // 인증 관련 라우트
   // AUTH: {
   //   LOGIN: '/login',
