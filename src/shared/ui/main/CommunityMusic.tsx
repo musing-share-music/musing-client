@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { commonStyles } from 'shared/styles/common';
+
 // 게시판 전체영역
 const CommunityContainer = styled.div`
   width: 1280px;
@@ -125,9 +127,10 @@ const ContentsDescription = styled.div`
   ${({ theme }) => theme.fonts.wantedSans.B3};
   color: ${({ theme }) => theme.colors.white};
   max-width: 396px;
-  overflow: hidden;
+  ${commonStyles.limitText};
+  /* overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: nowrap; */
 `;
 
 const ActivityInfo = styled.div`

@@ -1,5 +1,5 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { css } from "@emotion/react";
 
 // 추천아티스트 전체영역
 const RcmContainer = styled.div`
@@ -13,11 +13,11 @@ const RcmContainer = styled.div`
 
 // 장르의 음악 리스트 영역
 const RcmBlock = styled.div`
-    position: relative;
-    width: 584px;
-    height: 248px;
-    border-radius: 12px;
-    background-color: ${({ theme }) => theme.colors[600]};
+  position: relative;
+  width: 584px;
+  height: 248px;
+  border-radius: 12px;
+  background-color: ${({ theme }) => theme.colors[600]};
 `;
 
 // 장르의 음악 리스트 타이틀 영역
@@ -40,7 +40,6 @@ const RcmTitle2 = styled.span`
   color: ${({ theme }) => theme.colors[100]};
 `;
 
-
 // 이미지 래퍼 스타일
 const GenreMusingWrapper = styled.div`
   width: 208px;
@@ -53,7 +52,6 @@ const GenreMusingWrapper = styled.div`
   border-radius: 12px;
 `;
 
-
 // 이미지
 const GenreMusingImage = styled.img`
   position: relative;
@@ -62,7 +60,6 @@ const GenreMusingImage = styled.img`
   background-size: cover;
   background-position: center;
 `;
-
 
 // 텍스트 컨테이너 스타일
 const GenreTextBlock = styled.div`
@@ -87,36 +84,35 @@ const GenreTitle = styled.div`
   margin-bottom: 10px;
 `;
 
-
 const Card = ({ image, title }) => (
-    <RcmContainer>
-      <RcmBlock>
-        <RcmTitleBlock>
-          <RcmTitle>인디</RcmTitle>
-          <RcmTitle2>를 좋아한 태리님에게 추천하는 아티스트</RcmTitle2>
-        </RcmTitleBlock>
-      </RcmBlock>
-      <GenreMusingWrapper>
-        <GenreMusingImage src={image} alt="추천 이미지" />
-        <GenreTextBlock>
-          <GenreTitle>{title}</GenreTitle>
-        </GenreTextBlock>
-      </GenreMusingWrapper>
+  <RcmContainer>
+    <RcmBlock>
+      <RcmTitleBlock>
+        <RcmTitle>인디</RcmTitle>
+        <RcmTitle2>를 좋아한 태리님에게 추천하는 아티스트</RcmTitle2>
+      </RcmTitleBlock>
+    </RcmBlock>
+    <GenreMusingWrapper>
+      <GenreMusingImage src={image} alt="추천 이미지" />
+      <GenreTextBlock>
+        <GenreTitle>{title}</GenreTitle>
+      </GenreTextBlock>
+    </GenreMusingWrapper>
 
-      <GenreMusingWrapper>
-        <GenreMusingImage src={image} alt="추천 이미지" />
-        <GenreTextBlock>
-          <GenreTitle>Midnight jogging c</GenreTitle>
-        </GenreTextBlock>
-      </GenreMusingWrapper>
+    <GenreMusingWrapper>
+      <GenreMusingImage src={image} alt="추천 이미지" />
+      <GenreTextBlock>
+        <GenreTitle>Midnight jogging c</GenreTitle>
+      </GenreTextBlock>
+    </GenreMusingWrapper>
 
-      <GenreMusingWrapper>
-        <GenreMusingImage src={image} alt="추천 이미지" />
-        <GenreTextBlock>
-          <GenreTitle>모스크바서핑클럽</GenreTitle>
-        </GenreTextBlock>
-      </GenreMusingWrapper>
-    </RcmContainer>
-  );
+    <GenreMusingWrapper>
+      <GenreMusingImage src={image} alt="추천 이미지" />
+      <GenreTextBlock>
+        <GenreTitle>모스크바서핑클럽</GenreTitle>
+      </GenreTextBlock>
+    </GenreMusingWrapper>
+  </RcmContainer>
+);
 
 export default Card;

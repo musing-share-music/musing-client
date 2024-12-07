@@ -1,8 +1,8 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { css } from "@emotion/react";
-import btn_add from "shared/ui/card/img/btn-add.png";
-import btn_more from "shared/ui/card/img/btn-more.png";
-import 'app/styles/global.css';
+
+import btn_add from 'shared/assets/image/main/btn-add.png';
+import btn_more from 'shared/assets/image/main/btn-more.png';
 
 // 장르의 음악 전체영역
 const GenreContainer = styled.div`
@@ -35,14 +35,13 @@ const SubTitle = styled.div`
   ${({ theme }) => theme.fonts.wantedSans.T2};
 `;
 
-
 // 장르의 음악 리스트 영역
 const GenreMusingBlock = styled.div`
   display: flex;
   gap: 20px;
   width: 1280px;
   height: 330px;
-`
+`;
 
 // 이미지 래퍼 스타일
 const GenreMusingWrapper = styled.div`
@@ -69,7 +68,7 @@ const GenreMusingImageWrapper = styled.div`
   width: 256px;
   height: 256px;
   border-radius: 12px;
-`
+`;
 
 // 이미지
 const GenreMusingImage = styled.img`
@@ -127,16 +126,16 @@ const GenreTitle = styled.div`
 const GenreSubTitle = styled.div`
   ${({ theme }) => theme.fonts.wantedSans.B5};
   ${limitText};
-  color: ${({ theme }) => theme.colors["200"]};
+  color: ${({ theme }) => theme.colors['200']};
   margin-top: 3px;
 `;
 
 const GenreMore = styled.div`
   width: 176px;
   height: 256px;
-  background-color: ${({ theme }) => theme.colors["600"]};;
+  background-color: ${({ theme }) => theme.colors['600']};
   border-radius: 12px;
-`
+`;
 
 /**
  * 재사용 가능한 카드 컴포넌트
@@ -154,7 +153,6 @@ const Card = ({ image, title, subtitle }) => (
 
     <GenreMusingBlock>
       <GenreMusingWrapper>
-
         <GenreMusingImageWrapper>
           <GenreMusingImage src={image} alt="이미지" className="main-image" />
           <GenreButton src={btn_add} alt="추가" className="btn_add" />
@@ -162,13 +160,12 @@ const Card = ({ image, title, subtitle }) => (
         </GenreMusingImageWrapper>
 
         <GenreTextBlock>
-          <GenreTitle className='limit-text'>{title}</GenreTitle>
-          <GenreSubTitle className='limit-text'>{subtitle}</GenreSubTitle>
+          <GenreTitle className="limit-text">{title}</GenreTitle>
+          <GenreSubTitle className="limit-text">{subtitle}</GenreSubTitle>
         </GenreTextBlock>
       </GenreMusingWrapper>
 
       <GenreMusingWrapper>
-
         <GenreMusingImageWrapper>
           <GenreMusingImage src={image} alt="이미지" className="main-image" />
           <GenreButton src={btn_add} alt="추가" className="btn_add" />
@@ -176,13 +173,12 @@ const Card = ({ image, title, subtitle }) => (
         </GenreMusingImageWrapper>
 
         <GenreTextBlock>
-          <GenreTitle className='limit-text'>{title}</GenreTitle>
-          <GenreSubTitle className='limit-text'>{subtitle}</GenreSubTitle>
+          <GenreTitle className="limit-text">{title}</GenreTitle>
+          <GenreSubTitle className="limit-text">{subtitle}</GenreSubTitle>
         </GenreTextBlock>
       </GenreMusingWrapper>
 
       <GenreMusingWrapper>
-
         <GenreMusingImageWrapper>
           <GenreMusingImage src={image} alt="이미지" className="main-image" />
           <GenreButton src={btn_add} alt="추가" className="btn_add" />
@@ -190,13 +186,12 @@ const Card = ({ image, title, subtitle }) => (
         </GenreMusingImageWrapper>
 
         <GenreTextBlock>
-          <GenreTitle className='limit-text'>{title}</GenreTitle>
-          <GenreSubTitle className='limit-text'>{subtitle}</GenreSubTitle>
+          <GenreTitle className="limit-text">{title}</GenreTitle>
+          <GenreSubTitle className="limit-text">{subtitle}</GenreSubTitle>
         </GenreTextBlock>
       </GenreMusingWrapper>
 
       <GenreMusingWrapper>
-
         <GenreMusingImageWrapper>
           <GenreMusingImage src={image} alt="이미지" className="main-image" />
           <GenreButton src={btn_add} alt="추가" className="btn_add" />
@@ -204,18 +199,17 @@ const Card = ({ image, title, subtitle }) => (
         </GenreMusingImageWrapper>
 
         <GenreTextBlock>
-          <GenreTitle className='limit-text'>{title}</GenreTitle>
-          <GenreSubTitle className='limit-text'>{subtitle}</GenreSubTitle>
+          <GenreTitle className="limit-text">{title}</GenreTitle>
+          <GenreSubTitle className="limit-text">{subtitle}</GenreSubTitle>
         </GenreTextBlock>
       </GenreMusingWrapper>
 
       <GenreMore>
-        <TitleBlock className='more'>
+        <TitleBlock className="more">
           <PageTitle>슈게이징</PageTitle>
           <SubTitle>장르 더 듣기</SubTitle>
         </TitleBlock>
       </GenreMore>
-
     </GenreMusingBlock>
   </GenreContainer>
 );

@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import btn_add from "shared/ui/card/img/btn-add.png";
-import btn_more from "shared/ui/card/img/btn-more.png";
+import Slider from 'react-slick';
+
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import btn_add from 'shared/assets/image/main/btn-add.png';
+import btn_more from 'shared/assets/image/main/btn-more.png';
 
 // 핫 음악 전체영역
 const HotContainer = styled.div`
@@ -13,18 +14,18 @@ const HotContainer = styled.div`
 `;
 
 // 장르의 음악 리스트 영역
-const HotMusingBlock = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  gap: 16px;
-  width: 1024px;
-  height: 336px;
-  border-radius: 8px;
-  padding: 12px 16px 12px 24px;
-  background-color: ${({ theme }) => theme.colors[700]};
-`;
+// const HotMusingBlock = styled.div`
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+//   display: flex;
+//   gap: 16px;
+//   width: 1024px;
+//   height: 336px;
+//   border-radius: 8px;
+//   padding: 12px 16px 12px 24px;
+//   background-color: ${({ theme }) => theme.colors[700]};
+// `;
 
 // 장르의 음악 리스트 타이틀 영역
 const HotMusingTitle = styled.div`
@@ -56,7 +57,7 @@ const SubTitle = styled.div`
 
 // 이미지 래퍼 스타일
 const HotMusingImageWrapper = styled.div`
-position: relative;
+  position: relative;
   width: 296px;
   height: 296px;
   display: flex;
@@ -71,7 +72,7 @@ position: relative;
 
   &:hover .btn_add,
   &:hover .btn_more,
-  &:hover .hot_text{
+  &:hover .hot_text {
     opacity: 1;
   }
 `;
@@ -151,14 +152,14 @@ const SliderWrapper = styled(Slider)`
   background-color: ${({ theme }) => theme.colors[700]};
 
   .slick-track {
-    display: flex; 
+    display: flex;
     gap: 16px;
   }
 
   .slick-slide {
     width: 296px !important;
   }
-  
+
   //페이지 스타일 수정
   .slick-dots li button:before {
     color: ${({ theme }) => theme.colors.primary1};
@@ -178,37 +179,38 @@ const Card = ({ image, title, subtitle }) => {
     infinite: true,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 4
+    slidesToScroll: 4,
   };
 
   return (
     <HotContainer>
-    <HotMusingTitle>
-    <PageTitle>
-      지금 뮤징에서<br />
-      가장 핫🔥한 음악 모음
-    </PageTitle>
-      <SubTitle>POP • 얼터너티브</SubTitle>
-    </HotMusingTitle>
-    
-    {/* <HotMusingBlock> */}
+      <HotMusingTitle>
+        <PageTitle>
+          지금 뮤징에서
+          <br />
+          가장 핫🔥한 음악 모음
+        </PageTitle>
+        <SubTitle>POP • 얼터너티브</SubTitle>
+      </HotMusingTitle>
+
+      {/* <HotMusingBlock> */}
       <SliderWrapper {...settings}>
-      {[1,2,3,4,5,6].map((idx) => (
+        {[1, 2, 3, 4, 5, 6].map((idx) => (
           <HotMusingImageWrapper>
             <HotMusingImage src={image} alt="이미지" className="main-image" />
             <Border></Border>
-            <HotTextBlock className='hot_text'>
+            <HotTextBlock className="hot_text">
               <HotTitle>{title}</HotTitle>
               <HotSubTitle>{subtitle}</HotSubTitle>
             </HotTextBlock>
-            <HotButton src={btn_add} alt="추가" className="btn_add"/>
-            <HotButton src={btn_more} alt="더보기" className="btn_more"/>
-        </HotMusingImageWrapper>
+            <HotButton src={btn_add} alt="추가" className="btn_add" />
+            <HotButton src={btn_more} alt="더보기" className="btn_more" />
+          </HotMusingImageWrapper>
         ))}
       </SliderWrapper>
-    {/* </HotMusingBlock> */}
-  </HotContainer>
-  )
-}
+      {/* </HotMusingBlock> */}
+    </HotContainer>
+  );
+};
 
 export default Card;
