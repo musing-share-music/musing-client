@@ -4,6 +4,8 @@ import styled from '@emotion/styled';
 import IconArrow from 'shared/assets/icons/nav-bar/icon-arrow.svg';
 import IconShowMoreSvg from 'shared/assets/icons/nav-bar/icon-show-more.svg';
 
+import { NAV_BAR_WIDTH } from './constants';
+
 const hoverTransition = css`
   transition: 0.3s ease;
 `;
@@ -119,11 +121,10 @@ export const NavContainer = styled.nav`
 `;
 
 const NavBarContainerEle = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 320px;
-  height: 100svh;
+  position: relative;
+  top: 0px;
+  width: ${NAV_BAR_WIDTH}px;
+  height: 100%;
   background: ${({ theme }) => theme.colors[700]};
 `;
 

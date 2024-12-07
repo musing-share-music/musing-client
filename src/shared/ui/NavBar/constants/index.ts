@@ -24,3 +24,5 @@ export const NAV_ITEM: NavItem[] = [
     activeIcon: IconHomeActiveSrc,
   },
 ];
+
+export const NAV_BAR_WIDTH = 320;
