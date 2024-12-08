@@ -5,8 +5,6 @@ import Demo from 'pages/demo';
 import Home from 'pages/home/Home';
 import NotFound from 'pages/notFound/NotFound';
 
-import JSNAM from 'pages/home/Jsnam';
-
 import { ROUTES } from 'shared/config/routes';
 
 export const AppRouter = () => {
