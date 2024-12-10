@@ -1,4 +1,5 @@
-import { NavBarSizeProps, NavItem } from '../type';
+import { NavBarSizeProps, NavItem } from 'shared/ui/NavBar/type';
+
 import { IconBox, NavBarItem as NavBarItemEle, NavLink } from './styled';
 
 interface NavBarItemProps extends NavItem, NavBarSizeProps {}

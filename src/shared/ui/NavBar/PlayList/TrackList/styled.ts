@@ -1,9 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
 import { ScrollableContainer } from 'shared/ui/Layout/MainLayout';
+import { toggleAnimation } from 'shared/ui/NavBar/styled';
+import { NavBarSizeProps } from 'shared/ui/NavBar/type';
+
 import { TrackListProps } from '.';
-import { toggleAnimation } from '../styled';
-import { NavBarSizeProps } from '../type';
 
 export const TrackListContainer = styled.div<TrackListProps>`
   display: flex;

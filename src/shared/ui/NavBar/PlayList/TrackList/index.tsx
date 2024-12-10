@@ -1,6 +1,7 @@
-import { TrackItem } from '../TrackItem';
-import { NavBarSizeProps } from '../type';
+import { NavBarSizeProps } from 'shared/ui/NavBar/type';
+
 import { Track, TrackListContainer, TrackListScrollableContainer } from './styled';
+import { TrackItem } from './TrackItem';
 
 export interface TrackListProps extends NavBarSizeProps {
   open: boolean;

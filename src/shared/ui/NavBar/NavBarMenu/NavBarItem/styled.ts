@@ -1,14 +1,16 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { NavBarSize } from '..';
-import { hoverTransition } from '../styled';
+
+import { hoverTransition } from 'shared/ui/NavBar/styled';
+import { NavBarSizeProps } from 'shared/ui/NavBar/type';
 
 export const NavBarItem = styled.li``;
 
-export const NavLink = styled.a<{
+interface NavLinkProps extends NavBarSizeProps {
   iconActive: string;
-  size: NavBarSize;
-}>`
+}
+
+export const NavLink = styled.a<NavLinkProps>`
   display: flex;
   align-items: center;
   padding: 8px;
