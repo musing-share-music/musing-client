@@ -4,24 +4,30 @@ import styled from '@emotion/styled';
 import IconArrow from 'shared/assets/image/icons/nav-bar/icon-arrow.svg';
 import IconShowMoreSvg from 'shared/assets/image/icons/nav-bar/icon-show-more.svg';
 
+import { NavBarSize } from '.';
 import { NAV_BAR_WIDTH } from './constants';
 
 const hoverTransition = css`
   transition: 0.3s ease;
 `;
 
-const PlayListEle = styled.div<{ small: boolean }>`
+const toggleAnimation = css`
+  transition: all 0.3s ease-in-out;
+`;
+
+export const PlayList = styled.div<{ size: NavBarSize }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 26px 24px;
   border-bottom: 1px solid ${({ theme }) => theme.colors[500]};
-`;
+  ${toggleAnimation}
 
-export const PlayList = Object.assign(PlayListEle);
-
-PlayList.Small = styled(PlayListEle)`
-  justify-content: center;
+  ${({ size }) =>
+    size === 'small' &&
+    css`
+      justify-content: center;
+    `};
 `;
 
 export const PlayListInfo = styled.div`
@@ -30,16 +36,18 @@ export const PlayListInfo = styled.div`
   gap: 30px;
 `;
 
-const TrackListContainerEle = styled.div`
+export const TrackListContainer = styled.div<{ size: NavBarSize }>`
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding: 20px;
-`;
+  ${toggleAnimation}
 
-export const TrackListContainer = Object.assign(TrackListContainerEle);
-TrackListContainer.Small = styled(TrackListContainerEle)`
-  align-items: center;
+  ${({ size }) =>
+    size === 'small' &&
+    css`
+      align-items: center;
+    `};
 `;
 
 export const Aside = styled.aside``;
@@ -97,14 +105,17 @@ export const Track = styled.div`
   padding: 12px;
 `;
 
-const NavBarItemListEle = styled.ul`
+export const NavBarItemList = styled.ul<{ size: NavBarSize }>`
   display: flex;
   flex-direction: column;
   gap: 32px;
-`;
-export const NavBarItemList = Object.assign(NavBarItemListEle);
-NavBarItemList.Small = styled(NavBarItemListEle)`
-  gap: 20px;
+  ${toggleAnimation}
+
+  ${({ size }) =>
+    size === 'small' &&
+    css`
+      gap: 20px;
+    `};
 `;
 
 export const IconBox = styled.div<{ src: string }>`
@@ -120,18 +131,19 @@ export const NavContainer = styled.nav`
   border-bottom: 1px solid ${({ theme }) => theme.colors[500]};
 `;
 
-const NavBarContainerEle = styled.div`
+export const NavBarContainer = styled.div<{ size: NavBarSize }>`
   position: relative;
   top: 0px;
   width: ${NAV_BAR_WIDTH}px;
   height: 100%;
   background: ${({ theme }) => theme.colors[700]};
-`;
+  ${toggleAnimation}
 
-export const NavBarContainer = Object.assign(NavBarContainerEle);
-
-NavBarContainer.Small = styled(NavBarContainerEle)`
-  width: 120px;
+  ${({ size }) =>
+    size === 'small' &&
+    css`
+      width: 120px;
+    `};
 `;
 
 export const NavBarItem = styled.li``;
@@ -168,18 +180,20 @@ NavLink.Small = styled(NavLinkEle)`
   gap: 8px !important;
 `;
 
-const FooterEle = styled.div`
+export const Footer = styled.div<{ size: NavBarSize }>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 0 38px 0 30px;
-`;
-export const Footer = Object.assign(FooterEle);
-Footer.Small = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+
+  ${({ size }) =>
+    size === 'small' &&
+    css`
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    `};
 `;
 
 const CircleButton = styled.button`
