@@ -12,9 +12,9 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
         <NavBar />
       </LeftContainer>
       <RightContainer>
-        <ScrollableContainer>
+        <ScrollableMainContainer>
           <ContentsContainer>{children}</ContentsContainer>
-        </ScrollableContainer>
+        </ScrollableMainContainer>
       </RightContainer>
     </PageLayout>
   );
@@ -38,11 +38,13 @@ const RightContainer = styled.div`
   background: ${({ theme }) => theme.colors[900]};
 `;
 
-const ScrollableContainer = styled.div`
+export const ScrollableContainer = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding-top: ${HEADER_HEIGHT}px; // Header 높이를 고려한 여백
   scroll-behavior: smooth; // 스크롤 시 부드러운 애니메이션
+`;
+const ScrollableMainContainer = styled(ScrollableContainer)`
+  padding-top: ${HEADER_HEIGHT}px; // Header 높이를 고려한 여백
 `;
 
 // 컨텐츠 width는 1280px로 고정
