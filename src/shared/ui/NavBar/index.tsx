@@ -20,7 +20,6 @@ import { TrackItem } from './TrackItem';
 
 export type NavBarSize = 'small' | 'large';
 
-// TODO 접힌 ui에서 링크 hover시 아이콘만 스타일 변경
 export const NavBar = () => {
   const [toggle, setToggle] = useState<boolean>(false);
 
