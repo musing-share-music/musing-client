@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import arrow2 from 'shared/assets/image/main/arrow 2.png';
 import btn_add from 'shared/assets/image/main/btn-add.png';
 import btn_more from 'shared/assets/image/main/btn-more.png';
+import { LikeMusicList } from 'shared/ui/Main/types';
 
 // 좋아요한 음악 전체영역
 const LikeContainer = styled.div`
@@ -57,7 +58,7 @@ const LikeMusingImageWrapper = styled.div`
 `;
 
 // 이미지
-const LikeMusingImage = styled.div`
+const LikeMusingImage = styled.img`
   width: 100%;
   height: 100%;
   border-radius: 12px;
@@ -103,6 +104,7 @@ const LikeTextBlock = styled.div`
 
 const LikeTitle = styled.div`
   ${({ theme }) => theme.fonts.wantedSans.B6};
+  color: ${({ theme }) => theme.colors.white};
   opacity: 0.8;
   margin-bottom: 4px;
 `;
@@ -141,97 +143,59 @@ const Arrow = styled.img`
   cursor: pointer;
 `;
 
-const Card = ({ image, title, subtitle }) => (
-  <LikeContainer>
-    <TitleBlock>
-      <PageTitle>좋아요</PageTitle>
-      <SubTitle>한 음악</SubTitle>
-    </TitleBlock>
+interface LikeMusicListProps {
+  LikeMusicList: LikeMusicList;
+}
 
-    <LikeMusingBlock>
-      <LikeMusingImageWrapper>
-        <LikeMusingImage src={image} alt="이미지" className="main-image" />
-        <LikeButton src={btn_add} alt="추가" className="btn_add" />
-        <LikeButton src={btn_more} alt="더보기" className="btn_more" />
+const LikeMusic = ({ LikeMusicList }: LikeMusicListProps) => {
+  const limitedLikeMusicList = LikeMusicList.slice(0, 4);
+  const limitedLikeMusicList2 = LikeMusicList.slice(4, 7);
+  const limitedLikeMusicList3 = LikeMusicList.slice(7, 10);
 
-        <LikeTextBlock>
-          <LikeTitle>{title}</LikeTitle>
-          <LikeSubTitle>{subtitle}</LikeSubTitle>
-        </LikeTextBlock>
-      </LikeMusingImageWrapper>
+  return (
+    <LikeContainer>
+      <TitleBlock>
+        <PageTitle>좋아요</PageTitle>
+        <SubTitle>한 음악</SubTitle>
+      </TitleBlock>
 
-      <LikeMusingImageWrapper>
-        <LikeMusingImage src={image} alt="이미지" className="main-image" />
-        <LikeButton src={btn_add} alt="추가" className="btn_add" />
-        <LikeButton src={btn_more} alt="더보기" className="btn_more" />
+      <LikeMusingBlock>
+        {limitedLikeMusicList.map((item, index) => (
+          <LikeMusingImageWrapper key={index}>
+            <LikeMusingImage src={item.img} alt="이미지" className="main-image" />
+            <LikeButton src={btn_add} alt="추가" className="btn_add" />
+            <LikeButton src={btn_more} alt="더보기" className="btn_more" />
 
-        <LikeTextBlock>
-          <LikeTitle>Noel Gallagher's High Flying Birds</LikeTitle>
-          <LikeSubTitle>The Dying Of The Light</LikeSubTitle>
-        </LikeTextBlock>
-      </LikeMusingImageWrapper>
-
-      <LikeMusingImageWrapper>
-        <LikeMusingImage src={image} alt="이미지" className="main-image" />
-        <LikeButton src={btn_add} alt="추가" className="btn_add" />
-        <LikeButton src={btn_more} alt="더보기" className="btn_more" />
-
-        <LikeTextBlock>
-          <LikeTitle>{title}</LikeTitle>
-          <LikeSubTitle>{subtitle}</LikeSubTitle>
-        </LikeTextBlock>
-      </LikeMusingImageWrapper>
-
-      <LikeMusingImageWrapper>
-        <LikeMusingImage src={image} alt="이미지" className="main-image" />
-        <LikeButton src={btn_add} alt="추가" className="btn_add" />
-        <LikeButton src={btn_more} alt="더보기" className="btn_more" />
-
-        <LikeTextBlock>
-          <LikeTitle>Noel Gallagher's High Flying Birds</LikeTitle>
-          <LikeSubTitle>The Dying Of The Light</LikeSubTitle>
-        </LikeTextBlock>
-      </LikeMusingImageWrapper>
-
-      <LikeMore>
-        <LikeMoreList>
-          <LikeMusingImageWrapper className="small">
-            <LikeMusingImage src={image} alt="이미지" className="main-image" />
-            <LikeButton src={btn_more} alt="더보기" className="btn_more small" />
+            <LikeTextBlock>
+              <LikeTitle>{item.name}</LikeTitle>
+              <LikeSubTitle>{item.title}</LikeSubTitle>
+            </LikeTextBlock>
           </LikeMusingImageWrapper>
+        ))}
 
-          <LikeMusingImageWrapper className="small">
-            <LikeMusingImage src={image} alt="이미지" className="main-image" />
-            <LikeButton src={btn_more} alt="더보기" className="btn_more small" />
-          </LikeMusingImageWrapper>
+        <LikeMore>
+          <LikeMoreList>
+            {limitedLikeMusicList2.map((item, index) => (
+              <LikeMusingImageWrapper className="small" key={index}>
+                <LikeMusingImage src={item.img} alt="이미지" className="main-image" />
+                <LikeButton src={btn_more} alt="더보기" className="btn_more small" />
+              </LikeMusingImageWrapper>
+            ))}
+          </LikeMoreList>
 
-          <LikeMusingImageWrapper className="small">
-            <LikeMusingImage src={image} alt="이미지" className="main-image" />
-            <LikeButton src={btn_more} alt="더보기" className="btn_more small" />
-          </LikeMusingImageWrapper>
-        </LikeMoreList>
+          <LikeMoreList>
+            {limitedLikeMusicList3.map((item, index) => (
+              <LikeMusingImageWrapper className="small" key={index}>
+                <LikeMusingImage src={item.img} alt="이미지" className="main-image" />
+                <LikeButton src={btn_more} alt="더보기" className="btn_more small" />
+              </LikeMusingImageWrapper>
+            ))}
+            <Arrow src={arrow2}></Arrow>
+          </LikeMoreList>
+        </LikeMore>
+      </LikeMusingBlock>
+    </LikeContainer>
+  );
+};
 
-        <LikeMoreList>
-          <LikeMusingImageWrapper className="small">
-            <LikeMusingImage src={image} alt="이미지" className="main-image" />
-            <LikeButton src={btn_more} alt="더보기" className="btn_more small" />
-          </LikeMusingImageWrapper>
-
-          <LikeMusingImageWrapper className="small">
-            <LikeMusingImage src={image} alt="이미지" className="main-image" />
-            <LikeButton src={btn_more} alt="더보기" className="btn_more small" />
-          </LikeMusingImageWrapper>
-
-          <LikeMusingImageWrapper className="small">
-            <LikeMusingImage src={image} alt="이미지" className="main-image" />
-            <LikeButton src={btn_more} alt="더보기" className="btn_more small" />
-          </LikeMusingImageWrapper>
-
-          <Arrow src={arrow2}></Arrow>
-        </LikeMoreList>
-      </LikeMore>
-    </LikeMusingBlock>
-  </LikeContainer>
-);
-
-export default Card;
+export default LikeMusic;

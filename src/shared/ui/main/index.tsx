@@ -1,23 +1,42 @@
-import image1 from 'shared/assets/image/main/image1.png';
-import image2 from 'shared/assets/image/main/roundimg.png';
-import CommunityMusic from 'shared/ui/Main/CommunityMusic';
-import GenreMusic from 'shared/ui/Main/GenreMusic';
-import HotMusic from 'shared/ui/Main/HotMusic';
-import LikeMusic from 'shared/ui/Main/LikeMusic';
-import RecommendedMusic from 'shared/ui/Main/RecommendedMusic';
+import styled from '@emotion/styled';
+
+import CommunityMusic from './CommunityMusic';
+import { MAIN_ITEM } from './constants';
+import GenreMusic from './GenreMusic';
+import HotMusic from './HotMusic';
+import LikeMusic from './LikeMusic';
+import RecommendedMusic from './RecommendedMusic';
 
 export const Main = () => {
+  const MainContents = styled.div`
+    width: 100%;
+  `;
+
+  const ComponentWrapper = styled.div<{ marginBottom?: number }>`
+    margin-bottom: ${({ marginBottom }) => (marginBottom ? `${marginBottom}px` : '0')};
+  `;
+
   return (
-    <>
-      <GenreMusic image={image1} title="Honey" subtitle="TRPP" />
-      <LikeMusic image={image1} title="인디고" subtitle="여름아! 부탁해" />
-      <HotMusic image={image2} title="그린내" subtitle="실리카겔" />
-      <CommunityMusic
-        image={image1}
-        title="Highway Tune · Greta Van Fleet"
-        subtitle="max-witdh 396이고 초과시 ...으로 나오도록 설정"
-      ></CommunityMusic>
-      <RecommendedMusic image={image1} title="hathaw9y" />
-    </>
+    <MainContents>
+      <ComponentWrapper marginBottom={104}>
+        <GenreMusic GenreMusicList={MAIN_ITEM.GenreMusicList} />
+      </ComponentWrapper>
+
+      <ComponentWrapper marginBottom={144}>
+        <LikeMusic LikeMusicList={MAIN_ITEM.LikeMusicList} />
+      </ComponentWrapper>
+
+      <ComponentWrapper marginBottom={124}>
+        <HotMusic HotMusicList={MAIN_ITEM.HotMusicList} />
+      </ComponentWrapper>
+
+      <ComponentWrapper marginBottom={120}>
+        <CommunityMusic CommunityMusicInfo={MAIN_ITEM.CommunityMusicInfo} />
+      </ComponentWrapper>
+
+      <ComponentWrapper>
+        <RecommendedMusic RecommendedMusicList={MAIN_ITEM.RecommendedMusicList} />
+      </ComponentWrapper>
+    </MainContents>
   );
 };
