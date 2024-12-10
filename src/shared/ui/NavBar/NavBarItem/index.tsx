@@ -1,11 +1,7 @@
-import { NavItem } from 'shared/types/navbar';
-
-import { NavBarSize } from '.';
+import { NavBarSizeProps, NavItem } from '../type';
 import { IconBox, NavBarItem as NavBarItemEle, NavLink } from './styled';
 
-interface NavBarItemProps extends NavItem {
-  size?: NavBarSize;
-}
+interface NavBarItemProps extends NavItem, NavBarSizeProps {}
 
 export const NavBarItem = ({ href, activeIcon, icon, text, size = 'large' }: NavBarItemProps) => {
   return (

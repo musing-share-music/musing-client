@@ -1,8 +1,9 @@
-import { NavBarSize } from '.';
-import TempCoverSrc from './cover.png';
-import { ArtistName, Cover, CoverWrapper, MoreButton, Title, TrackInfo, TrackInfoContainer } from './styled';
+import TempCoverSrc from '../cover.png';
+import { Cover, CoverWrapper, MoreButton, Title } from '../styled';
+import { NavBarSizeProps } from '../type';
+import { ArtistName, TrackInfo, TrackInfoContainer } from './styled';
 
-export const TrackItem = ({ size }: { size: NavBarSize }) => {
+export const TrackItem = ({ size }: NavBarSizeProps) => {
   return (
     <>
       <TrackInfoContainer>

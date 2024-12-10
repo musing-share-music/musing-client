@@ -17,8 +17,7 @@ import {
   TrackListContainer,
 } from './styled';
 import { TrackItem } from './TrackItem';
-
-export type NavBarSize = 'small' | 'large';
+import { NavBarSizeProps } from './type';
 
 export const NavBar = () => {
   const [toggle, setToggle] = useState<boolean>(false);
@@ -46,7 +45,7 @@ export const NavBar = () => {
   );
 };
 
-const NavBarMenuItem = ({ size }: { size: NavBarSize }) => {
+const NavBarMenuItem = ({ size }: NavBarSizeProps) => {
   return (
     <NavContainer>
       <NavBarItemList size={size}>
@@ -58,7 +57,7 @@ const NavBarMenuItem = ({ size }: { size: NavBarSize }) => {
   );
 };
 
-const PlayList = ({ size }: { size: NavBarSize }) => {
+const PlayList = ({ size }: NavBarSizeProps) => {
   return (
     <StyledPlayList size={size}>
       <PlayListItem size={size} src={TempCoverSrc} />
@@ -66,7 +65,7 @@ const PlayList = ({ size }: { size: NavBarSize }) => {
   );
 };
 
-const TrackList = ({ size }: { size: NavBarSize }) => {
+const TrackList = ({ size }: NavBarSizeProps) => {
   return (
     <TrackListContainer size={size}>
       {Array.from({ length: 3 }).map((_, idx) => (
