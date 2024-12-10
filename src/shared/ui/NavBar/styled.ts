@@ -48,6 +48,7 @@ export const NavBarContainer = styled.div<NavBarSizeProps>`
   width: ${NAV_BAR_WIDTH}px;
   height: 100%;
   background: ${({ theme }) => theme.colors[700]};
+  overflow-y: scroll;
   ${toggleAnimation}
 
   ${({ size }) =>
@@ -57,10 +58,18 @@ export const NavBarContainer = styled.div<NavBarSizeProps>`
     `};
 `;
 
-export const NavContainer = styled.nav`
+export const NavContainer = styled.nav<NavBarSizeProps>`
   padding: 0 30px;
+  padding-top: 104px;
   padding-bottom: 60px;
   border-bottom: 1px solid ${({ theme }) => theme.colors[500]};
+
+  ${({ size }) =>
+    size === 'small' &&
+    css`
+      padding-top: 112px;
+      padding-bottom: 40px;
+    `};
 `;
 
 export const NavBarItemList = styled.ul<NavBarSizeProps>`
@@ -89,6 +98,7 @@ export const PlayList = styled.div<NavBarSizeProps>`
   ${({ size }) =>
     size === 'small' &&
     css`
+      padding-top: 28px;
       justify-content: center;
     `};
 `;
@@ -118,7 +128,7 @@ export const Footer = styled.div<NavBarSizeProps>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 38px 0 30px;
+  padding: 25px 38px 245px 30px;
 
   ${({ size }) =>
     size === 'small' &&
@@ -127,6 +137,8 @@ export const Footer = styled.div<NavBarSizeProps>`
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
+      gap: 164px;
+      padding-bottom: 246px;
     `};
 `;
 

@@ -47,7 +47,7 @@ export const NavBar = () => {
 
 const NavBarMenuItem = ({ size }: NavBarSizeProps) => {
   return (
-    <NavContainer>
+    <NavContainer size={size}>
       <NavBarItemList size={size}>
         {NAV_ITEM.map((item) => (
           <NavBarItem key={item.text} size={size} {...item} />
