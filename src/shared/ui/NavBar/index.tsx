@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import styled from '@emotion/styled';
+import IconFold from 'shared/assets/image/icons/nav-bar/icon-fold.svg?react';
 import { NAV_ITEM } from './constants';
 import TempCoverSrc from './cover.png';
 import { NavBarItem } from './NavBarItem';
@@ -13,10 +15,8 @@ import {
   NavBarItemList,
   NavContainer,
   PlayList as StyledPlayList,
-  Track,
-  TrackListContainer,
 } from './styled';
-import { TrackItem } from './TrackItem';
+import { TrackList } from './TrackList';
 import { NavBarSizeProps } from './type';
 
 export const NavBar = () => {
@@ -34,7 +34,8 @@ export const NavBar = () => {
 
       <Aside>
         <PlayList size={size} />
-        <TrackList size={size} />
+        <PlayList size={size} />
+        <PlayList size={size} />
       </Aside>
 
       <Footer size={size}>
@@ -58,21 +59,43 @@ const NavBarMenuItem = ({ size }: NavBarSizeProps) => {
 };
 
 const PlayList = ({ size }: NavBarSizeProps) => {
+  const [open, setOpen] = useState(false);
+  const openTrackList = () => setOpen((prev) => !prev);
   return (
-    <StyledPlayList size={size}>
-      <PlayListItem size={size} src={TempCoverSrc} />
-    </StyledPlayList>
+    <>
+      <StyledPlayList size={size} onClick={openTrackList}>
+        <PlayListItem size={size} src={TempCoverSrc} />
+      </StyledPlayList>
+      <TrackList size={size} open={open} />
+      {open && (
+        <>
+          <PlayListFoldButton onClick={openTrackList}>
+            <IconFold width={18} height={18} />
+          </PlayListFoldButton>
+          <ShowAllPlayListButton>플레이리스트 전체 보기</ShowAllPlayListButton>
+        </>
+      )}
+    </>
   );
 };
+const PlayListFoldButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 11px 0;
+  border: none;
+  border-top: 1px solid ${({ theme }) => theme.colors[500]};
+  cursor: pointer;
+`;
 
-const TrackList = ({ size }: NavBarSizeProps) => {
-  return (
-    <TrackListContainer size={size}>
-      {Array.from({ length: 3 }).map((_, idx) => (
-        <Track key={idx}>
-          <TrackItem size={size} />
-        </Track>
-      ))}
-    </TrackListContainer>
-  );
-};
+const ShowAllPlayListButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px 0;
+  border: none;
+  color: ${({ theme }) => theme.colors[400]};
+  cursor: pointer;
+`;

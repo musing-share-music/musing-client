@@ -93,6 +93,8 @@ export const PlayList = styled.div<NavBarSizeProps>`
   justify-content: space-between;
   padding: 26px 24px;
   border-bottom: 1px solid ${({ theme }) => theme.colors[500]};
+  cursor: pointer;
+
   ${toggleAnimation}
 
   ${({ size }) =>
@@ -101,27 +103,6 @@ export const PlayList = styled.div<NavBarSizeProps>`
       padding-top: 28px;
       justify-content: center;
     `};
-`;
-
-export const TrackListContainer = styled.div<NavBarSizeProps>`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 20px;
-  ${toggleAnimation}
-
-  ${({ size }) =>
-    size === 'small' &&
-    css`
-      align-items: center;
-    `};
-`;
-
-export const Track = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
 `;
 
 export const Footer = styled.div<NavBarSizeProps>`

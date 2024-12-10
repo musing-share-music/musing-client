@@ -11,7 +11,7 @@ export const PlayListItem = ({ src, size }: PlayListItemProps) => {
     <>
       <PlayListInfo>
         <PlayListCoverWrapper>
-          <Cover src={src} />
+          <Cover src={src} draggable={false} />
         </PlayListCoverWrapper>
         {size === 'large' && <Title>플레이리스트1</Title>}
       </PlayListInfo>

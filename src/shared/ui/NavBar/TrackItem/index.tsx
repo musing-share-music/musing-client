@@ -8,7 +8,7 @@ export const TrackItem = ({ size }: NavBarSizeProps) => {
     <>
       <TrackInfoContainer>
         <CoverWrapper>
-          <Cover src={TempCoverSrc} />
+          <Cover src={TempCoverSrc} draggable={false} />
         </CoverWrapper>
         {size === 'large' && (
           <TrackInfo>
