@@ -247,7 +247,7 @@ const CommunityMusic = ({ CommunityMusicInfo }: CommunityMusicProps) => {
   return (
     <CommunityContainer>
       <TitleBlock>
-        <PageTitle>음악 추천 게시판</PageTitle>
+        <PageTitle>음악 추천 게시판!</PageTitle>
         <SubTitle>취향을 발견하는 또다른 방법</SubTitle>
       </TitleBlock>
 
