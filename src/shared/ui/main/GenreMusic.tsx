@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 
 import btn_add from 'shared/assets/image/main/btn-add.png';
 import btn_more from 'shared/assets/image/main/btn-more.png';
+import { GenreMusicList } from 'shared/ui/Main/types';
 
 // 장르의 음악 전체영역
 const GenreContainer = styled.div`
@@ -119,6 +120,7 @@ const limitText = css`
 // 장르음악 타이틀
 const GenreTitle = styled.div`
   ${({ theme }) => theme.fonts.wantedSans.B2};
+  color: ${({ theme }) => theme.colors.white};
   ${limitText};
 `;
 
@@ -137,81 +139,43 @@ const GenreMore = styled.div`
   border-radius: 12px;
 `;
 
-/**
- * 재사용 가능한 카드 컴포넌트
- * @param {Object} props - 카드 컴포넌트 props
- * @param {string} props.image - 카드 이미지 경로
- * @param {string} props.title - 카드 타이틀
- * @param {string} props.subtitle - 카드 서브타이틀
- */
-const Card = ({ image, title, subtitle }) => (
-  <GenreContainer>
-    <TitleBlock>
-      <PageTitle>슈게이징</PageTitle>
-      <SubTitle>장르의 음악</SubTitle>
-    </TitleBlock>
+interface GenreMusicListProps {
+  GenreMusicList: GenreMusicList;
+}
 
-    <GenreMusingBlock>
-      <GenreMusingWrapper>
-        <GenreMusingImageWrapper>
-          <GenreMusingImage src={image} alt="이미지" className="main-image" />
-          <GenreButton src={btn_add} alt="추가" className="btn_add" />
-          <GenreButton src={btn_more} alt="더보기" className="btn_more" />
-        </GenreMusingImageWrapper>
+const GenreMusic = ({ GenreMusicList }: GenreMusicListProps) => {
+  return (
+    <GenreContainer>
+      <TitleBlock>
+        <PageTitle>슈게이징</PageTitle>
+        <SubTitle>장르의 음악</SubTitle>
+      </TitleBlock>
 
-        <GenreTextBlock>
-          <GenreTitle className="limit-text">{title}</GenreTitle>
-          <GenreSubTitle className="limit-text">{subtitle}</GenreSubTitle>
-        </GenreTextBlock>
-      </GenreMusingWrapper>
+      <GenreMusingBlock>
+        {GenreMusicList.map((item, index) => (
+          <GenreMusingWrapper key={index}>
+            <GenreMusingImageWrapper>
+              <GenreMusingImage src={item.img} alt="이미지" className="main-image" />
+              <GenreButton src={btn_add} alt="추가" className="btn_add" />
+              <GenreButton src={btn_more} alt="더보기" className="btn_more" />
+            </GenreMusingImageWrapper>
 
-      <GenreMusingWrapper>
-        <GenreMusingImageWrapper>
-          <GenreMusingImage src={image} alt="이미지" className="main-image" />
-          <GenreButton src={btn_add} alt="추가" className="btn_add" />
-          <GenreButton src={btn_more} alt="더보기" className="btn_more" />
-        </GenreMusingImageWrapper>
+            <GenreTextBlock>
+              <GenreTitle className="limit-text">{item.title}</GenreTitle>
+              <GenreSubTitle className="limit-text">{item.name}</GenreSubTitle>
+            </GenreTextBlock>
+          </GenreMusingWrapper>
+        ))}
 
-        <GenreTextBlock>
-          <GenreTitle className="limit-text">{title}</GenreTitle>
-          <GenreSubTitle className="limit-text">{subtitle}</GenreSubTitle>
-        </GenreTextBlock>
-      </GenreMusingWrapper>
+        <GenreMore>
+          <TitleBlock className="more">
+            <PageTitle>슈게이징</PageTitle>
+            <SubTitle>장르 더 듣기</SubTitle>
+          </TitleBlock>
+        </GenreMore>
+      </GenreMusingBlock>
+    </GenreContainer>
+  );
+};
 
-      <GenreMusingWrapper>
-        <GenreMusingImageWrapper>
-          <GenreMusingImage src={image} alt="이미지" className="main-image" />
-          <GenreButton src={btn_add} alt="추가" className="btn_add" />
-          <GenreButton src={btn_more} alt="더보기" className="btn_more" />
-        </GenreMusingImageWrapper>
-
-        <GenreTextBlock>
-          <GenreTitle className="limit-text">{title}</GenreTitle>
-          <GenreSubTitle className="limit-text">{subtitle}</GenreSubTitle>
-        </GenreTextBlock>
-      </GenreMusingWrapper>
-
-      <GenreMusingWrapper>
-        <GenreMusingImageWrapper>
-          <GenreMusingImage src={image} alt="이미지" className="main-image" />
-          <GenreButton src={btn_add} alt="추가" className="btn_add" />
-          <GenreButton src={btn_more} alt="더보기" className="btn_more" />
-        </GenreMusingImageWrapper>
-
-        <GenreTextBlock>
-          <GenreTitle className="limit-text">{title}</GenreTitle>
-          <GenreSubTitle className="limit-text">{subtitle}</GenreSubTitle>
-        </GenreTextBlock>
-      </GenreMusingWrapper>
-
-      <GenreMore>
-        <TitleBlock className="more">
-          <PageTitle>슈게이징</PageTitle>
-          <SubTitle>장르 더 듣기</SubTitle>
-        </TitleBlock>
-      </GenreMore>
-    </GenreMusingBlock>
-  </GenreContainer>
-);
-
-export default Card;
+export default GenreMusic;

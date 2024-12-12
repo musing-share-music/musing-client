@@ -5,6 +5,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import btn_add from 'shared/assets/image/main/btn-add.png';
 import btn_more from 'shared/assets/image/main/btn-more.png';
+import { HotMusicList } from 'shared/ui/Main/types';
 
 // 핫 음악 전체영역
 const HotContainer = styled.div`
@@ -78,7 +79,7 @@ const HotMusingImageWrapper = styled.div`
 `;
 
 // 이미지
-const HotMusingImage = styled.div`
+const HotMusingImage = styled.img`
   width: 296px;
   height: 296px;
   border-radius: 50%;
@@ -160,6 +161,14 @@ const SliderWrapper = styled(Slider)`
     width: 296px !important;
   }
 
+  // 페이지네이션 위치를 오른쪽으로 이동
+  .slick-dots {
+    right: 0; // 오른쪽 정렬
+    width: auto;
+    display: flex;
+    justify-content: flex-end;
+  }
+
   //페이지 스타일 수정
   .slick-dots li button:before {
     color: ${({ theme }) => theme.colors.primary1};
@@ -173,7 +182,11 @@ const SliderWrapper = styled(Slider)`
   }
 `;
 
-const Card = ({ image, title, subtitle }) => {
+interface HotMusicListProps {
+  HotMusicList: HotMusicList;
+}
+
+const HotMusic = ({ HotMusicList }: HotMusicListProps) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -195,13 +208,13 @@ const Card = ({ image, title, subtitle }) => {
 
       {/* <HotMusingBlock> */}
       <SliderWrapper {...settings}>
-        {[1, 2, 3, 4, 5, 6].map((idx) => (
-          <HotMusingImageWrapper>
-            <HotMusingImage src={image} alt="이미지" className="main-image" />
+        {HotMusicList.map((item, index) => (
+          <HotMusingImageWrapper key={index}>
+            <HotMusingImage src={item.img} alt="이미지" className="main-image" />
             <Border></Border>
             <HotTextBlock className="hot_text">
-              <HotTitle>{title}</HotTitle>
-              <HotSubTitle>{subtitle}</HotSubTitle>
+              <HotTitle>{item.title}</HotTitle>
+              <HotSubTitle>{item.name}</HotSubTitle>
             </HotTextBlock>
             <HotButton src={btn_add} alt="추가" className="btn_add" />
             <HotButton src={btn_more} alt="더보기" className="btn_more" />
@@ -213,4 +226,4 @@ const Card = ({ image, title, subtitle }) => {
   );
 };
 
-export default Card;
+export default HotMusic;
