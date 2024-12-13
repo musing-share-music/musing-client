@@ -5,9 +5,6 @@ import { BaseModalProps } from 'shared/ui/Modal/type';
 
 import { CloseButton } from './CloseButton';
 
-// TODO hover 이벤트 막기
-// TODO 외부 스크롤 막기
-
 /**
  * base modal을 사용해 모달을 확장
  */
