@@ -14,6 +14,8 @@ const Demo = () => {
       <ModalButton onClick={() => setOpenCloseModal(true)}>OuterCloseModal 열기</ModalButton>
       <Main></Main>
       <Modal open={open} onClose={() => setOpen(false)}>
+        <Modal.Title>제목</Modal.Title>
+        <Modal.CloseButton onClose={() => setOpen(false)} />
         base modal 입니다.
       </Modal>
       <OuterCloseModal open={openCloseModal} onClose={() => setOpenCloseModal(false)}>
