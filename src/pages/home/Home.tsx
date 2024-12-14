@@ -31,6 +31,7 @@ const Home = () => {
     <div>
       <Title>Theme 적용 테스트</Title>
       <h1>메인 홈페이지1</h1>
+      안녕하세요🤔
       <button onClick={() => navigate('/community')}>커뮤니티 페이지로 이동</button>
       <br />
       <br />
