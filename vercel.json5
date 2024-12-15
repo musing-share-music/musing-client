@@ -1,0 +1,10 @@
+{
+  // https://vercel.com/docs/projects/project-configuration#rewrites
+  // 모든 요청을 index.html로 리다이렉트하여 React 라우터가 경로를 처리하도록 설정합니다.
+  rewrites: [
+    {
+      source: '/(.*)',
+      destination: '/index.html',
+    },
+  ],
+}
