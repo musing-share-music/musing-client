@@ -1,7 +1,8 @@
 import IconPlus from 'shared/assets/image/icons/nav-bar/icon-plus.svg?react';
+import { LeftArrowButton } from 'shared/ui/';
 import { NavBarSizeProps } from 'shared/ui/NavBar/type';
 
-import { AddButton, FoldButton, Footer as StyledFooter } from './styled';
+import { AddButton, Footer as StyledFooter } from './styled';
 
 interface FooterProps extends NavBarSizeProps {
   onClickFoldButton: () => void;
@@ -13,7 +14,7 @@ export const Footer = ({ size, onClickFoldButton }: FooterProps) => {
       <AddButton>
         <IconPlus />
       </AddButton>
-      <FoldButton onClick={onClickFoldButton} />
+      <LeftArrowButton onClick={onClickFoldButton} />
     </StyledFooter>
   );
 };

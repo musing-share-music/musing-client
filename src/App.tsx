@@ -1,14 +1,9 @@
-import { Input } from 'shared/ui/input';
-import Test from 'shared/ui/input/Test';
-
 import '#/App.css';
 import logo from '#/logo.svg';
 
 function App() {
   return (
     <div className="App">
-      <Input />
-      <Test />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>

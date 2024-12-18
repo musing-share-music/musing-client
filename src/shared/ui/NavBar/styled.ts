@@ -6,10 +6,6 @@ import IconShowMoreSvg from 'shared/assets/image/icons/nav-bar/icon-show-more.sv
 import { NAV_BAR_WIDTH } from './constants';
 import { NavBarSizeProps } from './type';
 
-export const hoverTransition = css`
-  transition: 0.3s ease;
-`;
-
 export const toggleAnimation = css`
   transition: all 0.3s ease-in-out;
 `;

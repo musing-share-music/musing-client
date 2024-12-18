@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { hoverTransition } from 'shared/ui/NavBar/styled';
+import { commonStyles } from 'shared/styles/common';
 import { NavBarSizeProps } from 'shared/ui/NavBar/type';
 
 export const NavBarItem = styled.li``;
@@ -21,7 +21,7 @@ export const NavLink = styled.a<NavLinkProps>`
   padding: 16px 24px;
   font-size: 18px;
   ${({ theme }) => theme.fonts.wantedSans.B6};
-  ${hoverTransition}
+  ${commonStyles.hoverTransition}
 
   &:hover {
     ${({ size, theme }) =>
@@ -49,5 +49,5 @@ export const IconBox = styled.div<{ src: string }>`
   width: 44px;
   height: 44px;
   background: url(${({ src }) => src}) no-repeat;
-  ${hoverTransition}
+  ${commonStyles.hoverTransition}
 `;
