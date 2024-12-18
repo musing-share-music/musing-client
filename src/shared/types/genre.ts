@@ -1,4 +1,5 @@
-export const GENRE = [
+export type Genre = { id: string; text: string };
+export const GENRE: Genre[] = [
   {
     id: 'K-POP',
     text: 'K-POP',
@@ -31,7 +32,7 @@ export const GENRE = [
     text: '신디팝',
   },
   { id: 'r&b', text: 'R&B' },
-  { text: '뉴웨이브' },
+  { id: 'newWave', text: '뉴웨이브' },
   {
     id: 'folk',
     text: '포크',

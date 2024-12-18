@@ -1,28 +1,42 @@
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 import { ComponentProps } from 'react';
 
 import IconArrow from 'shared/assets/image/icons/nav-bar/icon-arrow.svg?react';
+import { commonStyles } from 'shared/styles/common';
 import { CircleButton } from 'shared/ui/NavBar/styled';
 
-type ArrowButtonProps = ComponentProps<'button'>;
+interface ArrowButtonProps extends ComponentProps<'button'> {
+  disabled?: boolean;
+}
 
 const rightArrowStyle = css`
   transform: rotate(180deg);
 `;
 
-// TODO 호버, 비활성화
-export const RightArrowButton = ({ ...props }: ArrowButtonProps) => {
+const ArrowCircleButton = styled(CircleButton)`
+  ${commonStyles.hoverTransition}
+  &:hover {
+    background: ${({ theme }) => theme.colors[300]};
+  }
+`;
+
+export const RightArrowButton = ({ disabled, ...props }: ArrowButtonProps) => {
+  const theme = useTheme();
+  const color = disabled ? theme.colors[300] : theme.colors.primary1;
   return (
-    <CircleButton {...props}>
-      <IconArrow css={rightArrowStyle} />
-    </CircleButton>
+    <ArrowCircleButton {...props}>
+      <IconArrow css={rightArrowStyle} fill={color} />
+    </ArrowCircleButton>
   );
 };
 
-export const LeftArrowButton = ({ ...props }: ArrowButtonProps) => {
+export const LeftArrowButton = ({ disabled, ...props }: ArrowButtonProps) => {
+  const theme = useTheme();
+  const color = disabled ? theme.colors[300] : theme.colors.primary1;
   return (
     <CircleButton {...props}>
-      <IconArrow />
+      <IconArrow fill={color} />
     </CircleButton>
   );
 };

@@ -20,14 +20,19 @@ const bodyCss: StyledModal = {
     flex-wrap: wrap;
     column-gap: 20px;
     row-gap: 20px;
+    margin-top: 40px;
   `,
   mood: css`
     display: flex;
     flex-wrap: wrap;
     column-gap: 20px;
     row-gap: 20px;
+    margin-top: 40px;
   `,
-  artist: css``,
+  artist: css`
+    margin-top: 28px;
+    width: 100%;
+  `,
 };
 
 const footerCss: StyledModal = {
@@ -60,8 +65,7 @@ export const Caption = styled.p`
   ${({ theme }) => theme.fonts.wantedSans.B3};
 `;
 
-export const Body = styled.div<{ step: Step; status: TransitionStatus }>`
-  margin-top: 40px;
+export const Form = styled.form<{ step: Step; status: TransitionStatus }>`
   ${contentsPadding}
   ${({ step }) => bodyCss[step]};
 
@@ -83,4 +87,11 @@ export const Footer = styled.div<{ step: Step }>`
   justify-content: space-between;
   ${contentsPadding}
   ${({ step }) => footerCss[step]};
+`;
+
+export const ChipBlock = styled.div`
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 24px;
 `;

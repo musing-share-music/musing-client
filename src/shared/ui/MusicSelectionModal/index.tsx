@@ -1,20 +1,75 @@
-import styled from '@emotion/styled';
 import { useState } from 'react';
 import { useTransitionState } from 'react-transition-state';
 
-import IconCloseSvg from 'shared/assets/image/icons/icon-close.svg?react';
-import { commonStyles } from 'shared/styles/common';
-import { GENRE } from 'shared/types/genre';
-import { MOOD } from 'shared/types/mood';
+import { Genre, GENRE } from 'shared/types/genre';
+import { Mood, MOOD } from 'shared/types/mood';
 import { CheckBox, Modal, RightArrowButton, TextInput } from 'shared/ui/';
 
-import { Body, Caption, Container, durationMs, Footer, Header, ModalCaption } from './styled';
+import { Chip } from './Chip';
+import { Caption, ChipBlock, Container, durationMs, Footer, Form, Header, ModalCaption } from './styled';
 import { Step, StepContent } from './type';
 
-export const MusicSelectionModal = () => {
+type GenreId = Genre['id'];
+type MoodId = Mood['id'];
+type Artist = string;
+
+const handleCheck = <T extends string>(
+  e: React.ChangeEvent<HTMLInputElement>,
+  updateState: React.Dispatch<React.SetStateAction<Set<T>>>,
+) => {
+  const { id, checked } = e.target;
+
+  updateState((prev) => {
+    const updatedSet = new Set(prev);
+
+    if (checked) {
+      updatedSet.add(id as T);
+    } else {
+      updatedSet.delete(id as T);
+    }
+
+    return updatedSet;
+  });
+};
+
+export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const [{ status }, toggle] = useTransitionState({ timeout: durationMs });
-  const [open, setOpen] = useState(true);
+
   const [step, setStep] = useState<Step>('genre');
+  const [selectedGenres, setSelectedGenres] = useState<Set<GenreId>>(new Set());
+  const [selectedMoods, setSelectedMoods] = useState<Set<MoodId>>(new Set());
+  const [artist, setArtist] = useState<Set<Artist>>(new Set());
+  const [inputValue, setInputValue] = useState('');
+
+  const handleGenreCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleCheck(e, setSelectedGenres);
+  };
+
+  const handleMoodCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleCheck(e, setSelectedMoods);
+  };
+
+  const addArtist = (artist: Artist) => {
+    if (!artist.trim()) return;
+
+    setArtist((prev) => {
+      const updatedArtist = new Set(prev);
+
+      // TODO 이미 추가된 경우
+      updatedArtist.add(artist);
+
+      return updatedArtist;
+    });
+  };
+
+  const deleteArtist = (artist: Artist) => {
+    setArtist((prev) => {
+      const updatedArtist = new Set(prev);
+      updatedArtist.delete(artist);
+
+      return updatedArtist;
+    });
+  };
 
   const stepContents: StepContent = {
     genre: {
@@ -28,10 +83,17 @@ export const MusicSelectionModal = () => {
           태리님이 선호하는 <strong>장르</strong>를 선택해 주세요!
         </>
       ),
-      body: (
+      form: (
         <>
-          {GENRE.map(({ text }) => (
-            <CheckBox key={text} id={text} text={text} />
+          {GENRE.map(({ id, text }) => (
+            <CheckBox
+              key={id}
+              id={id}
+              text={text}
+              name={id}
+              checked={selectedGenres.has(id)}
+              onChange={handleGenreCheck}
+            />
           ))}
         </>
       ),
@@ -39,10 +101,17 @@ export const MusicSelectionModal = () => {
     mood: {
       title: <>좋은 취향이네요!</>,
       caption: <>다음으로 즐겨 듣는 음악의 분위기를 선택해 주세요.</>,
-      body: (
+      form: (
         <>
-          {MOOD.map(({ text }) => (
-            <CheckBox key={text} id={text} text={text} />
+          {MOOD.map(({ id, text }) => (
+            <CheckBox
+              key={id}
+              id={id}
+              text={text}
+              name={id}
+              checked={selectedMoods.has(id)}
+              onChange={handleMoodCheck}
+            />
           ))}
         </>
       ),
@@ -50,11 +119,32 @@ export const MusicSelectionModal = () => {
     artist: {
       title: <>마지막으로, 좋아하는 아티스트가 있나요?</>,
       caption: <>좋아하는 아티스트를 추가해 주세요.</>,
-      body: (
-        <Form>
-          <TextInput placeholder="아티스트명을 입력해주세요." />
-          <Chip />
-        </Form>
+      form: (
+        <>
+          <TextInput
+            placeholder="아티스트명을 입력해주세요."
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                addArtist(inputValue);
+                setInputValue('');
+              }
+            }}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+          <ChipBlock>
+            {Array.from(artist).map((artistItem) => (
+              <Chip
+                key={artistItem}
+                text={artistItem}
+                onDelete={() => {
+                  deleteArtist(artistItem);
+                }}
+              />
+            ))}
+          </ChipBlock>
+        </>
       ),
     },
   };
@@ -76,58 +166,27 @@ export const MusicSelectionModal = () => {
     toggle(true); // 전환 애니메이션 시작
   };
 
+  const stepsValidation = {
+    genre: () => selectedGenres.size > 0,
+    mood: () => selectedMoods.size > 0,
+    artist: () => artist.size > 0,
+  };
+
   return (
-    <Modal open={open} onClose={() => setOpen(false)}>
+    <Modal open={open} onClose={() => onClose()}>
       <Container>
         <Header>
           <Modal.Title>{stepContents[step].title}</Modal.Title>
           <Caption>{stepContents[step].caption}</Caption>
         </Header>
-        <Body status={status} step={step}>
-          {stepContents[step].body}
-        </Body>
+        <Form status={status} step={step}>
+          {stepContents[step].form}
+        </Form>
         <Footer step={step}>
           <ModalCaption>최소 1개 이상의 태그를 선택해 주세요.</ModalCaption>
-          <RightArrowButton onClick={() => goNextStep()} />
+          <RightArrowButton disabled={!stepsValidation[step]()} onClick={() => goNextStep()} />
         </Footer>
       </Container>
     </Modal>
   );
 };
-
-const Form = styled.form``;
-
-const Chip = () => {
-  return (
-    <>
-      <ChipWrapper>
-        <CloseButton>
-          <IconCloseSvg width={16} />
-        </CloseButton>
-      </ChipWrapper>
-    </>
-  );
-};
-
-const CloseButton = styled.button`
-  display: flex;
-  align-items: center;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-`;
-
-const ChipWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  width: fit-content;
-  padding: 8px 16px;
-  border-radius: 24px;
-  background: ${({ theme }) => theme.colors[500]};
-  ${commonStyles.hoverTransition}
-
-  &:hover {
-    background: ${({ theme }) => theme.colors[300]};
-  }
-`;

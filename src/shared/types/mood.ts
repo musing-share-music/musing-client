@@ -1,4 +1,5 @@
-export const MOOD = [
+export type Mood = { id: string; text: string };
+export const MOOD: Mood[] = [
   { id: '01', text: '편안한' },
   { id: '02', text: '차분한' },
   { id: '03', text: '조용한' },
