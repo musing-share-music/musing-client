@@ -126,6 +126,7 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 e.preventDefault();
+                if (e.nativeEvent.isComposing) return; // 한글 입력시, 마지막 글자가 추가되는 현상 방지
                 addArtist(inputValue);
                 setInputValue('');
               }
