@@ -15,6 +15,9 @@ export const ROUTES = {
   // 컴포넌트 demo용 페이지
   DEMO: '/demo',
 
+  // 음악 추천 게시판 상세
+  DETAIL: '/detail/:id',
+
   // 인증 관련 라우트
   // AUTH: {
   //   LOGIN: '/login',
