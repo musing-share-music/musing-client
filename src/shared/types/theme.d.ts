@@ -39,6 +39,7 @@ declare module '@emotion/react' {
         B4: SerializedStyles;
         B5: SerializedStyles;
         B6: SerializedStyles;
+        B7: SerializedStyles;
         C1: SerializedStyles;
       };
     };
