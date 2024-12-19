@@ -1,8 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import IconShowMoreSvg from 'shared/assets/image/icons/nav-bar/icon-show-more.svg';
-
 import { NAV_BAR_WIDTH } from './constants';
 import { NavBarSizeProps } from './type';
 
@@ -14,14 +12,6 @@ export const Title = styled.p`
   margin: 0px;
   color: ${({ theme }) => theme.colors[100]};
   ${({ theme }) => theme.fonts.wantedSans.B6};
-`;
-
-export const MoreButton = styled.button`
-  width: 32px;
-  height: 32px;
-  background: url(${IconShowMoreSvg}) no-repeat center;
-  background-size: cover;
-  border: none;
 `;
 
 export const Cover = styled.img`

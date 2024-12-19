@@ -1,4 +1,5 @@
-import { Cover, MoreButton, Title } from 'shared/ui/NavBar/styled';
+import { MoreButton } from 'shared/ui/MoreButton';
+import { Cover, Title } from 'shared/ui/NavBar/styled';
 import { NavBarSizeProps } from 'shared/ui/NavBar/type';
 
 import { PlayListCoverWrapper, PlayListInfo } from './styled';
