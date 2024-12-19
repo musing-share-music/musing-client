@@ -10,6 +10,7 @@ interface ArrowButtonProps extends ComponentProps<'button'> {
   backgroundColor?: keyof Theme['colors'];
   hoverBackgroundColor?: keyof Theme['colors'];
   iconColor?: keyof Theme['colors'];
+  disabled?: boolean;
 }
 
 const rightArrowStyle = css`
@@ -31,27 +32,39 @@ const ArrowCircleButton = styled(CircleButton)<{
   }
 `;
 
-export const RightArrowButton = ({ backgroundColor, hoverBackgroundColor, iconColor, ...props }: ArrowButtonProps) => {
+export const RightArrowButton = ({
+  disabled,
+  backgroundColor,
+  hoverBackgroundColor,
+  iconColor,
+  ...props
+}: ArrowButtonProps) => {
   const theme = useTheme();
   const color = iconColor ? theme.colors[iconColor] : theme.colors.primary1;
-  const buttonColor = backgroundColor || 600;
-  const hoverColor = hoverBackgroundColor || 200;
+  const buttonColor = backgroundColor || 500;
+  const hoverColor = hoverBackgroundColor || 300;
 
   return (
-    <ArrowCircleButton {...props} hoverBackgroundColor={hoverColor} backgroundColor={buttonColor}>
+    <ArrowCircleButton {...props} disabled={disabled} hoverBackgroundColor={hoverColor} backgroundColor={buttonColor}>
       <IconArrow css={rightArrowStyle} fill={color} />
     </ArrowCircleButton>
   );
 };
 
-export const LeftArrowButton = ({ backgroundColor, hoverBackgroundColor, iconColor, ...props }: ArrowButtonProps) => {
+export const LeftArrowButton = ({
+  backgroundColor,
+  hoverBackgroundColor,
+  iconColor,
+  disabled,
+  ...props
+}: ArrowButtonProps) => {
   const theme = useTheme();
   const color = iconColor ? theme.colors[iconColor] : theme.colors.primary1;
-  const buttonColor = backgroundColor || 600;
+  const buttonColor = backgroundColor || 500;
   const hoverColor = hoverBackgroundColor || 400;
 
   return (
-    <ArrowCircleButton {...props} hoverBackgroundColor={hoverColor} backgroundColor={buttonColor}>
+    <ArrowCircleButton {...props} disabled={disabled} hoverBackgroundColor={hoverColor} backgroundColor={buttonColor}>
       <IconArrow fill={color} />
     </ArrowCircleButton>
   );
@@ -61,15 +74,16 @@ export const RightDownArrowButton = ({
   backgroundColor,
   hoverBackgroundColor,
   iconColor,
+  disabled,
   ...props
 }: ArrowButtonProps) => {
   const theme = useTheme();
   const color = iconColor ? theme.colors[iconColor] : theme.colors.primary1;
-  const buttonColor = backgroundColor || 600;
-  const hoverColor = hoverBackgroundColor || 200;
+  const buttonColor = backgroundColor || 500;
+  const hoverColor = hoverBackgroundColor || 300;
 
   return (
-    <ArrowCircleButton {...props} hoverBackgroundColor={hoverColor} backgroundColor={buttonColor}>
+    <ArrowCircleButton {...props} disabled={disabled} hoverBackgroundColor={hoverColor} backgroundColor={buttonColor}>
       <IconArrow css={rightDownArrowStyle} fill={color} />
     </ArrowCircleButton>
   );
