@@ -1,3 +1,3 @@
 export { CheckBox } from './CheckBox';
-export { SelectBox } from './SelectBox';
+export { Filter } from './Filter';
 export { TextInput } from './TextInput';

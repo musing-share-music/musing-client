@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { useClickOutside } from 'shared/hooks/useClickOutside';
 
@@ -8,13 +8,13 @@ type Option = {
   value: string;
 };
 
-type CustomSelectProps = {
+type FilterProps = {
   options: Option[];
   onChange?: (option: Option) => void;
   placeholder?: string;
 };
 
-export const SelectBox: React.FC<CustomSelectProps> = ({ options, onChange, placeholder }) => {
+export const Filter = ({ options, onChange, placeholder }: FilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const ref = useRef<HTMLUListElement>(null);

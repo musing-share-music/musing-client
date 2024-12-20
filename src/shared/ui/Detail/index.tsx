@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 import { commonStyles } from 'shared/styles/common';
-import { SelectBox } from 'shared/ui/';
+import { Filter } from 'shared/ui/';
 
 import { review } from './anchor';
 import { AnchorButton } from './AnchorButton';
@@ -38,7 +38,7 @@ export const DetailPage = () => {
         <Section>
           <SectionTitle>
             별점 및 리뷰(7)
-            <SelectBox
+            <Filter
               placeholder="별점순"
               options={[
                 {
