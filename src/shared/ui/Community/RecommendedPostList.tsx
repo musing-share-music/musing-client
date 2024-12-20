@@ -87,7 +87,6 @@ const CommunityAction = styled.div`
 
 const CommunityRating = styled.div`
   width: 129px;
-  height: 64px;
   display: flex;
 `;
 
