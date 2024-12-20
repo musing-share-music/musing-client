@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
-import Community from 'pages/community/Community';
+import Community from 'pages/community';
 import Demo from 'pages/demo';
 import Home from 'pages/home/Home';
 import NotFound from 'pages/notFound/NotFound';
