@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { commonStyles } from 'shared/styles/common';
+
 import { review } from './anchor';
 import { AnchorButton } from './AnchorButton';
 import { Contents } from './Contents';
@@ -22,7 +24,7 @@ export const DetailPage = () => {
           <CommentForm>
             <ProfileImage width={60} height={60} src={imageSrc} />
             <TextAreaBlock>
-              <TextArea />
+              <TextArea placeholder="자유롭게 의견을 남겨 주세요." />
               <SubmitBlock>
                 <Rating />
                 <Submit>등록</Submit>
@@ -98,6 +100,14 @@ const TextArea = styled.textarea`
   border: 1px solid ${({ theme }) => theme.colors[300]};
   color: ${({ theme }) => theme.colors[200]};
   ${({ theme }) => theme.fonts.wantedSans.B4};
+  color: ${({ theme }) => theme.colors[100]};
+  &::placeholder {
+    ${({ theme }) => theme.colors[200]};
+  }
+  &:disabled {
+    background-color: ${({ theme }) => theme.colors[600]};
+    color: ${({ theme }) => theme.colors[200]};
+  }
 `;
 const SubmitBlock = styled.div`
   display: flex;
@@ -122,6 +132,11 @@ const Submit = styled.button`
   overflow: hidden;
   color: ${({ theme }) => theme.colors[100]};
   ${({ theme }) => theme.fonts.wantedSans.B3};
+  cursor: pointer;
+  &:hover {
+    background: ${({ theme }) => theme.colors[400]};
+  }
+  ${commonStyles.hoverTransition}
 `;
 
 const CommentList = styled.div`

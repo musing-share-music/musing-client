@@ -12,6 +12,16 @@ export const MusicInfo = () => {
   const isConfirmed = true;
   const isLiked = false;
   const color = isLiked ? theme.colors.primary1 : theme.colors[200];
+
+  const menuItem = [
+    {
+      content: '리뷰 삭제',
+      onClick: () => {
+        console.log('hi');
+      },
+    },
+  ];
+
   return (
     <MusicInfoBox>
       <AdminBlock>
@@ -32,7 +42,7 @@ export const MusicInfo = () => {
             <Title>Pink!</Title>
             <Artist>권진아</Artist>
           </Box>
-          <MoreButton />
+          <MoreButton menuItem={menuItem} />
         </TrackDetails>
         <RateBlock></RateBlock>
       </TrackDetailsBlock>
