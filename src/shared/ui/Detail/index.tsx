@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 
+import { review } from './anchor';
 import { AnchorButton } from './AnchorButton';
 import { Contents } from './Contents';
 import imageSrc from './cover.png';
@@ -32,7 +33,7 @@ export const DetailPage = () => {
 
         <Section>
           <SectionTitle>별점 및 리뷰(7)</SectionTitle>
-          <CommentList>
+          <CommentList id={review}>
             <CommentBox>
               <ProfileImage width={56} height={56} src={imageSrc} />
               <Box>

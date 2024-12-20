@@ -46,6 +46,9 @@ export const NavBarContainer = styled.div<NavBarSizeProps>`
 export const Aside = styled.aside``;
 
 export const CircleButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 44px;
   height: 44px;
   background: ${({ theme }) => theme.colors[500]};

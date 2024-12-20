@@ -2,16 +2,18 @@ import styled from '@emotion/styled';
 
 import { RightDownArrowButton } from 'shared/ui/';
 
+import { content, review } from './anchor';
+
 export const AnchorButton = () => {
   return (
     <AnchorButtonBlock>
       <ButtonBox>
         글 내용
-        <RightDownArrowButton />
+        <RightDownArrowButton href={`#${content}`} />
       </ButtonBox>
       <ButtonBox>
         리뷰 및 평점
-        <RightDownArrowButton />
+        <RightDownArrowButton href={`#${review}`} />
       </ButtonBox>
     </AnchorButtonBlock>
   );

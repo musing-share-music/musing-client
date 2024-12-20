@@ -1,18 +1,24 @@
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import IconHeart from 'shared/assets/image/icons/icon-heart.svg?react';
+import { commonStyles } from 'shared/styles/common';
 import { MoreButton } from 'shared/ui/';
 
 import CoverSrc from './cover.png';
 
 export const MusicInfo = () => {
+  const theme = useTheme();
   const isConfirmed = true;
+  const isLiked = false;
+  const color = isLiked ? theme.colors.primary1 : theme.colors[200];
   return (
     <MusicInfoBox>
       <AdminBlock>
         <AdminConfirm>
           관리자 확인
           <ConfirmAlert isConfirmed={isConfirmed} />
+          <ToolTip>관리자 확인이 완료될 시 좋아요가 알고리즘에 반영돼요.</ToolTip>
         </AdminConfirm>
       </AdminBlock>
 
@@ -32,10 +38,11 @@ export const MusicInfo = () => {
       </TrackDetailsBlock>
 
       <ButtonBlock>
-        <Button>
-          <IconHeart />
-          좋아요 <Count>(11)</Count>
-        </Button>
+        <LikeButton isLiked={isLiked}>
+          <IconHeart fill={color} />
+          좋아요
+          <Count color={color}>(11)</Count>
+        </LikeButton>
         <Button>플레이리스트에 추가</Button>
       </ButtonBlock>
 
@@ -59,7 +66,23 @@ const MusicInfoBox = styled.div`
 
 const AdminBlock = styled.div``;
 
+const ToolTip = styled.div`
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  transform: translate(0, -100%);
+  padding: 16px 20px 18px 20px;
+  border-radius: 6px;
+  border: 1px solid ${({ theme }) => theme.colors[400]};
+  background: ${({ theme }) => theme.colors[600]};
+  box-shadow: 0px 0px 10px 0px rgba(20, 20, 22, 0.64);
+  color: ${({ theme }) => theme.colors.white};
+  ${({ theme }) => theme.fonts.wantedSans.B6};
+  white-space: nowrap;
+`;
+
 const AdminConfirm = styled.div`
+  position: relative;
   display: flex;
   width: 120px;
   padding: 8px 8px 9px 14px;
@@ -70,6 +93,10 @@ const AdminConfirm = styled.div`
   background: ${({ theme }) => theme.colors[600]};
   color: ${({ theme }) => theme.colors[100]};
   ${({ theme }) => theme.fonts.wantedSans.C1};
+
+  &:hover ${ToolTip} {
+    opacity: 1;
+  }
 `;
 
 const ConfirmAlert = styled.div<{ isConfirmed: boolean }>`
@@ -136,10 +163,37 @@ const Button = styled.button`
   border: 1px solid ${({ theme }) => theme.colors[400]};
   color: ${({ theme }) => theme.colors[100]};
   cursor: pointer;
+  &:hover {
+    background: ${({ theme }) => theme.colors[300]};
+  }
+  ${commonStyles.hoverTransition}
 `;
 
-const Count = styled.span`
-  color: ${({ theme }) => theme.colors[200]};
+const Count = styled.span<{ color: string }>`
+  color: ${({ color }) => color};
+`;
+
+const LikeButton = styled(Button)<{ isLiked: boolean }>`
+  ${({ isLiked, theme }) =>
+    isLiked
+      ? css`
+          color: ${theme.colors.primary1};
+          border: 1px solid ${theme.colors.primary1};
+          // hover 스타일 제거
+          &:hover {
+            background: transparent;
+          }
+        `
+      : css`
+          &:hover {
+            ${Count} {
+              color: ${theme.colors.primary1};
+            }
+            svg path {
+              fill: ${theme.colors.primary1};
+            }
+          }
+        `};
 `;
 
 const TagBlock = styled.div`

@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 
 import { RightDownArrowButton } from 'shared/ui/';
 
+import { content } from './anchor';
 import { Section } from './styled';
 
 export const Contents = () => {
@@ -36,7 +37,7 @@ export const Contents = () => {
             />
           </YoutubeLinkBox>
         </LinkBlock>
-        <YoutubePreview />
+        <YoutubePreview id={content} />
         <TextBox>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Non beatae recusandae tempora fugiat, officiis
           assumenda dolor quia eaque consequuntur amet odio corrupti aspernatur corporis nisi vero ullam hic? Eveniet,
@@ -83,6 +84,9 @@ const Edit = styled.button`
   ${({ theme }) => theme.fonts.wantedSans.C1};
   color: ${({ theme }) => theme.colors[200]};
   cursor: pointer;
+  &:hover {
+    border-bottom: 1px solid ${({ theme }) => theme.colors[200]};
+  }
 `;
 const Report = styled.button`
   padding: 0;
@@ -90,6 +94,9 @@ const Report = styled.button`
   ${({ theme }) => theme.fonts.wantedSans.C1};
   color: ${({ theme }) => theme.colors[200]};
   cursor: pointer;
+  &:hover {
+    border-bottom: 1px solid ${({ theme }) => theme.colors[200]};
+  }
 `;
 const InfoBlock = styled.div`
   display: flex;
