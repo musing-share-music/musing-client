@@ -17,11 +17,12 @@ interface MoreButtonProps {
 export const MoreButton = ({ width = 20, height = 20, menuItem }: MoreButtonProps) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  useClickOutside({ ref, open, click: () => setOpen(false) });
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  useClickOutside({ ref, ignoreRef: buttonRef, open, click: () => setOpen(false) });
 
   return (
     <Box>
-      <Button onClick={() => setOpen(true)}>
+      <Button ref={buttonRef} onClick={() => setOpen((prev) => !prev)}>
         <IconShowMoreSvg width={width} height={height} />
       </Button>
       {open && (

@@ -7,14 +7,20 @@ export const useClickOutside = ({
   ref,
   open,
   click,
+  ignoreRef, // 해당 요소 클릭은 클릭 이벤트 무시
 }: {
   ref: React.RefObject<HTMLElement>;
   open: boolean;
+  ignoreRef?: React.RefObject<HTMLElement> | null;
   click: () => void;
 }) => {
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
+      if (
+        ref.current &&
+        !ref.current.contains(e.target as Node) &&
+        !(ignoreRef?.current && ignoreRef.current.contains(e.target as Node))
+      ) {
         click();
       }
     };

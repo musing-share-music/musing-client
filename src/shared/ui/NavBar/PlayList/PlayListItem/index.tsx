@@ -17,7 +17,7 @@ export const PlayListItem = ({ src, size }: PlayListItemProps) => {
         </PlayListCoverWrapper>
         {size === 'large' && <Title>플레이리스트1</Title>}
       </PlayListInfo>
-      {size === 'large' && <MoreButton />}
+      {size === 'large' && <MoreButton menuItem={[]} />}
     </>
   );
 };

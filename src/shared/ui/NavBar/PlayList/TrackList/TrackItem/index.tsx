@@ -19,7 +19,7 @@ export const TrackItem = ({ size }: NavBarSizeProps) => {
           </TrackInfo>
         )}
       </TrackInfoContainer>
-      {size === 'large' && <MoreButton />}
+      {size === 'large' && <MoreButton menuItem={[]} />}
     </>
   );
 };
