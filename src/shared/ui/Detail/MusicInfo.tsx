@@ -1,14 +1,17 @@
 import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useState } from 'react';
 
 import IconHeart from 'shared/assets/image/icons/icon-heart.svg?react';
 import { commonStyles } from 'shared/styles/common';
-import { MoreButton } from 'shared/ui/';
 
 import CoverSrc from './cover.png';
+import { DeleteReviewModal } from './DeleteReviewModal';
+import { MoreButton } from './MoreButton';
 
 export const MusicInfo = () => {
   const theme = useTheme();
+  const [open, setOpen] = useState(false);
   const isConfirmed = true;
   const isLiked = false;
   const color = isLiked ? theme.colors.primary1 : theme.colors[200];
@@ -17,49 +20,53 @@ export const MusicInfo = () => {
     {
       content: '리뷰 삭제',
       onClick: () => {
-        console.log('hi');
+        setOpen(true);
       },
     },
   ];
 
   return (
-    <MusicInfoBox>
-      <AdminBlock>
-        <AdminConfirm>
-          관리자 확인
-          <ConfirmAlert isConfirmed={isConfirmed} />
-          <ToolTip>관리자 확인이 완료될 시 좋아요가 알고리즘에 반영돼요.</ToolTip>
-        </AdminConfirm>
-      </AdminBlock>
+    <>
+      <MusicInfoBox>
+        <AdminBlock>
+          <AdminConfirm>
+            관리자 확인
+            <ConfirmAlert isConfirmed={isConfirmed} />
+            <ToolTip>관리자 확인이 완료될 시 좋아요가 알고리즘에 반영돼요.</ToolTip>
+          </AdminConfirm>
+        </AdminBlock>
 
-      <CoverBox>
-        <CoverImg src={CoverSrc} />
-      </CoverBox>
+        <CoverBox>
+          <CoverImg src={CoverSrc} />
+        </CoverBox>
 
-      <TrackDetailsBlock>
-        <TrackDetails>
-          <Box>
-            <Title>Pink!</Title>
-            <Artist>권진아</Artist>
-          </Box>
-          <MoreButton menuItem={menuItem} />
-        </TrackDetails>
-        <RateBlock></RateBlock>
-      </TrackDetailsBlock>
+        <TrackDetailsBlock>
+          <TrackDetails>
+            <Box>
+              <Title>Pink!</Title>
+              <Artist>권진아</Artist>
+            </Box>
+            <MoreButton menuItem={menuItem} />
+          </TrackDetails>
+          <RateBlock></RateBlock>
+        </TrackDetailsBlock>
 
-      <ButtonBlock>
-        <LikeButton isLiked={isLiked}>
-          <IconHeart fill={color} />
-          좋아요
-          <Count color={color}>(11)</Count>
-        </LikeButton>
-        <Button>플레이리스트에 추가</Button>
-      </ButtonBlock>
+        <ButtonBlock>
+          <LikeButton isLiked={isLiked}>
+            <IconHeart fill={color} />
+            좋아요
+            <Count color={color}>(11)</Count>
+          </LikeButton>
+          <Button>플레이리스트에 추가</Button>
+        </ButtonBlock>
 
-      <TagBlock>
-        <Tag>K-POP</Tag> <Tag>귀여운</Tag> <Tag>K-POP</Tag> <Tag>귀여운</Tag>
-      </TagBlock>
-    </MusicInfoBox>
+        <TagBlock>
+          <Tag>K-POP</Tag> <Tag>귀여운</Tag> <Tag>K-POP</Tag> <Tag>귀여운</Tag>
+        </TagBlock>
+      </MusicInfoBox>
+
+      <DeleteReviewModal open={open} onClose={() => setOpen(false)} onConfirm={() => {}} />
+    </>
   );
 };
 

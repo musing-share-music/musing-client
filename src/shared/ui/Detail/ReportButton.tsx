@@ -1,10 +1,20 @@
 import styled from '@emotion/styled';
-import { ComponentProps } from 'react';
+import { ComponentProps, useState } from 'react';
+
+import { ReportModal } from './ReportModal';
 
 type ReportButtonProps = ComponentProps<'button'>;
 
 export const ReportButton = ({ ...props }: ReportButtonProps) => {
-  return <Report {...props}>신고</Report>;
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Report {...props} onClick={() => setOpen(true)}>
+        신고
+      </Report>
+      <ReportModal open={open} onClose={() => setOpen(false)} />
+    </>
+  );
 };
 
 const Report = styled.button`

@@ -5,7 +5,7 @@ import IconShowMoreSvg from 'shared/assets/image/icons/icon-show-more.svg?react'
 import { useClickOutside } from 'shared/hooks/useClickOutside';
 import { commonStyles } from 'shared/styles/common';
 
-interface MoreButtonProps {
+export interface MoreButtonProps {
   width?: number;
   height?: number;
   menuItem: {
@@ -49,11 +49,6 @@ const Button = styled.button`
   padding: 4px;
   border: none;
   cursor: pointer;
-  &:hover {
-    background: ${({ theme }) => theme.colors[400]};
-    border-radius: 4px;
-  }
-  ${commonStyles.hoverTransition}
 `;
 
 const MenuList = styled.div`
