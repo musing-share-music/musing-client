@@ -9,6 +9,7 @@ import { Contents } from './Contents';
 import imageSrc from './cover.png';
 import { MusicInfo } from './MusicInfo';
 import { ProfileImage } from './ProfileImage';
+import { ReportButton } from './ReportButton';
 import { Section } from './styled';
 
 export const DetailPage = () => {
@@ -60,8 +61,11 @@ export const DetailPage = () => {
               <ProfileImage width={56} height={56} src={imageSrc} />
               <Box>
                 <Block>
-                  <UserName>음냐나아아앙</UserName>
-                  <Rate />
+                  <Box>
+                    <UserName>음냐나아아앙</UserName>
+                    <Rate />
+                  </Box>
+                  <ReportButton />
                 </Block>
                 <Comment>
                   Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatibus nobis omnis quod rerum
@@ -177,6 +181,7 @@ const Block = styled.div`
   display: flex;
   padding: 14px 0 18px;
   gap: 16px;
+  justify-content: space-between;
 `;
 const UserName = styled.p`
   color: ${({ theme }) => theme.colors[200]};

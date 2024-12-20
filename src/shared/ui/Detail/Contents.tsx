@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { RightDownArrowButton } from 'shared/ui/';
 
 import { content } from './anchor';
+import { ReportButton } from './ReportButton';
 import { Section } from './styled';
 
 export const Contents = () => {
@@ -12,8 +13,8 @@ export const Contents = () => {
         <TitleBlock>
           <Title>Lorem ipsum dolor sit amet consectetur adipisicing elit.</Title>
           <ButtonBox>
-            <Edit>신고</Edit>
-            <Report>편집</Report>
+            <ReportButton />
+            <Edit>편집</Edit>
           </ButtonBox>
         </TitleBlock>
         <InfoBlock>
@@ -88,16 +89,7 @@ const Edit = styled.button`
     border-bottom: 1px solid ${({ theme }) => theme.colors[200]};
   }
 `;
-const Report = styled.button`
-  padding: 0;
-  border: none;
-  ${({ theme }) => theme.fonts.wantedSans.C1};
-  color: ${({ theme }) => theme.colors[200]};
-  cursor: pointer;
-  &:hover {
-    border-bottom: 1px solid ${({ theme }) => theme.colors[200]};
-  }
-`;
+
 const InfoBlock = styled.div`
   display: flex;
   align-items: center;
