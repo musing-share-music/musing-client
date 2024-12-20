@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 import { commonStyles } from 'shared/styles/common';
+import { SelectBox } from 'shared/ui/';
 
 import { review } from './anchor';
 import { AnchorButton } from './AnchorButton';
@@ -34,7 +35,26 @@ export const DetailPage = () => {
         </Section>
 
         <Section>
-          <SectionTitle>별점 및 리뷰(7)</SectionTitle>
+          <SectionTitle>
+            별점 및 리뷰(7)
+            <SelectBox
+              placeholder="별점순"
+              options={[
+                {
+                  label: '제목',
+                  value: 'title',
+                },
+                {
+                  label: '별점순',
+                  value: 'star',
+                },
+                {
+                  label: '리뷰만 보기',
+                  value: 'review',
+                },
+              ]}
+            />
+          </SectionTitle>
           <CommentList id={review}>
             <CommentBox>
               <ProfileImage width={56} height={56} src={imageSrc} />
@@ -75,6 +95,7 @@ const RightContainer = styled.div`
 
 const SectionTitle = styled.div`
   display: flex;
+  justify-content: space-between;
   padding: 34px 36px;
   border-bottom: 1px solid ${({ theme }) => theme.colors[600]};
   color: ${({ theme }) => theme.colors.white};
