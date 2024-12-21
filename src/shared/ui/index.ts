@@ -1,3 +1,4 @@
+export { Community } from './Community';
 export * from './ArrowButton';
 export { Header } from './Header';
 export * from './Input';
