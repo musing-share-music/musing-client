@@ -102,6 +102,15 @@ export const theme = {
         font-weight: 500;
         line-height: 20px; /* 125% */
       `,
+      B7: css`
+        font-family: 'Wanted Sans Std Variable', 'Wanted Sans Std', -apple-system, BlinkMacSystemFont, system-ui,
+          'Segoe UI', Roboto, 'Helvetica Neue', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 42px; /* 210% */
+        letter-spacing: -0.2px;
+      `,
       C1: css`
         font-family: 'Wanted Sans Std Variable', 'Wanted Sans Std', -apple-system, BlinkMacSystemFont, system-ui,
           'Segoe UI', Roboto, 'Helvetica Neue', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;

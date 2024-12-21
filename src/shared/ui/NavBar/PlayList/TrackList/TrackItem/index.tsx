@@ -1,5 +1,6 @@
+import { MoreButton } from 'shared/ui/MoreButton';
 import TempCoverSrc from 'shared/ui/NavBar/cover.png';
-import { Cover, CoverWrapper, MoreButton, Title } from 'shared/ui/NavBar/styled';
+import { Cover, CoverWrapper, Title } from 'shared/ui/NavBar/styled';
 import { NavBarSizeProps } from 'shared/ui/NavBar/type';
 
 import { ArtistName, TrackInfo, TrackInfoContainer } from './styled';
@@ -18,7 +19,7 @@ export const TrackItem = ({ size }: NavBarSizeProps) => {
           </TrackInfo>
         )}
       </TrackInfoContainer>
-      {size === 'large' && <MoreButton />}
+      {size === 'large' && <MoreButton menuItem={[]} />}
     </>
   );
 };
