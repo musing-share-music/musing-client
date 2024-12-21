@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTransitionState } from 'react-transition-state';
 
 import { Genre, GENRE } from 'shared/types/genre';
@@ -40,6 +40,7 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
   const [selectedMoods, setSelectedMoods] = useState<Set<MoodId>>(new Set());
   const [artist, setArtist] = useState<Set<Artist>>(new Set());
   const [inputValue, setInputValue] = useState('');
+  const [isValid, setIsValid] = useState(true);
 
   const handleGenreCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleCheck(e, setSelectedGenres);
@@ -167,11 +168,15 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
     toggle(true); // 전환 애니메이션 시작
   };
 
-  const stepsValidation = {
-    genre: () => selectedGenres.size > 0,
-    mood: () => selectedMoods.size > 0,
-    artist: () => artist.size > 0,
-  };
+  useEffect(() => {
+    const stepsValidation = {
+      genre: () => selectedGenres.size > 0,
+      mood: () => selectedMoods.size > 0,
+      artist: () => artist.size > 0,
+    };
+
+    setIsValid(stepsValidation[step]());
+  }, [artist.size, selectedGenres.size, selectedMoods.size, step]);
 
   return (
     <Modal open={open} onClose={() => onClose()}>
@@ -185,7 +190,12 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
         </Form>
         <Footer step={step}>
           <ModalCaption>최소 1개 이상의 태그를 선택해 주세요.</ModalCaption>
-          <RightArrowButton disabled={!stepsValidation[step]()} onClick={() => goNextStep()} />
+          <RightArrowButton
+            iconColor={isValid ? 'primary1' : 300}
+            disabled={!isValid}
+            hoverBackgroundColor={isValid ? 300 : 500}
+            onClick={() => goNextStep()}
+          />
         </Footer>
       </Container>
     </Modal>
