@@ -3,8 +3,9 @@ import { SetStateAction, useState } from 'react';
 
 import StarActive from 'shared/assets/image/icons/icon-star-active2.svg?react';
 import StarDefalut from 'shared/assets/image/icons/icon-star.svg?react';
-import image1 from 'shared/assets/image/main/image1.png';
 import { commonStyles } from 'shared/styles/common';
+
+import { CommunityListInfo } from './types';
 
 const ComuContainer = styled.div`
   width: 1280px;
@@ -118,7 +119,7 @@ const CommunityTag = styled.div`
   align-items: center;
 `;
 
-const CommunityPagenation = styled.div`
+const CommunityPagenation = styled.div<{ isActive: boolean }>`
   color: ${({ theme, isActive }) => (isActive ? theme.colors[100] : theme.colors[200])};
   ${({ theme }) => theme.fonts.wantedSans.B5};
   cursor: pointer;
@@ -145,17 +146,13 @@ const CommunitySearchSelect = styled.div`
   display: flex;
   align-items: center;
   padding-left: 24px;
+`;
 
-  &::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    border-style: solid;
-    border-width: 6px 6px 0 6px;
-    border-color: ${({ theme }) => theme.colors[100]} transparent transparent transparent;
-  }
+const Arrow = styled.span`
+  margin-left: 6px;
+  font-size: 12px;
+  position: absolute;
+  right: 23px;
 `;
 
 const CommunitySearchOption = styled.div`
@@ -195,6 +192,10 @@ const CommunitySearchInput = styled.input`
   ${({ theme }) => theme.fonts.wantedSans.B4};
 `;
 
+interface CommunityItemProps {
+  CommunityListInfo: CommunityListInfo;
+}
+
 const CommunitySearchSelectWrapper = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState('작성자');
@@ -206,6 +207,7 @@ const CommunitySearchSelectWrapper = () => {
 
   return (
     <CommunitySearchSelect onClick={() => setIsOpen(!isOpen)}>
+      <Arrow>{isOpen ? '▲' : '▼'}</Arrow>
       {selectedOption}
       {isOpen && (
         <CommunitySearchOption>
@@ -218,7 +220,7 @@ const CommunitySearchSelectWrapper = () => {
   );
 };
 
-const RecommendedPostList = () => {
+const RecommendedPostList = ({ CommunityListInfo }: CommunityItemProps) => {
   const [activePage, setActivePage] = useState(1);
 
   const handlePageClick = (pageNumber: SetStateAction<number>) => {
@@ -231,31 +233,28 @@ const RecommendedPostList = () => {
       </TitleBlock>
 
       <CommunityList>
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((item, index) => (
+        {CommunityListInfo.map((item, index) => (
           <CommunityItem key={index}>
             <CommunityImageWrapper>
-              <CommunityImage src={image1} alt="Community" />
+              <CommunityImage src={item.img} alt="Community" />
             </CommunityImageWrapper>
             <CommuityContent>
               <CommunityInfo>
-                <CommunitySongInfo>Pink! · 권진아</CommunitySongInfo>
-                <CommunitySongDescription className="CommunitySongDescription">
-                  텍스트 초과 시 줄임표 뜨도록!!!!!!!!
-                </CommunitySongDescription>
+                <CommunitySongInfo>{item.songinfo}</CommunitySongInfo>
+                <CommunitySongDescription>{item.title}</CommunitySongDescription>
               </CommunityInfo>
               <CommunityAction>
                 <CommunityRating>
-                  <StarActive></StarActive>
-                  <StarActive></StarActive>
-                  <StarActive></StarActive>
-                  <StarDefalut></StarDefalut>
-                  <StarDefalut></StarDefalut>
-                  <CommunityRatingNumber>11</CommunityRatingNumber>
+                  {[...Array(5)].map((_, index) => {
+                    return index < Number(item.rateCount) ? <StarActive key={index} /> : <StarDefalut key={index} />;
+                  })}
+                  <CommunityRatingNumber>{item.reviewCount}</CommunityRatingNumber>
                 </CommunityRating>
 
                 <CommunityTagBlock>
-                  <CommunityTag>K-POP</CommunityTag>
-                  <CommunityTag>귀여운</CommunityTag>
+                  {item.tag.map((tagItem) => (
+                    <CommunityTag key={tagItem.id}>{tagItem.name}</CommunityTag>
+                  ))}
                 </CommunityTagBlock>
               </CommunityAction>
             </CommuityContent>

@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 
+import { COMMUNITY_ITEM } from './constants';
 import RecommendedPost from './RecommendedPost';
 import RecommendedPostList from './RecommendedPostList';
-// import { MAIN_ITEM } from './constants';
 
 export const Community = () => {
   const MainContents = styled.div`
@@ -12,7 +12,7 @@ export const Community = () => {
   return (
     <MainContents>
       <RecommendedPost></RecommendedPost>
-      <RecommendedPostList></RecommendedPostList>
+      <RecommendedPostList CommunityListInfo={COMMUNITY_ITEM.CommunityListInfo}></RecommendedPostList>
     </MainContents>
   );
 };

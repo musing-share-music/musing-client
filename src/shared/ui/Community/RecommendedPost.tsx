@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
+import gradient from 'shared/assets/image/community/hover-gradient.png';
 import StarActive from 'shared/assets/image/icons/icon-star-active.svg?react';
 import StarDefalut from 'shared/assets/image/icons/icon-star.svg?react';
 import arrow2 from 'shared/assets/image/main/arrow 2.png';
@@ -118,6 +119,25 @@ const PostRateArea = styled.div`
   gap: 2px;
 `;
 
+const PostArrowHover = styled.img`
+  position: absolute;
+  bottom: -30px;
+  right: -29px;
+  display: none;
+`;
+
+const PostArrowWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+
+  &:hover ${PostArrowHover} {
+    display: block;
+  }
+`;
+
 const PostArrow = styled.img`
   width: 44px;
   height: 44px;
@@ -205,7 +225,10 @@ const RecommendedPost = () => {
                   </span>
                 ))}
               </PostRateArea>
-              <PostArrow src={arrow2}></PostArrow>
+              <PostArrowWrapper>
+                <PostArrow src={arrow2}></PostArrow>
+                <PostArrowHover src={gradient}></PostArrowHover>
+              </PostArrowWrapper>
             </PostAction>
           </PostContent>
         </PostCard>
