@@ -9,8 +9,11 @@ import { MoreButton } from './MoreButton';
 // import { commonStyles } from 'shared/styles/common';
 
 export const PlayListMusicList = () => {
+  // const [open, setOpen] = useState(false);
+  // const [isChecked, setisChecked] = useState([true, false]);
   const [open, setOpen] = useState(false);
-  const [isChecked, setisChecked] = useState([true, false]);
+  const isChecked = [true, false];
+  console.log(open);
   const menuItem = [
     {
       content: ['곡 정보', '좋아요', '플레이리스트 추가'],
