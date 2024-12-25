@@ -16,7 +16,19 @@ export const PlayListMusicList = () => {
   console.log(open);
   const menuItem = [
     {
-      content: ['곡 정보', '좋아요', '플레이리스트 추가'],
+      content: '곡 정보',
+      onClick: () => {
+        setOpen(true);
+      },
+    },
+    {
+      content: '좋아요',
+      onClick: () => {
+        setOpen(true);
+      },
+    },
+    {
+      content: '플레이리스트 추가',
       onClick: () => {
         setOpen(true);
       },
