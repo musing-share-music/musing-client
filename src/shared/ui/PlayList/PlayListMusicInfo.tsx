@@ -46,10 +46,10 @@ export const PlayListMusicInfo = () => {
           <AdminConfirm>
             갱신하기
             <IconTooltip></IconTooltip>
-            <ToolTip>
-              플레이리스트가 실제 유튜브와 <br></br> 일치하지 않는다면 갱신하기를 눌러 주세요.
-            </ToolTip>
           </AdminConfirm>
+          <ToolTip>
+            플레이리스트가 실제 유튜브와 <br></br> 일치하지 않는다면 갱신하기를 눌러 주세요.
+          </ToolTip>
 
           <AdminEdit>
             <EditAction>수정</EditAction>
@@ -64,6 +64,10 @@ export const PlayListMusicInfo = () => {
           </AdminEdit>
         </AdminBlock>
       </MusicInfoBox>
+      <EditButtonBlock>
+        <CancelButton>취소</CancelButton>
+        <SaveButton>저장</SaveButton>
+      </EditButtonBlock>
     </>
   );
 };
@@ -83,6 +87,7 @@ const AdminBlock = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 `;
 
 const ToolTip = styled.div`
@@ -101,7 +106,6 @@ const ToolTip = styled.div`
 `;
 
 const AdminConfirm = styled.div`
-  position: relative;
   display: flex;
   width: 120px;
   padding: 8px 8px 9px 14px;
@@ -113,7 +117,7 @@ const AdminConfirm = styled.div`
   color: ${({ theme }) => theme.colors[100]};
   ${({ theme }) => theme.fonts.wantedSans.C1};
 
-  &:hover ${ToolTip} {
+  &:hover + ${ToolTip} {
     opacity: 1;
   }
 `;
@@ -191,9 +195,6 @@ const Button = styled.button`
   &:hover {
     background: ${({ theme }) => theme.colors[300]};
   }
-  &:active {
-    background: transparent;
-  }
   ${commonStyles.hoverTransition}
 `;
 
@@ -227,9 +228,50 @@ const LikeButton = styled(Button)<{ isLiked: boolean }>`
             ${Count} {
               color: ${theme.colors.primary2};
             }
+            background: transparent;
             svg path {
               fill: ${theme.colors.primary2};
             }
           }
         `};
+`;
+
+const EditButtonBlock = styled.div`
+  width: 336px;
+  height: 64px;
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+`;
+
+const CancelButton = styled(Button)`
+  width: 158px;
+  height: 64px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  &:active {
+    background-color: ${({ theme }) => theme.colors[300]};
+    border: 1px solid ${({ theme }) => theme.colors[400]};
+  }
+`;
+
+const SaveButton = styled(Button)`
+  width: 158px;
+  height: 64px;
+  border: 1px solid ${({ theme }) => theme.colors.primary2};
+  ${({ theme }) => theme.fonts.wantedSans.B3};
+  color: ${({ theme }) => theme.colors.primary2};
+  cursor: pointer;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  &:active {
+    background-color: ${({ theme }) => theme.colors[300]};
+  }
 `;

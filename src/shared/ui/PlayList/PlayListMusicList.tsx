@@ -10,7 +10,7 @@ import { MoreButton } from './MoreButton';
 
 export const PlayListMusicList = () => {
   const [open, setOpen] = useState(false);
-  const isChecked = false;
+  const [isChecked, setisChecked] = useState([true, false]);
   const menuItem = [
     {
       content: ['곡 정보', '좋아요', '플레이리스트 추가'],
@@ -35,7 +35,7 @@ export const PlayListMusicList = () => {
           </CheckInfoBlock>
         </PlayListCheckBlock>
 
-        <PlayListItem isChecked={isChecked}>
+        <PlayListItem isChecked={isChecked[0]}>
           <PlayListInfoBlock>
             <PlayListInfoImg src={CoverSrc}></PlayListInfoImg>
             <PlayListInfo>
@@ -49,7 +49,7 @@ export const PlayListMusicList = () => {
           <MoreButton menuItem={menuItem} />
         </PlayListItem>
 
-        <PlayListItem isChecked={!isChecked}>
+        <PlayListItem isChecked={isChecked[1]}>
           <PlayListInfoBlock>
             <PlayListInfoImg src={CoverSrc}></PlayListInfoImg>
             <PlayListInfo>
