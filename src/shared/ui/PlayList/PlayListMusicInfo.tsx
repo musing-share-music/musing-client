@@ -3,39 +3,21 @@ import styled from '@emotion/styled';
 import { useState } from 'react';
 
 import IconHeart from 'shared/assets/image/icons/icon-heart.svg?react';
+import IconTooltip from 'shared/assets/image/icons/icon-tooltip.svg?react';
 import CoverSrc from 'shared/assets/image/main/image1.png';
 import { commonStyles } from 'shared/styles/common';
 
-// import { DeleteReviewModal } from './DeleteReviewModal';
-// import { MoreButton } from './MoreButton';
+import { DeleteReviewModal } from './DeleteReviewModal';
 
 export const PlayListMusicInfo = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const isConfirmed = true;
   const isLiked = false;
   const color = isLiked ? theme.colors.primary1 : theme.colors[200];
-
-  const menuItem = [
-    {
-      content: '리뷰 삭제',
-      onClick: () => {
-        setOpen(true);
-      },
-    },
-  ];
 
   return (
     <>
       <MusicInfoBox>
-        <AdminBlock>
-          <AdminConfirm>
-            관리자 확인
-            <ConfirmAlert isConfirmed={isConfirmed} />
-            <ToolTip>관리자 확인이 완료될 시 좋아요가 알고리즘에 반영돼요.</ToolTip>
-          </AdminConfirm>
-        </AdminBlock>
-
         <CoverBox>
           <CoverImg src={CoverSrc} />
         </CoverBox>
@@ -44,7 +26,7 @@ export const PlayListMusicInfo = () => {
           <TrackDetails>
             <Box>
               <Title>Pink!</Title>
-              <Artist>권진아</Artist>
+              <Artist>플레이리스트 설명!입니다. 플레이리스트 소개 기입 가능 네 줄까지만 보여지도록</Artist>
             </Box>
             {/* <MoreButton menuItem={menuItem} /> */}
           </TrackDetails>
@@ -60,12 +42,28 @@ export const PlayListMusicInfo = () => {
           <Button>플레이리스트에 추가</Button>
         </ButtonBlock>
 
-        <TagBlock>
-          <Tag>K-POP</Tag> <Tag>귀여운</Tag> <Tag>K-POP</Tag> <Tag>귀여운</Tag>
-        </TagBlock>
-      </MusicInfoBox>
+        <AdminBlock>
+          <AdminConfirm>
+            갱신하기
+            <IconTooltip></IconTooltip>
+            <ToolTip>
+              플레이리스트가 실제 유튜브와 <br></br> 일치하지 않는다면 갱신하기를 눌러 주세요.
+            </ToolTip>
+          </AdminConfirm>
 
-      {/* <DeleteReviewModal open={open} onClose={() => setOpen(false)} onConfirm={() => {}} /> */}
+          <AdminEdit>
+            <EditAction>수정</EditAction>
+            <EditAction
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              삭제
+            </EditAction>
+            <DeleteReviewModal open={open} onClose={() => setOpen(false)} onConfirm={() => {}} />
+          </AdminEdit>
+        </AdminBlock>
+      </MusicInfoBox>
     </>
   );
 };
@@ -81,13 +79,17 @@ const MusicInfoBox = styled.div`
   background: ${({ theme }) => theme.colors[700]};
 `;
 
-const AdminBlock = styled.div``;
+const AdminBlock = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 const ToolTip = styled.div`
   opacity: 0;
   position: absolute;
   left: 0;
-  transform: translate(0, -100%);
+  transform: translate(10%, 90%);
   padding: 16px 20px 18px 20px;
   border-radius: 6px;
   border: 1px solid ${({ theme }) => theme.colors[400]};
@@ -116,11 +118,17 @@ const AdminConfirm = styled.div`
   }
 `;
 
-const ConfirmAlert = styled.div<{ isConfirmed: boolean }>`
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
-  background: ${({ theme, isConfirmed }) => (isConfirmed ? theme.colors.primary1 : theme.colors[300])};
+const AdminEdit = styled.div`
+  width: 72px;
+  height: 20px;
+  display: flex;
+  gap: 8px;
+`;
+
+const EditAction = styled.div`
+  ${({ theme }) => theme.fonts.wantedSans.C1};
+  color: ${({ theme }) => theme.colors[200]};
+  cursor: pointer;
 `;
 
 const CoverBox = styled.div`
@@ -183,6 +191,9 @@ const Button = styled.button`
   &:hover {
     background: ${({ theme }) => theme.colors[300]};
   }
+  &:active {
+    background: transparent;
+  }
   ${commonStyles.hoverTransition}
 `;
 
@@ -210,21 +221,15 @@ const LikeButton = styled(Button)<{ isLiked: boolean }>`
               fill: ${theme.colors.primary1};
             }
           }
+          &:active {
+            color: ${theme.colors.primary2};
+            border-color: ${theme.colors.primary2};
+            ${Count} {
+              color: ${theme.colors.primary2};
+            }
+            svg path {
+              fill: ${theme.colors.primary2};
+            }
+          }
         `};
-`;
-
-const TagBlock = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  align-self: stretch;
-  flex-wrap: wrap;
-`;
-
-const Tag = styled.div`
-  padding: 6px 10px 7px 10px;
-  border-radius: 4px;
-  background: ${({ theme }) => theme.colors[400]};
-  color: ${({ theme }) => theme.colors.primary2};
-  ${({ theme }) => theme.fonts.wantedSans.B6};
 `;
