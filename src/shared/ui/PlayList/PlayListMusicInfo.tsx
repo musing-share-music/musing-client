@@ -26,7 +26,10 @@ export const PlayListMusicInfo = () => {
           <TrackDetails>
             <Box>
               <Title>Pink!</Title>
-              <Artist>플레이리스트 설명!입니다. 플레이리스트 소개 기입 가능 네 줄까지만 보여지도록</Artist>
+              <Artist>
+                플레이리스트 설명!입니다. 플레이리스트 소개 기입 가능 네 줄까지만 보여지도록 네 줄까지만 보여지도록 네
+                줄까지만 보여지도록 네 줄까지만 보여지도록
+              </Artist>
             </Box>
             {/* <MoreButton menuItem={menuItem} /> */}
           </TrackDetails>
@@ -103,6 +106,7 @@ const ToolTip = styled.div`
   color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts.wantedSans.B6};
   white-space: nowrap;
+  z-index: -1; /* Ensure the tooltip stays behind the button */
 `;
 
 const AdminConfirm = styled.div`
@@ -119,6 +123,7 @@ const AdminConfirm = styled.div`
 
   &:hover + ${ToolTip} {
     opacity: 1;
+    z-index: 1;
   }
 `;
 
@@ -171,6 +176,11 @@ const Artist = styled.p`
   margin: 0;
   ${({ theme }) => theme.fonts.wantedSans.B5};
   color: ${({ theme }) => theme.colors[200]};
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const RateBlock = styled.div``;
@@ -247,7 +257,6 @@ const EditButtonBlock = styled.div`
 const CancelButton = styled(Button)`
   width: 158px;
   height: 64px;
-  cursor: pointer;
 
   &:hover {
     background-color: transparent;
