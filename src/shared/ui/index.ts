@@ -1,5 +1,7 @@
-export { Community } from './Community';
 export * from './ArrowButton';
+export * from './Button';
+export { Chip } from './Chip';
+export { Community } from './Community';
 export { Header } from './Header';
 export * from './Input';
 export { MainLayout } from './Layout/MainLayout';
