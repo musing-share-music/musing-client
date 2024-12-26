@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 
-import { commonStyles } from 'shared/styles/common';
-import { TextArea } from 'shared/ui/Input';
+import { Button, TextArea } from 'shared/ui/';
 
 import imageSrc from './cover.png';
 import { ProfileImage } from './ProfileImage';
@@ -17,7 +16,9 @@ export const ReviewForm = () => {
           <TextArea placeholder="자유롭게 의견을 남겨 주세요." />
           <SubmitBlock>
             <Rating />
-            <Submit>등록</Submit>
+            <ButtonBox>
+              <Button variant="outlined">등록</Button>
+            </ButtonBox>
           </SubmitBlock>
         </TextAreaBlock>
       </Form>
@@ -45,24 +46,13 @@ const SubmitBlock = styled.div`
   gap: 20px;
   margin-top: 20px;
 `;
+
+const ButtonBox = styled.div`
+  width: 132px;
+`;
+
 const Rating = styled.div`
   width: 148px;
   height: 28px;
   background-color: pink;
-`;
-const Submit = styled.button`
-  justify-content: center;
-  align-items: center;
-  width: 132px;
-  padding: 16px 0px;
-  border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.colors[400]};
-  overflow: hidden;
-  color: ${({ theme }) => theme.colors[100]};
-  ${({ theme }) => theme.fonts.wantedSans.B3};
-  cursor: pointer;
-  &:hover {
-    background: ${({ theme }) => theme.colors[400]};
-  }
-  ${commonStyles.hoverTransition}
 `;
