@@ -19,14 +19,10 @@ export const ROUTES = {
   DETAIL: '/detail/:id',
 
   // 음악 추천 게시
-  CREATE: '/create'
+  CREATE: '/create',
 
-  // 인증 관련 라우트
-  // AUTH: {
-  //   LOGIN: '/login',
-  //   REGISTER: '/register',
-  //   FORGOT_PASSWORD: '/forgot-password',
-  // }
+  //플레이리스트
+  PLAYLIST: '/playlist',
 } as const;
 
 // 라우트 타입 추출 (선택사항)

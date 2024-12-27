@@ -6,6 +6,7 @@ import Demo from 'pages/demo';
 import MusicDetail from 'pages/detail';
 import Home from 'pages/home/Home';
 import NotFound from 'pages/notFound/NotFound';
+import PlayList from 'pages/playList';
 
 import { ROUTES } from 'shared/config/routes';
 
@@ -17,6 +18,7 @@ export const AppRouter = () => {
       <Route path={ROUTES.DEMO} element={<Demo />} />
       <Route path={ROUTES.DETAIL} element={<MusicDetail />} />
       <Route path={ROUTES.CREATE} element={<Create />} />
+      <Route path={ROUTES.PLAYLIST} element={<PlayList />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
