@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import { Modal, SelectBox } from 'shared/ui/';
+import { Button, Modal, SelectBox } from 'shared/ui/';
 import { Option } from 'shared/ui/Input/SelectBox';
 import { BaseModalProps } from 'shared/ui/Modal';
 
@@ -31,7 +31,9 @@ export const ReportModal = ({ open, onClose }: ReportModalProps) => {
           onChange={(option) => setSelectedItem(option)}
         />
         <ButtonBlock>
-          <Button disabled={!selectedItem}>첨부</Button>
+          <Button width={132} disabled={!selectedItem}>
+            첨부
+          </Button>
         </ButtonBlock>
       </Container>
     </Modal>
@@ -51,20 +53,4 @@ const Header = styled.div`
 const ButtonBlock = styled.div`
   display: flex;
   justify-content: flex-end;
-`;
-const Button = styled.button`
-  display: flex;
-  padding: 16px 64px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.colors[400]};
-  background: ${({ theme }) => theme.colors.primary1};
-  cursor: pointer;
-  ${({ theme }) => theme.fonts.wantedSans.B3};
-  color: ${({ theme }) => theme.colors.white};
-  &:disabled {
-    background: ${({ theme }) => theme.colors[400]};
-    color: ${({ theme }) => theme.colors[300]};
-  }
 `;

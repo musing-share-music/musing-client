@@ -33,7 +33,3 @@ const Demo = () => {
   );
 };
 export default Demo;
-
-// const ModalButton = styled.button`
-//   background: #fff;
-// `;

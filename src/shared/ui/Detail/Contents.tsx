@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
 
-import { RightDownArrowButton } from 'shared/ui/';
+import { RightDownArrowButton, YoutubeIframe } from 'shared/ui/';
 
 import { content } from './anchor';
 import { ReportButton } from './ReportButton';
 import { Section } from './styled';
 
 export const Contents = () => {
+  const videoId = 'videoId';
   return (
     <Section>
       <Header>
@@ -38,7 +39,9 @@ export const Contents = () => {
             />
           </YoutubeLinkBox>
         </LinkBlock>
-        <YoutubePreview id={content} />
+        <YoutubePreview id={content}>
+          <YoutubeIframe videoId={videoId} />
+        </YoutubePreview>
         <TextBox>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Non beatae recusandae tempora fugiat, officiis
           assumenda dolor quia eaque consequuntur amet odio corrupti aspernatur corporis nisi vero ullam hic? Eveniet,
@@ -131,10 +134,7 @@ const YoutubeLinkBox = styled.div`
   ${({ theme }) => theme.fonts.wantedSans.B6};
 `;
 const YoutubePreview = styled.div`
-  margin: 0 auto;
-  width: 776px;
-  height: 438px;
-  background: pink;
+  overflow: hidden;
 `;
 const TextBox = styled.div`
   padding: 12px 24px;

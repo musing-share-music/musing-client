@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { Button, TextArea } from 'shared/ui/';
+import { Button, StarRatingInput, TextArea } from 'shared/ui/';
 
 import imageSrc from './cover.png';
 import { ProfileImage } from './ProfileImage';
@@ -15,7 +15,16 @@ export const ReviewForm = () => {
         <TextAreaBlock>
           <TextArea placeholder="자유롭게 의견을 남겨 주세요." />
           <SubmitBlock>
-            <Rating />
+            <Rating>
+              <StarRatingInput
+                width={28}
+                height={28}
+                value={0}
+                onChange={(value: number) => {
+                  console.log(value);
+                }}
+              />
+            </Rating>
             <ButtonBox>
               <Button variant="outlined">등록</Button>
             </ButtonBox>
@@ -51,8 +60,4 @@ const ButtonBox = styled.div`
   width: 132px;
 `;
 
-const Rating = styled.div`
-  width: 148px;
-  height: 28px;
-  background-color: pink;
-`;
+const Rating = styled.div``;
