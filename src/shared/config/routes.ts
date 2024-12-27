@@ -18,12 +18,8 @@ export const ROUTES = {
   // 음악 추천 게시판 상세
   DETAIL: '/detail/:id',
 
-  // 인증 관련 라우트
-  // AUTH: {
-  //   LOGIN: '/login',
-  //   REGISTER: '/register',
-  //   FORGOT_PASSWORD: '/forgot-password',
-  // }
+  //플레이리스트
+  PLAYLIST: '/playlist',
 } as const;
 
 // 라우트 타입 추출 (선택사항)

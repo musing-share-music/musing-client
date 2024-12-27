@@ -110,8 +110,8 @@ const CommunityTag = styled.div`
   height: 33px;
   border-radius: 4px;
   background-color: ${({ theme }) => theme.colors[400]};
-  /* color: ${({ theme }) => theme.colors.secondary2}; */
-  color: ${({ theme }) => theme.colors.primary1};
+  color: ${({ theme, id }) => (id === 'one' ? theme.colors.primary1 : theme.colors.secondary2)};
+  ${({ theme }) => theme.fonts.wantedSans.B6};
   ${({ theme }) => theme.fonts.wantedSans.B6};
 
   display: flex;
@@ -253,7 +253,9 @@ const RecommendedPostList = ({ CommunityListInfo }: CommunityItemProps) => {
 
                 <CommunityTagBlock>
                   {item.tag.map((tagItem) => (
-                    <CommunityTag key={tagItem.id}>{tagItem.name}</CommunityTag>
+                    <CommunityTag key={tagItem.id} id={tagItem.id}>
+                      {tagItem.name}
+                    </CommunityTag>
                   ))}
                 </CommunityTagBlock>
               </CommunityAction>
