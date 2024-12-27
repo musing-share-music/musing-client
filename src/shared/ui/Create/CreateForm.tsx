@@ -1,48 +1,51 @@
 import styled from '@emotion/styled';
+import { useMemo, useState } from 'react';
 
-import { Button, TextArea, TextInput } from 'shared/ui/';
+import { Button, StarRatingInput, TextArea, TextInput, YoutubeIframe } from 'shared/ui/';
+import { getYoutubeVideoId } from 'shared/utils/youtubeId';
 
 import { ImageInput } from './ImageInput';
 import { Section } from './styled';
 import { TagInput } from './TagInput';
 
 export const CreateForm = () => {
+  const [rating, setRating] = useState(0);
+  const [youtubeUrl, setYoutubeUrl] = useState('');
+
+  const youtubeVideoId = useMemo(() => getYoutubeVideoId(youtubeUrl) || '', [youtubeUrl]);
+
   return (
-    <>
+    <Form onSubmit={(e) => e.preventDefault}>
       <Section>
-        <Header>
+        <TitleField>
           <TitleBlock>
             <TextField type="text" placeholder="제목을 입력해 주세요." />
           </TitleBlock>
           <InfoBlock>
             <Track>곡 제목 · 아티스트 명</Track>
-            <RatingBox>asfasdfasf</RatingBox>
+            <RatingBox>
+              <StarRatingInput value={rating} onChange={(val) => setRating(val)} />
+              <RateText>{rating}.0</RateText>
+            </RatingBox>
           </InfoBlock>
-        </Header>
+        </TitleField>
 
-        <Body>
-          <TextInput placeholder="유튜브 링크를 기입해 주세요." />
+        <TrackField>
+          <TextInput
+            placeholder="유튜브 링크를 기입해 주세요."
+            value={youtubeUrl}
+            onChange={(e) => setYoutubeUrl(e.target.value)}
+          />
           <TagInput
-            onConfirm={({ genres, moods }) => {
-              console.log(genres, moods);
+            onConfirm={(tags) => {
+              console.log(tags);
             }}
           />
-          <ImageInput />
-        </Body>
+          <ImageInput onUpload={(file) => console.log(file)} />
+        </TrackField>
 
-        <ContentInputBlock>
-          <iframe
-            style={{
-              width: '100%',
-              aspectRatio: '16/9',
-            }}
-            src="https://www.youtube.com/embed/ENkfNb1I0jc?si=qsHy1SqJR3Ryk4Oo"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          />
+        <BodyField>
+          <YoutubeIframe videoId={youtubeVideoId} />
           <TextArea
             placeholder="내용을 입력해 주세요."
             style={{
@@ -51,7 +54,7 @@ export const CreateForm = () => {
               minHeight: '760px',
             }}
           />
-        </ContentInputBlock>
+        </BodyField>
       </Section>
 
       <Section
@@ -70,9 +73,11 @@ export const CreateForm = () => {
           </ButtonBox>
         </SubmitBlock>
       </Section>
-    </>
+    </Form>
   );
 };
+
+const Form = styled.form``;
 
 const TextField = styled.input`
   width: 100%;
@@ -106,7 +111,7 @@ const SubmitBlock = styled.div`
   background: ${({ theme }) => theme.colors[700]};
 `;
 
-const Header = styled.section`
+const TitleField = styled.section`
   display: flex;
   padding: 44px 48px 52px 48px;
   gap: 10px;
@@ -122,7 +127,7 @@ const TitleBlock = styled.div`
   align-items: flex-start;
   justify-content: space-between;
 `;
-const ContentInputBlock = styled.div`
+const BodyField = styled.div`
   display: flex;
   flex-direction: column;
   gap: 27px;
@@ -135,11 +140,18 @@ const Track = styled.p`
   color: ${({ theme }) => theme.colors[200]};
 `;
 const RatingBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
   margin-top: 12px;
-  width: 100px;
-  background: pink;
 `;
-const Body = styled.section`
+
+const RateText = styled.p`
+  ${({ theme }) => theme.fonts.wantedSans.B6};
+  color: ${({ theme }) => theme.colors[200]};
+`;
+
+const TrackField = styled.section`
   display: flex;
   flex-direction: column;
   gap: 27px;

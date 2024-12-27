@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import { Button, Modal } from 'shared/ui/';
 
 export interface ImageUploaderProps {
-  onUpload?: (file: File) => void; // 업로드 완료 시 실행할 콜백
+  onUpload: (file: File) => void;
 }
 
 export const ImageInput = ({ onUpload }: ImageUploaderProps) => {
@@ -42,7 +42,7 @@ export const ImageInput = ({ onUpload }: ImageUploaderProps) => {
     <>
       <Box>
         <Label>{file && file.name}</Label>
-        <Button variant="outlined" onClick={() => setOpen(true)}>
+        <Button type="button" variant="outlined" onClick={() => setOpen(true)}>
           이미지 업로드
         </Button>
       </Box>

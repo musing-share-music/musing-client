@@ -10,3 +10,4 @@ export { Modal, OuterCloseModal } from './Modal';
 export { MoreButton } from './MoreButton';
 export { MusicSelectionModal } from './MusicSelectionModal';
 export { NavBar } from './NavBar';
+export { YoutubeIframe } from './YoutubeIframe';
