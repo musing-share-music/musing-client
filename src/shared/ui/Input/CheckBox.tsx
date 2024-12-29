@@ -34,6 +34,6 @@ const Label = styled.label`
 const StyledCheck = styled.input`
   display: none;
   &:checked + label {
-    background: ${({ theme }) => theme.colors[300]};
+    background: ${({ theme }) => theme.colors.primary1};
   }
 `;

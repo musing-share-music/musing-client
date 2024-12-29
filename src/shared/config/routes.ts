@@ -18,6 +18,9 @@ export const ROUTES = {
   // 음악 추천 게시판 상세
   DETAIL: '/detail/:id',
 
+  // 음악 추천 게시
+  CREATE: '/create',
+
   //플레이리스트
   PLAYLIST: '/playlist',
 } as const;

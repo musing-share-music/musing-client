@@ -3,9 +3,8 @@ import { useTransitionState } from 'react-transition-state';
 
 import { Genre, GENRE } from 'shared/types/genre';
 import { Mood, MOOD } from 'shared/types/mood';
-import { CheckBox, Modal, RightArrowButton, TextInput } from 'shared/ui/';
+import { CheckBox, Chip, Modal, RightArrowButton, TextInput } from 'shared/ui/';
 
-import { Chip } from './Chip';
 import { Caption, ChipBlock, Container, durationMs, Footer, Form, Header, ModalCaption } from './styled';
 import { Step, StepContent } from './type';
 

@@ -13,6 +13,7 @@ const StyledInput = styled.input`
   padding: 16px 24px;
   border-radius: 8px;
   border: 1px solid ${({ theme }) => theme.colors[300]};
+  color: ${({ theme }) => theme.colors.white};
 
   ::placeholder {
     ${({ theme }) => theme.fonts.wantedSans.B4};

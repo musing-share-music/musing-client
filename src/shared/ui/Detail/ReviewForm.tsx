@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { commonStyles } from 'shared/styles/common';
+import { Button, StarRatingInput, TextArea } from 'shared/ui/';
 
 import imageSrc from './cover.png';
 import { ProfileImage } from './ProfileImage';
@@ -15,8 +15,19 @@ export const ReviewForm = () => {
         <TextAreaBlock>
           <TextArea placeholder="자유롭게 의견을 남겨 주세요." />
           <SubmitBlock>
-            <Rating />
-            <Submit>등록</Submit>
+            <Rating>
+              <StarRatingInput
+                width={28}
+                height={28}
+                value={0}
+                onChange={(value: number) => {
+                  console.log(value);
+                }}
+              />
+            </Rating>
+            <ButtonBox>
+              <Button variant="outlined">등록</Button>
+            </ButtonBox>
           </SubmitBlock>
         </TextAreaBlock>
       </Form>
@@ -36,24 +47,6 @@ const TextAreaBlock = styled.div`
   flex-direction: column;
 `;
 
-const TextArea = styled.textarea`
-  display: flex;
-  width: 100%;
-  min-height: 116px;
-  padding: 20px 24px;
-  border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.colors[300]};
-  color: ${({ theme }) => theme.colors[200]};
-  ${({ theme }) => theme.fonts.wantedSans.B4};
-  color: ${({ theme }) => theme.colors[100]};
-  &::placeholder {
-    ${({ theme }) => theme.colors[200]};
-  }
-  &:disabled {
-    background-color: ${({ theme }) => theme.colors[600]};
-    color: ${({ theme }) => theme.colors[200]};
-  }
-`;
 const SubmitBlock = styled.div`
   display: flex;
   flex-direction: row;
@@ -62,24 +55,9 @@ const SubmitBlock = styled.div`
   gap: 20px;
   margin-top: 20px;
 `;
-const Rating = styled.div`
-  width: 148px;
-  height: 28px;
-  background-color: pink;
-`;
-const Submit = styled.button`
-  justify-content: center;
-  align-items: center;
+
+const ButtonBox = styled.div`
   width: 132px;
-  padding: 16px 0px;
-  border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.colors[400]};
-  overflow: hidden;
-  color: ${({ theme }) => theme.colors[100]};
-  ${({ theme }) => theme.fonts.wantedSans.B3};
-  cursor: pointer;
-  &:hover {
-    background: ${({ theme }) => theme.colors[400]};
-  }
-  ${commonStyles.hoverTransition}
 `;
+
+const Rating = styled.div``;

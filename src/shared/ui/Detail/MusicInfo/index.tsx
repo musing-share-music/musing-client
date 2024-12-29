@@ -1,20 +1,16 @@
-import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import IconHeart from 'shared/assets/image/icons/icon-heart.svg?react';
-import { commonStyles } from 'shared/styles/common';
+import { Button } from 'shared/ui/Button';
+import CoverSrc from 'shared/ui/Detail/cover.png';
+import { DeleteReviewModal } from 'shared/ui/Detail/DeleteReviewModal';
+import { MoreButton } from 'shared/ui/Detail/MoreButton';
 
-import CoverSrc from './cover.png';
-import { DeleteReviewModal } from './DeleteReviewModal';
-import { MoreButton } from './MoreButton';
+import { LikeButton } from './LikeButton';
 
 export const MusicInfo = () => {
-  const theme = useTheme();
   const [open, setOpen] = useState(false);
   const isConfirmed = true;
-  const isLiked = false;
-  const color = isLiked ? theme.colors.primary1 : theme.colors[200];
 
   const menuItem = [
     {
@@ -52,12 +48,8 @@ export const MusicInfo = () => {
         </TrackDetailsBlock>
 
         <ButtonBlock>
-          <LikeButton isLiked={isLiked}>
-            <IconHeart fill={color} />
-            좋아요
-            <Count color={color}>(11)</Count>
-          </LikeButton>
-          <Button>플레이리스트에 추가</Button>
+          <LikeButton />
+          <Button variant="outlined">플레이리스트에 추가</Button>
         </ButtonBlock>
 
         <TagBlock>
@@ -167,50 +159,6 @@ const ButtonBlock = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-`;
-
-const Button = styled.button`
-  display: flex;
-  padding: 16px 0px;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  width: 100%;
-  border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.colors[400]};
-  color: ${({ theme }) => theme.colors[100]};
-  cursor: pointer;
-  &:hover {
-    background: ${({ theme }) => theme.colors[300]};
-  }
-  ${commonStyles.hoverTransition}
-`;
-
-const Count = styled.span<{ color: string }>`
-  color: ${({ color }) => color};
-`;
-
-const LikeButton = styled(Button)<{ isLiked: boolean }>`
-  ${({ isLiked, theme }) =>
-    isLiked
-      ? css`
-          color: ${theme.colors.primary1};
-          border: 1px solid ${theme.colors.primary1};
-          // hover 스타일 제거
-          &:hover {
-            background: transparent;
-          }
-        `
-      : css`
-          &:hover {
-            ${Count} {
-              color: ${theme.colors.primary1};
-            }
-            svg path {
-              fill: ${theme.colors.primary1};
-            }
-          }
-        `};
 `;
 
 const TagBlock = styled.div`

@@ -4,6 +4,7 @@ import gradient from 'shared/assets/image/community/hover-gradient.png';
 import arrow2 from 'shared/assets/image/main/arrow 2.png';
 import image1 from 'shared/assets/image/main/image1.png';
 import { theme } from 'shared/styles/theme';
+import { Button } from 'shared/ui/';
 import { StarRating } from 'shared/ui/StarRating/';
 
 const ComuContainer = styled.div`
@@ -21,20 +22,6 @@ const PageTitle = styled.div`
   color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts.wantedSans.T2};
   vertical-align: bottom;
-`;
-
-const PageButton = styled.button`
-  width: 132px;
-  height: 64px;
-  border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.colors.primary2};
-  color: ${({ theme }) => theme.colors.primary2};
-  ${({ theme }) => theme.fonts.wantedSans.B3};
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors[400]};
-  }
 `;
 
 const PostBlock = styled.div`
@@ -195,7 +182,9 @@ const RecommendedPost = () => {
     <ComuContainer>
       <TitleBlock>
         <PageTitle>이런 게시글은 어때요?</PageTitle>
-        <PageButton>글쓰기</PageButton>
+        <Button variant="primaryOutline" width={132}>
+          글쓰기
+        </Button>
       </TitleBlock>
 
       <PostBlock>
