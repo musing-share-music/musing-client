@@ -5,7 +5,7 @@ import arrow2 from 'shared/assets/image/main/arrow 2.png';
 import image1 from 'shared/assets/image/main/image1.png';
 import { theme } from 'shared/styles/theme';
 import { Button } from 'shared/ui/';
-import { StarRating } from 'shared/ui/StarRating/';
+import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
 
 const ComuContainer = styled.div`
   width: 1280px;
@@ -200,7 +200,12 @@ const RecommendedPost = () => {
             </PostInfo>
             <PostAction>
               <PostRateArea>
-                <StarRating starCount={Number(3)} starColor={theme.colors.white} isToggled={false}></StarRating>
+                <StarRatingInput
+                  value={3}
+                  onChange={function (): void {
+                    throw new Error('Function not implemented.');
+                  }}
+                />
               </PostRateArea>
               <PostArrowWrapper>
                 <PostArrow src={arrow2}></PostArrow>

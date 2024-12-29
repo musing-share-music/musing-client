@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { SetStateAction, useState } from 'react';
 
 import { commonStyles } from 'shared/styles/common';
-import { StarRating } from 'shared/ui/StarRating/';
+import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
 import { CommonTag } from 'shared/ui/Tag';
 
 import { CommunityListInfo } from './types';
@@ -245,7 +245,12 @@ const RecommendedPostList = ({ CommunityListInfo }: CommunityItemProps) => {
               </CommunityInfo>
               <CommunityAction>
                 <CommunityRating>
-                  <StarRating starCount={Number(item.rateCount)}></StarRating>
+                  <StarRatingInput
+                    value={3}
+                    onChange={function (value: number): void {
+                      throw new Error('Function not implemented.');
+                    }}
+                  />
                   {/* {[...Array(5)].map((_, index) => {
                     return index < Number(item.rateCount) ? <StarActive key={index} /> : <StarDefalut key={index} />;
                   })} */}
