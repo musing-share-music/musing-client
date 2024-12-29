@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import gradient from 'shared/assets/image/community/hover-gradient.png';
 import arrow2 from 'shared/assets/image/main/arrow 2.png';
 import image1 from 'shared/assets/image/main/image1.png';
+import { theme } from 'shared/styles/theme';
 import { Button } from 'shared/ui/';
 import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
 
@@ -199,12 +200,7 @@ const RecommendedPost = () => {
             </PostInfo>
             <PostAction>
               <PostRateArea>
-                <StarRatingInput
-                  value={3}
-                  onChange={function (): void {
-                    throw new Error('Function not implemented.');
-                  }}
-                />
+                <StarRatingInput value={3} color={theme.colors.white} enabled={false} />
               </PostRateArea>
               <PostArrowWrapper>
                 <PostArrow src={arrow2}></PostArrow>

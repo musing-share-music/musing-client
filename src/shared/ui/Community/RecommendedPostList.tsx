@@ -245,12 +245,7 @@ const RecommendedPostList = ({ CommunityListInfo }: CommunityItemProps) => {
               </CommunityInfo>
               <CommunityAction>
                 <CommunityRating>
-                  <StarRatingInput
-                    value={3}
-                    onChange={function (): void {
-                      throw new Error('Function not implemented.');
-                    }}
-                  />
+                  <StarRatingInput value={3} enabled={false} />
                   {/* {[...Array(5)].map((_, index) => {
                     return index < Number(item.rateCount) ? <StarActive key={index} /> : <StarDefalut key={index} />;
                   })} */}

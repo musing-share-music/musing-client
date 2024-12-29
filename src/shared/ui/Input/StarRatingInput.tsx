@@ -6,30 +6,42 @@ import { commonStyles } from 'shared/styles/common';
 
 type StarRatingInputProps = {
   value: number;
-  onChange: (value: number) => void;
-  width?: number; // 별 아이콘 width
-  height?: number; // 별 아이콘 height
+  onChange?: (value: number) => void; // enabled가 false일 때는 필요없으므로 선택적으로 변경
+  width?: number;
+  height?: number;
+  enabled?: boolean;
+  color?: string;
 };
 
-export const StarRatingInput = ({ value, width = 20, height = 20, onChange }: StarRatingInputProps) => {
+export const StarRatingInput = ({
+  value,
+  width = 20,
+  height = 20,
+  enabled = true,
+  color,
+  onChange,
+}: StarRatingInputProps) => {
   const [hoveredValue, setHoveredValue] = useState<number | null>(null);
 
   const handleClick = (index: number) => {
+    if (!enabled || !onChange) return;
     onChange(index + 1);
   };
 
   const handleMouseEnter = (index: number) => {
+    if (!enabled) return;
     setHoveredValue(index + 1);
   };
 
   const handleMouseLeave = () => {
+    if (!enabled) return;
     setHoveredValue(null);
   };
 
   const currentValue = hoveredValue ?? value;
 
   return (
-    <StarContainer>
+    <StarContainer enabled={enabled}>
       {Array.from({ length: 5 }).map((_, index) => (
         <AnimatedStar
           key={index}
@@ -39,19 +51,25 @@ export const StarRatingInput = ({ value, width = 20, height = 20, onChange }: St
           filled={index < currentValue}
           width={width}
           height={height}
+          enabled={enabled}
+          color={color}
         />
       ))}
     </StarContainer>
   );
 };
 
-const StarContainer = styled.div`
+const StarContainer = styled.div<{ enabled: boolean }>`
   display: flex;
   gap: 2px;
-  cursor: pointer;
+  cursor: ${({ enabled }) => (enabled ? 'pointer' : 'default')};
 `;
 
-const AnimatedStar = styled(IconStar)<{ filled: boolean }>`
-  fill: ${({ filled, theme }) => (filled ? theme.colors.primary1 : theme.colors[300])};
-  ${commonStyles.hoverTransition}
+const AnimatedStar = styled(IconStar)<{
+  filled: boolean;
+  enabled: boolean;
+  color?: string;
+}>`
+  fill: ${({ filled, theme, color }) => (filled ? color || theme.colors.primary1 : theme.colors[300])};
+  ${({ enabled }) => enabled && commonStyles.hoverTransition};
 `;
