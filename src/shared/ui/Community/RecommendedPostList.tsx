@@ -247,7 +247,7 @@ const RecommendedPostList = ({ CommunityListInfo }: CommunityItemProps) => {
                 <CommunityRating>
                   <StarRatingInput
                     value={3}
-                    onChange={function (value: number): void {
+                    onChange={function (): void {
                       throw new Error('Function not implemented.');
                     }}
                   />
