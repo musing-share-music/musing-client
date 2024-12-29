@@ -14,10 +14,12 @@ export const COMMUNITY_ITEM: CommunityItem = {
         {
           id: 'one',
           name: 'K-POP',
+          type: 'genre',
         },
         {
           id: 'two',
           name: '귀여운',
+          type: 'mood',
         },
       ],
     },
@@ -32,10 +34,12 @@ export const COMMUNITY_ITEM: CommunityItem = {
         {
           id: 'one',
           name: 'Pop',
+          type: 'genre',
         },
         {
           id: 'two',
           name: '댄스',
+          type: 'mood',
         },
       ],
     },
@@ -50,10 +54,12 @@ export const COMMUNITY_ITEM: CommunityItem = {
         {
           id: 'one',
           name: '힙합',
+          type: 'genre',
         },
         {
           id: 'two',
           name: '강렬한',
+          type: 'mood',
         },
       ],
     },
@@ -68,10 +74,12 @@ export const COMMUNITY_ITEM: CommunityItem = {
         {
           id: 'one',
           name: '발라드',
+          type: 'genre',
         },
         {
           id: 'two',
           name: '몽환적인',
+          type: 'mood',
         },
       ],
     },
@@ -86,10 +94,12 @@ export const COMMUNITY_ITEM: CommunityItem = {
         {
           id: 'one',
           name: '신나는',
+          type: 'mood',
         },
         {
           id: 'two',
           name: '트렌디',
+          type: 'mood',
         },
       ],
     },
@@ -104,10 +114,12 @@ export const COMMUNITY_ITEM: CommunityItem = {
         {
           id: 'one',
           name: '강렬한',
+          type: 'mood',
         },
         {
           id: 'two',
           name: '미래적',
+          type: 'mood',
         },
       ],
     },
@@ -122,10 +134,12 @@ export const COMMUNITY_ITEM: CommunityItem = {
         {
           id: 'one',
           name: '잔잔한',
+          type: 'mood',
         },
         {
           id: 'two',
           name: '트렌디',
+          type: 'mood',
         },
       ],
     },
@@ -140,10 +154,12 @@ export const COMMUNITY_ITEM: CommunityItem = {
         {
           id: 'one',
           name: '중독성',
+          type: 'mood',
         },
         {
           id: 'two',
           name: '트렌디',
+          type: 'mood',
         },
       ],
     },

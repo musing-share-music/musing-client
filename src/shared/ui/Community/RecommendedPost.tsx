@@ -1,11 +1,10 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
 
 import gradient from 'shared/assets/image/community/hover-gradient.png';
-import StarActive from 'shared/assets/image/icons/icon-star-active.svg?react';
-import StarDefalut from 'shared/assets/image/icons/icon-star.svg?react';
 import arrow2 from 'shared/assets/image/main/arrow 2.png';
 import image1 from 'shared/assets/image/main/image1.png';
+import { theme } from 'shared/styles/theme';
+import { StarRating } from 'shared/ui/StarRating/';
 
 const ComuContainer = styled.div`
   width: 1280px;
@@ -192,13 +191,6 @@ const PostComuDate = styled.div`
 `;
 
 const RecommendedPost = () => {
-  const [stars, setStars] = useState([true, true, true, true, false]); // 초기 상태 설정
-
-  const toggleStar = (index: number) => {
-    const updatedStars = stars.map((isActive, i) => (i === index ? !isActive : isActive));
-    setStars(updatedStars);
-  };
-
   return (
     <ComuContainer>
       <TitleBlock>
@@ -219,11 +211,7 @@ const RecommendedPost = () => {
             </PostInfo>
             <PostAction>
               <PostRateArea>
-                {stars.map((isActive, index) => (
-                  <span key={index} onClick={() => toggleStar(index)}>
-                    {isActive ? <StarActive /> : <StarDefalut />}
-                  </span>
-                ))}
+                <StarRating starCount={Number(3)} starColor={theme.colors.white} isToggled={false}></StarRating>
               </PostRateArea>
               <PostArrowWrapper>
                 <PostArrow src={arrow2}></PostArrow>

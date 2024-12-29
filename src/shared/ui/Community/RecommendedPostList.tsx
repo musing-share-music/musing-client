@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { SetStateAction, useState } from 'react';
 
-import StarActive from 'shared/assets/image/icons/icon-star-active2.svg?react';
-import StarDefalut from 'shared/assets/image/icons/icon-star.svg?react';
 import { commonStyles } from 'shared/styles/common';
+import { StarRating } from 'shared/ui/StarRating/';
+import { CommonTag } from 'shared/ui/Tag';
 
 import { CommunityListInfo } from './types';
 
@@ -105,19 +105,19 @@ const CommunityTagBlock = styled.div`
   margin-top: 12px;
 `;
 
-const CommunityTag = styled.div`
-  width: 68px;
-  height: 33px;
-  border-radius: 4px;
-  background-color: ${({ theme }) => theme.colors[400]};
-  color: ${({ theme, id }) => (id === 'one' ? theme.colors.primary1 : theme.colors.secondary2)};
-  ${({ theme }) => theme.fonts.wantedSans.B6};
-  ${({ theme }) => theme.fonts.wantedSans.B6};
+// const CommunityTag = styled.div`
+//   width: 68px;
+//   height: 33px;
+//   border-radius: 4px;
+//   background-color: ${({ theme }) => theme.colors[400]};
+//   color: ${({ theme, id }) => (id === 'one' ? theme.colors.primary1 : theme.colors.secondary2)};
+//   ${({ theme }) => theme.fonts.wantedSans.B6};
+//   ${({ theme }) => theme.fonts.wantedSans.B6};
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
 const CommunityPagenation = styled.div<{ isActive: boolean }>`
   color: ${({ theme, isActive }) => (isActive ? theme.colors[100] : theme.colors[200])};
@@ -245,17 +245,16 @@ const RecommendedPostList = ({ CommunityListInfo }: CommunityItemProps) => {
               </CommunityInfo>
               <CommunityAction>
                 <CommunityRating>
-                  {[...Array(5)].map((_, index) => {
+                  <StarRating starCount={Number(item.rateCount)}></StarRating>
+                  {/* {[...Array(5)].map((_, index) => {
                     return index < Number(item.rateCount) ? <StarActive key={index} /> : <StarDefalut key={index} />;
-                  })}
+                  })} */}
                   <CommunityRatingNumber>{item.reviewCount}</CommunityRatingNumber>
                 </CommunityRating>
 
                 <CommunityTagBlock>
                   {item.tag.map((tagItem) => (
-                    <CommunityTag key={tagItem.id} id={tagItem.id}>
-                      {tagItem.name}
-                    </CommunityTag>
+                    <CommonTag key={index} name={tagItem.name} type={tagItem.type} />
                   ))}
                 </CommunityTagBlock>
               </CommunityAction>

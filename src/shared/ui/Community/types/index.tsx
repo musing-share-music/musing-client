@@ -12,6 +12,7 @@ export type CommunityListInfo = {
 export type CommunityTag = {
   id: string;
   name: string;
+  type: string;
 };
 
 export type CommunityItem = {

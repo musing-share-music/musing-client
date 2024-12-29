@@ -1,0 +1,1 @@
+export { CommonTag } from './Tag';
