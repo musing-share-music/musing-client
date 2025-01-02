@@ -1,20 +1,51 @@
 import styled from '@emotion/styled';
-import { useRef, useState } from 'react';
+import { ComponentProps, useRef, useState } from 'react';
 
 import { useClickOutside } from 'shared/hooks/useClickOutside';
 
+import { TextInput } from '.';
+
+// SearchFilter 컴포넌트에서 사용할 옵션
 export type Option = {
   label: string;
   value: string;
 };
 
-type FilterProps = {
+// SearchFilter 컴포넌트 props
+type SearchFilterProps = {
   options: Option[];
-  onChange?: (option: Option) => void;
-  placeholder?: string;
+  onSelectChange?: (option: Option) => void; // 선택한 옵션 변경 시 호출되는 콜백
+  searchFilterPlaceholder?: string; // Filter 컴포넌트의 placeholder
 };
 
-export const SearchFilter = ({ options, onChange, placeholder }: FilterProps) => {
+type SearchInputWithFilterProps = ComponentProps<typeof TextInput> & SearchFilterProps;
+
+export const SearchInputWithFilter = ({
+  options,
+  onSelectChange,
+  searchFilterPlaceholder,
+  ...textInputProps
+}: SearchInputWithFilterProps) => {
+  return (
+    <>
+      <SearchFilter
+        options={options}
+        searchFilterPlaceholder={searchFilterPlaceholder}
+        onSelectChange={onSelectChange}
+      />
+      <TextInput {...textInputProps} />
+    </>
+  );
+};
+
+/**
+ * SearchInput 함께 사용하는 Filter 컴포넌트
+ */
+const SearchFilter = ({
+  options,
+  onSelectChange: onChange,
+  searchFilterPlaceholder: placeholder,
+}: SearchFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const ref = useRef<HTMLUListElement>(null);
