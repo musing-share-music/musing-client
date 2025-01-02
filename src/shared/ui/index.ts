@@ -14,3 +14,4 @@ export { PlayListPage } from './PlayList';
 export { YoutubeIframe } from './YoutubeIframe';
 export { MemberInfoPage } from './MemberInfo';
 export { MemberInfoCommunity } from './MemberCommunity';
+export { MemberInfoReview } from './MemberReview';
