@@ -13,3 +13,4 @@ export { NavBar } from './NavBar';
 export { PlayListPage } from './PlayList';
 export { YoutubeIframe } from './YoutubeIframe';
 export { MemberInfoPage } from './MemberInfo';
+export { MemberInfoCommunity } from './MemberCommunity';

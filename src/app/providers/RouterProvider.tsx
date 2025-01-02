@@ -5,6 +5,7 @@ import Create from 'pages/create/';
 import Demo from 'pages/demo';
 import MusicDetail from 'pages/detail';
 import Home from 'pages/home/Home';
+import MemberCommunity from 'pages/memberCommunity';
 import MemberInfo from 'pages/memberInfo';
 import NotFound from 'pages/notFound/NotFound';
 import PlayList from 'pages/playList';
@@ -21,6 +22,7 @@ export const AppRouter = () => {
       <Route path={ROUTES.CREATE} element={<Create />} />
       <Route path={ROUTES.PLAYLIST} element={<PlayList />} />
       <Route path={ROUTES.MEMBERINFO} element={<MemberInfo />} />
+      <Route path={ROUTES.MEMBERINFOCOMMUNITY} element={<MemberCommunity />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

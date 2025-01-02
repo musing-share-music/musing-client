@@ -26,6 +26,7 @@ export const ROUTES = {
 
   //회원정보
   MEMBERINFO: '/memberinfo',
+  MEMBERINFOCOMMUNITY: '/memberinfo/community',
 } as const;
 
 // 라우트 타입 추출 (선택사항)
