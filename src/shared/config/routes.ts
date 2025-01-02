@@ -23,6 +23,11 @@ export const ROUTES = {
 
   //플레이리스트
   PLAYLIST: '/playlist',
+
+  //회원정보
+  MEMBERINFO: '/memberinfo',
+  MEMBERINFOCOMMUNITY: '/memberinfo/community',
+  MEMBERINFOREVIEW: '/memberinfo/review',
 } as const;
 
 // 라우트 타입 추출 (선택사항)
