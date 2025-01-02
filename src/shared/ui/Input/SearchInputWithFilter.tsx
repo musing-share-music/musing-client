@@ -1,22 +1,51 @@
 import styled from '@emotion/styled';
-import { useRef, useState } from 'react';
+import { ComponentProps, useRef, useState } from 'react';
 
 import { useClickOutside } from 'shared/hooks/useClickOutside';
 
-type Option = {
+import { TextInput } from '.';
+
+// SearchFilter 컴포넌트에서 사용할 옵션
+export type Option = {
   label: string;
   value: string;
 };
 
-type FilterProps = {
+// SearchFilter 컴포넌트 props
+type SearchFilterProps = {
   options: Option[];
-  onChange?: (option: Option) => void;
-  placeholder?: string;
-  width?: number;
-  align?: 'left' | 'right'; // TODO
+  onSelectChange?: (option: Option) => void; // 선택한 옵션 변경 시 호출되는 콜백
+  searchFilterPlaceholder?: string; // Filter 컴포넌트의 placeholder
 };
 
-export const Filter = ({ options, width = 148, onChange, placeholder }: FilterProps) => {
+type SearchInputWithFilterProps = ComponentProps<typeof TextInput> & SearchFilterProps;
+
+export const SearchInputWithFilter = ({
+  options,
+  onSelectChange,
+  searchFilterPlaceholder,
+  ...textInputProps
+}: SearchInputWithFilterProps) => {
+  return (
+    <>
+      <SearchFilter
+        options={options}
+        searchFilterPlaceholder={searchFilterPlaceholder}
+        onSelectChange={onSelectChange}
+      />
+      <TextInput {...textInputProps} />
+    </>
+  );
+};
+
+/**
+ * SearchInput 함께 사용하는 Filter 컴포넌트
+ */
+const SearchFilter = ({
+  options,
+  onSelectChange: onChange,
+  searchFilterPlaceholder: placeholder,
+}: SearchFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const ref = useRef<HTMLUListElement>(null);
@@ -31,7 +60,7 @@ export const Filter = ({ options, width = 148, onChange, placeholder }: FilterPr
   };
 
   return (
-    <Container width={width}>
+    <Container width={148}>
       <Selected ref={selectRef} onClick={toggleDropdown}>
         {selectedOption ? selectedOption.label : placeholder || 'Select an option'}
         <Arrow>{isOpen ? '▲' : '▼'}</Arrow>
@@ -57,13 +86,20 @@ const Container = styled.div<{ width: number }>`
   display: flex;
   justify-content: flex-end;
   position: relative;
+  border: 1px solid;
   width: ${({ width }) => `${width}px`};
 `;
 
 const Selected = styled.div`
   display: flex;
   align-items: center;
-  margin: 0 auto;
+  justify-content: center;
+  gap: 33px;
+  width: 148px;
+  height: 60px;
+  position: relative;
+  border-radius: 36px;
+  background-color: ${({ theme }) => theme.colors[500]};
   color: ${({ theme }) => theme.colors[100]};
   ${({ theme }) => theme.fonts.wantedSans.B4};
   cursor: pointer;
@@ -74,12 +110,10 @@ const Dropdown = styled.ul`
   top: 100%;
   left: 0;
   display: flex;
-  align-items: center;
   flex-direction: column;
   margin-top: 22px;
   gap: 4px;
   width: 100%;
-  min-width: 148px;
   padding: 16px;
   border-radius: 8px;
   background: ${({ theme }) => theme.colors[500]};
