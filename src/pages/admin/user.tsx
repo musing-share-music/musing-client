@@ -1,1 +1,1 @@
-export { AdminUserPage } from 'shared/ui/Admin';
+export { AdminUserPage } from './ui';

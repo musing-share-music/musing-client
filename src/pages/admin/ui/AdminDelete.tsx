@@ -1,8 +1,9 @@
+import { deletedSearchFilterOptions } from 'pages/admin/config/searchFilterOptions';
+
 import { AdminLayout } from 'widgets/ui/Layout';
 
 import { Pagination, SearchInputWithFilter, Table } from 'shared/ui';
 
-import { deletedSearchFilterOptions } from './searchFilterOptions';
 import {
   BoardContainer,
   Container,

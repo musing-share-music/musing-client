@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 
+import { userSearchFilterOptions } from 'pages/admin/config/searchFilterOptions';
+
 import { AdminLayout } from 'widgets/ui/Layout';
 
 import { Button, Filter, Pagination, SearchInputWithFilter, Table } from 'shared/ui';
 
-import { userSearchFilterOptions } from './searchFilterOptions';
 import {
   BoardContainer,
   Container,

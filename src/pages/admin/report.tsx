@@ -1,1 +1,1 @@
-export { AdminReportPage } from 'shared/ui/Admin';
+export { AdminReportPage } from './ui';

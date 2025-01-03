@@ -1,1 +1,1 @@
-export { AdminNoticePage } from 'shared/ui/Admin';
+export { AdminNoticePage } from './ui';

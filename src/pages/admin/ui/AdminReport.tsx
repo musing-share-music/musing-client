@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
+import { reportSearchFilterOptions } from 'pages/admin/config/searchFilterOptions';
+
 import { AdminLayout } from 'widgets/ui/Layout';
 
 import { Button, Filter, OuterCloseModal, Pagination, SearchInputWithFilter, Table } from 'shared/ui';
 
-import { reportSearchFilterOptions } from './searchFilterOptions';
 import {
   BoardContainer,
   Container,

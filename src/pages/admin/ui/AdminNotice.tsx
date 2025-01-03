@@ -1,8 +1,9 @@
+import { noticeSearchFilterOptions } from 'pages/admin/config/searchFilterOptions';
+
 import { AdminLayout } from 'widgets/ui/Layout';
 
-import { Pagination, SearchInputWithFilter, Table } from 'shared/ui';
+import { Button, Pagination, SearchInputWithFilter, Table } from 'shared/ui';
 
-import { checkSearchFilterOptions } from './searchFilterOptions';
 import {
   BoardContainer,
   Container,
@@ -14,7 +15,7 @@ import {
   TableContainer,
 } from './styled';
 
-export const AdminCheckPage = () => {
+export const AdminNoticePage = () => {
   const tableHead = [
     { key: 'title', content: '제목', width: 40 },
     { key: 'user', content: '작성자', width: 20 },
@@ -23,18 +24,18 @@ export const AdminCheckPage = () => {
 
   const tableData = [
     {
-      title: <HoverBox>게시글 제목</HoverBox>,
-      user: '회원ID',
+      title: <HoverBox>공지사항 제목</HoverBox>,
+      user: '관리자',
       createdAt: '2024-12-03',
     },
     {
-      title: <HoverBox>게시글 제목</HoverBox>,
-      user: '회원ID',
+      title: <HoverBox>공지사항 제목</HoverBox>,
+      user: '관리자',
       createdAt: '2024-12-03',
     },
     {
-      title: <HoverBox>게시글 제목</HoverBox>,
-      user: '회원ID',
+      title: <HoverBox>공지사항 제목</HoverBox>,
+      user: '관리자',
       createdAt: '2024-12-03',
     },
   ];
@@ -44,7 +45,10 @@ export const AdminCheckPage = () => {
       <Container>
         <BoardContainer>
           <Header>
-            <H1>관리자 확인</H1>
+            <H1>공지사항</H1>
+            <Button width={132} variant="primaryOutline">
+              작성
+            </Button>
           </Header>
           <TableContainer>
             <Table head={tableHead} data={tableData} />
@@ -55,7 +59,7 @@ export const AdminCheckPage = () => {
         </BoardContainer>
         <FilterBlock>
           <SearchInputWithFilter
-            options={checkSearchFilterOptions}
+            options={noticeSearchFilterOptions}
             searchFilterPlaceholder="작성자"
             placeholder="내용을 입력해 주세요."
           />
