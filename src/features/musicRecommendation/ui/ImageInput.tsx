@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
-import { useCallback, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useState } from 'react';
+
+import { useImageInput } from 'features/musicRecommendation/model/useImageInput';
 
 import { Button, Modal } from 'shared/ui/';
 
@@ -10,33 +11,7 @@ export interface ImageUploaderProps {
 
 export const ImageInput = ({ onUpload }: ImageUploaderProps) => {
   const [open, setOpen] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-
-  const onDrop = (acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-      setFile(file);
-    }
-  };
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      'image/*': [],
-    },
-    multiple: false,
-  });
-
-  const handleSubmit = useCallback(() => {
-    if (onUpload && file) onUpload(file);
-    setOpen(false);
-  }, [onUpload, file]);
+  const { file, isDragActive, getInputProps, getRootProps, imagePreview, handleSubmit } = useImageInput(onUpload);
 
   return (
     <>
@@ -68,7 +43,14 @@ export const ImageInput = ({ onUpload }: ImageUploaderProps) => {
           </ImageDropBox>
           <ButtonBlock>
             <ButtonBox>
-              <Button onClick={handleSubmit}>첨부</Button>
+              <Button
+                onClick={() => {
+                  handleSubmit();
+                  setOpen(false);
+                }}
+              >
+                첨부
+              </Button>
             </ButtonBox>
           </ButtonBlock>
         </ImageModalContainer>

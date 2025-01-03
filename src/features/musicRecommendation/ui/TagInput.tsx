@@ -1,107 +1,32 @@
 import styled from '@emotion/styled';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
-import { Genre, GENRE } from 'shared/types/genre';
-import { MOOD, Mood } from 'shared/types/mood';
+import { validateTag } from 'features/musicRecommendation/lib/validate';
+import { useTagInput } from 'features/musicRecommendation/model/useTagInput';
+
+import { Genre, GENRE } from 'entities/genre/model/genre';
+import { MOOD, Mood } from 'entities/mood/model/mood';
+
 import { Button, CheckBox, Modal } from 'shared/ui/';
-
-type GenreId = Genre['id'];
-type MoodId = Mood['id'];
 
 interface TagInputProps {
   onConfirm: (tags: (Genre | Mood)[]) => void;
 }
 
-const handleCheck = <T extends string>(
-  e: React.ChangeEvent<HTMLInputElement>,
-  updateState: React.Dispatch<React.SetStateAction<Set<T>>>,
-) => {
-  const { id, checked } = e.target;
-
-  updateState((prev) => {
-    const updatedSet = new Set(prev);
-
-    if (checked) {
-      updatedSet.add(id as T);
-    } else {
-      updatedSet.delete(id as T);
-    }
-
-    return updatedSet;
-  });
-};
-
-type SelectTagId = {
-  type: 'genre' | 'mood';
-  id: GenreId | MoodId;
-};
-
 export const TagInput = ({ onConfirm }: TagInputProps) => {
   const [open, setOpen] = useState(false);
-  const [selectedGenres, setSelectedGenres] = useState<Set<GenreId>>(new Set());
-  const [selectedMoods, setSelectedMoods] = useState<Set<MoodId>>(new Set());
-  const [selectedTagId, setSelectedTagId] = useState<SelectTagId[]>([]); // 선택한 순서대로 태그의 아이디를 저장한다.
-
-  const handleGenreCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, checked } = e.target;
-
-    if (checked) {
-      setSelectedTagId((prev) => [...prev, { type: 'genre', id }]);
-    } else {
-      const copiedPrev = selectedTagId?.filter((val) => {
-        if (val.type === 'genre' && val.id === id) {
-          return;
-        }
-        return val;
-      });
-      setSelectedTagId(copiedPrev);
-    }
-
-    handleCheck(e, setSelectedGenres);
-  };
-
-  const handleMoodCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, checked } = e.target;
-
-    if (checked) {
-      setSelectedTagId((prev) => [...prev, { type: 'mood', id }]);
-    } else {
-      const copiedPrev = selectedTagId?.filter((val) => {
-        if (val.type === 'mood' && val.id === id) {
-          return;
-        }
-        return val;
-      });
-      setSelectedTagId(copiedPrev);
-    }
-
-    handleCheck(e, setSelectedMoods);
-  };
-
-  // 선택한 장르, 무드 tag
-  const tags: (Genre | Mood)[] = useMemo(() => {
-    const updatedTags = selectedTagId.map((selectedTag) => {
-      if (selectedTag.type === 'genre') {
-        return GENRE.find((val) => val.id === selectedTag.id);
-      }
-      if (selectedTag.type === 'mood') {
-        return MOOD.find((val) => val.id === selectedTag.id);
-      }
-    }) as (Genre | Mood)[];
-    return updatedTags;
-  }, [selectedTagId]);
+  const { handleGenreCheck, handleMoodCheck, selectedTags, selectedGenres, selectedMoods } = useTagInput();
 
   const handleConfirm = () => {
-    // 최소 1개 이상 태그를 선택
-    if (selectedMoods.size === 0 || selectedGenres.size === 0) return;
-    onConfirm(tags);
+    if (validateTag({ selectedGenres, selectedMoods })) return;
+    onConfirm(selectedTags);
     setOpen(false);
   };
 
   return (
     <>
       <Box>
-        <Label>{tags.map((val) => val.text)}</Label>
+        <Label>{selectedTags.map((val) => val.text)}</Label>
         <Button type="button" variant="outlined" onClick={() => setOpen(true)}>
           장르 및 분위기 추가
         </Button>

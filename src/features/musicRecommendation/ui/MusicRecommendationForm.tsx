@@ -1,18 +1,15 @@
 import styled from '@emotion/styled';
-import { useMemo, useState } from 'react';
+
+import { useFormState } from 'features/musicRecommendation/model/useFormState';
 
 import { Button, StarRatingInput, TextArea, TextInput, YoutubeIframe } from 'shared/ui/';
-import { getYoutubeVideoId } from 'shared/utils/youtubeId';
 
 import { ImageInput } from './ImageInput';
 import { Section } from './styled';
 import { TagInput } from './TagInput';
 
-export const CreateForm = () => {
-  const [rating, setRating] = useState(0);
-  const [youtubeUrl, setYoutubeUrl] = useState('');
-
-  const youtubeVideoId = useMemo(() => getYoutubeVideoId(youtubeUrl) || '', [youtubeUrl]);
+export const MusicRecommendationForm = () => {
+  const { rating, setRating, youtubeUrl, setYoutubeUrl, youtubeVideoId } = useFormState();
 
   return (
     <Form onSubmit={(e) => e.preventDefault}>

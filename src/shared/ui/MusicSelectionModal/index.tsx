@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useTransitionState } from 'react-transition-state';
 
-import { Genre, GENRE } from 'shared/types/genre';
-import { Mood, MOOD } from 'shared/types/mood';
+import { Genre, GENRE } from 'entities/genre/model/genre';
+import { Mood, MOOD } from 'entities/mood/model/mood';
 import { CheckBox, Chip, Modal, RightArrowButton, TextInput } from 'shared/ui/';
 
 import { Caption, ChipBlock, Container, durationMs, Footer, Form, Header, ModalCaption } from './styled';

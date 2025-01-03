@@ -1,4 +1,5 @@
 export type Genre = { id: string; text: string };
+export type GenreId = Genre['id'];
 export const GENRE: Genre[] = [
   {
     id: 'K-POP',
