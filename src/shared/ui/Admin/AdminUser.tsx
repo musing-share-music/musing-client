@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 
+import { AdminLayout } from 'widgets/ui/Layout';
+
 import { Button, Filter, Pagination, SearchInputWithFilter, Table } from 'shared/ui';
-import { AdminLayout } from 'shared/ui/Layout';
 
 import { userSearchFilterOptions } from './searchFilterOptions';
 import {

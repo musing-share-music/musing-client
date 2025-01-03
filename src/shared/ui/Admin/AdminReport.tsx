@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
+import { AdminLayout } from 'widgets/ui/Layout';
+
 import { Button, Filter, OuterCloseModal, Pagination, SearchInputWithFilter, Table } from 'shared/ui';
-import { AdminLayout } from 'shared/ui/Layout';
 
 import { reportSearchFilterOptions } from './searchFilterOptions';
 import {

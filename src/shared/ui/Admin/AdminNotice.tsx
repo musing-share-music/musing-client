@@ -1,5 +1,6 @@
+import { AdminLayout } from 'widgets/ui/Layout';
+
 import { Button, Pagination, SearchInputWithFilter, Table } from 'shared/ui';
-import { AdminLayout } from 'shared/ui/Layout';
 
 import { noticeSearchFilterOptions } from './searchFilterOptions';
 import {

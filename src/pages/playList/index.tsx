@@ -1,4 +1,6 @@
-import { MainLayout, PlayListPage } from 'shared/ui/';
+import { MainLayout } from 'widgets/ui/';
+
+import { PlayListPage } from 'shared/ui/';
 
 const PlayList = () => {
   return (

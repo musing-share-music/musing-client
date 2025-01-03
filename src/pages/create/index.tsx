@@ -1,4 +1,5 @@
-import { MainLayout } from 'shared/ui';
+import { MainLayout } from 'widgets/ui/';
+
 import { CreatePage } from 'shared/ui/Create';
 
 const Page = () => {
