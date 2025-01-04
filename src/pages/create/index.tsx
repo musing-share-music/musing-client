@@ -1,6 +1,6 @@
 import { MainLayout } from 'widgets/ui/Layout';
 
-import { MusicRecommendationForm } from 'features/musicRecommendation/ui';
+import { MusicRecommendationForm } from 'features/musicRecommendationBoard/ui/MusicRecommendationForm';
 
 import { Container, Layout } from './ui/styled';
 

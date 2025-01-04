@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { OuterCloseModal } from 'shared/ui/Modal';
 
-export const DeleteReviewModal = ({
+export const DeleteModal = ({
   open,
   onClose,
   onConfirm,

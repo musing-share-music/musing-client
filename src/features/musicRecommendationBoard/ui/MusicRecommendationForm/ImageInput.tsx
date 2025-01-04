@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import { useImageInput } from 'features/musicRecommendation/model/useImageInput';
+import { useImageInput } from 'features/musicRecommendationBoard/model/useImageInput';
 
 import { Button, Modal } from 'shared/ui/';
 

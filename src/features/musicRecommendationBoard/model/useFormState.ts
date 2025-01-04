@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import { getYoutubeVideoId } from 'features/musicRecommendation/lib/youtubeId';
+import { getYoutubeVideoId } from 'features/musicRecommendationBoard/lib/youtubeId';
 
 /**
  * 음악 추천 폼의 상태를 관리하는 훅

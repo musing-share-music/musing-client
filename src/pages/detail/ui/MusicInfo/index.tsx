@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import { Button } from 'shared/ui/Button';
-import CoverSrc from 'shared/ui/Detail/cover.png';
-import { DeleteReviewModal } from 'shared/ui/Detail/DeleteReviewModal';
-import { MoreButton } from 'shared/ui/Detail/MoreButton';
+import CoverSrc from 'pages/detail/ui/cover.png';
+import { MoreButton } from 'pages/detail/ui/MoreButton';
+
+import { Button, StarRatingInput } from 'shared/ui/';
+import { DeleteReviewModal } from 'shared/ui/PlayList/DeleteReviewModal';
 
 import { LikeButton } from './LikeButton';
 
@@ -44,7 +45,9 @@ export const MusicInfo = () => {
             </Box>
             <MoreButton menuItem={menuItem} />
           </TrackDetails>
-          <RateBlock></RateBlock>
+          <RateBlock>
+            <StarRatingInput enabled={false} value={3} />
+          </RateBlock>
         </TrackDetailsBlock>
 
         <ButtonBlock>

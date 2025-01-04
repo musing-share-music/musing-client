@@ -1,9 +1,10 @@
+import { ReviewForm } from 'features/reviewComments/ui/ReviewForm';
+
 import { AnchorButton } from './AnchorButton';
 import { Contents } from './Contents';
 import { MusicInfo } from './MusicInfo';
-import { ReviewForm } from './ReviewForm';
 import { ReviewList } from './ReviewList';
-import { Layout, LeftContainer, RightContainer } from './styled';
+import { Layout, LeftContainer, RightContainer, Section, SectionTitle } from './styled';
 
 export const DetailPage = () => {
   return (
@@ -14,7 +15,10 @@ export const DetailPage = () => {
       </LeftContainer>
       <RightContainer>
         <Contents />
-        <ReviewForm />
+        <Section>
+          <SectionTitle>리뷰 작성</SectionTitle>
+          <ReviewForm />
+        </Section>
         <ReviewList />
       </RightContainer>
     </Layout>

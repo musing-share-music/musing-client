@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 
+import { ANCHOR_CONTENT } from 'pages/detail/config/anchor';
+
+import { ReportButton } from 'features/musicRecommendationBoard/ui/ReportButton';
+
 import { RightDownArrowButton, YoutubeIframe } from 'shared/ui/';
 
-import { content } from './anchor';
-import { ReportButton } from './ReportButton';
 import { Section } from './styled';
 
 export const Contents = () => {
@@ -39,7 +41,7 @@ export const Contents = () => {
             />
           </YoutubeLinkBox>
         </LinkBlock>
-        <YoutubePreview id={content}>
+        <YoutubePreview id={ANCHOR_CONTENT}>
           <YoutubeIframe videoId={videoId} />
         </YoutubePreview>
         <TextBox>

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { useFormState } from 'features/musicRecommendation/model/useFormState';
+import { useFormState } from 'features/musicRecommendationBoard/model/useFormState';
 
 import { Button, StarRatingInput, TextArea, TextInput, YoutubeIframe } from 'shared/ui/';
 
