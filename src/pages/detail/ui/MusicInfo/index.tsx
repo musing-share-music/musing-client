@@ -5,7 +5,7 @@ import CoverSrc from 'pages/detail/ui/cover.png';
 import { MoreButton } from 'pages/detail/ui/MoreButton';
 
 import { Button, StarRatingInput } from 'shared/ui/';
-import { DeleteReviewModal } from 'shared/ui/PlayList/DeleteReviewModal';
+import { DeleteReviewModal } from 'widgets/ui/PlayList/DeleteReviewModal';
 
 import { LikeButton } from './LikeButton';
 

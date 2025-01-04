@@ -1,3 +1,4 @@
+export { PlayListPage } from '../../widgets/ui/PlayList';
 export * from './ArrowButton';
 export * from './Button';
 export { Chip } from './Chip';
@@ -7,6 +8,5 @@ export { Main } from './Main';
 export { Modal, OuterCloseModal } from './Modal';
 export { MoreButton } from './MoreButton';
 export { Pagination } from './Pagination';
-export { PlayListPage } from './PlayList';
 export * from './Table';
 export { YoutubeIframe } from './YoutubeIframe';
