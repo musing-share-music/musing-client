@@ -4,7 +4,7 @@ import { TransitionStatus } from 'react-transition-state';
 
 import { commonStyles } from 'shared/styles/common';
 
-import { Step } from './type';
+import { Step } from '../../model/type';
 
 const contentsPadding = css`
   padding: 0 56px;

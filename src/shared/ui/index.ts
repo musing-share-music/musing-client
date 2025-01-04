@@ -6,7 +6,6 @@ export * from './Input';
 export { Main } from './Main';
 export { Modal, OuterCloseModal } from './Modal';
 export { MoreButton } from './MoreButton';
-export { MusicSelectionModal } from './MusicSelectionModal';
 export { Pagination } from './Pagination';
 export { PlayListPage } from './PlayList';
 export * from './Table';

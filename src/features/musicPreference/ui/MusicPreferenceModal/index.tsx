@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useTransitionState } from 'react-transition-state';
 
-import { Genre, GENRE } from 'entities/genre/model/genre';
-import { Mood, MOOD } from 'entities/mood/model/mood';
+import { Step, StepContent } from 'features/musicPreference/model/type';
+
+import { GENRE, GenreId } from 'entities/genre/model/genre';
+import { MOOD, MoodId } from 'entities/mood/model/mood';
+
 import { CheckBox, Chip, Modal, RightArrowButton, TextInput } from 'shared/ui/';
 
 import { Caption, ChipBlock, Container, durationMs, Footer, Form, Header, ModalCaption } from './styled';
-import { Step, StepContent } from './type';
 
-type GenreId = Genre['id'];
-type MoodId = Mood['id'];
 type Artist = string;
 
 const handleCheck = <T extends string>(
