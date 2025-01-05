@@ -2,9 +2,9 @@ import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import { TransitionStatus } from 'react-transition-state';
 
-import { commonStyles } from 'shared/styles/common';
+import { Step } from 'features/musicPreference/model/type';
 
-import { Step } from '../../model/type';
+import { commonStyles } from 'shared/styles/common';
 
 const contentsPadding = css`
   padding: 0 56px;
