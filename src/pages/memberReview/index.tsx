@@ -1,4 +1,6 @@
-import { MainLayout, MemberInfoReview } from 'shared/ui/';
+import { MainLayout } from 'widgets/ui/Layout';
+
+import { MemberInfoReview } from 'shared/ui/';
 
 const MemberCommunity = () => {
   return (

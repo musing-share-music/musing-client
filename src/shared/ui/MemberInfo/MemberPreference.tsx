@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
 import { useMemo, useState } from 'react';
 
+import { Genre, GENRE } from 'entities/genre/model/genre';
+import { MOOD, Mood } from 'entities/mood/model/mood';
+
 import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
 import image1 from 'shared/assets/image/main/image1.png';
 import { commonStyles } from 'shared/styles/common';
-import { Genre, GENRE } from 'shared/types/genre';
-import { MOOD, Mood } from 'shared/types/mood';
 import { CheckBox, Chip, Modal, TextInput } from 'shared/ui/';
 
 type GenreId = Genre['id'];

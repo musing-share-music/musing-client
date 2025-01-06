@@ -1,4 +1,6 @@
-import { MainLayout, MemberInfoPage } from 'shared/ui/';
+import { MainLayout } from 'widgets/ui/Layout';
+
+import { MemberInfoPage } from 'shared/ui/';
 
 const MemberInfo = () => {
   return (
