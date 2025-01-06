@@ -12,9 +12,11 @@ type FilterProps = {
   options: Option[];
   onChange?: (option: Option) => void;
   placeholder?: string;
+  width?: number;
+  align?: 'left' | 'right'; // TODO
 };
 
-export const Filter = ({ options, onChange, placeholder }: FilterProps) => {
+export const Filter = ({ options, width = 148, onChange, placeholder }: FilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const ref = useRef<HTMLUListElement>(null);
@@ -29,7 +31,7 @@ export const Filter = ({ options, onChange, placeholder }: FilterProps) => {
   };
 
   return (
-    <Container>
+    <Container width={width}>
       <Selected ref={selectRef} onClick={toggleDropdown}>
         {selectedOption ? selectedOption.label : placeholder || 'Select an option'}
         <Arrow>{isOpen ? '▲' : '▼'}</Arrow>
@@ -51,14 +53,17 @@ export const Filter = ({ options, onChange, placeholder }: FilterProps) => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ width: number }>`
   display: flex;
   justify-content: flex-end;
   position: relative;
-  width: 148px;
+  width: ${({ width }) => `${width}px`};
 `;
 
 const Selected = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
   color: ${({ theme }) => theme.colors[100]};
   ${({ theme }) => theme.fonts.wantedSans.B4};
   cursor: pointer;
@@ -69,10 +74,12 @@ const Dropdown = styled.ul`
   top: 100%;
   left: 0;
   display: flex;
+  align-items: center;
   flex-direction: column;
   margin-top: 22px;
   gap: 4px;
   width: 100%;
+  min-width: 148px;
   padding: 16px;
   border-radius: 8px;
   background: ${({ theme }) => theme.colors[500]};

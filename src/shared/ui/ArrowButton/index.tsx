@@ -2,9 +2,10 @@ import { css, Interpolation, Theme, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ComponentProps } from 'react';
 
+import { CircleButton } from 'widgets/ui/NavBar/styled';
+
 import IconArrow from 'shared/assets/image/icons/nav-bar/icon-arrow.svg?react';
 import { commonStyles } from 'shared/styles/common';
-import { CircleButton } from 'shared/ui/NavBar/styled';
 
 interface BaseArrowButtonProps extends ComponentProps<'button'> {
   backgroundColor?: keyof Theme['colors'];

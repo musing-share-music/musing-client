@@ -1,0 +1,1 @@
+export { AdminCheckPage } from './ui';

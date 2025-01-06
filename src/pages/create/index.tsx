@@ -1,10 +1,17 @@
-import { MainLayout } from 'shared/ui';
-import { CreatePage } from 'shared/ui/Create';
+import { MainLayout } from 'widgets/ui/Layout';
+
+import { MusicRecommendationForm } from 'features/musicRecommendationBoard/ui/MusicRecommendationForm';
+
+import { Container, Layout } from './ui/styled';
 
 const Page = () => {
   return (
     <MainLayout>
-      <CreatePage />
+      <Layout>
+        <Container>
+          <MusicRecommendationForm />
+        </Container>
+      </Layout>
     </MainLayout>
   );
 };

@@ -1,5 +1,6 @@
-import { MainLayout } from 'shared/ui';
-import { DetailPage } from 'shared/ui/Detail';
+import { MainLayout } from 'widgets/ui/';
+
+import { DetailPage } from './ui/';
 
 const Page = () => {
   // const params = useParams();

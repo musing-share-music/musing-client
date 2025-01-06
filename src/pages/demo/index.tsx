@@ -1,6 +1,10 @@
 import { useState } from 'react';
 
-import { Main, MainLayout, MusicSelectionModal } from 'shared/ui/';
+import { MainLayout } from 'widgets/ui/';
+
+import { MusicSelectionModal } from 'features/musicPreference/ui/MusicPreferenceModal';
+
+import { Main } from 'shared/ui/';
 
 // 컴포넌트 렌더링 테스트를 위한 /demo 페이지
 const Demo = () => {

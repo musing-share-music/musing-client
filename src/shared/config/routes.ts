@@ -28,6 +28,15 @@ export const ROUTES = {
   MEMBERINFO: '/memberinfo',
   MEMBERINFOCOMMUNITY: '/memberinfo/community',
   MEMBERINFOREVIEW: '/memberinfo/review',
+
+  // 관리자
+  ADMIN: {
+    USER: '/admin/user', // 회원 조회
+    REPORT: '/admin/report', // 신고 잡스
+    NOTICE: '/admin/notice', // 공지사항
+    CHECK: '/admin/check', // 관리자 확인
+    DELETED: '/admin/deleted', // 삭제된 게시글 조회
+  },
 } as const;
 
 // 라우트 타입 추출 (선택사항)
