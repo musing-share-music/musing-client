@@ -1,6 +1,5 @@
 import { ReviewForm } from 'features/reviewComments/ui/ReviewForm';
 
-import { AnchorButton } from './AnchorButton';
 import { Contents } from './Contents';
 import { MusicInfo } from './MusicInfo';
 import { ReviewList } from './ReviewList';
@@ -11,7 +10,6 @@ export const DetailPage = () => {
     <Layout>
       <LeftContainer>
         <MusicInfo />
-        <AnchorButton />
       </LeftContainer>
       <RightContainer>
         <Contents />

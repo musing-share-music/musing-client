@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
+import { AnchorButton } from 'pages/detail/ui/AnchorButton';
 import CoverSrc from 'pages/detail/ui/cover.png';
 import { MoreButton } from 'pages/detail/ui/MoreButton';
 
@@ -25,46 +26,54 @@ export const MusicInfo = () => {
 
   return (
     <>
-      <MusicInfoBox>
-        <AdminBlock>
-          <AdminConfirm>
-            관리자 확인
-            <ConfirmAlert isConfirmed={isConfirmed} />
-            <ToolTip>관리자 확인이 완료될 시 좋아요가 알고리즘에 반영돼요.</ToolTip>
-          </AdminConfirm>
-        </AdminBlock>
+      <Layout>
+        <MusicInfoBox>
+          <AdminBlock>
+            <AdminConfirm>
+              관리자 확인
+              <ConfirmAlert isConfirmed={isConfirmed} />
+              <ToolTip>관리자 확인이 완료될 시 좋아요가 알고리즘에 반영돼요.</ToolTip>
+            </AdminConfirm>
+          </AdminBlock>
 
-        <CoverBox>
-          <CoverImg src={CoverSrc} />
-        </CoverBox>
+          <CoverBox>
+            <CoverImg src={CoverSrc} />
+          </CoverBox>
 
-        <TrackDetailsBlock>
-          <TrackDetails>
-            <Box>
-              <Title>Pink!</Title>
-              <Artist>권진아</Artist>
-            </Box>
-            <MoreButton menuItem={menuItem} />
-          </TrackDetails>
-          <RateBlock>
-            <StarRatingInput enabled={false} value={3} />
-          </RateBlock>
-        </TrackDetailsBlock>
+          <TrackDetailsBlock>
+            <TrackDetails>
+              <Box>
+                <Title>Pink!</Title>
+                <Artist>권진아</Artist>
+              </Box>
+              <MoreButton menuItem={menuItem} />
+            </TrackDetails>
+            <RateBlock>
+              <StarRatingInput enabled={false} value={3} />
+            </RateBlock>
+          </TrackDetailsBlock>
 
-        <ButtonBlock>
-          <LikeButton />
-          <Button variant="outlined">플레이리스트에 추가</Button>
-        </ButtonBlock>
+          <ButtonBlock>
+            <LikeButton />
+            <Button variant="outlined">플레이리스트에 추가</Button>
+          </ButtonBlock>
 
-        <TagBlock>
-          <Tag>K-POP</Tag> <Tag>귀여운</Tag> <Tag>K-POP</Tag> <Tag>귀여운</Tag>
-        </TagBlock>
-      </MusicInfoBox>
+          <TagBlock>
+            <Tag>K-POP</Tag> <Tag>귀여운</Tag> <Tag>K-POP</Tag> <Tag>귀여운</Tag>
+          </TagBlock>
+        </MusicInfoBox>
 
+        <AnchorButton />
+      </Layout>
       <DeleteReviewModal open={open} onClose={() => setOpen(false)} onConfirm={() => {}} />
     </>
   );
 };
+
+const Layout = styled.div`
+  position: sticky;
+  top: 24px;
+`;
 
 const MusicInfoBox = styled.div`
   display: flex;
