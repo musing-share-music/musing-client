@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { MAIN_ITEM } from 'shared/ui/Main/constants';
+import { MAIN_ITEM } from 'pages/home/ui/model';
 
 import { MemberCommunity } from './MemberCommunity';
 

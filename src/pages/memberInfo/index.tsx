@@ -1,12 +1,3 @@
-import { MainLayout } from 'widgets/ui/Layout';
-
-import { MemberInfoPage } from 'shared/ui/';
-
-const MemberInfo = () => {
-  return (
-    <MainLayout>
-      <MemberInfoPage></MemberInfoPage>
-    </MainLayout>
-  );
-};
-export default MemberInfo;
+export { MemberCommunity } from './community/index';
+export { MemberInfo } from './member/index';
+export { MemberReview } from './review/index';

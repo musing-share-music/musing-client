@@ -2,18 +2,20 @@ import styled from '@emotion/styled';
 import moment from 'moment';
 moment.locale('ko');
 
+import { CommunityMusicInfo } from 'pages/home/ui/types';
+
 import { commonStyles } from 'shared/styles/common';
-import { CommunityMusicInfo } from 'shared/ui/Main/types';
+import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
 
 interface CommunityMusicProps {
   CommunityMusicInfo: CommunityMusicInfo;
 }
 
-export const MemberCommunity = ({ CommunityMusicInfo }: CommunityMusicProps) => {
+export const MemberReviewList = ({ CommunityMusicInfo }: CommunityMusicProps) => {
   return (
     <MemberContainer>
       <TitleBlock>
-        <PageTitle>나의 음악 추천 게시글</PageTitle>
+        <PageTitle>나의 별점 및 리뷰</PageTitle>
         <MoreTitle>더보기</MoreTitle>
       </TitleBlock>
 
@@ -24,21 +26,19 @@ export const MemberCommunity = ({ CommunityMusicInfo }: CommunityMusicProps) => 
               <div key={item.id}>
                 <CommunityListWrapper>
                   <CommunityList>
-                    <ListImg src={item.img} alt={item.title} />
+                    <StarRatingWrapper>
+                      <StarRatingInput value={5} enabled={false} />
+                    </StarRatingWrapper>
                     <ListContent>
+                      <ListImg src={item.img} alt={item.title} />
                       <ContentInfo>
                         <ContentsSongName>{item.title}</ContentsSongName>
                         <ContentsSongDescription>{item.description}</ContentsSongDescription>
                       </ContentInfo>
-
-                      <ContentTitleBlock>
-                        <ContentTitle>게시글 제목</ContentTitle>
-                      </ContentTitleBlock>
-
-                      <ActivityInfo>
-                        <ActivityStatus>{moment(item.date).format('YYYY-MM-DD')}</ActivityStatus>
-                      </ActivityInfo>
                     </ListContent>
+                    <ActivityInfo>
+                      <ActivityStatus>{moment(item.date).format('YYYY-MM-DD')}</ActivityStatus>
+                    </ActivityInfo>
                   </CommunityList>
                 </CommunityListWrapper>
               </div>
@@ -107,7 +107,6 @@ const CommunityListWrapper = styled.div`
 `;
 
 const CommunityList = styled.div`
-  padding: 24px;
   width: 1160px;
   height: 112px;
   display: flex;
@@ -115,6 +114,12 @@ const CommunityList = styled.div`
   align-items: center;
   border: 1px solid ${({ theme }) => theme.colors[400]};
   border-radius: 1px;
+  padding: 24px;
+`;
+
+const StarRatingWrapper = styled.div`
+  width: 148px;
+  height: 28px;
 `;
 
 const ListImg = styled.img`
@@ -124,15 +129,15 @@ const ListImg = styled.img`
 `;
 
 const ListContent = styled.div`
-  width: 1040px;
+  width: 968px;
   height: 64px;
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
 `;
 
 const ContentInfo = styled.div`
-  width: 160px;
+  width: 234px;
   height: 64px;
   display: flex;
   flex-direction: column;
@@ -152,28 +157,12 @@ const ContentsSongDescription = styled.div`
   ${commonStyles.limitText};
 `;
 
-const ContentTitleBlock = styled.div`
-  width: 708px;
-  height: 28px;
-  margin-left: 16px;
-`;
-
-const ContentTitle = styled.div`
-  ${({ theme }) => theme.fonts.wantedSans.B3};
-  color: ${({ theme }) => theme.colors[100]};
-  ${commonStyles.limitText};
-
-  &::before {
-    content: '·';
-    margin-right: 4px;
-  }
-`;
-
 const ActivityInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 200px;
+  gap: 8px;
+  width: 120px;
   height: 52px;
   margin-left: 16px;
 `;
@@ -181,5 +170,9 @@ const ActivityInfo = styled.div`
 const ActivityStatus = styled.div`
   ${({ theme }) => theme.fonts.wantedSans.B6};
   color: ${({ theme }) => theme.colors[200]};
+  max-width: 192px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   text-align: right;
 `;

@@ -1,9 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { GenreMusicList } from 'pages/home/ui/types';
+
 import btn_add from 'shared/assets/image/main/btn-add.png';
 import btn_more from 'shared/assets/image/main/btn-more.png';
-import { GenreMusicList } from 'shared/ui/Main/types';
 
 // 장르의 음악 전체영역
 const GenreContainer = styled.div`

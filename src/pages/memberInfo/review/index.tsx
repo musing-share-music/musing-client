@@ -1,12 +1,11 @@
 import { MainLayout } from 'widgets/ui/Layout';
 
-import { MemberInfoReview } from 'shared/ui/';
+import { MemberInfoReview } from './ui';
 
-const MemberCommunity = () => {
+export const MemberReview = () => {
   return (
     <MainLayout>
       <MemberInfoReview></MemberInfoReview>
     </MainLayout>
   );
 };
-export default MemberCommunity;

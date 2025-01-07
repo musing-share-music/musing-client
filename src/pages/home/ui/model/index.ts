@@ -1,6 +1,7 @@
+import { MainItem } from 'pages/home/ui/types';
+
 import image from 'shared/assets/image/main/image1.png';
 import image2 from 'shared/assets/image/main/roundimg.png';
-import { MainItem } from 'shared/ui/Main/types';
 
 export const MAIN_ITEM: MainItem = {
   GenreMusicList: [

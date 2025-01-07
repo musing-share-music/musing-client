@@ -1,6 +1,6 @@
-import { MainLayout } from 'widgets/ui/';
+import { Community } from 'pages/community/ui';
 
-import { Community } from 'shared/ui/';
+import { MainLayout } from 'widgets/ui/';
 
 const CommunityPage = () => {
   return (

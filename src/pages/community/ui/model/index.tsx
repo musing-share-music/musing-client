@@ -1,5 +1,6 @@
+import { CommunityItem } from 'pages/community/ui/types';
+
 import image from 'shared/assets/image/main/image1.png';
-import { CommunityItem } from 'shared/ui/Community/types';
 
 export const COMMUNITY_ITEM: CommunityItem = {
   CommunityListInfo: [

@@ -1,15 +1,16 @@
 import styled from '@emotion/styled';
 
 import CommunityMusic from './CommunityMusic';
-import { MAIN_ITEM } from './constants';
 import GenreMusic from './GenreMusic';
 import HotMusic from './HotMusic';
 import LikeMusic from './LikeMusic';
+import { MAIN_ITEM } from './model';
 import RecommendedMusic from './RecommendedMusic';
 
 export const Main = () => {
   const MainContents = styled.div`
     width: 100%;
+    height: 2832px;
   `;
 
   const ComponentWrapper = styled.div<{ marginBottom?: number }>`

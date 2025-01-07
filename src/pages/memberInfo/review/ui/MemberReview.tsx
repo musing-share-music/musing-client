@@ -4,10 +4,11 @@ import { SetStateAction, useState } from 'react';
 
 moment.locale('ko');
 
+import { CommunityMusicInfo } from 'pages/home/ui/types';
+
 import { commonStyles } from 'shared/styles/common';
 import { Filter } from 'shared/ui/Input/Filter';
 import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
-import { CommunityMusicInfo } from 'shared/ui/Main/types';
 
 const CommunitySearchSelectWrapper = () => {
   const [isOpen, setIsOpen] = useState(false);

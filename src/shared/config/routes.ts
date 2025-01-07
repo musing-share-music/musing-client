@@ -25,9 +25,11 @@ export const ROUTES = {
   PLAYLIST: '/playlist',
 
   //회원정보
-  MEMBERINFO: '/memberinfo',
-  MEMBERINFOCOMMUNITY: '/memberinfo/community',
-  MEMBERINFOREVIEW: '/memberinfo/review',
+  MEMBERINFO: {
+    MEMBERINFO: '/memberinfo',
+    MEMBERINFOCOMMUNITY: '/memberinfo/community',
+    MEMBERINFOREVIEW: '/memberinfo/review',
+  },
 
   // 관리자
   ADMIN: {

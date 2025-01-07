@@ -1,8 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { RecommendedMusicList } from 'pages/home/ui/types';
+
 import image2 from 'shared/assets/image/main/image2.png';
-import { RecommendedMusicList } from 'shared/ui/Main/types';
 
 // 추천아티스트 전체영역
 const RcmContainer = styled.div`

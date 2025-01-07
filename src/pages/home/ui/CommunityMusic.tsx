@@ -2,9 +2,10 @@ import styled from '@emotion/styled';
 import moment from 'moment';
 moment.locale('ko');
 
+import { CommunityMusicInfo } from 'pages/home/ui/types';
+
 import arrow3 from 'shared/assets/image/main/arrow 3.png';
 import { commonStyles } from 'shared/styles/common';
-import { CommunityMusicInfo } from 'shared/ui/Main/types';
 
 // 게시판 전체영역
 const CommunityContainer = styled.div`

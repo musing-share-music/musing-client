@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { MAIN_ITEM } from 'shared/ui/Main/constants';
+import { MAIN_ITEM } from 'pages/home/ui/model';
 
 import { MemberCommunity } from './MemberCommunity';
 import { MemberPreference } from './MemberPreference';
@@ -9,7 +9,6 @@ import { MemberReviewList } from './MemberReviewList';
 export const MemberInfoPage = () => {
   const MainContents = styled.div`
     width: 100%;
-    height: 2832px;
   `;
 
   return (

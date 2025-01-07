@@ -1,12 +1,11 @@
 import { MainLayout } from 'widgets/ui/Layout';
 
-import { MemberInfoCommunity } from 'shared/ui/';
+import { MemberInfoCommunity } from './ui';
 
-const MemberCommunity = () => {
+export const MemberCommunity = () => {
   return (
     <MainLayout>
       <MemberInfoCommunity></MemberInfoCommunity>
     </MainLayout>
   );
 };
-export default MemberCommunity;

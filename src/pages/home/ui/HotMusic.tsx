@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
 import Slider from 'react-slick';
 
+import { HotMusicList } from 'pages/home/ui/types';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import btn_add from 'shared/assets/image/main/btn-add.png';
 import btn_more from 'shared/assets/image/main/btn-more.png';
-import { HotMusicList } from 'shared/ui/Main/types';
 
 // 핫 음악 전체영역
 const HotContainer = styled.div`
