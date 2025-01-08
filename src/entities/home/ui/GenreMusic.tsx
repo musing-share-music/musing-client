@@ -1,8 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useState } from 'react';
 
 import { GenreMusicList } from 'entities/home/model/types';
 
+import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
 import btn_add from 'shared/assets/image/main/btn-add.png';
 import btn_more from 'shared/assets/image/main/btn-more.png';
 
@@ -140,13 +142,49 @@ const GenreMore = styled.div`
   border-radius: 12px;
 `;
 
+const PreferTagWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-bottom: 40px;
+`;
+
+const PreferTag = styled.label<{ active: boolean }>`
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 24px;
+  background: ${({ theme, active }) => (active ? theme.colors.primary1 : theme.colors[500])};
+  ${({ theme }) => theme.fonts.wantedSans.B5};
+  color: ${({ theme }) => theme.colors.white};
+  cursor: pointer;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.primary1};
+  }
+`;
+
 interface GenreMusicListProps {
   GenreMusicList: GenreMusicList;
 }
 
 const GenreMusic = ({ GenreMusicList }: GenreMusicListProps) => {
+  const [activeTag, setActiveTag] = useState<string | null>(null);
+
+  const handleTagClick = (tag: string) => {
+    setActiveTag((prevTag) => (prevTag === tag ? null : tag)); // 토글 기능
+  };
+
   return (
     <GenreContainer>
+      <PreferTagWrapper>
+        {['힙합', '슈게이징', '인디', '록', '메탈'].map((tag) => (
+          <PreferTag key={tag} active={activeTag === tag} onClick={() => handleTagClick(tag)}>
+            {tag}
+          </PreferTag>
+        ))}
+        <Arrowdown />
+      </PreferTagWrapper>
+
       <TitleBlock>
         <PageTitle>슈게이징</PageTitle>
         <SubTitle>장르의 음악</SubTitle>

@@ -7,6 +7,7 @@ import GenreMusic from './GenreMusic';
 import HotMusic from './HotMusic';
 import LikeMusic from './LikeMusic';
 import RecommendedMusic from './RecommendedMusic';
+import ThumbnailMusic from './ThumbnailMusic';
 
 export const Main = () => {
   const MainContents = styled.div`
@@ -20,6 +21,10 @@ export const Main = () => {
 
   return (
     <MainContents>
+      <ComponentWrapper marginBottom={40}>
+        <ThumbnailMusic />
+      </ComponentWrapper>
+
       <ComponentWrapper marginBottom={104}>
         <GenreMusic GenreMusicList={MAIN_ITEM.GenreMusicList} />
       </ComponentWrapper>
