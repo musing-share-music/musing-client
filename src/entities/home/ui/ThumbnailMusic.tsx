@@ -34,7 +34,6 @@ const ThumSelectBlock = styled.div<{ open: boolean }>`
   border-radius: 6px;
   display: flex;
   justify-content: center;
-  transition: all 0.3s ease; // 애니메이션 효과 추가
 
   ${({ open, theme }) =>
     !open
