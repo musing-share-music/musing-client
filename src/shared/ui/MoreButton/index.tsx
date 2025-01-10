@@ -1,7 +1,9 @@
+import { SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import IconShowMoreSvg from 'shared/assets/image/icons/icon-show-more.svg?react';
+import { Z_INDEX } from 'shared/config/constants';
 import { useClickOutside } from 'shared/hooks/useClickOutside';
 import { commonStyles } from 'shared/styles/common';
 
@@ -12,17 +14,23 @@ export interface MoreButtonProps {
     content: React.ReactNode;
     onClick: () => void;
   }[];
+  style?: SerializedStyles; // 커스텀 스타일
 }
 
-export const MoreButton = ({ width = 20, height = 20, menuItem }: MoreButtonProps) => {
+export const MoreButton = ({ width = 20, height = 20, menuItem, style }: MoreButtonProps) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   useClickOutside({ ref, ignoreRef: buttonRef, open, click: () => setOpen(false) });
 
+  // 컴포넌트가 언마운트될 때 메뉴를 닫음
+  useEffect(() => {
+    return setOpen(false);
+  }, []);
+
   return (
     <Box>
-      <Button ref={buttonRef} onClick={() => setOpen((prev) => !prev)}>
+      <Button css={style} ref={buttonRef} onClick={() => setOpen((prev) => !prev)}>
         <IconShowMoreSvg width={width} height={height} />
       </Button>
       {open && (
@@ -63,6 +71,7 @@ const MenuList = styled.div`
   border-radius: 8px;
   background: ${({ theme }) => theme.colors[500]};
   box-shadow: 0px 0px 10px 0px rgba(20, 20, 22, 0.64);
+  z-index: ${Z_INDEX.MODAL};
 `;
 
 const MenuButton = styled.button`
