@@ -4,6 +4,7 @@ import { CoverWrapper } from 'widgets/ui/NavBar/styled';
 
 export const PlayListInfo = styled.div`
   display: flex;
+  flex: 1;
   align-items: center;
   gap: 30px;
 `;
