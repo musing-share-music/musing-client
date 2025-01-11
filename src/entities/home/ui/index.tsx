@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 
 import { MAIN_ITEM } from 'entities/home/model/model';
 
@@ -15,7 +15,6 @@ import ThumbnailMusic from './ThumbnailMusic';
 export const Main = () => {
   const { useCustomQuery } = useNetworks();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data, isLoading, error } = useCustomQuery(
     ['musing-main'], // 캐시를 위한 고유 키
     {
@@ -27,6 +26,14 @@ export const Main = () => {
 
   if (data?.success) {
     console.log(data.data);
+  }
+
+  if (isLoading) {
+    console.log('로딩중');
+  }
+
+  if (error) {
+    console.log(error);
   }
 
   return (
