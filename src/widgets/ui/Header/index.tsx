@@ -66,13 +66,24 @@ const LogoCaption = styled.p`
 export const Header = ({ isLoggedIn }: HeaderProps) => {
   const userProfileSrc = isLoggedIn ? IconProfile : IconGoogle;
 
+  const fetchLogin = () => {
+    const GOOGLE_AUTH_URL = 'http://localhost:8090/oauth2/authorization/google';
+    const REDIRECT_URI = 'https://www.naver.com/';
+
+    window.location.href = `${GOOGLE_AUTH_URL}?redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+  };
+
   return (
     <HeaderBlock>
       <LogoBox>
         <LogoText>MUSING</LogoText>
         <LogoCaption>· 뮤징에서 음악을 디깅하는 중•••</LogoCaption>
       </LogoBox>
-      <UserButton>
+      <UserButton
+        onClick={() => {
+          fetchLogin();
+        }}
+      >
         <UserBox src={userProfileSrc}></UserBox>
       </UserButton>
     </HeaderBlock>

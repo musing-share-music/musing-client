@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
+import { useEffect, useState } from 'react';
 
 import { MAIN_ITEM } from 'entities/home/model/model';
+
+import useNetworks from 'shared/hooks/useNetworkQuery';
 
 import CommunityMusic from './CommunityMusic';
 import GenreMusic from './GenreMusic';
@@ -10,14 +13,21 @@ import RecommendedMusic from './RecommendedMusic';
 import ThumbnailMusic from './ThumbnailMusic';
 
 export const Main = () => {
-  const MainContents = styled.div`
-    width: 100%;
-    height: 2832px;
-  `;
+  const { useCustomQuery } = useNetworks();
 
-  const ComponentWrapper = styled.div<{ marginBottom?: number }>`
-    margin-bottom: ${({ marginBottom }) => (marginBottom ? `${marginBottom}px` : '0')};
-  `;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { data, isLoading, error } = useCustomQuery(
+    ['musing-main'], // 캐시를 위한 고유 키
+    {
+      method: 'get',
+      url: 'musing/main',
+      param: {},
+    },
+  );
+
+  if (data?.success) {
+    console.log(data.data);
+  }
 
   return (
     <MainContents>
@@ -47,3 +57,13 @@ export const Main = () => {
     </MainContents>
   );
 };
+
+//스타일링
+const MainContents = styled.div`
+  width: 100%;
+  height: 2832px;
+`;
+
+const ComponentWrapper = styled.div<{ marginBottom?: number }>`
+  margin-bottom: ${({ marginBottom }) => (marginBottom ? `${marginBottom}px` : '0')};
+`;
