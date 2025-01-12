@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 
 import { HEADER_HEIGHT } from 'widgets/config/headerHeight';
 
+import URL from 'shared/config/urls';
+
 import IconGoogle from './icon-google.png';
 import IconProfile from './icon-profile.png';
 
@@ -67,10 +69,7 @@ export const Header = ({ isLoggedIn }: HeaderProps) => {
   const userProfileSrc = isLoggedIn ? IconProfile : IconGoogle;
 
   const fetchLogin = () => {
-    const GOOGLE_AUTH_URL = 'http://localhost:8090/oauth2/authorization/google';
-    const REDIRECT_URI = 'https://www.naver.com/';
-
-    window.location.href = `${GOOGLE_AUTH_URL}?redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+    window.location.href = `${URL.GOOGLELOGIN}?redirect_uri=${encodeURIComponent(URL.BASEURL)}`;
   };
 
   return (

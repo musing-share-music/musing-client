@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
 
 import { MAIN_ITEM } from 'entities/home/model/model';
 
-import useNetworks from 'shared/hooks/useNetworkQuery';
+import URL from 'shared/config/urls';
+import { useNetwork } from 'shared/hooks/useNetwork';
 
 import CommunityMusic from './CommunityMusic';
 import GenreMusic from './GenreMusic';
@@ -13,20 +13,22 @@ import RecommendedMusic from './RecommendedMusic';
 import ThumbnailMusic from './ThumbnailMusic';
 
 export const Main = () => {
-  const { useCustomQuery } = useNetworks();
+  const { data, error, isLoading } = useNetwork({
+    method: 'GET',
+    url: URL.SERVERURL + URL.API.MAIN,
+    params: {},
+  });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data, isLoading, error } = useCustomQuery(
-    ['musing-main'], // 캐시를 위한 고유 키
-    {
-      method: 'get',
-      url: 'musing/main',
-      param: {},
-    },
-  );
+  if (data) {
+    console.log(data);
+  }
 
-  if (data?.success) {
-    console.log(data.data);
+  if (isLoading) {
+    console.log('로딩중');
+  }
+
+  if (error) {
+    console.log(error);
   }
 
   return (
