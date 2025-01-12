@@ -5,12 +5,10 @@ import { useEffect } from 'react';
  * */
 export const useClickOutside = ({
   ref,
-  open,
   click,
   ignoreRef, // 해당 요소 클릭은 클릭 이벤트 무시
 }: {
   ref: React.RefObject<HTMLElement>;
-  open: boolean;
   ignoreRef?: React.RefObject<HTMLElement> | null;
   click: () => void;
 }) => {
@@ -27,5 +25,5 @@ export const useClickOutside = ({
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [click, open, ref]);
+  }, [click, ignoreRef, ref]);
 };
