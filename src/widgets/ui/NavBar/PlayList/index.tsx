@@ -4,6 +4,7 @@ import TempCoverSrc from 'widgets/ui/NavBar/cover.png';
 import { NavBarSizeProps } from 'widgets/ui/NavBar/type';
 
 import IconFold from 'shared/assets/image/icons/nav-bar/icon-fold.svg?react';
+import { MoreButton } from 'shared/ui/MoreButton';
 
 import { PlayListItem } from './PlayListItem';
 import { PlayListContainer, PlayListFoldButton, ShowAllPlayListButton } from './styled';
@@ -14,8 +15,9 @@ export const PlayList = ({ size }: NavBarSizeProps) => {
   const openTrackList = () => setOpen((prev) => !prev);
   return (
     <>
-      <PlayListContainer size={size} onClick={openTrackList}>
-        <PlayListItem size={size} src={TempCoverSrc} />
+      <PlayListContainer size={size}>
+        <PlayListItem onClick={openTrackList} size={size} src={TempCoverSrc} />
+        {size === 'large' && <MoreButton menuItem={[]} />}
       </PlayListContainer>
       <TrackList size={size} open={open} />
       {open && (

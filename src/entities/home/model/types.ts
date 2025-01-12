@@ -1,26 +1,30 @@
 // 장르의 음악
-export type GenreMusicList = {
+export type GenreMusicItem = {
   id: string;
   title: string;
   name: string;
   img: string;
-}[];
+};
+
+export type GenreMusicList = GenreMusicItem[];
 
 // 좋아요한 음악
-export type LikeMusicList = {
+export type LikeMusicItem = {
   id: string;
   title: string;
   name: string;
   img: string;
-}[];
+};
+export type LikeMusicList = LikeMusicItem[];
 
 // 핫한 음악
-export type HotMusicList = {
+export type HotMusicItem = {
   id: string;
   title: string;
   name: string;
   img: string;
-}[];
+};
+export type HotMusicList = HotMusicItem[];
 
 // 음악 추천 게시판 리스트
 export type CommunityList = {
