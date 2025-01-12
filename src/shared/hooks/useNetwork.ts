@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 import URL from 'shared/config/urls';
@@ -10,6 +10,13 @@ type Parameter = {
   params?: object;
 };
 
+// mutation 파라미터 타입
+type MutationParameter = {
+  method: string;
+  url: string;
+  data?: object;
+};
+
 // axios 인스턴스 생성
 const axiosInstance = axios.create({
   baseURL: URL.BASEURL,
@@ -19,6 +26,7 @@ const axiosInstance = axios.create({
   },
 });
 
+//GET
 const fetchData = async ({ method, url, params }: Parameter) => {
   const response = await axiosInstance({
     method,
@@ -38,4 +46,20 @@ function useNetwork({ method, url, params }: Parameter) {
   });
 }
 
-export default useNetwork;
+//POST PUT DELETE
+const mutateData = async ({ method, url, data }: MutationParameter) => {
+  const response = await axiosInstance({
+    method,
+    url,
+    data,
+  });
+  return response.data;
+};
+
+function useNetworkMutation({ method, url }: Omit<MutationParameter, 'data'>) {
+  return useMutation({
+    mutationFn: (data: object) => mutateData({ method, url, data }),
+  });
+}
+
+export { useNetwork, useNetworkMutation };
