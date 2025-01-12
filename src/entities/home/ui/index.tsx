@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { MAIN_ITEM } from 'entities/home/model/model';
 
 import URL from 'shared/config/urls';
-import useNetwork from 'shared/hooks/useNetwork';
+import { useNetwork } from 'shared/hooks/useNetwork';
 
 import CommunityMusic from './CommunityMusic';
 import GenreMusic from './GenreMusic';
