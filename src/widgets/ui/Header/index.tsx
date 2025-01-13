@@ -1,11 +1,16 @@
 import styled from '@emotion/styled';
+import { useRef, useState } from 'react';
 
 import { HEADER_HEIGHT } from 'widgets/config/headerHeight';
+import { ProfileModalRef } from 'widgets/config/profileModal';
 
+import defaultProfileSrc from 'shared/assets/image/default_profile_image.png';
+import googleLoginSrc from 'shared/assets/image/google_login.png';
+import { Z_INDEX } from 'shared/config/constants';
 import URL from 'shared/config/urls';
+import { useClickOutside } from 'shared/hooks/useClickOutside';
 
-import IconGoogle from './icon-google.png';
-import IconProfile from './icon-profile.png';
+import { ProfileModal } from './ProfileModal';
 
 interface HeaderProps {
   isLoggedIn: boolean;
@@ -21,8 +26,8 @@ const HeaderBlock = styled.header`
   min-width: 1280px;
   height: ${HEADER_HEIGHT}px;
   padding: 0 32px;
-  background: ${({ theme }) => theme.colors[800]};
-  opacity: 80%;
+  background: rgba(19, 19, 21, 0.8);
+  z-index: ${Z_INDEX.GNB};
 `;
 
 const LogoBox = styled.div`
@@ -34,22 +39,24 @@ const LogoBox = styled.div`
   gap: 9px;
 `;
 
-const UserButton = styled.button`
+const UserBox = styled.div`
+  position: relative;
   grid-area: user;
   justify-self: flex-end;
   align-self: center;
-  cursor: pointer;
   width: 44px;
   height: 44px;
   padding: 0;
-  border-radius: 12px;
-  overflow: hidden;
 `;
 
-const UserBox = styled.div<{ src: string }>`
+const UserButton = styled.button<{ src: string }>`
+  position: relative;
   width: 100%;
   height: 100%;
+  border-radius: 12px;
   background: ${({ theme }) => theme.colors[400]} url(${({ src }) => src}) no-repeat center;
+  background-size: cover;
+  cursor: pointer;
 `;
 
 const LogoText = styled.p`
@@ -66,10 +73,26 @@ const LogoCaption = styled.p`
 `;
 
 export const Header = ({ isLoggedIn }: HeaderProps) => {
-  const userProfileSrc = isLoggedIn ? IconProfile : IconGoogle;
+  const [openProfileModal, setOpenProfileModal] = useState(false);
+  const profileModalRef = useRef<ProfileModalRef>(null);
 
   const fetchLogin = () => {
     window.location.href = `${URL.GOOGLELOGIN}?redirect_uri=${encodeURIComponent(URL.BASEURL)}`;
+  };
+
+  useClickOutside({
+    ref: profileModalRef,
+    click: () => setOpenProfileModal(false),
+  });
+
+  const userProfileSrc = isLoggedIn ? defaultProfileSrc : googleLoginSrc;
+
+  const accessAction = () => {
+    if (isLoggedIn) {
+      setOpenProfileModal(true);
+    } else {
+      fetchLogin();
+    }
   };
 
   return (
@@ -78,13 +101,10 @@ export const Header = ({ isLoggedIn }: HeaderProps) => {
         <LogoText>MUSING</LogoText>
         <LogoCaption>· 뮤징에서 음악을 디깅하는 중•••</LogoCaption>
       </LogoBox>
-      <UserButton
-        onClick={() => {
-          fetchLogin();
-        }}
-      >
-        <UserBox src={userProfileSrc}></UserBox>
-      </UserButton>
+      <UserBox>
+        <UserButton onClick={accessAction} src={userProfileSrc}></UserButton>
+        <ProfileModal ref={profileModalRef} isOpen={openProfileModal} />
+      </UserBox>
     </HeaderBlock>
   );
 };
