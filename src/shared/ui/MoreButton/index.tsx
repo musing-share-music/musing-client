@@ -21,7 +21,7 @@ export const MoreButton = ({ width = 20, height = 20, menuItem, style }: MoreBut
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  useClickOutside({ ref, ignoreRef: buttonRef, open, click: () => setOpen(false) });
+  useClickOutside({ ref, ignoreRef: buttonRef, click: () => setOpen(false) });
 
   // 컴포넌트가 언마운트될 때 메뉴를 닫음
   useEffect(() => {
