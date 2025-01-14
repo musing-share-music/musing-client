@@ -1,26 +1,22 @@
 import styled from '@emotion/styled';
 
+import { useNetworkMain } from 'entities/home/api/useNetworkMain';
 import { MAIN_ITEM } from 'entities/home/model/model';
 
-import URL from 'shared/config/urls';
-import { useNetwork } from 'shared/hooks/useNetwork';
+import { Spinner } from 'shared/ui/Spinner';
 
 import CommunityMusic from './CommunityMusic';
 import GenreMusic from './GenreMusic';
 import HotMusic from './HotMusic';
 import LikeMusic from './LikeMusic';
-import RecommendedMusic from './RecommendedMusic';
+// import RecommendedMusic from './RecommendedMusic';
 import ThumbnailMusic from './ThumbnailMusic';
 
 export const Main = () => {
-  const { data, error, isLoading } = useNetwork({
-    method: 'GET',
-    url: URL.SERVERURL + URL.API.MAIN,
-    params: {},
-  });
+  const [data, error, isLoading] = useNetworkMain();
 
   if (data) {
-    console.log(data);
+    console.log(data.data);
   }
 
   if (isLoading) {
@@ -31,10 +27,12 @@ export const Main = () => {
     console.log(error);
   }
 
-  return (
+  return isLoading ? (
+    <Spinner isLoading={isLoading}></Spinner>
+  ) : (
     <MainContents>
       <ComponentWrapper marginBottom={40}>
-        <ThumbnailMusic />
+        <ThumbnailMusic noticeDto={data?.data?.noticeDto} />
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={104}>
@@ -53,9 +51,9 @@ export const Main = () => {
         <CommunityMusic CommunityMusicInfo={MAIN_ITEM.CommunityMusicInfo} />
       </ComponentWrapper>
 
-      <ComponentWrapper>
+      {/* <ComponentWrapper>
         <RecommendedMusic RecommendedMusicList={MAIN_ITEM.RecommendedMusicList} />
-      </ComponentWrapper>
+      </ComponentWrapper> */}
     </MainContents>
   );
 };
