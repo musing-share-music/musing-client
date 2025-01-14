@@ -131,10 +131,9 @@ const CommunityListBlock = styled.div`
   width: 832px;
   height: 512px;
   display: flex;
-  /* gap: 4px; */
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors[500]};
-  padding: 24px;
+  padding: 14px;
   border-radius: 1px;
 `;
 
@@ -153,7 +152,6 @@ const CommunityListWrapper = styled.div`
 `;
 
 const CommunityList = styled.div`
-  width: 784px;
   height: 64px;
   display: flex;
   justify-content: center;
@@ -161,7 +159,6 @@ const CommunityList = styled.div`
 `;
 
 const ListDate = styled.div<{ isRecent: boolean }>`
-  width: 64px;
   height: 64px;
   margin-right: 16px;
   display: flex;

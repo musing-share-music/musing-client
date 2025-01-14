@@ -2,10 +2,78 @@ import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
+import { noticeDto } from 'entities/home/model/types';
+
 import IconHeart from 'shared/assets/image/icons/icon-heart.svg?react';
 import IconMusic from 'shared/assets/image/icons/icon-music.svg?react';
 import thumnail from 'shared/assets/image/main/thumnail.png';
 import { commonStyles } from 'shared/styles/common';
+
+interface noticeDtoProps {
+  noticeDto: noticeDto;
+}
+
+const ThumbnailMusic = ({ noticeDto }: noticeDtoProps) => {
+  const theme = useTheme();
+  const [open, setOpen] = useState(false);
+  const isLiked = true;
+  const color = isLiked ? theme.colors.primary1 : theme.colors[200];
+  return (
+    <ThumContainer>
+      <ThumTitleImage src={thumnail}></ThumTitleImage>
+
+      <ThumMemberInfoContainer>
+        <ThumSelectBlock open={open}>
+          <ThumSelectBox open={open}>
+            <ThumSelectTitle open={open}>공지사항</ThumSelectTitle>
+            <ThumSelectDescription open={open}>{noticeDto.title}</ThumSelectDescription>
+            <Arrow
+              open={open}
+              onClick={() => {
+                setOpen(!open);
+              }}
+            >
+              {open ? '▲' : '▼'}
+            </Arrow>
+          </ThumSelectBox>
+
+          {open && (
+            <>
+              <CustomHr open={open} />
+              <ThumSelectPost open={open}>{noticeDto.content}</ThumSelectPost>
+            </>
+          )}
+        </ThumSelectBlock>
+
+        {!open && (
+          <ThumMemberInfoBlock>
+            <ThumMemberInfoWrapper>
+              <ThumMemberInfo>
+                <ThumMemberName>김태리님</ThumMemberName>
+                <ThumMemberEmail>taeri@gmail.com</ThumMemberEmail>
+              </ThumMemberInfo>
+              <MusicStats>
+                <LikeBlock>
+                  <IconHeart fill={color} />
+                  <Count color={color}>좋아요한 음악 21</Count>
+                </LikeBlock>
+                <PlayListBlock>
+                  <IconMusic fill={color} />
+                  <Count color={color}>나의 플레이리스트 5</Count>
+                </PlayListBlock>
+              </MusicStats>
+            </ThumMemberInfoWrapper>
+            <ButtonBlock>
+              <Button>회원 정보</Button>
+            </ButtonBlock>
+          </ThumMemberInfoBlock>
+        )}
+      </ThumMemberInfoContainer>
+    </ThumContainer>
+  );
+};
+
+export default ThumbnailMusic;
 
 const ThumContainer = styled.div`
   width: 1280px;
@@ -33,7 +101,7 @@ const ThumSelectBlock = styled.div<{ open: boolean }>`
   width: 376px;
   border-radius: 6px;
   display: flex;
-  justify-content: center;
+  position: relative;
 
   ${({ open, theme }) =>
     !open
@@ -42,50 +110,102 @@ const ThumSelectBlock = styled.div<{ open: boolean }>`
           border: 1px solid ${theme.colors[400]};
         `
       : css`
-          height: 136px;
+          height: 330px;
+          min-height: 100px;
           background-color: ${theme.colors[500]};
           color: ${theme.colors.white};
           flex-direction: column;
         `}
 `;
 
-const ThumSelectBox = styled.div`
-  color: ${({ theme }) => theme.colors.white};
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  align-items: center;
+const ThumSelectBox = styled.div<{ open: boolean }>`
+  ${({ open }) =>
+    !open
+      ? css`
+          display: flex;
+          align-items: center;
+        `
+      : css`
+          position: relative;
+        `}
 `;
 
-const ThumSelectTitle = styled.div`
+const ThumSelectTitle = styled.div<{ open: boolean }>`
   ${({ theme }) => theme.fonts.wantedSans.B6};
   color: ${({ theme }) => theme.colors.primary2};
+  position: absolute;
+
+  ${({ open }) =>
+    !open
+      ? css`
+          left: 16px;
+        `
+      : css`
+          left: 16px;
+          top: 16px;
+        `}
 `;
 
-const ThumSelectDescription = styled.div`
+const ThumSelectDescription = styled.div<{ open: boolean }>`
   ${({ theme }) => theme.fonts.wantedSans.B6};
   color: ${({ theme }) => theme.colors.white};
+  position: absolute;
+  left: 90px;
+
+  ${({ open }) =>
+    !open
+      ? css``
+      : css`
+          top: 16px;
+        `}
 `;
 
-const CustomHr = styled.hr`
+const CustomHr = styled.div<{ open: boolean }>`
   width: 344px;
   border: 1px solid ${({ theme }) => theme.colors[400]};
-  margin-top: 16px;
-  margin-bottom: 16px;
+  left: 16px;
+
+  ${({ open }) =>
+    !open
+      ? css``
+      : css`
+          position: absolute;
+          top: 52px;
+        `}
 `;
 
-const ThumSelectPost = styled.div`
+const ThumSelectPost = styled.div<{ open: boolean }>`
   ${({ theme }) => theme.fonts.wantedSans.B6};
   color: ${({ theme }) => theme.colors.white};
   width: 345px;
   margin-left: auto;
   margin-right: auto;
+
+  ${({ open }) =>
+    !open
+      ? css``
+      : css`
+          position: absolute;
+          top: 68px;
+          left: 16px;
+        `}
 `;
 
-const Arrow = styled.span`
+const Arrow = styled.div<{ open: boolean }>`
   font-size: 12px;
   color: ${({ theme }) => theme.colors.white};
+  position: absolute;
+  right: 16px;
   cursor: pointer;
+
+  ${({ open }) =>
+    !open
+      ? css``
+      : css`
+          position: absolute;
+          top: 16px;
+          right: 16px;
+        `}
 `;
 
 const ThumMemberInfoBlock = styled.div`
@@ -169,66 +289,3 @@ const Button = styled.button`
   }
   ${commonStyles.hoverTransition}
 `;
-
-const ThumbnailMusic = () => {
-  const theme = useTheme();
-  const [open, setOpen] = useState(false);
-  const isLiked = true;
-  const color = isLiked ? theme.colors.primary1 : theme.colors[200];
-  return (
-    <ThumContainer>
-      <ThumTitleImage src={thumnail}></ThumTitleImage>
-
-      <ThumMemberInfoContainer>
-        <ThumSelectBlock open={open}>
-          <ThumSelectBox>
-            <ThumSelectTitle>공지사항</ThumSelectTitle>
-            <ThumSelectDescription>올바른 커뮤니티 문화를 지향해요.</ThumSelectDescription>
-            <Arrow
-              onClick={() => {
-                setOpen(!open);
-              }}
-            >
-              {open ? '▲' : '▼'}
-            </Arrow>
-          </ThumSelectBox>
-
-          {open && (
-            <>
-              <CustomHr />
-              <ThumSelectPost>
-                뮤징은 올바른 커뮤니티 문화를 지향하고 있어요. 타인을 향한 비방이나 비속어는 삼가 주세요.
-              </ThumSelectPost>
-            </>
-          )}
-        </ThumSelectBlock>
-
-        {!open && (
-          <ThumMemberInfoBlock>
-            <ThumMemberInfoWrapper>
-              <ThumMemberInfo>
-                <ThumMemberName>김태리님</ThumMemberName>
-                <ThumMemberEmail>taeri@gmail.com</ThumMemberEmail>
-              </ThumMemberInfo>
-              <MusicStats>
-                <LikeBlock>
-                  <IconHeart fill={color} />
-                  <Count color={color}>좋아요한 음악 21</Count>
-                </LikeBlock>
-                <PlayListBlock>
-                  <IconMusic fill={color} />
-                  <Count color={color}>나의 플레이리스트 5</Count>
-                </PlayListBlock>
-              </MusicStats>
-            </ThumMemberInfoWrapper>
-            <ButtonBlock>
-              <Button>회원 정보</Button>
-            </ButtonBlock>
-          </ThumMemberInfoBlock>
-        )}
-      </ThumMemberInfoContainer>
-    </ThumContainer>
-  );
-};
-
-export default ThumbnailMusic;
