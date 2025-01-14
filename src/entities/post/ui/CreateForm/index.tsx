@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { useFormState } from 'features/musicRecommendationBoard/model/useFormState';
+import { useFormState } from 'features/createPost/model/useFormState';
 
 import { Button, StarRatingInput, TextArea, TextInput, YoutubeIframe } from 'shared/ui/';
 
@@ -8,7 +8,7 @@ import { ImageInput } from './ImageInput';
 import { Section } from './styled';
 import { TagInput } from './TagInput';
 
-export const MusicRecommendationForm = () => {
+export const CreateForm = () => {
   const { rating, setRating, youtubeUrl, setYoutubeUrl, youtubeVideoId } = useFormState();
 
   return (

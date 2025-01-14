@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
 
-import { ReportButton } from 'features/musicRecommendationBoard/ui/ReportButton';
-
 import { Comment as TComment } from 'entities/comment/model/type';
+import { ReportButton } from 'entities/post/ui/ReportButton';
 import { ProfileImage } from 'entities/user/ui/ProfileImage';
 
 import { StarRatingInput } from 'shared/ui/Input';

@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import { validateTag } from 'features/musicRecommendationBoard/lib/validate';
-import { useTagInput } from 'features/musicRecommendationBoard/model/useTagInput';
+import { validateTag } from 'features/createPost/lib/validate';
+import { useTagInput } from 'features/createPost/model/useTagInput';
 
 import { Genre, GENRE } from 'entities/genre/model/genre';
 import { MOOD, Mood } from 'entities/mood/model/mood';
