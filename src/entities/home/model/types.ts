@@ -1,3 +1,12 @@
+// 공지사항
+export type noticeDto = {
+  id: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  username: string;
+};
+
 // 장르의 음악
 export type GenreMusicItem = {
   id: string;
@@ -56,6 +65,7 @@ export type RecommendedMusicList = {
 }[];
 
 export type MainItem = {
+  noticeDto: noticeDto;
   GenreMusicList: GenreMusicList;
   LikeMusicList: LikeMusicList;
   HotMusicList: HotMusicList;

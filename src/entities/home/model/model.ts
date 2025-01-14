@@ -4,6 +4,14 @@ import image2 from 'shared/assets/image/main/roundimg.png';
 import { MainItem } from './types';
 
 export const MAIN_ITEM: MainItem = {
+  noticeDto: {
+    id: 1,
+    title: '공지사항 입니다.',
+    content: '여러분들의 음악 취향을 공유해주세요',
+    createdAt: '2025-01-05T11:51:23',
+    username: '더미',
+  },
+
   GenreMusicList: [
     {
       id: '1',
