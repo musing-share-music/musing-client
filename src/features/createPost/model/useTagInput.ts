@@ -8,8 +8,8 @@ import { MOOD, Mood, MoodId } from 'entities/mood/model/mood';
 import { SelectTagId } from './tag';
 
 export const useTagInput = () => {
-  const [selectedGenres, setSelectedGenres] = useState<Set<GenreId>>(new Set());
-  const [selectedMoods, setSelectedMoods] = useState<Set<MoodId>>(new Set());
+  const [selectedGenreId, setSelectedGenreId] = useState<GenreId>();
+  const [selectedMoodId, setSelectedMoodId] = useState<Set<MoodId>>(new Set());
   const [selectedTagId, setSelectedTagId] = useState<SelectTagId[]>([]); // 선택한 순서대로 태그의 아이디를 저장한다.
 
   const handleGenreCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,17 +17,16 @@ export const useTagInput = () => {
 
     if (checked) {
       setSelectedTagId((prev) => [...prev, { type: 'genre', id }]);
+      setSelectedGenreId(id);
     } else {
       const copiedPrev = selectedTagId?.filter((val) => {
-        if (val.type === 'genre' && val.id === id) {
+        if (val.type === 'genre') {
           return;
         }
         return val;
       });
       setSelectedTagId(copiedPrev);
     }
-
-    updateCheckedSet(e, setSelectedGenres);
   };
 
   const handleMoodCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +44,7 @@ export const useTagInput = () => {
       setSelectedTagId(copiedPrev);
     }
 
-    updateCheckedSet(e, setSelectedMoods);
+    updateCheckedSet(e, setSelectedMoodId);
   };
 
   // 선택한 장르, 무드 tag
@@ -61,5 +60,5 @@ export const useTagInput = () => {
     return updatedTags;
   }, [selectedTagId]);
 
-  return { handleGenreCheck, handleMoodCheck, selectedTags, selectedGenres, selectedMoods };
+  return { handleGenreCheck, handleMoodCheck, selectedTags, selectedGenreId, selectedMoodId };
 };

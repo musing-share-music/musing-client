@@ -1,27 +1,79 @@
 import styled from '@emotion/styled';
+import { useRef } from 'react';
 
+import { validateFormSchema } from 'features/createPost/lib/validate';
 import { useFormState } from 'features/createPost/model/useFormState';
+
+import { CreatePostDto, useCreatePostMutation } from 'entities/post/api/createPost';
 
 import { Button, StarRatingInput, TextArea, TextInput, YoutubeIframe } from 'shared/ui/';
 
+import * as EditableElement from './EditableElement';
 import { ImageInput } from './ImageInput';
 import { Section } from './styled';
 import { TagInput } from './TagInput';
 
+// TODO entities, features 분리
+
 export const CreateForm = () => {
-  const { rating, setRating, youtubeUrl, setYoutubeUrl, youtubeVideoId } = useFormState();
+  const { formData, updateFormData } = useFormState();
+  const createFormMutation = useCreatePostMutation();
+  const artistInputRef = useRef<HTMLSpanElement>(null);
+  const musicTitleInputRef = useRef<HTMLSpanElement>(null);
+
+  const { rating, youtubeUrl, artist, musicTitle, title, content, mood, genre, image } = formData;
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (createFormMutation.isPending) return;
+
+    const _formData: CreatePostDto = {
+      title,
+      musicTitle,
+      artist,
+      youtubeLink: youtubeUrl,
+      hashtags: mood,
+      genre,
+      image,
+      content,
+    };
+
+    if (!validateFormSchema(_formData)) {
+      // TODO 실패 로직
+      return;
+    }
+
+    createFormMutation.mutate(_formData);
+  };
 
   return (
-    <Form onSubmit={(e) => e.preventDefault}>
+    <Form onSubmit={(e) => handleSubmit(e)}>
       <Section>
         <TitleField>
           <TitleBlock>
-            <TextField type="text" placeholder="제목을 입력해 주세요." />
+            <TextField
+              type="text"
+              placeholder="제목을 입력해 주세요."
+              value={title}
+              onChange={(e) => updateFormData('title', e.target.value)}
+            />
           </TitleBlock>
           <InfoBlock>
-            <Track>곡 제목 · 아티스트 명</Track>
+            <Track>
+              <EditableElement.EditableElement
+                ref={artistInputRef}
+                placeholder={artist || '아티스트 명'}
+                onChange={(value) => updateFormData('artist', value)}
+              />
+              &nbsp;·&nbsp;
+              <EditableElement.EditableElement
+                ref={musicTitleInputRef}
+                placeholder={musicTitle || '곡 제목'}
+                onChange={(value) => updateFormData('musicTitle', value)}
+              />
+            </Track>
             <RatingBox>
-              <StarRatingInput value={rating} onChange={(val) => setRating(val)} />
+              <StarRatingInput value={rating} onChange={(val) => updateFormData('rating', val)} />
               <RateText>{rating}.0</RateText>
             </RatingBox>
           </InfoBlock>
@@ -31,18 +83,21 @@ export const CreateForm = () => {
           <TextInput
             placeholder="유튜브 링크를 기입해 주세요."
             value={youtubeUrl}
-            onChange={(e) => setYoutubeUrl(e.target.value)}
+            onChange={(e) => updateFormData('youtubeUrl', e.target.value)}
           />
           <TagInput
             onConfirm={(tags) => {
-              console.log(tags);
+              const { genre, mood } = tags;
+              console.log('tags', tags);
+              updateFormData('genre', genre);
+              updateFormData('mood', mood);
             }}
           />
-          <ImageInput onUpload={(file) => console.log(file)} />
+          <ImageInput onUpload={(file) => updateFormData('image', file)} />
         </TrackField>
 
         <BodyField>
-          <YoutubeIframe videoId={youtubeVideoId} />
+          <YoutubeIframe videoId={youtubeUrl} />
           <TextArea
             placeholder="내용을 입력해 주세요."
             style={{
@@ -50,6 +105,8 @@ export const CreateForm = () => {
               height: '100%',
               minHeight: '760px',
             }}
+            value={content}
+            onChange={(e) => updateFormData('content', e.target.value)}
           />
         </BodyField>
       </Section>
@@ -74,7 +131,12 @@ export const CreateForm = () => {
   );
 };
 
-const Form = styled.form``;
+const Form = styled.form`
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+`;
+
+// const EditableElement = styled.span``;
 
 const TextField = styled.input`
   width: 100%;

@@ -1,25 +1,44 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { validateTag } from 'features/createPost/lib/validate';
 import { useTagInput } from 'features/createPost/model/useTagInput';
 
 import { Genre, GENRE } from 'entities/genre/model/genre';
-import { MOOD, Mood } from 'entities/mood/model/mood';
+import { Mood, MOOD } from 'entities/mood/model/mood';
 
 import { Button, CheckBox, Modal } from 'shared/ui/';
 
 interface TagInputProps {
-  onConfirm: (tags: (Genre | Mood)[]) => void;
+  onConfirm: ({ genre, mood }: { genre: string; mood: string[] }) => void;
 }
 
 export const TagInput = ({ onConfirm }: TagInputProps) => {
   const [open, setOpen] = useState(false);
-  const { handleGenreCheck, handleMoodCheck, selectedTags, selectedGenres, selectedMoods } = useTagInput();
+  const { handleGenreCheck, handleMoodCheck, selectedTags, selectedGenreId, selectedMoodId } = useTagInput();
+
+  // 선택한 장르 태그
+  const selectedGenre: Genre[] | null = useMemo(() => {
+    if (selectedGenreId) {
+      return GENRE.filter((val) => val.id === selectedGenreId) as Genre[];
+    }
+    return null;
+  }, [selectedGenreId]);
+
+  // 선택한 분위기 태그
+  const selectedMood: Mood[] = useMemo(() => {
+    return Array(...selectedMoodId)
+      .map((moodId) => MOOD.find((val) => val.id === moodId))
+      .filter((mood): mood is Mood => mood !== undefined);
+  }, [selectedMoodId]);
 
   const handleConfirm = () => {
-    if (validateTag({ selectedGenres, selectedMoods })) return;
-    onConfirm(selectedTags);
+    if (!validateTag({ selectedGenre, selectedMood })) return;
+
+    const genre = selectedGenre!.map((_genre) => _genre.text)[0];
+    const mood = selectedMood!.map((_mood) => _mood.text);
+
+    onConfirm({ genre, mood });
     setOpen(false);
   };
 
@@ -50,7 +69,7 @@ export const TagInput = ({ onConfirm }: TagInputProps) => {
                   id={id}
                   text={text}
                   name={id}
-                  checked={selectedGenres.has(id)}
+                  checked={selectedGenreId === id}
                   onChange={handleGenreCheck}
                 />
               ))}
@@ -66,7 +85,7 @@ export const TagInput = ({ onConfirm }: TagInputProps) => {
                   id={id}
                   text={text}
                   name={id}
-                  checked={selectedMoods.has(id)}
+                  checked={selectedMoodId.has(id)}
                   onChange={handleMoodCheck}
                 />
               ))}
