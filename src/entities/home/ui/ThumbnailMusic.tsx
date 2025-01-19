@@ -4,9 +4,11 @@ import { useState } from 'react';
 
 import { noticeDto } from 'entities/home/model/types';
 
+import GoogleLogin from 'shared/assets/image/google_login.png';
 import IconHeart from 'shared/assets/image/icons/icon-heart.svg?react';
 import IconMusic from 'shared/assets/image/icons/icon-music.svg?react';
 import thumnail from 'shared/assets/image/main/thumnail.png';
+import URL from 'shared/config/urls';
 import { commonStyles } from 'shared/styles/common';
 
 interface noticeDtoProps {
@@ -16,8 +18,14 @@ interface noticeDtoProps {
 const ThumbnailMusic = ({ noticeDto }: noticeDtoProps) => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [isLogin, setisLogin] = useState(false);
   const isLiked = true;
   const color = isLiked ? theme.colors.primary1 : theme.colors[200];
+
+  const fetchLogin = () => {
+    window.location.href = URL.GOOGLELOGIN;
+  };
+
   return (
     <ThumContainer>
       <ThumTitleImage src={thumnail}></ThumTitleImage>
@@ -45,7 +53,7 @@ const ThumbnailMusic = ({ noticeDto }: noticeDtoProps) => {
           )}
         </ThumSelectBlock>
 
-        {!open && (
+        {!open && !isLogin && (
           <ThumMemberInfoBlock>
             <ThumMemberInfoWrapper>
               <ThumMemberInfo>
@@ -65,6 +73,21 @@ const ThumbnailMusic = ({ noticeDto }: noticeDtoProps) => {
             </ThumMemberInfoWrapper>
             <ButtonBlock>
               <Button>회원 정보</Button>
+            </ButtonBlock>
+          </ThumMemberInfoBlock>
+        )}
+
+        {!open && isLogin && (
+          <ThumMemberInfoBlock>
+            <LoginBlock>
+              <LoginGuide>뮤징이 처음이라면?</LoginGuide>
+              <LoginGuide>가입 후 음악 탐색하기 👀</LoginGuide>
+            </LoginBlock>
+            <ButtonBlock>
+              <LoginButton onClick={fetchLogin}>
+                <img src={GoogleLogin} alt="Google Login" />
+                구글 계정으로 로그인
+              </LoginButton>
             </ButtonBlock>
           </ThumMemberInfoBlock>
         )}
@@ -288,4 +311,35 @@ const Button = styled.button`
     background: ${({ theme }) => theme.colors[300]};
   }
   ${commonStyles.hoverTransition}
+`;
+
+const LoginButton = styled.button`
+  display: flex;
+  padding: 16px 0px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme.colors[400]};
+  ${({ theme }) => theme.fonts.wantedSans.B3};
+  color: ${({ theme }) => theme.colors.white};
+  cursor: pointer;
+  &:hover {
+    background: ${({ theme }) => theme.colors[300]};
+  }
+  ${commonStyles.hoverTransition}
+`;
+
+const LoginBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-left: 66px;
+  margin-top: 49px;
+`;
+
+const LoginGuide = styled.div`
+  color: ${({ theme }) => theme.colors.white};
+  ${({ theme }) => theme.fonts.wantedSans.B3};
 `;
