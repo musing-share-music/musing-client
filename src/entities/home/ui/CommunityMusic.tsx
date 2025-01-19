@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import moment from 'moment';
 moment.locale('ko');
 
-import { CommunityMusicInfo } from 'entities/home/model/types';
+import { recentBoard, hotMusicBoard } from 'entities/home/model/types';
 
 import arrow3 from 'shared/assets/image/main/arrow 3.png';
 import { commonStyles } from 'shared/styles/common';
@@ -125,6 +125,11 @@ const PlayListInfoDescription = styled.div`
   width: 268px;
   color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts.wantedSans.B1};
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const CommunityListBlock = styled.div`
@@ -237,11 +242,12 @@ const StyledHr = styled.hr`
   margin-bottom: 10px;
 `;
 
-interface CommunityMusicProps {
-  CommunityMusicInfo: CommunityMusicInfo;
+interface recentBoardProps {
+  recentBoard: recentBoard;
+  hotMusicBoard: hotMusicBoard;
 }
 
-const CommunityMusic = ({ CommunityMusicInfo }: CommunityMusicProps) => {
+const CommunityMusic = ({ recentBoard, hotMusicBoard }: recentBoardProps) => {
   return (
     <CommunityContainer>
       <TitleBlock>
@@ -253,21 +259,21 @@ const CommunityMusic = ({ CommunityMusicInfo }: CommunityMusicProps) => {
         <PlayListBlock>
           <PlayListTitle>인기 플레이리스트</PlayListTitle>
           <PlayListWrapper>
-            <PlayListImageBackGround src={CommunityMusicInfo.img} />
+            <PlayListImageBackGround src={hotMusicBoard.thumbNailLink} />
           </PlayListWrapper>
-          <PlayListImage src={CommunityMusicInfo.img}></PlayListImage>
+          <PlayListImage src={hotMusicBoard.thumbNailLink}></PlayListImage>
           <PlayListInfoBlock>
-            <PlayListInfoTitle>눈 · 자이언티</PlayListInfoTitle>
-            <PlayListInfoDescription>
-              첫눈이 오면 제일 먼저<br></br> 듣고 싶은 노래
-            </PlayListInfoDescription>
+            <PlayListInfoTitle>
+              {hotMusicBoard.musicName} · {hotMusicBoard.artist}
+            </PlayListInfoTitle>
+            <PlayListInfoDescription>{hotMusicBoard.title}</PlayListInfoDescription>
           </PlayListInfoBlock>
           <PlayListInfoButton src={arrow3}></PlayListInfoButton>
         </PlayListBlock>
 
         <CommunityListBlock>
-          {CommunityMusicInfo.communityList.map((item, index) => {
-            const itemDate = moment(item.date);
+          {recentBoard.map((item, index) => {
+            const itemDate = moment(item.createdAt);
 
             const now = moment();
             const diffDays = now.diff(itemDate, 'days');
@@ -293,18 +299,20 @@ const CommunityMusic = ({ CommunityMusicInfo }: CommunityMusicProps) => {
                 <CommunityListWrapper>
                   <CommunityList>
                     <ListDate isRecent={diffDays < 1}>{formattedDate}</ListDate>
-                    <ListImg src={item.img} alt={item.title} />
+                    <ListImg src={item.thumbNailLink} alt={item.title} />
                     <ListContent>
                       <ContentInfo>
-                        <ContentsTitle>{item.title}</ContentsTitle>
-                        <ContentsDescription>{item.description}</ContentsDescription>
+                        <ContentsTitle>
+                          {item.artist} · {item.musicName}
+                        </ContentsTitle>
+                        <ContentsDescription>{item.title}</ContentsDescription>
                       </ContentInfo>
 
                       <ActivityInfo>
                         <ActivityStatus>
-                          댓글 {item.comment} · 추천 {item.recommend} · 조회 {item.views}
+                          댓글 {item.recommendCount} · 추천 {item.replyCount} · 조회 {item.viewCount}
                         </ActivityStatus>
-                        <ActivityName>{item.user}</ActivityName>
+                        <ActivityName>{item.username}</ActivityName>
                       </ActivityInfo>
                     </ListContent>
                   </CommunityList>

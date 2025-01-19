@@ -53,7 +53,7 @@ const ThumbnailMusic = ({ noticeDto }: noticeDtoProps) => {
           )}
         </ThumSelectBlock>
 
-        {!open && !isLogin && (
+        {!open && isLogin && (
           <ThumMemberInfoBlock>
             <ThumMemberInfoWrapper>
               <ThumMemberInfo>
@@ -77,7 +77,7 @@ const ThumbnailMusic = ({ noticeDto }: noticeDtoProps) => {
           </ThumMemberInfoBlock>
         )}
 
-        {!open && isLogin && (
+        {!open && !isLogin && (
           <ThumMemberInfoBlock>
             <LoginBlock>
               <LoginGuide>뮤징이 처음이라면?</LoginGuide>
