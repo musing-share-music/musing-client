@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import { GenreMusicList } from 'entities/home/model/types';
+import { recommendGenreName, recommendGenres } from 'entities/home/model/types';
 
 import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
 
@@ -74,11 +74,12 @@ const PreferTag = styled.label<{ active: boolean }>`
   }
 `;
 
-interface GenreMusicListProps {
-  GenreMusicList: GenreMusicList;
+interface recommendGenresProps {
+  recommendGenres: recommendGenres;
+  recommendGenreName: recommendGenreName;
 }
 
-const GenreMusic = ({ GenreMusicList }: GenreMusicListProps) => {
+const GenreMusic = ({ recommendGenres, recommendGenreName }: recommendGenresProps) => {
   const [activeTag, setActiveTag] = useState<string | null>(null);
 
   const handleTagClick = (tag: string) => {
@@ -97,18 +98,18 @@ const GenreMusic = ({ GenreMusicList }: GenreMusicListProps) => {
       </PreferTagWrapper>
 
       <TitleBlock>
-        <PageTitle>슈게이징</PageTitle>
+        <PageTitle>{recommendGenreName}</PageTitle>
         <SubTitle>장르의 음악</SubTitle>
       </TitleBlock>
 
       <GenreMusingBlock>
-        {GenreMusicList.map((item, index) => (
+        {recommendGenres.slice(0, 4).map((item, index) => (
           <GenreMusicItem key={index} item={item} />
         ))}
 
         <GenreMore>
           <TitleBlock className="more">
-            <PageTitle>슈게이징</PageTitle>
+            <PageTitle>{recommendGenreName}</PageTitle>
             <SubTitle>장르 더 듣기</SubTitle>
           </TitleBlock>
         </GenreMore>

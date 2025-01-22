@@ -36,7 +36,7 @@ export const Main = () => {
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={104}>
-        <GenreMusic GenreMusicList={MAIN_ITEM.GenreMusicList} />
+        <GenreMusic recommendGenres={data?.data?.recommendGenres} recommendGenreName={data?.data?.recommendGenreName} />
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={144}>
@@ -48,7 +48,7 @@ export const Main = () => {
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={120}>
-        <CommunityMusic CommunityMusicInfo={MAIN_ITEM.CommunityMusicInfo} />
+        <CommunityMusic recentBoard={data.data.recentBoard} hotMusicBoard={data.data.hotMusicBoard} />
       </ComponentWrapper>
 
       {/* <ComponentWrapper>

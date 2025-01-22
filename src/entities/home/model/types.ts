@@ -8,14 +8,16 @@ export type noticeDto = {
 };
 
 // 장르의 음악
-export type GenreMusicItem = {
+export type recommendGenresItem = {
   id: string;
-  title: string;
-  name: string;
-  img: string;
+  musicName: string;
+  artist: string;
+  thumbNailLink: string;
 };
 
-export type GenreMusicList = GenreMusicItem[];
+export type recommendGenres = recommendGenresItem[];
+
+export type recommendGenreName = string;
 
 // 좋아요한 음악
 export type LikeMusicItem = {
@@ -36,25 +38,27 @@ export type HotMusicItem = {
 export type HotMusicList = HotMusicItem[];
 
 // 음악 추천 게시판 리스트
-export type CommunityList = {
-  id: string;
-  date: string;
-  img: string;
+export type recentBoardItem = {
+  id: number;
   title: string;
-  description: string;
-  comment: string;
-  recommend: string;
-  views: string;
-  user: string;
+  username: string;
+  createdAt: string;
+  replyCount: number;
+  recommendCount: number;
+  viewCount: number;
+  musicName: string;
+  artist: string;
+  thumbNailLink: string;
 };
+export type recentBoard = recentBoardItem[];
 
 // 음악 추천 게시판 정보
-export type CommunityMusicInfo = {
-  id: string;
-  img: string;
+export type hotMusicBoard = {
+  id: number;
   title: string;
-  description: string;
-  communityList: CommunityList[];
+  musicName: string;
+  artist: string;
+  thumbNailLink: string;
 };
 
 // 추천 음악 리스트
@@ -66,9 +70,11 @@ export type RecommendedMusicList = {
 
 export type MainItem = {
   noticeDto: noticeDto;
-  GenreMusicList: GenreMusicList;
+  recommendGenres: recommendGenres;
   LikeMusicList: LikeMusicList;
   HotMusicList: HotMusicList;
-  CommunityMusicInfo: CommunityMusicInfo;
+  recentBoard: recentBoard;
+  hotMusicBoard: hotMusicBoard;
   RecommendedMusicList: RecommendedMusicList;
+  recommendGenreName: recommendGenreName;
 };
