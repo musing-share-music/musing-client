@@ -1,23 +1,23 @@
 import styled from '@emotion/styled';
 
-import { HotMusicItem as HotMusicItemData } from 'entities/home/model/types';
+import { recommendGenresItem } from 'entities/home/model/types';
 import { HoverRevealButton } from 'entities/home/ui/HoverRevealButton';
 
 import btn_add from 'shared/assets/image/main/btn-add.png';
 import { withHover, WithHoverProps } from 'shared/ui/withHover';
 
-interface HotMusicItemProps {
-  item: HotMusicItemData;
+interface recommendGenresItemProps {
+  item: recommendGenresItem;
 }
 
-const HotMusicItemBase = ({ item, isHover }: HotMusicItemProps & WithHoverProps) => {
+const HotMusicItemBase = ({ item, isHover }: recommendGenresItemProps & WithHoverProps) => {
   return (
     <HotMusingImageWrapper>
-      <HotMusingImage src={item.img} alt="이미지" className="main-image" />
+      <HotMusingImage src={item.thumbNailLink} alt="이미지" className="main-image" />
       <Border />
       <HoverItemBox>
-        <HotTitle>{item.title}</HotTitle>
-        <HotSubTitle>{item.name}</HotSubTitle>
+        <HotTitle>{item.musicName}</HotTitle>
+        <HotSubTitle>{item.artists[0].name}</HotSubTitle>
         <ButtonBlock>
           <HotButton src={btn_add} alt="추가" className="btn_add" />
           <HoverRevealButton isHover={isHover} menuItem={[]} />
@@ -31,6 +31,7 @@ export const HotMusicItem = withHover(HotMusicItemBase);
 
 const ButtonBlock = styled.div`
   display: flex;
+  justify-content: center;
   gap: 22px;
   margin-top: 16px;
 `;

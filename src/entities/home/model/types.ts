@@ -42,16 +42,25 @@ export type likeMusicDtosItem = {
 };
 export type likeMusicDtos = likeMusicDtosItem[];
 
-// 장르의 음악
+// 핫한 음악
 export type recommendGenresItem = {
-  id: string;
+  id: number;
   musicName: string;
-  artist: string;
+  artists: [
+    {
+      id: number;
+      name: string;
+    },
+  ];
   thumbNailLink: string;
 };
 export type recommendGenres = recommendGenresItem[];
 
-export type recommendGenreName = string;
+// 핫한 음악 장르타이틀
+export type recommendGenre = {
+  id: number;
+  genreName: string;
+};
 
 // 좋아요한 음악
 export type LikeMusicItem = {

@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
-import { HotMusicList } from 'entities/home/model/types';
+import { recommendGenre, recommendGenres } from 'entities/home/model/types';
 
 import { HotMusicItem } from './HotMusicItem';
 
@@ -97,11 +97,12 @@ const SliderWrapper = styled(Slider)`
   }
 `;
 
-interface HotMusicListProps {
-  HotMusicList: HotMusicList;
+interface recommendGenreProps {
+  recommendGenre: recommendGenre;
+  recommendGenres: recommendGenres;
 }
 
-const HotMusic = ({ HotMusicList }: HotMusicListProps) => {
+const HotMusic = ({ recommendGenre, recommendGenres }: recommendGenreProps) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -118,12 +119,12 @@ const HotMusic = ({ HotMusicList }: HotMusicListProps) => {
           <br />
           가장 핫🔥한 음악 모음
         </PageTitle>
-        <SubTitle>POP • 얼터너티브</SubTitle>
+        <SubTitle>{recommendGenre.genreName}</SubTitle>
       </HotMusingTitle>
 
       {/* <HotMusingBlock> */}
       <SliderWrapper {...settings}>
-        {HotMusicList.map((item, index) => (
+        {recommendGenres.map((item, index) => (
           <HotMusicItem item={item} key={index} />
         ))}
       </SliderWrapper>

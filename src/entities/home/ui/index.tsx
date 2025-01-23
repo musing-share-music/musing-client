@@ -40,7 +40,7 @@ export const Main = () => {
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={124}>
-        <HotMusic HotMusicList={MAIN_ITEM.HotMusicList} />
+        <HotMusic recommendGenre={data?.data?.recommendGenre} recommendGenres={data?.data?.recommendGenres} />
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={120}>
