@@ -28,6 +28,20 @@ export type genreMusicsItem = {
 };
 export type genreMusics = genreMusicsItem[];
 
+//좋아요한 음악
+export type likeMusicDtosItem = {
+  id: number;
+  musicName: string;
+  artists: [
+    {
+      id: number;
+      name: string;
+    },
+  ];
+  thumbNailLink: string;
+};
+export type likeMusicDtos = likeMusicDtosItem[];
+
 // 장르의 음악
 export type recommendGenresItem = {
   id: string;
@@ -97,11 +111,13 @@ export type MainItem = {
   //공지사항
   noticeDto: noticeDto;
 
-  //장르의 음악 카테고리
-  likeGenre: likeGenre;
-
-  //장르의음악
+  //장르의 음악
+  likeGenre: likeGenre; //카테고리
   genreMusics: genreMusics;
+
+  //좋아요한 음악
+  likeMusicDtos: likeMusicDtos;
+
   recommendGenres: recommendGenres;
   LikeMusicList: LikeMusicList;
   HotMusicList: HotMusicList;

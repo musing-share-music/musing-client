@@ -36,7 +36,7 @@ export const Main = () => {
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={144}>
-        <LikeMusic LikeMusicList={MAIN_ITEM.LikeMusicList} />
+        <LikeMusic likeMusicDtos={data?.data?.likeMusicDtos} />
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={124}>

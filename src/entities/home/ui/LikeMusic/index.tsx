@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { LikeMusicList } from 'entities/home/model/types';
+import { likeMusicDtos } from 'entities/home/model/types';
 
 import arrow2 from 'shared/assets/image/main/arrow 2.png';
 
@@ -67,14 +67,14 @@ const Arrow = styled.img`
   cursor: pointer;
 `;
 
-interface LikeMusicListProps {
-  LikeMusicList: LikeMusicList;
+interface likeMusicDtosProps {
+  likeMusicDtos: likeMusicDtos;
 }
 
-const LikeMusic = ({ LikeMusicList }: LikeMusicListProps) => {
-  const limitedLikeMusicList = LikeMusicList.slice(0, 4);
-  const limitedLikeMusicList2 = LikeMusicList.slice(4, 7);
-  const limitedLikeMusicList3 = LikeMusicList.slice(7, 10);
+const LikeMusic = ({ likeMusicDtos }: likeMusicDtosProps) => {
+  const limitedLikeMusicList = likeMusicDtos.slice(0, 4);
+  // const limitedLikeMusicList2 = likeMusicDtos.slice(4, 7);
+  // const limitedLikeMusicList3 = likeMusicDtos.slice(7, 10);
 
   return (
     <LikeContainer>
@@ -90,13 +90,13 @@ const LikeMusic = ({ LikeMusicList }: LikeMusicListProps) => {
 
         <LikeMore>
           <LikeMoreList>
-            {limitedLikeMusicList2.map((item, index) => (
+            {limitedLikeMusicList.map((item, index) => (
               <LikeMoreItem key={index} item={item} />
             ))}
           </LikeMoreList>
 
           <LikeMoreList>
-            {limitedLikeMusicList3.map((item, index) => (
+            {limitedLikeMusicList.slice(0, 3).map((item, index) => (
               <LikeMoreItem key={index} item={item} />
             ))}
             <Arrow src={arrow2}></Arrow>
