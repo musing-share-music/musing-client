@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import { genreMusics } from 'entities/home/model/types';
+import { genreMusics, likeGenre } from 'entities/home/model/types';
 
 import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
 
@@ -76,20 +76,21 @@ const PreferTag = styled.label<{ active: boolean }>`
 
 interface genreMusicsProps {
   genreMusics: genreMusics;
+  likeGenre: likeGenre;
 }
 
-const GenreMusic = ({ genreMusics }: genreMusicsProps) => {
-  const [activeTag, setActiveTag] = useState<string | null>(null);
-  const handleTagClick = (tag: string) => {
-    setActiveTag((prevTag) => (prevTag === tag ? null : tag)); // 토글 기능
+const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
+  const [activeCtgId, setActiveCtgId] = useState<number>(likeGenre[0].id);
+  const CategoryClick = (CategoryId: number) => {
+    setActiveCtgId(CategoryId);
   };
 
   return (
     <GenreContainer>
       <PreferTagWrapper>
-        {['힙합', '슈게이징', '인디', '록', '메탈'].map((tag) => (
-          <PreferTag key={tag} active={activeTag === tag} onClick={() => handleTagClick(tag)}>
-            {tag}
+        {likeGenre.map((item, index) => (
+          <PreferTag key={index} active={activeCtgId === item.id} onClick={() => CategoryClick(item.id)}>
+            {item.genreName}
           </PreferTag>
         ))}
         <Arrowdown />

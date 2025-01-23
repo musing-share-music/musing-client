@@ -19,10 +19,6 @@ export const Main = () => {
     console.log(data.data);
   }
 
-  if (isLoading) {
-    console.log('로딩중');
-  }
-
   if (error) {
     console.log(error);
   }
@@ -36,7 +32,7 @@ export const Main = () => {
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={104}>
-        <GenreMusic genreMusics={data?.data?.genreMusics} />
+        <GenreMusic genreMusics={data?.data?.genreMusics} likeGenre={data?.data?.likeGenre} />
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={144}>
