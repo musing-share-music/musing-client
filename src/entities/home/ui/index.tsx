@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
+import { useEffect } from 'react';
 
 import { useNetworkMain } from 'entities/home/api/useNetworkMain';
 
+import { useUserInfoStore } from 'shared/store/userInfo';
 import { Spinner } from 'shared/ui/Spinner';
 
 import CommunityMusic from './CommunityMusic';
@@ -12,11 +14,17 @@ import LikeMusic from './LikeMusic';
 import ThumbnailMusic from './ThumbnailMusic';
 
 export const Main = () => {
+  const { setUser, isAdmin, userInfo } = useUserInfoStore();
   const [data, error, isLoading] = useNetworkMain();
 
-  if (data) {
-    console.log(data.data);
-  }
+  useEffect(() => {
+    if (data?.data?.userInfoDto) {
+      setUser(data.data.userInfoDto);
+    }
+
+    console.log(isAdmin());
+    console.log(userInfo);
+  }, [data, setUser]);
 
   if (error) {
     console.log(error);
