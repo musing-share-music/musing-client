@@ -7,6 +7,20 @@ export type noticeDto = {
   username: string;
 };
 
+//장르의 음악
+export type genreMusicsItem = {
+  id: number;
+  musicName: string;
+  artists: [
+    {
+      id: number;
+      name: string;
+    },
+  ];
+  thumbNailLink: string;
+};
+export type genreMusics = genreMusicsItem[];
+
 // 장르의 음악
 export type recommendGenresItem = {
   id: string;
@@ -14,7 +28,6 @@ export type recommendGenresItem = {
   artist: string;
   thumbNailLink: string;
 };
-
 export type recommendGenres = recommendGenresItem[];
 
 export type recommendGenreName = string;
@@ -70,6 +83,7 @@ export type RecommendedMusicList = {
 
 export type MainItem = {
   noticeDto: noticeDto;
+  genreMusics: genreMusics;
   recommendGenres: recommendGenres;
   LikeMusicList: LikeMusicList;
   HotMusicList: HotMusicList;

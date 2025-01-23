@@ -1,17 +1,17 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { recommendGenresItem } from 'entities/home/model/types';
+import { genreMusicsItem } from 'entities/home/model/types';
 import { HoverRevealButton } from 'entities/home/ui/HoverRevealButton';
 
 import btn_add from 'shared/assets/image/main/btn-add.png';
 import { withHover, WithHoverProps } from 'shared/ui/withHover';
 
-interface recommendGenresProps {
-  item: recommendGenresItem;
+interface genreMusicsItemProps {
+  item: genreMusicsItem;
 }
 
-const GenreMusicItemBase = ({ item, isHover }: recommendGenresProps & WithHoverProps) => {
+const GenreMusicItemBase = ({ item, isHover }: genreMusicsItemProps & WithHoverProps) => {
   return (
     <GenreMusingWrapper>
       <GenreMusingImageWrapper>
@@ -21,8 +21,8 @@ const GenreMusicItemBase = ({ item, isHover }: recommendGenresProps & WithHoverP
       </GenreMusingImageWrapper>
 
       <GenreTextBlock>
-        <GenreTitle className="limit-text">{item.musicName}</GenreTitle>
-        <GenreSubTitle className="limit-text">{item.artist}</GenreSubTitle>
+        <GenreTitle>{item.musicName}</GenreTitle>
+        <GenreSubTitle>{item.artists[0].name}</GenreSubTitle>
       </GenreTextBlock>
     </GenreMusingWrapper>
   );

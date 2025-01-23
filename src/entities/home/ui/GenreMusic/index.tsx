@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import { recommendGenreName, recommendGenres } from 'entities/home/model/types';
+import { genreMusics } from 'entities/home/model/types';
 
 import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
 
@@ -74,14 +74,12 @@ const PreferTag = styled.label<{ active: boolean }>`
   }
 `;
 
-interface recommendGenresProps {
-  recommendGenres: recommendGenres;
-  recommendGenreName: recommendGenreName;
+interface genreMusicsProps {
+  genreMusics: genreMusics;
 }
 
-const GenreMusic = ({ recommendGenres, recommendGenreName }: recommendGenresProps) => {
+const GenreMusic = ({ genreMusics }: genreMusicsProps) => {
   const [activeTag, setActiveTag] = useState<string | null>(null);
-
   const handleTagClick = (tag: string) => {
     setActiveTag((prevTag) => (prevTag === tag ? null : tag)); // 토글 기능
   };
@@ -98,18 +96,18 @@ const GenreMusic = ({ recommendGenres, recommendGenreName }: recommendGenresProp
       </PreferTagWrapper>
 
       <TitleBlock>
-        <PageTitle>{recommendGenreName}</PageTitle>
+        {/* <PageTitle>{genreMusics.artists.name}</PageTitle> */}
         <SubTitle>장르의 음악</SubTitle>
       </TitleBlock>
 
       <GenreMusingBlock>
-        {recommendGenres.slice(0, 4).map((item, index) => (
+        {genreMusics.slice(0, 4).map((item, index) => (
           <GenreMusicItem key={index} item={item} />
         ))}
 
         <GenreMore>
           <TitleBlock className="more">
-            <PageTitle>{recommendGenreName}</PageTitle>
+            {/* <PageTitle>{recommendGenreName}</PageTitle> */}
             <SubTitle>장르 더 듣기</SubTitle>
           </TitleBlock>
         </GenreMore>

@@ -36,7 +36,7 @@ export const Main = () => {
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={104}>
-        <GenreMusic recommendGenres={data?.data?.recommendGenres} recommendGenreName={data?.data?.recommendGenreName} />
+        <GenreMusic genreMusics={data?.data?.genreMusics} />
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={144}>
