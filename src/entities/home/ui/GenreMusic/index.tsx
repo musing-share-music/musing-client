@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import { genreMusics, likeGenre } from 'entities/home/model/types';
+import { genreMusics, likeGenre, likeGenreItem } from 'entities/home/model/types';
 
 import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
 
@@ -81,15 +81,17 @@ interface genreMusicsProps {
 
 const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
   const [activeCtgId, setActiveCtgId] = useState<number>(likeGenre[0].id);
-  const CategoryClick = (CategoryId: number) => {
-    setActiveCtgId(CategoryId);
+  const [activeCtgName, setActiveCtgName] = useState<string>(likeGenre[0].genreName);
+  const CategoryClick = (Category: likeGenreItem) => {
+    setActiveCtgId(Category.id);
+    setActiveCtgName(Category.genreName);
   };
 
   return (
     <GenreContainer>
       <PreferTagWrapper>
         {likeGenre.map((item, index) => (
-          <PreferTag key={index} active={activeCtgId === item.id} onClick={() => CategoryClick(item.id)}>
+          <PreferTag key={index} active={activeCtgId === item.id} onClick={() => CategoryClick(item)}>
             {item.genreName}
           </PreferTag>
         ))}
@@ -97,7 +99,7 @@ const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
       </PreferTagWrapper>
 
       <TitleBlock>
-        {/* <PageTitle>{genreMusics.artists.name}</PageTitle> */}
+        <PageTitle>{activeCtgName}</PageTitle>
         <SubTitle>장르의 음악</SubTitle>
       </TitleBlock>
 
@@ -108,7 +110,7 @@ const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
 
         <GenreMore>
           <TitleBlock className="more">
-            {/* <PageTitle>{recommendGenreName}</PageTitle> */}
+            <PageTitle>{activeCtgName}</PageTitle>
             <SubTitle>장르 더 듣기</SubTitle>
           </TitleBlock>
         </GenreMore>

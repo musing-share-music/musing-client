@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import moment from 'moment';
 moment.locale('ko');
 
-import { recentBoard, hotMusicBoard } from 'entities/home/model/types';
+import { hotMusicBoard, recentBoard } from 'entities/home/model/types';
 
 import arrow3 from 'shared/assets/image/main/arrow 3.png';
 import { commonStyles } from 'shared/styles/common';
@@ -98,6 +98,9 @@ const PlayListInfoBlock = styled.div`
   width: 312px;
   height: 80px;
   z-index: 11;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const PlayListInfoButton = styled.img`
@@ -264,7 +267,7 @@ const CommunityMusic = ({ recentBoard, hotMusicBoard }: recentBoardProps) => {
           <PlayListImage src={hotMusicBoard.thumbNailLink}></PlayListImage>
           <PlayListInfoBlock>
             <PlayListInfoTitle>
-              {hotMusicBoard.musicName} · {hotMusicBoard.artist}
+              {hotMusicBoard.musicName} · {hotMusicBoard.artists[0].name}
             </PlayListInfoTitle>
             <PlayListInfoDescription>{hotMusicBoard.title}</PlayListInfoDescription>
           </PlayListInfoBlock>

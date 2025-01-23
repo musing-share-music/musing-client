@@ -62,24 +62,6 @@ export type recommendGenre = {
   genreName: string;
 };
 
-// 좋아요한 음악
-export type LikeMusicItem = {
-  id: string;
-  title: string;
-  name: string;
-  img: string;
-};
-export type LikeMusicList = LikeMusicItem[];
-
-// 핫한 음악
-export type HotMusicItem = {
-  id: string;
-  title: string;
-  name: string;
-  img: string;
-};
-export type HotMusicList = HotMusicItem[];
-
 // 음악 추천 게시판 리스트
 export type recentBoardItem = {
   id: number;
@@ -127,11 +109,12 @@ export type MainItem = {
   //좋아요한 음악
   likeMusicDtos: likeMusicDtos;
 
+  //핫한 음악
+  recommendGenre: recommendGenre; //타이틀
   recommendGenres: recommendGenres;
-  LikeMusicList: LikeMusicList;
-  HotMusicList: HotMusicList;
-  recentBoard: recentBoard;
+
+  //음악추천게시판
   hotMusicBoard: hotMusicBoard;
+  recentBoard: recentBoard;
   RecommendedMusicList: RecommendedMusicList;
-  recommendGenreName: recommendGenreName;
 };

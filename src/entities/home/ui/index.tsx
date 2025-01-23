@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 
 import { useNetworkMain } from 'entities/home/api/useNetworkMain';
-import { MAIN_ITEM } from 'entities/home/model/model';
 
 import { Spinner } from 'shared/ui/Spinner';
 
