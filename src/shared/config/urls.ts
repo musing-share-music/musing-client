@@ -10,7 +10,8 @@ const URL = {
 
   // 서버 API
   API: {
-    MAIN: 'musing/main', // 메인
+    MAIN: 'musing/main', //메인
+    LOGOUT: 'musing/logout', //로그아웃
   },
 };
 

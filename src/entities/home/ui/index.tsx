@@ -14,18 +14,22 @@ import LikeMusic from './LikeMusic';
 import ThumbnailMusic from './ThumbnailMusic';
 
 export const Main = () => {
-  const { setUser, isAdmin, userInfo } = useUserInfoStore();
+  const { setUser, setPassModal, isLogin } = useUserInfoStore();
   const [data, error, isLoading] = useNetworkMain();
 
+  //메인홈
   useEffect(() => {
+    if (data?.data) {
+      setPassModal(data.data.passModal);
+    }
+
+    //사용자정보 있으면 저장
     if (data?.data?.userInfoDto) {
       setUser(data.data.userInfoDto);
     }
+  }, [data, setUser, setPassModal]);
 
-    console.log(isAdmin());
-    console.log(userInfo);
-  }, [data, setUser]);
-
+  //에러처리
   if (error) {
     console.log(error);
   }
@@ -38,13 +42,17 @@ export const Main = () => {
         <ThumbnailMusic noticeDto={data?.data?.noticeDto} />
       </ComponentWrapper>
 
-      <ComponentWrapper marginBottom={104}>
-        <GenreMusic genreMusics={data?.data?.genreMusics} likeGenre={data?.data?.likeGenre} />
-      </ComponentWrapper>
+      {isLogin() && (
+        <>
+          <ComponentWrapper marginBottom={104}>
+            <GenreMusic genreMusics={data?.data?.genreMusics} likeGenre={data?.data?.likeGenre} />
+          </ComponentWrapper>
 
-      <ComponentWrapper marginBottom={144}>
-        <LikeMusic likeMusicDtos={data?.data?.likeMusicDtos} />
-      </ComponentWrapper>
+          <ComponentWrapper marginBottom={144}>
+            <LikeMusic likeMusicDtos={data?.data?.likeMusicDtos} />
+          </ComponentWrapper>
+        </>
+      )}
 
       <ComponentWrapper marginBottom={124}>
         <HotMusic recommendGenre={data?.data?.recommendGenre} recommendGenres={data?.data?.recommendGenres} />

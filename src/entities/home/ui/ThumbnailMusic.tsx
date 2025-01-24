@@ -9,6 +9,7 @@ import IconHeart from 'shared/assets/image/icons/icon-heart.svg?react';
 import IconMusic from 'shared/assets/image/icons/icon-music.svg?react';
 import thumnail from 'shared/assets/image/main/thumnail.png';
 import URL from 'shared/config/urls';
+import { useUserInfoStore } from 'shared/store/userInfo';
 import { commonStyles } from 'shared/styles/common';
 
 interface noticeDtoProps {
@@ -16,9 +17,9 @@ interface noticeDtoProps {
 }
 
 const ThumbnailMusic = ({ noticeDto }: noticeDtoProps) => {
+  const { userInfo, isLogin } = useUserInfoStore();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [isLogin, setisLogin] = useState(false);
   const isLiked = true;
   const color = isLiked ? theme.colors.primary1 : theme.colors[200];
 
@@ -53,21 +54,21 @@ const ThumbnailMusic = ({ noticeDto }: noticeDtoProps) => {
           )}
         </ThumSelectBlock>
 
-        {!open && isLogin && (
+        {!open && isLogin() && (
           <ThumMemberInfoBlock>
             <ThumMemberInfoWrapper>
               <ThumMemberInfo>
-                <ThumMemberName>김태리님</ThumMemberName>
-                <ThumMemberEmail>taeri@gmail.com</ThumMemberEmail>
+                <ThumMemberName>{userInfo.name}님</ThumMemberName>
+                <ThumMemberEmail>{userInfo.email}</ThumMemberEmail>
               </ThumMemberInfo>
               <MusicStats>
                 <LikeBlock>
                   <IconHeart fill={color} />
-                  <Count color={color}>좋아요한 음악 21</Count>
+                  <Count color={color}>좋아요한 음악 {userInfo.likeMusicCount}</Count>
                 </LikeBlock>
                 <PlayListBlock>
                   <IconMusic fill={color} />
-                  <Count color={color}>나의 플레이리스트 5</Count>
+                  <Count color={color}>나의 플레이리스트 {userInfo.myPlaylistCount}</Count>
                 </PlayListBlock>
               </MusicStats>
             </ThumMemberInfoWrapper>
@@ -77,7 +78,7 @@ const ThumbnailMusic = ({ noticeDto }: noticeDtoProps) => {
           </ThumMemberInfoBlock>
         )}
 
-        {!open && !isLogin && (
+        {!open && !isLogin() && (
           <ThumMemberInfoBlock>
             <LoginBlock>
               <LoginGuide>뮤징이 처음이라면?</LoginGuide>

@@ -3,7 +3,10 @@ import { forwardRef } from 'react';
 
 import { ProfileModalRef } from 'widgets/config/profileModal';
 
+import { useUserInfoStore } from 'shared/store/userInfo';
 import { Button } from 'shared/ui/Button';
+
+import { useNetworkLogout } from './api/useNetworkLogout';
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -16,21 +19,36 @@ const ALARM_DATA = [
 ];
 
 export const ProfileModal = forwardRef<ProfileModalRef, ProfileModalProps>(({ isOpen }, ref) => {
-  const userName = '김태리';
-  const userEmail = 'test@test.com';
+  const { userInfo, logout } = useUserInfoStore();
+
+  // const userName = '김태리';
+  // const userEmail = 'test@test.com';
 
   if (!isOpen) return;
+
+  //로그아웃
+  const fetchLogout = () => {
+    const [data, error, isLoading] = useNetworkLogout();
+    if (isLoading) {
+      console.log('Loading...');
+    } else if (error) {
+      console.error('Error:', error);
+    } else {
+      console.log('Fetched Data:', data);
+    }
+    logout();
+  };
 
   return (
     <Layout ref={ref}>
       <Box>
         <UserInfo>
-          <UserName>{userName}님</UserName>
-          <UserEmail>{userEmail}</UserEmail>
+          <UserName>{userInfo.name}님</UserName>
+          <UserEmail>{userInfo.email}</UserEmail>
         </UserInfo>
         <ButtonBlock>
           <Button variant="outlined">회원 정보</Button>
-          <Button variant="outlined">
+          <Button variant="outlined" onClick={fetchLogout}>
             <WarnText>로그아웃</WarnText>
           </Button>
         </ButtonBlock>
