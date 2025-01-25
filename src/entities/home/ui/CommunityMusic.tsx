@@ -6,6 +6,7 @@ import { hotMusicBoard, recentBoard } from 'entities/home/model/types';
 
 import arrow3 from 'shared/assets/image/main/arrow 3.png';
 import { commonStyles } from 'shared/styles/common';
+import { Nodata } from 'shared/ui';
 
 // 게시판 전체영역
 const CommunityContainer = styled.div`
@@ -275,55 +276,59 @@ const CommunityMusic = ({ recentBoard, hotMusicBoard }: recentBoardProps) => {
         </PlayListBlock>
 
         <CommunityListBlock>
-          {recentBoard.map((item, index) => {
-            const itemDate = moment(item.createdAt);
+          {recentBoard.length === 0 ? (
+            <Nodata Comment={'아직 추천 게시판이 없어요.'} />
+          ) : (
+            recentBoard.map((item, index) => {
+              const itemDate = moment(item.createdAt);
 
-            const now = moment();
-            const diffDays = now.diff(itemDate, 'days');
-            const diffWeeks = now.diff(itemDate, 'weeks');
-            const diffYears = now.diff(itemDate, 'years');
+              const now = moment();
+              const diffDays = now.diff(itemDate, 'days');
+              const diffWeeks = now.diff(itemDate, 'weeks');
+              const diffYears = now.diff(itemDate, 'years');
 
-            let formattedDate;
-            if (diffDays < 1) {
-              formattedDate = itemDate.format('HH:mm');
-            } else if (diffDays < 7) {
-              formattedDate = `${diffDays}일 전`;
-            } else if (diffWeeks < 4) {
-              formattedDate = `${diffWeeks}주 전`;
-            } else if (diffYears < 1) {
-              const diffMonths = now.diff(itemDate, 'months');
-              formattedDate = `${diffMonths}개월 전`;
-            } else {
-              formattedDate = `${diffYears}년 전`;
-            }
+              let formattedDate;
+              if (diffDays < 1) {
+                formattedDate = itemDate.format('HH:mm');
+              } else if (diffDays < 7) {
+                formattedDate = `${diffDays}일 전`;
+              } else if (diffWeeks < 4) {
+                formattedDate = `${diffWeeks}주 전`;
+              } else if (diffYears < 1) {
+                const diffMonths = now.diff(itemDate, 'months');
+                formattedDate = `${diffMonths}개월 전`;
+              } else {
+                formattedDate = `${diffYears}년 전`;
+              }
 
-            return (
-              <div key={item.id}>
-                <CommunityListWrapper>
-                  <CommunityList>
-                    <ListDate isRecent={diffDays < 1}>{formattedDate}</ListDate>
-                    <ListImg src={item.thumbNailLink} alt={item.title} />
-                    <ListContent>
-                      <ContentInfo>
-                        <ContentsTitle>
-                          {item.artist} · {item.musicName}
-                        </ContentsTitle>
-                        <ContentsDescription>{item.title}</ContentsDescription>
-                      </ContentInfo>
+              return (
+                <div key={item.id}>
+                  <CommunityListWrapper>
+                    <CommunityList>
+                      <ListDate isRecent={diffDays < 1}>{formattedDate}</ListDate>
+                      <ListImg src={item.thumbNailLink} alt={item.title} />
+                      <ListContent>
+                        <ContentInfo>
+                          <ContentsTitle>
+                            {item.artist} · {item.musicName}
+                          </ContentsTitle>
+                          <ContentsDescription>{item.title}</ContentsDescription>
+                        </ContentInfo>
 
-                      <ActivityInfo>
-                        <ActivityStatus>
-                          댓글 {item.recommendCount} · 추천 {item.replyCount} · 조회 {item.viewCount}
-                        </ActivityStatus>
-                        <ActivityName>{item.username}</ActivityName>
-                      </ActivityInfo>
-                    </ListContent>
-                  </CommunityList>
-                </CommunityListWrapper>
-                {index < 4 ? <StyledHr /> : ''}
-              </div>
-            );
-          })}
+                        <ActivityInfo>
+                          <ActivityStatus>
+                            댓글 {item.recommendCount} · 추천 {item.replyCount} · 조회 {item.viewCount}
+                          </ActivityStatus>
+                          <ActivityName>{item.username}</ActivityName>
+                        </ActivityInfo>
+                      </ListContent>
+                    </CommunityList>
+                  </CommunityListWrapper>
+                  {index < 4 ? <StyledHr /> : ''}
+                </div>
+              );
+            })
+          )}
         </CommunityListBlock>
       </CommunityBlock>
     </CommunityContainer>

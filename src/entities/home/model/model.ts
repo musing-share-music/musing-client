@@ -1,5 +1,4 @@
 import image from 'shared/assets/image/main/image1.png';
-import image2 from 'shared/assets/image/main/roundimg.png';
 
 import { MainItem } from './types';
 
@@ -12,136 +11,215 @@ export const MAIN_ITEM: MainItem = {
     username: '더미',
   },
 
+  likeGenre: [
+    {
+      id: 1,
+      genreName: '슈게이징',
+    },
+  ],
+
+  genreMusics: [
+    {
+      id: 1,
+      musicName: 'Honey',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
+      thumbNailLink: image,
+    },
+    {
+      id: 2,
+      musicName: 'Honey',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
+      thumbNailLink: image,
+    },
+    {
+      id: 3,
+      musicName: 'Honey',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
+      thumbNailLink: image,
+    },
+    {
+      id: 4,
+      musicName: 'Honey',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
+      thumbNailLink: image,
+    },
+  ],
+
+  likeMusicDtos: [
+    {
+      id: 1,
+      musicName: 'Honey',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
+      thumbNailLink: image,
+    },
+    {
+      id: 2,
+      musicName: 'Honey',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
+      thumbNailLink: image,
+    },
+    {
+      id: 3,
+      musicName: 'Honey',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
+      thumbNailLink: image,
+    },
+    {
+      id: 4,
+      musicName: 'Honey',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
+      thumbNailLink: image,
+    },
+    {
+      id: 5,
+      musicName: 'Honey',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
+      thumbNailLink: image,
+    },
+    {
+      id: 6,
+      musicName: 'Honey',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
+      thumbNailLink: image,
+    },
+    {
+      id: 7,
+      musicName: 'Honey',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
+      thumbNailLink: image,
+    },
+    {
+      id: 8,
+      musicName: 'Honey',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
+      thumbNailLink: image,
+    },
+  ],
+
+  recommendGenre: {
+    id: 1,
+    genreName: '슈게이징',
+  },
+
   recommendGenres: [
     {
-      id: '1',
+      id: 1,
       musicName: 'Honey',
-      artist: 'TRPP',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
       thumbNailLink: image,
     },
     {
-      id: '2',
+      id: 2,
       musicName: 'Honey',
-      artist: 'TRPP',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
       thumbNailLink: image,
     },
     {
-      id: '3',
+      id: 3,
       musicName: 'Honey',
-      artist: 'TRPP',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
       thumbNailLink: image,
     },
     {
-      id: '4',
+      id: 4,
       musicName: 'Honey',
-      artist: 'TRPP',
+      artists: [
+        {
+          id: 1,
+          name: 'TRPP',
+        },
+      ],
       thumbNailLink: image,
     },
   ],
 
-  recommendGenreName: '슈게이징',
-
-  LikeMusicList: [
-    {
-      id: '1',
-      title: 'Honey',
-      name: 'TRPP',
-      img: image,
-    },
-    {
-      id: '2',
-      title: 'Honey',
-      name: 'TRPP',
-      img: image,
-    },
-    {
-      id: '3',
-      title: 'Honey',
-      name: 'TRPP',
-      img: image,
-    },
-    {
-      id: '4',
-      title: 'Honey',
-      name: 'TRPP',
-      img: image,
-    },
-    {
-      id: '5',
-      title: 'Honey',
-      name: 'TRPP',
-      img: image,
-    },
-    {
-      id: '6',
-      title: 'Honey',
-      name: 'TRPP',
-      img: image,
-    },
-    {
-      id: '7',
-      title: 'Honey',
-      name: 'TRPP',
-      img: image,
-    },
-    {
-      id: '8',
-      title: 'Honey',
-      name: 'TRPP',
-      img: image,
-    },
-    {
-      id: '7',
-      title: 'Honey',
-      name: 'TRPP',
-      img: image,
-    },
-    {
-      id: '8',
-      title: 'Honey',
-      name: 'TRPP',
-      img: image,
-    },
-  ],
-
-  HotMusicList: [
-    {
-      id: '1',
-      title: '그린내',
-      name: '실리카겔',
-      img: image2,
-    },
-    {
-      id: '2',
-      title: '그린내',
-      name: '실리카겔',
-      img: image2,
-    },
-    {
-      id: '3',
-      title: '그린내',
-      name: '실리카겔',
-      img: image2,
-    },
-    {
-      id: '4',
-      title: '그린내',
-      name: '실리카겔',
-      img: image2,
-    },
-    {
-      id: '5',
-      title: '그린내',
-      name: '실리카겔',
-      img: image2,
-    },
-    {
-      id: '6',
-      title: '그린내',
-      name: '실리카겔',
-      img: image2,
-    },
-  ],
+  hotMusicBoard: {
+    id: 1,
+    title: 'First Love Reflection',
+    musicName: 'First Love',
+    artists: [
+      {
+        id: 1,
+        name: 'Hikaru Utada',
+      },
+    ],
+    thumbNailLink: 'https://img.youtube.com/vi/o1sUaVJUeB0/maxresdefault.jpg',
+  },
 
   recentBoard: [
     {
@@ -206,27 +284,19 @@ export const MAIN_ITEM: MainItem = {
     },
   ],
 
-  hotMusicBoard: {
-    id: 0,
-    title: 'First Love Reflection',
-    musicName: 'First Love',
-    artist: 'Hikaru Utada',
-    thumbNailLink: 'https://img.youtube.com/vi/o1sUaVJUeB0/maxresdefault.jpg',
-  },
-
   RecommendedMusicList: [
     {
-      id: '1',
+      id: 1,
       name: 'hathaw9y',
       img: image,
     },
     {
-      id: '2',
+      id: 2,
       name: 'Midnight jogging c',
       img: image,
     },
     {
-      id: '3',
+      id: 3,
       name: '모스크바서핑클럽',
       img: image,
     },

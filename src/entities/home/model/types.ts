@@ -93,7 +93,7 @@ export type hotMusicBoard = {
 
 // 추천 음악 리스트
 export type RecommendedMusicList = {
-  id: string;
+  id: number;
   name: string;
   img: string;
 }[];

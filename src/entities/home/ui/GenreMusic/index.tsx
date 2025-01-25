@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { genreMusics, likeGenre, likeGenreItem } from 'entities/home/model/types';
 
 import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
+import { Nodata } from 'shared/ui';
 
 import { GenreMusicItem } from './GenreMusicItem';
 
@@ -104,9 +105,15 @@ const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
       </TitleBlock>
 
       <GenreMusingBlock>
-        {genreMusics.slice(0, 4).map((item, index) => (
-          <GenreMusicItem key={index} item={item} />
-        ))}
+        {genreMusics.length === 0 ? (
+          <Nodata Comment={`아직 ${activeCtgName} 장르의 음악이 없어요.`} />
+        ) : (
+          <>
+            {genreMusics.slice(0, 4).map((item, index) => (
+              <GenreMusicItem key={index} item={item} />
+            ))}
+          </>
+        )}
 
         <GenreMore>
           <TitleBlock className="more">

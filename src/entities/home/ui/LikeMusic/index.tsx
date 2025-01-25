@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { likeMusicDtos } from 'entities/home/model/types';
 
 import arrow2 from 'shared/assets/image/main/arrow 2.png';
+import { Nodata } from 'shared/ui';
 
 import { LikeMoreItem } from './LikeMoreItem';
 import { LikeMusicItem } from './LikeMusicItem';
@@ -84,27 +85,32 @@ const LikeMusic = ({ likeMusicDtos }: likeMusicDtosProps) => {
       </TitleBlock>
 
       <LikeMusingBlock>
-        {limitedLikeMusicList.map((item, index) => (
-          <LikeMusicItem key={index} item={item} />
-        ))}
-
-        <LikeMore>
-          <LikeMoreList>
+        {limitedLikeMusicList.length === 0 ? (
+          <Nodata Comment={'아직 좋아요한 음악이 없어요.'} />
+        ) : (
+          <>
             {limitedLikeMusicList.map((item, index) => (
-              <LikeMoreItem key={index} item={item} />
+              <LikeMusicItem key={index} item={item} />
             ))}
-          </LikeMoreList>
 
-          <LikeMoreList>
-            {limitedLikeMusicList.slice(0, 3).map((item, index) => (
-              <LikeMoreItem key={index} item={item} />
-            ))}
-            <Arrow src={arrow2}></Arrow>
-          </LikeMoreList>
-        </LikeMore>
+            <LikeMore>
+              <LikeMoreList>
+                {limitedLikeMusicList.map((item, index) => (
+                  <LikeMoreItem key={index} item={item} />
+                ))}
+              </LikeMoreList>
+
+              <LikeMoreList>
+                {limitedLikeMusicList.slice(0, 3).map((item, index) => (
+                  <LikeMoreItem key={index} item={item} />
+                ))}
+                <Arrow src={arrow2}></Arrow>
+              </LikeMoreList>
+            </LikeMore>
+          </>
+        )}
       </LikeMusingBlock>
     </LikeContainer>
   );
 };
-
 export default LikeMusic;

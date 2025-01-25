@@ -14,7 +14,7 @@ const Home = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setOpen(!isLogin()); //jsnam 수정필요
+    setOpen(isLogin());
   }, [isLogin()]);
 
   return (

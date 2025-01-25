@@ -6,7 +6,7 @@ import { ProfileModalRef } from 'widgets/config/profileModal';
 import { useUserInfoStore } from 'shared/store/userInfo';
 import { Button } from 'shared/ui/Button';
 
-import { useNetworkLogout } from './api/useNetworkLogout';
+// import { useNetworkLogout } from './api/useNetworkLogout';
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -26,16 +26,14 @@ export const ProfileModal = forwardRef<ProfileModalRef, ProfileModalProps>(({ is
 
   if (!isOpen) return;
 
-  //로그아웃
   const fetchLogout = () => {
-    const [data, error, isLoading] = useNetworkLogout();
-    if (isLoading) {
-      console.log('Loading...');
-    } else if (error) {
-      console.error('Error:', error);
-    } else {
-      console.log('Fetched Data:', data);
-    }
+    //로그아웃
+    // const [enable, setEnable] = useState(false);
+    // const [data] = useNetworkLogout({}, enable);
+    // if (data) {
+    //   setEnable(true);
+    // }
+    window.location.href = 'http://localhost:3000/musing/logout'; //임시설정
     logout();
   };
 
