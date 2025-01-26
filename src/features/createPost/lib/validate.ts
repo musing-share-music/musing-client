@@ -5,6 +5,7 @@ import { CreateFormSchema } from 'features/createPost/model/formSchema';
 import { Genre } from 'entities/genre/model/genre';
 import { Mood } from 'entities/mood/model/mood';
 import { CreatePostDto } from 'entities/post/api/createPost';
+
 import { getYoutubeVideoId } from './youtubeId';
 
 /**
