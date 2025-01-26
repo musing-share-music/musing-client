@@ -1,12 +1,19 @@
-import { optional, string, z } from 'zod';
+import { string, z } from 'zod';
 
 export const CreateFormSchema = z.object({
-  userEmail: optional(string()), // TODO 로그인 기능 개발 후 해당 필드 삭제
-  title: string().trim(),
-  musicTitle: string().trim(),
-  artist: string().trim(),
-  youtubeLink: string().trim(),
-  hashtags: string().trim().array(),
-  genre: string().trim(),
-  content: string().trim(),
+  title: string({
+    required_error: '제목을 입력해 주세요.',
+  }).trim(),
+  musicTitle: string({ required_error: '곡 제목을 입력해 주세요.' }).trim(),
+  artist: string({ required_error: '아티스트 명을 입력해 주세요.' }).trim(),
+  youtubeLink: string({ required_error: '유튜브 링크를 입력해 주세요.' }).trim(),
+  hashtags: string({
+    required_error: '분위기를 선택해 주세요.',
+  })
+    .trim()
+    .array(),
+  genre: string({ required_error: '장르를 선택해 주세요.' }).trim(),
+  content: string({
+    required_error: '내용을 입력해 주세요.',
+  }).trim(),
 });

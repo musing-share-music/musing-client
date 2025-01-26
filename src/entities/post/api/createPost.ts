@@ -1,10 +1,8 @@
-import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
 import URL from 'shared/config/urls';
 
 export interface CreatePostDto {
-  userEmail?: string; // 작성자 이메일 // TODO: 로그인 기능 완료 후, 프로퍼티 삭제
   title: string; // 글 제목
   musicTitle: string; // 곡명
   artist: string; // 아티스트명
@@ -23,18 +21,10 @@ interface CreatePostResponse {
 const instance = axios.create({
   baseURL: URL.SERVERURL,
   timeout: 5000, // 임의로 지정
-  headers: {
-    'Content-Type': 'application/json',
-  },
 });
 
-const fetchCreatePost = async (body: CreatePostDto): Promise<CreatePostResponse> => {
-  const path = '/musing/boards/create';
+export const fetchCreatePost = async (body: CreatePostDto): Promise<CreatePostResponse> => {
   const formData = new FormData();
-
-  if (body.userEmail) {
-    formData.append('userEmail', body.userEmail);
-  }
 
   formData.append('title', body.title);
   formData.append('musicTitle', body.musicTitle);
@@ -42,7 +32,6 @@ const fetchCreatePost = async (body: CreatePostDto): Promise<CreatePostResponse>
   formData.append('youtubeLink', body.youtubeLink);
   formData.append('genre', body.genre);
   formData.append('content', body.content);
-
   body.hashtags.forEach((hashtag) => {
     formData.append('hashtags', hashtag);
   });
@@ -51,18 +40,12 @@ const fetchCreatePost = async (body: CreatePostDto): Promise<CreatePostResponse>
     formData.append('image', body.image);
   }
 
-  const response = await instance.post(path, formData, {
+  const response = await instance.post('/musing/boards/create', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
+    withCredentials: true,
   });
 
   return response.data;
-};
-
-export const useCreatePostMutation = () => {
-  const createPostMutation = useMutation({
-    mutationFn: fetchCreatePost,
-  });
-  return createPostMutation;
 };

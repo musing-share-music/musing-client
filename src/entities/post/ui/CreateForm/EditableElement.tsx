@@ -6,8 +6,8 @@ interface EditableElementProps {
   placeholder: string;
 }
 
-export const EditableElement = forwardRef<HTMLDivElement, EditableElementProps>(({ onChange, placeholder }, ref) => {
-  const handleInput = (event: React.FormEvent<HTMLDivElement>) => {
+export const EditableElement = forwardRef<HTMLSpanElement, EditableElementProps>(({ onChange, placeholder }, ref) => {
+  const handleInput = (event: React.FormEvent<HTMLSpanElement>) => {
     const value = event.currentTarget.textContent || '';
     onChange(value);
   };
@@ -19,15 +19,13 @@ export const EditableElement = forwardRef<HTMLDivElement, EditableElementProps>(
       role="textbox"
       contentEditable
       onInput={handleInput}
-      placeholder={placeholder}
+      data-placeholder={placeholder}
     />
   );
 });
 
-const StyledEditableElement = styled.div`
-  display: inline;
-
+const StyledEditableElement = styled.span`
   &:empty::before {
-    content: attr(placeholder);
+    content: attr(data-placeholder);
   }
 `;

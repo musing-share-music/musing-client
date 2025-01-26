@@ -1,3 +1,5 @@
+import { ZodError } from 'zod';
+
 import { CreateFormSchema } from 'features/createPost/model/formSchema';
 
 import { Genre } from 'entities/genre/model/genre';
@@ -24,5 +26,20 @@ export const validateTag = ({
  */
 export const validateFormSchema = (form: CreatePostDto) => {
   const validation = CreateFormSchema.safeParse(form);
-  return validation.success;
+  return validation;
+};
+
+/**
+ * form validation의 에러 메세지를 반환
+ */
+export const getFromErrorMessage = (error: ZodError) => {
+  const errorMessages = error.flatten().fieldErrors;
+  const keys = Object.keys(errorMessages) as Array<keyof typeof errorMessages>;
+  for (const key of keys) {
+    const messages = errorMessages[key];
+    if (messages && messages.length) {
+      return messages[0];
+    }
+  }
+  return '';
 };

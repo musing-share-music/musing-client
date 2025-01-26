@@ -1,7 +1,7 @@
 import { Modal } from './BaseModal';
-import { BaseModalProps } from './type';
+import { OuterCloseModalProps } from './type';
 
-export const OuterCloseModal = ({ open, children, onClose }: BaseModalProps) => {
+export const OuterCloseModal = ({ open, children, onClose }: OuterCloseModalProps) => {
   return (
     <Modal open={open} onClose={onClose}>
       <Modal.CloseButton
