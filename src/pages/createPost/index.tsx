@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { MainLayout } from 'widgets/ui/Layout';
 
 import { useCreatePostMutation } from 'features/createPost/lib/useCreatePostMutation';
-import { getFromErrorMessage, validateFormSchema } from 'features/createPost/lib/validate';
+import { getFromErrorMessage, validateFormSchema, validateYoutubeLink } from 'features/createPost/lib/validate';
 import { useFormState } from 'features/createPost/model/useFormState';
 
 import { CreatePostDto } from 'entities/post/api/createPost';
@@ -36,9 +36,17 @@ const Page = () => {
       content,
     };
 
+    // form schema가 올바른지 검증
     const formValidation = validateFormSchema(_formData);
     if (!formValidation.success) {
       setErrorMessage(getFromErrorMessage(formValidation.error));
+      setErrorModalOpen(true);
+      return;
+    }
+
+    // youtubelink가 올바른지 검증
+    if (!validateYoutubeLink(youtubeUrl)) {
+      setErrorMessage('유튜브 링크를 다시 확인해 주세요.');
       setErrorModalOpen(true);
       return;
     }
