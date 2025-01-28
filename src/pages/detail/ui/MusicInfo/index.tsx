@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { AnchorButton } from 'pages/detail/ui/AnchorButton';
 import CoverSrc from 'pages/detail/ui/cover.png';
@@ -7,13 +8,21 @@ import { MoreButton } from 'pages/detail/ui/MoreButton';
 
 import { DeleteReviewModal } from 'widgets/ui/PlayList/DeleteReviewModal';
 
+import { useDeletePostMutation } from 'features/deletePost/lib/useDeletePostMutation';
+
+import { ROUTES } from 'shared/config/routes';
 import { Button, StarRatingInput } from 'shared/ui/';
 
 import { LikeButton } from './LikeButton';
 
 export const MusicInfo = () => {
   const [open, setOpen] = useState(false);
-  const isConfirmed = true;
+  const deletePostMutation = useDeletePostMutation();
+  const navigate = useNavigate();
+  const params = useParams();
+
+  const boardId = Number(params.id); // 게시글 id
+  const isConfirmed = true; // 관리자 확인 여부
 
   const menuItem = [
     {
@@ -23,6 +32,23 @@ export const MusicInfo = () => {
       },
     },
   ];
+
+  // TODO: 상세 조회 api 연동 후 기능 확인
+  // 리뷰 삭제 핸들러
+  const handleDeleteReview = () => {
+    if (deletePostMutation.isPending) return;
+
+    deletePostMutation.mutate(
+      { boardId: boardId },
+      {
+        onSuccess: async () => {
+          window.alert('리뷰가 삭제되었습니다.');
+          setOpen(false);
+          await navigate(ROUTES.COMMUNITY.COMMUNITY);
+        },
+      },
+    );
+  };
 
   return (
     <>
@@ -65,7 +91,13 @@ export const MusicInfo = () => {
 
         <AnchorButton />
       </Layout>
-      <DeleteReviewModal open={open} onClose={() => setOpen(false)} onConfirm={() => {}} />
+      <DeleteReviewModal
+        open={open}
+        onClose={() => setOpen(false)}
+        onConfirm={() => {
+          handleDeleteReview();
+        }}
+      />
     </>
   );
 };
