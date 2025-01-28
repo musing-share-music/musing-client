@@ -21,7 +21,7 @@ export const Filter = ({ options, width = 148, onChange, placeholder }: FilterPr
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const ref = useRef<HTMLUListElement>(null);
   const selectRef = useRef<HTMLDivElement>(null);
-  useClickOutside({ ref, ignoreRef: selectRef, open: isOpen, click: () => setIsOpen(false) });
+  useClickOutside({ ref, ignoreRef: selectRef, click: () => setIsOpen(false) });
 
   const toggleDropdown = () => setIsOpen(!isOpen);
   const handleOptionClick = (option: Option) => {
