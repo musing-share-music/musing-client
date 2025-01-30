@@ -14,7 +14,7 @@ const Home = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (passModal == 'pass') {
+    if (passModal == 'pass' || passModal == 'notLogIn') {
       setOpen(false);
     } else {
       setOpen(true);

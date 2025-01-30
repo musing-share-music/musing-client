@@ -15,7 +15,7 @@ import ThumbnailMusic from './ThumbnailMusic';
 
 export const Main = () => {
   const { setUser, setPassModal, isLogin } = useUserInfoStore();
-  const [data, error, isLoading] = useNetworkMain();
+  const [data, isLoading] = useNetworkMain();
 
   //메인홈
   useEffect(() => {
@@ -29,37 +29,38 @@ export const Main = () => {
     }
   }, [data, setUser, setPassModal]);
 
-  //에러처리
-  if (error) {
-    console.log(error);
-  }
-
   return isLoading ? (
     <Spinner isLoading={isLoading}></Spinner>
   ) : (
     <MainContents>
       <ComponentWrapper marginBottom={40}>
-        <ThumbnailMusic noticeDto={data?.data?.noticeDto} />
+        {data?.data?.noticeDto ? <ThumbnailMusic noticeDto={data?.data?.noticeDto} /> : null}
       </ComponentWrapper>
 
       {isLogin() && (
         <>
           <ComponentWrapper marginBottom={104}>
-            <GenreMusic genreMusics={data?.data?.genreMusics} likeGenre={data?.data?.likeGenre} />
+            {data?.data?.genreMusics ? (
+              <GenreMusic genreMusics={data?.data?.genreMusics} likeGenre={data?.data?.likeGenre} />
+            ) : null}
           </ComponentWrapper>
 
           <ComponentWrapper marginBottom={144}>
-            <LikeMusic likeMusicDtos={data?.data?.likeMusicDtos} />
+            {data?.data?.likeMusicDtos ? <LikeMusic likeMusicDtos={data?.data?.likeMusicDtos} /> : null}
           </ComponentWrapper>
         </>
       )}
 
       <ComponentWrapper marginBottom={124}>
-        <HotMusic recommendGenre={data?.data?.recommendGenre} recommendGenres={data?.data?.recommendGenres} />
+        {data?.data?.recommendGenre ? (
+          <HotMusic recommendGenre={data?.data?.recommendGenre} recommendGenres={data?.data?.recommendGenres} />
+        ) : null}
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={120}>
-        <CommunityMusic recentBoard={data.data.recentBoard} hotMusicBoard={data.data.hotMusicBoard} />
+        {data?.data?.recentBoard ? (
+          <CommunityMusic recentBoard={data?.data?.recentBoard} hotMusicBoard={data.data.hotMusicBoard} />
+        ) : null}
       </ComponentWrapper>
 
       {/* <ComponentWrapper>

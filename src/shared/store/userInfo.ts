@@ -11,10 +11,10 @@ export const useUserInfoStore = create<UserState>((set, get) => ({
     likeMusicCount: 0,
     myPlaylistCount: 0,
   },
-  passModal: 'notLogin', // 기본값 설정
+  passModal: 'notLogIn', // 기본값 설정
 
   // 로그인 여부 확인
-  isLogin: () => get().userInfo.email !== '' && get().passModal !== 'notLogin',
+  isLogin: () => get().passModal !== 'notLogIn',
 
   // 관리자 여부 확인
   isAdmin: () => get().userInfo.authority === 'ADMIN',
@@ -35,8 +35,7 @@ export const useUserInfoStore = create<UserState>((set, get) => ({
         likeMusicCount: 0,
         myPlaylistCount: 0,
       },
-      passModal: 'notLogin',
+      passModal: 'notLogIn',
     });
-    window.location.href = '/';
   },
 }));

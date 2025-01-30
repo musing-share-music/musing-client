@@ -6,7 +6,7 @@ import { Step, StepContent } from 'features/musicPreference/model/type';
 
 // import { GENRE, GenreId } from 'entities/genre/model/genre';
 // import { MOOD, MoodId } from 'entities/mood/model/mood';
-
+import URL from 'shared/config/urls';
 import { useUserInfoStore } from 'shared/store/userInfo';
 import { CheckBox, Chip, Modal, RightArrowButton, TextInput } from 'shared/ui/';
 
@@ -54,11 +54,15 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
   const [isValid, setIsValid] = useState(true);
 
   //사용자 정보
-  const { userInfo } = useUserInfoStore();
+  const { userInfo, passModal, isLogin } = useUserInfoStore();
 
   //api call
-  const [Genredata] = useGetGenre();
-  const [Mooddata] = useGetMood();
+  const [Genredata] = useGetGenre({
+    enabled: isLogin(),
+  });
+  const [Mooddata] = useGetMood({
+    enabled: isLogin(),
+  });
   const genreMutation = usePostGenre();
   const moodMutation = usePostMood();
   const artistMutation = usePostArtist();
@@ -88,6 +92,12 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
       return updatedArtist;
     });
   };
+
+  useEffect(() => {
+    if (['genre', 'mood', 'artist'].includes(passModal)) {
+      setStep(passModal as Step);
+    }
+  }, [passModal]);
 
   const stepContents: StepContent = {
     genre: {
@@ -184,6 +194,7 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
         artistMutation.mutate(Array.from(artist), {
           onSuccess: () => {
             onClose();
+            window.location.href = URL.GOOGLELOGIN;
           },
         });
         break;
