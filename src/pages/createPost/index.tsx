@@ -1,6 +1,6 @@
 import { MainLayout } from 'widgets/ui/Layout';
 
-import { MusicRecommendationForm } from 'features/musicRecommendationBoard/ui/MusicRecommendationForm';
+import { CreateForm } from 'entities/post/ui/CreateForm';
 
 import { Container, Layout } from './ui/styled';
 
@@ -9,7 +9,7 @@ const Page = () => {
     <MainLayout>
       <Layout>
         <Container>
-          <MusicRecommendationForm />
+          <CreateForm />
         </Container>
       </Layout>
     </MainLayout>

@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import { AdminCheckPage, AdminDeletedPage, AdminNoticePage, AdminReportPage, AdminUserPage } from 'pages/admin'; // TODO 분리
 import Community from 'pages/community';
-import Create from 'pages/create/';
+import Create from 'pages/createPost';
 import Demo from 'pages/demo';
 import MusicDetail from 'pages/detail';
 import Home from 'pages/home';
