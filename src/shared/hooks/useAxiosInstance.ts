@@ -19,7 +19,7 @@ axiosInstance.interceptors.response.use(
   },
   function (error) {
     if (error.response && error.response.status === 401) {
-      window.location.href = '/';
+      window.location.href = URL.GOOGLELOGIN;
     }
     return Promise.reject(error);
   },

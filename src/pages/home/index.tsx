@@ -10,12 +10,16 @@ import { useUserInfoStore } from 'shared/store/userInfo';
 
 // 컴포넌트 렌더링 테스트를 위한 /demo 페이지
 const Home = () => {
-  const { isLogin } = useUserInfoStore();
+  const { passModal } = useUserInfoStore();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setOpen(isLogin());
-  }, [isLogin()]);
+    if (passModal == 'pass') {
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
+  }, [passModal]);
 
   return (
     <MainLayout>
