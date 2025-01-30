@@ -1,12 +1,71 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { Key, useState } from 'react';
 
-import { genreMusics, likeGenre, likeGenreItem } from 'entities/home/model/types';
+import { useGetGenre } from 'entities/home/api/useGetGenre';
+import { genreMusics, genreMusicsItem, likeGenre, likeGenreItem } from 'entities/home/model/types';
 
 import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
 import { Nodata } from 'shared/ui';
 
 import { GenreMusicItem } from './GenreMusicItem';
+
+interface genreMusicsProps {
+  genreMusics: genreMusics;
+  likeGenre: likeGenre;
+}
+
+const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
+  const filterLikeGenre = Array.from(new Map(likeGenre.map((item) => [item.id, item])).values());
+
+  const [activeCtgId, setActiveCtgId] = useState<number>(filterLikeGenre[0].id);
+  const [activeCtgName, setActiveCtgName] = useState<string>(filterLikeGenre[0].genreName);
+
+  const { data } = useGetGenre(activeCtgName);
+
+  const CategoryClick = (Category: likeGenreItem) => {
+    setActiveCtgId(Category.id);
+    setActiveCtgName(Category.genreName);
+    console.log(genreMusics);
+  };
+
+  return (
+    <GenreContainer>
+      <PreferTagWrapper>
+        {filterLikeGenre.map((item, index) => (
+          <PreferTag key={index} active={activeCtgId === item.id} onClick={() => CategoryClick(item)}>
+            {item.genreName}
+          </PreferTag>
+        ))}
+        <Arrowdown />
+      </PreferTagWrapper>
+
+      <TitleBlock>
+        <PageTitle>{activeCtgName}</PageTitle>
+        <SubTitle>장르의 음악</SubTitle>
+      </TitleBlock>
+
+      <GenreMusingBlock>
+        {data?.data.length === 0 ? (
+          <Nodata Comment={`아직 ${activeCtgName} 장르의 음악이 없어요.`} />
+        ) : (
+          <>
+            {data?.data.slice(0, 4).map((item: genreMusicsItem, index: Key | null | undefined) => (
+              <GenreMusicItem key={index} item={item} />
+            ))}
+            <GenreMore>
+              <TitleBlock className="more">
+                <PageTitle>{activeCtgName}</PageTitle>
+                <SubTitle>장르 더 듣기</SubTitle>
+              </TitleBlock>
+            </GenreMore>
+          </>
+        )}
+      </GenreMusingBlock>
+    </GenreContainer>
+  );
+};
+
+export default GenreMusic;
 
 // 장르의 음악 전체영역
 const GenreContainer = styled.div`
@@ -74,56 +133,3 @@ const PreferTag = styled.label<{ active: boolean }>`
     background: ${({ theme }) => theme.colors.primary1};
   }
 `;
-
-interface genreMusicsProps {
-  genreMusics: genreMusics;
-  likeGenre: likeGenre;
-}
-
-const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
-  const [activeCtgId, setActiveCtgId] = useState<number>(likeGenre[0].id);
-  const [activeCtgName, setActiveCtgName] = useState<string>(likeGenre[0].genreName);
-  const CategoryClick = (Category: likeGenreItem) => {
-    setActiveCtgId(Category.id);
-    setActiveCtgName(Category.genreName);
-  };
-
-  return (
-    <GenreContainer>
-      <PreferTagWrapper>
-        {likeGenre.map((item, index) => (
-          <PreferTag key={index} active={activeCtgId === item.id} onClick={() => CategoryClick(item)}>
-            {item.genreName}
-          </PreferTag>
-        ))}
-        <Arrowdown />
-      </PreferTagWrapper>
-
-      <TitleBlock>
-        <PageTitle>{activeCtgName}</PageTitle>
-        <SubTitle>장르의 음악</SubTitle>
-      </TitleBlock>
-
-      <GenreMusingBlock>
-        {genreMusics.length === 0 ? (
-          <Nodata Comment={`아직 ${activeCtgName} 장르의 음악이 없어요.`} />
-        ) : (
-          <>
-            {genreMusics.slice(0, 4).map((item, index) => (
-              <GenreMusicItem key={index} item={item} />
-            ))}
-          </>
-        )}
-
-        <GenreMore>
-          <TitleBlock className="more">
-            <PageTitle>{activeCtgName}</PageTitle>
-            <SubTitle>장르 더 듣기</SubTitle>
-          </TitleBlock>
-        </GenreMore>
-      </GenreMusingBlock>
-    </GenreContainer>
-  );
-};
-
-export default GenreMusic;

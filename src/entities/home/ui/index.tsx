@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
 
-import { useNetworkMain } from 'entities/home/api/useNetworkMain';
+import { useGetMain } from 'entities/home/api/useGetMain';
 
 import { useUserInfoStore } from 'shared/store/userInfo';
 import { Spinner } from 'shared/ui/Spinner';
@@ -15,7 +15,7 @@ import ThumbnailMusic from './ThumbnailMusic';
 
 export const Main = () => {
   const { setUser, setPassModal, isLogin } = useUserInfoStore();
-  const [data, isLoading] = useNetworkMain();
+  const [data, isLoading] = useGetMain();
 
   //메인홈
   useEffect(() => {

@@ -15,6 +15,7 @@ const URL = {
     GENREMODAL: 'musing/modal/like/genres', //장르모달
     MOODMODAL: 'musing/modal/like/moods', //무드모달
     ARTISTMODAL: 'musing/modal/like/artists', //아티스트모달
+    GENRE: 'musing/main/genre', //장르
   },
 };
 

@@ -1,6 +1,7 @@
 import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { noticeDto } from 'entities/home/model/types';
 
@@ -8,6 +9,7 @@ import GoogleLogin from 'shared/assets/image/google_login.png';
 import IconHeart from 'shared/assets/image/icons/icon-heart.svg?react';
 import IconMusic from 'shared/assets/image/icons/icon-music.svg?react';
 import thumnail from 'shared/assets/image/main/thumnail.png';
+import { ROUTES } from 'shared/config/routes';
 import URL from 'shared/config/urls';
 import { useUserInfoStore } from 'shared/store/userInfo';
 import { commonStyles } from 'shared/styles/common';
@@ -17,6 +19,7 @@ interface noticeDtoProps {
 }
 
 const ThumbnailMusic = ({ noticeDto }: noticeDtoProps) => {
+  const navigate = useNavigate();
   const { userInfo, isLogin } = useUserInfoStore();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -73,7 +76,13 @@ const ThumbnailMusic = ({ noticeDto }: noticeDtoProps) => {
               </MusicStats>
             </ThumMemberInfoWrapper>
             <ButtonBlock>
-              <Button>회원 정보</Button>
+              <Button
+                onClick={async () => {
+                  await navigate(`${ROUTES.MEMBERINFO.MEMBERINFO}`);
+                }}
+              >
+                회원 정보
+              </Button>
             </ButtonBlock>
           </ThumMemberInfoBlock>
         )}
