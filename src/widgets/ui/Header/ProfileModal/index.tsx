@@ -33,7 +33,7 @@ export const ProfileModal = forwardRef<ProfileModalRef, ProfileModalProps>(({ is
     // if (data) {
     //   setEnable(true);
     // }
-    window.location.href = 'http://localhost:3000/musing/logout'; //임시설정
+    window.location.href = 'http://localhost:8090/musing/logout'; //임시설정
     logout();
   };
 

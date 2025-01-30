@@ -12,6 +12,8 @@ const URL = {
   API: {
     MAIN: 'musing/main', //메인
     LOGOUT: 'musing/logout', //로그아웃
+    GENREMODAL: 'musing/modal/like/genres', //장르모달창
+    MOODMODAL: 'musing/modal/like/moods', //무드모달창
   },
 };
 
