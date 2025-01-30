@@ -15,8 +15,8 @@ export const MemberInfoPage = () => {
   return (
     <MainContents>
       <MemberPreference onConfirm={function (): void {}}></MemberPreference>
-      <MemberCommunity CommunityMusicInfo={MAIN_ITEM.CommunityMusicInfo}></MemberCommunity>
-      <MemberReviewList CommunityMusicInfo={MAIN_ITEM.CommunityMusicInfo}></MemberReviewList>
+      <MemberCommunity recentBoard={MAIN_ITEM.recentBoard}></MemberCommunity>
+      <MemberReviewList recentBoard={MAIN_ITEM.recentBoard}></MemberReviewList>
     </MainContents>
   );
 };

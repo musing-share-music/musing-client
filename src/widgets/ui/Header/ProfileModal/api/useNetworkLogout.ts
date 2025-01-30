@@ -4,21 +4,21 @@ import URL from 'shared/config/urls';
 import axiosInstance from 'shared/hooks/useAxiosInstance';
 
 // 메인데이터 호출
-const fetchMain = async () => {
+const fetchLogout = async () => {
   const response = await axiosInstance({
     method: 'GET',
-    url: URL.SERVERURL + URL.API.MAIN,
+    url: URL.SERVERURL + URL.API.LOGOUT,
     params: {},
   });
   return response.data;
 };
 
-function useNetworkMain(queryConfig = {}) {
-  const queryKey = ['network', { method: 'GET', url: URL.SERVERURL + URL.API.MAIN, params: {} }];
+function useNetworkLogout(queryConfig = {}) {
+  const queryKey = ['network', { method: 'GET', url: URL.SERVERURL + URL.API.LOGOUT, params: {} }];
 
   const { data, error, isLoading } = useQuery({
     queryKey,
-    queryFn: fetchMain,
+    queryFn: fetchLogout,
     retry: 3,
     ...queryConfig,
   });
@@ -26,4 +26,4 @@ function useNetworkMain(queryConfig = {}) {
   return [data, error, isLoading];
 }
 
-export { useNetworkMain };
+export { useNetworkLogout };

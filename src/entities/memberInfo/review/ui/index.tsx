@@ -12,7 +12,7 @@ export const MemberInfoReview = () => {
 
   return (
     <MainContents>
-      <MemberReview CommunityMusicInfo={MAIN_ITEM.CommunityMusicInfo}></MemberReview>
+      <MemberReview recentBoard={MAIN_ITEM.recentBoard}></MemberReview>
     </MainContents>
   );
 };

@@ -1,28 +1,28 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { GenreMusicItem as GenreMusicItemData } from 'entities/home/model/types';
+import { genreMusicsItem } from 'entities/home/model/types';
 import { HoverRevealButton } from 'entities/home/ui/HoverRevealButton';
 
 import btn_add from 'shared/assets/image/main/btn-add.png';
 import { withHover, WithHoverProps } from 'shared/ui/withHover';
 
-interface GenreMusicItemProps {
-  item: GenreMusicItemData;
+interface genreMusicsItemProps {
+  item: genreMusicsItem;
 }
 
-const GenreMusicItemBase = ({ item, isHover }: GenreMusicItemProps & WithHoverProps) => {
+const GenreMusicItemBase = ({ item, isHover }: genreMusicsItemProps & WithHoverProps) => {
   return (
     <GenreMusingWrapper>
       <GenreMusingImageWrapper>
-        <GenreMusingImage src={item.img} alt="이미지" className="main-image" />
+        <GenreMusingImage src={item.thumbNailLink} alt="이미지" className="main-image" />
         <GenreButton src={btn_add} alt="추가" className="btn_add" />
         <HoverRevealButton top={12} right={12} isHover={isHover} menuItem={[]} />
       </GenreMusingImageWrapper>
 
       <GenreTextBlock>
-        <GenreTitle className="limit-text">{item.title}</GenreTitle>
-        <GenreSubTitle className="limit-text">{item.name}</GenreSubTitle>
+        <GenreTitle>{item.musicName}</GenreTitle>
+        <GenreSubTitle>{item.artists[0].name}</GenreSubTitle>
       </GenreTextBlock>
     </GenreMusingWrapper>
   );

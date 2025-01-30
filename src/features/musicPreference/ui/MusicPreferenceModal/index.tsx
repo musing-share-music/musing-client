@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useTransitionState } from 'react-transition-state';
 
+import { useGetGenre, useGetMood, usePostArtist, usePostGenre, usePostMood } from 'features/musicPreference/api';
 import { Step, StepContent } from 'features/musicPreference/model/type';
 
-import { GENRE, GenreId } from 'entities/genre/model/genre';
-import { MOOD, MoodId } from 'entities/mood/model/mood';
-
+// import { GENRE, GenreId } from 'entities/genre/model/genre';
+// import { MOOD, MoodId } from 'entities/mood/model/mood';
+import URL from 'shared/config/urls';
+import { useUserInfoStore } from 'shared/store/userInfo';
 import { CheckBox, Chip, Modal, RightArrowButton, TextInput } from 'shared/ui/';
 
 import { Caption, ChipBlock, Container, durationMs, Footer, Form, Header, ModalCaption } from './styled';
 
 type Artist = string;
 
-const handleCheck = <T extends string>(
+const handleCheck = <T extends number>(
   e: React.ChangeEvent<HTMLInputElement>,
   updateState: React.Dispatch<React.SetStateAction<Set<T>>>,
 ) => {
@@ -22,24 +24,48 @@ const handleCheck = <T extends string>(
     const updatedSet = new Set(prev);
 
     if (checked) {
-      updatedSet.add(id as T);
+      updatedSet.add(Number(id) as T);
     } else {
-      updatedSet.delete(id as T);
+      updatedSet.delete(Number(id) as T);
     }
 
     return updatedSet;
   });
 };
 
+interface GenreType {
+  id: number;
+  genreName: string;
+}
+
+interface MoodType {
+  id: number;
+  moodName: string;
+}
+
 export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const [{ status }, toggle] = useTransitionState({ timeout: durationMs });
 
   const [step, setStep] = useState<Step>('genre');
-  const [selectedGenres, setSelectedGenres] = useState<Set<GenreId>>(new Set());
-  const [selectedMoods, setSelectedMoods] = useState<Set<MoodId>>(new Set());
+  const [selectedGenres, setSelectedGenres] = useState<Set<number>>(new Set());
+  const [selectedMoods, setSelectedMoods] = useState<Set<number>>(new Set());
   const [artist, setArtist] = useState<Set<Artist>>(new Set());
   const [inputValue, setInputValue] = useState('');
   const [isValid, setIsValid] = useState(true);
+
+  //사용자 정보
+  const { userInfo, passModal, isLogin } = useUserInfoStore();
+
+  //api call
+  const [Genredata] = useGetGenre({
+    enabled: isLogin(),
+  });
+  const [Mooddata] = useGetMood({
+    enabled: isLogin(),
+  });
+  const genreMutation = usePostGenre();
+  const moodMutation = usePostMood();
+  const artistMutation = usePostArtist();
 
   const handleGenreCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleCheck(e, setSelectedGenres);
@@ -54,10 +80,7 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
 
     setArtist((prev) => {
       const updatedArtist = new Set(prev);
-
-      // TODO 이미 추가된 경우
       updatedArtist.add(artist);
-
       return updatedArtist;
     });
   };
@@ -66,10 +89,15 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
     setArtist((prev) => {
       const updatedArtist = new Set(prev);
       updatedArtist.delete(artist);
-
       return updatedArtist;
     });
   };
+
+  useEffect(() => {
+    if (['genre', 'mood', 'artist'].includes(passModal)) {
+      setStep(passModal as Step);
+    }
+  }, [passModal]);
 
   const stepContents: StepContent = {
     genre: {
@@ -80,17 +108,17 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
       ),
       caption: (
         <>
-          태리님이 선호하는 <strong>장르</strong>를 선택해 주세요!
+          {userInfo.name}님이 선호하는 <strong>장르</strong>를 선택해 주세요!
         </>
       ),
       form: (
         <>
-          {GENRE.map(({ id, text }) => (
+          {Genredata?.data?.map(({ id, genreName }: GenreType) => (
             <CheckBox
               key={id}
-              id={id}
-              text={text}
-              name={id}
+              id={id.toString()}
+              text={genreName}
+              name={id.toString()}
               checked={selectedGenres.has(id)}
               onChange={handleGenreCheck}
             />
@@ -103,12 +131,12 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
       caption: <>다음으로 즐겨 듣는 음악의 분위기를 선택해 주세요.</>,
       form: (
         <>
-          {MOOD.map(({ id, text }) => (
+          {Mooddata?.data?.map(({ id, moodName }: MoodType) => (
             <CheckBox
               key={id}
-              id={id}
-              text={text}
-              name={id}
+              id={id.toString()}
+              text={moodName}
+              name={id.toString()}
               checked={selectedMoods.has(id)}
               onChange={handleMoodCheck}
             />
@@ -126,7 +154,7 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 e.preventDefault();
-                if (e.nativeEvent.isComposing) return; // 한글 입력시, 마지막 글자가 추가되는 현상 방지
+                if (e.nativeEvent.isComposing) return;
                 addArtist(inputValue);
                 setInputValue('');
               }
@@ -151,20 +179,28 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
   };
 
   const goNextStep = () => {
-    toggle(false); // 다음 전환 애니메이션을 시작하기 위해 종료
+    toggle(false);
 
     switch (step) {
       case 'genre':
+        genreMutation.mutate(Array.from(selectedGenres));
         setStep('mood');
         break;
       case 'mood':
+        moodMutation.mutate(Array.from(selectedMoods));
         setStep('artist');
         break;
       default:
+        artistMutation.mutate(Array.from(artist), {
+          onSuccess: () => {
+            onClose();
+            window.location.href = URL.GOOGLELOGIN;
+          },
+        });
         break;
     }
 
-    toggle(true); // 전환 애니메이션 시작
+    toggle(true);
   };
 
   useEffect(() => {

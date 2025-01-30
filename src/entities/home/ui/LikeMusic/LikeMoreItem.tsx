@@ -1,18 +1,18 @@
 import styled from '@emotion/styled';
 
-import { LikeMusicItem } from 'entities/home/model/types';
+import { likeMusicDtosItem } from 'entities/home/model/types';
 import { HoverRevealButton } from 'entities/home/ui/HoverRevealButton';
 
 import { withHover, WithHoverProps } from 'shared/ui/withHover';
 
-interface LikeMoreItemProps {
-  item: LikeMusicItem;
+interface likeMusicDtosItemProps {
+  item: likeMusicDtosItem;
 }
 
-const LikeMoreItemBase = ({ item, isHover }: LikeMoreItemProps & WithHoverProps) => {
+const LikeMoreItemBase = ({ item, isHover }: likeMusicDtosItemProps & WithHoverProps) => {
   return (
     <LikeMusingImageWrapper>
-      <LikeMusingImage src={item.img} alt="이미지" className="main-image" />
+      <LikeMusingImage src={item.thumbNailLink} alt="이미지" className="main-image" />
       <HoverRevealButton
         isHover={isHover!}
         menuItem={[

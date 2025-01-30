@@ -9,3 +9,4 @@ export { Pagination } from './Pagination';
 export * from './Table';
 export { withHover } from './withHover';
 export { YoutubeIframe } from './YoutubeIframe';
+export { Nodata } from './Nodata';

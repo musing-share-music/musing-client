@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import { GenreMusicList } from 'entities/home/model/types';
+import { genreMusics, likeGenre, likeGenreItem } from 'entities/home/model/types';
 
 import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
+import { Nodata } from 'shared/ui';
 
 import { GenreMusicItem } from './GenreMusicItem';
 
@@ -74,41 +75,49 @@ const PreferTag = styled.label<{ active: boolean }>`
   }
 `;
 
-interface GenreMusicListProps {
-  GenreMusicList: GenreMusicList;
+interface genreMusicsProps {
+  genreMusics: genreMusics;
+  likeGenre: likeGenre;
 }
 
-const GenreMusic = ({ GenreMusicList }: GenreMusicListProps) => {
-  const [activeTag, setActiveTag] = useState<string | null>(null);
-
-  const handleTagClick = (tag: string) => {
-    setActiveTag((prevTag) => (prevTag === tag ? null : tag)); // 토글 기능
+const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
+  const [activeCtgId, setActiveCtgId] = useState<number>(likeGenre[0].id);
+  const [activeCtgName, setActiveCtgName] = useState<string>(likeGenre[0].genreName);
+  const CategoryClick = (Category: likeGenreItem) => {
+    setActiveCtgId(Category.id);
+    setActiveCtgName(Category.genreName);
   };
 
   return (
     <GenreContainer>
       <PreferTagWrapper>
-        {['힙합', '슈게이징', '인디', '록', '메탈'].map((tag) => (
-          <PreferTag key={tag} active={activeTag === tag} onClick={() => handleTagClick(tag)}>
-            {tag}
+        {likeGenre.map((item, index) => (
+          <PreferTag key={index} active={activeCtgId === item.id} onClick={() => CategoryClick(item)}>
+            {item.genreName}
           </PreferTag>
         ))}
         <Arrowdown />
       </PreferTagWrapper>
 
       <TitleBlock>
-        <PageTitle>슈게이징</PageTitle>
+        <PageTitle>{activeCtgName}</PageTitle>
         <SubTitle>장르의 음악</SubTitle>
       </TitleBlock>
 
       <GenreMusingBlock>
-        {GenreMusicList.map((item, index) => (
-          <GenreMusicItem key={index} item={item} />
-        ))}
+        {genreMusics.length === 0 ? (
+          <Nodata Comment={`아직 ${activeCtgName} 장르의 음악이 없어요.`} />
+        ) : (
+          <>
+            {genreMusics.slice(0, 4).map((item, index) => (
+              <GenreMusicItem key={index} item={item} />
+            ))}
+          </>
+        )}
 
         <GenreMore>
           <TitleBlock className="more">
-            <PageTitle>슈게이징</PageTitle>
+            <PageTitle>{activeCtgName}</PageTitle>
             <SubTitle>장르 더 듣기</SubTitle>
           </TitleBlock>
         </GenreMore>
