@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-interface FormData {
+export interface FormData {
   rating: number; // 별점
   youtubeUrl: string; // youtube 링크
   artist: string; // 아티스트명

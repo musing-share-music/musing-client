@@ -3,3 +3,5 @@ export interface BaseModalProps {
   children: React.ReactNode;
   onClose: () => void;
 }
+
+export type OuterCloseModalProps = BaseModalProps;

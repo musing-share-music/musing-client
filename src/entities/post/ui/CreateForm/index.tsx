@@ -1,53 +1,49 @@
 import styled from '@emotion/styled';
 import { useRef } from 'react';
 
-import { validateFormSchema } from 'features/createPost/lib/validate';
-import { useFormState } from 'features/createPost/model/useFormState';
-
-import { CreatePostDto, useCreatePostMutation } from 'entities/post/api/createPost';
+import { FormData } from 'features/createPost/model/useFormState';
 
 import { Button, StarRatingInput, TextArea, TextInput, YoutubeIframe } from 'shared/ui/';
+import { ErrorModal } from 'shared/ui/Modal/ErrorModal';
 
-import * as EditableElement from './EditableElement';
+import { EditableElement } from './EditableElement';
 import { ImageInput } from './ImageInput';
 import { Section } from './styled';
 import { TagInput } from './TagInput';
 
-// TODO entities, features 분리
+interface CreateFormProps {
+  formData: FormData;
+  errorMessage: string;
+  errorModalOpen: boolean;
+  closeErrorModal: () => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  updateFormData: <Key extends keyof FormData>(key: Key, value: FormData[Key]) => void;
+}
 
-export const CreateForm = () => {
-  const { formData, updateFormData } = useFormState();
-  const createFormMutation = useCreatePostMutation();
+export const CreateForm = ({
+  formData,
+  errorMessage,
+  errorModalOpen,
+  closeErrorModal,
+  onSubmit,
+  updateFormData,
+}: CreateFormProps) => {
+  const { rating, youtubeUrl, artist, musicTitle, title, content } = formData;
+
   const artistInputRef = useRef<HTMLSpanElement>(null);
   const musicTitleInputRef = useRef<HTMLSpanElement>(null);
 
-  const { rating, youtubeUrl, artist, musicTitle, title, content, mood, genre, image } = formData;
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (createFormMutation.isPending) return;
-
-    const _formData: CreatePostDto = {
-      title,
-      musicTitle,
-      artist,
-      youtubeLink: youtubeUrl,
-      hashtags: mood,
-      genre,
-      image,
-      content,
-    };
-
-    if (!validateFormSchema(_formData)) {
-      // TODO 실패 로직
-      return;
-    }
-
-    createFormMutation.mutate(_formData);
-  };
-
   return (
-    <Form onSubmit={(e) => handleSubmit(e)}>
+    <Form onSubmit={(e) => onSubmit(e)}>
+      <ErrorModal
+        open={errorModalOpen}
+        onClose={() => {
+          closeErrorModal();
+        }}
+      >
+        {errorMessage}
+      </ErrorModal>
+
       <Section>
         <TitleField>
           <TitleBlock>
@@ -60,13 +56,13 @@ export const CreateForm = () => {
           </TitleBlock>
           <InfoBlock>
             <Track>
-              <EditableElement.EditableElement
+              <EditableElement
                 ref={artistInputRef}
                 placeholder={artist || '아티스트 명'}
                 onChange={(value) => updateFormData('artist', value)}
               />
               &nbsp;·&nbsp;
-              <EditableElement.EditableElement
+              <EditableElement
                 ref={musicTitleInputRef}
                 placeholder={musicTitle || '곡 제목'}
                 onChange={(value) => updateFormData('musicTitle', value)}
@@ -88,7 +84,6 @@ export const CreateForm = () => {
           <TagInput
             onConfirm={(tags) => {
               const { genre, mood } = tags;
-              console.log('tags', tags);
               updateFormData('genre', genre);
               updateFormData('mood', mood);
             }}
@@ -135,8 +130,6 @@ const Form = styled.form`
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
 `;
-
-// const EditableElement = styled.span``;
 
 const TextField = styled.input`
   width: 100%;

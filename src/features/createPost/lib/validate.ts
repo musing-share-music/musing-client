@@ -1,8 +1,12 @@
+import { ZodError } from 'zod';
+
 import { CreateFormSchema } from 'features/createPost/model/formSchema';
 
 import { Genre } from 'entities/genre/model/genre';
 import { Mood } from 'entities/mood/model/mood';
 import { CreatePostDto } from 'entities/post/api/createPost';
+
+import { getYoutubeVideoId } from './youtubeId';
 
 /**
  * 선택한 태그가 유효한지 확인
@@ -20,9 +24,35 @@ export const validateTag = ({
 };
 
 /**
+ * 유튜브 링크 형식이 올바른지 확인
+ */
+export const validateYoutubeLink = (url: string) => {
+  if (getYoutubeVideoId(url) === null) {
+    return false;
+  }
+
+  return true;
+};
+
+/**
  * form의 유효성 검증
  */
 export const validateFormSchema = (form: CreatePostDto) => {
   const validation = CreateFormSchema.safeParse(form);
-  return validation.success;
+  return validation;
+};
+
+/**
+ * form validation의 에러 메세지를 반환
+ */
+export const getFromErrorMessage = (error: ZodError) => {
+  const errorMessages = error.flatten().fieldErrors;
+  const keys = Object.keys(errorMessages) as Array<keyof typeof errorMessages>;
+  for (const key of keys) {
+    const messages = errorMessages[key];
+    if (messages && messages.length) {
+      return messages[0];
+    }
+  }
+  return '';
 };
