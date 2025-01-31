@@ -1,6 +1,6 @@
 import { CommunityDetail } from 'entities/community/model/types';
 
-import axiosInstance from 'shared/hooks/useAxiosInstance';
+import axiosInstance from 'shared/lib/axiosInstance';
 
 export interface DeletePostDto {
   boardId: number;
