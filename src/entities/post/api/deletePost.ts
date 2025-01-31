@@ -1,19 +1,18 @@
-import axios from 'axios';
+import { CommunityDetail } from 'entities/community/model/types';
 
-import URL from 'shared/config/urls';
+import axiosInstance from 'shared/hooks/useAxiosInstance';
 
 export interface DeletePostDto {
   boardId: number;
 }
 
-// TODO 공통 instance로 개선
-const instance = axios.create({
-  baseURL: URL.SERVERURL,
-  timeout: 5000, // 임의로 지정
-});
+interface DeletePostResponse {
+  data: CommunityDetail;
+  message: string;
+}
 
 export const fetchDeletePost = async ({ boardId }: DeletePostDto) => {
-  const response = await instance.delete(`/musing/boards/deletePost?boardId=${boardId}`, {
+  const response = await axiosInstance.delete<DeletePostResponse>(`/musing/boards/deletePost?boardId=${boardId}`, {
     withCredentials: true,
   });
 
