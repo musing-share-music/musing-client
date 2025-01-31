@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { fetchDeletePost } from 'entities/post/api/deletePost';
+import { fetchDeletePost } from 'entities/community/api/deletePost';
 
 import { ROUTES } from 'shared/config/routes';
 

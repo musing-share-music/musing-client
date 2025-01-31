@@ -8,7 +8,7 @@ import { MoreButton } from 'pages/detail/ui/MoreButton';
 
 import { DeleteReviewModal } from 'widgets/ui/PlayList/DeleteReviewModal';
 
-import { useDeletePostMutation } from 'features/deletePost/lib/useDeletePostMutation';
+import { useDeletePostMutation } from 'features/community/deletePost/lib/useDeletePostMutation';
 
 import { ROUTES } from 'shared/config/routes';
 import { Button, StarRatingInput } from 'shared/ui/';

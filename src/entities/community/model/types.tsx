@@ -186,10 +186,10 @@ interface Reply {
   content: string;
   user: string;
   board: string;
-  reportList: CommentReport[];
+  reportList: ReplyReport[];
 }
 
-interface CommentReport {
+interface ReplyReport {
   id: number;
   reportDate: string;
   content: string;
