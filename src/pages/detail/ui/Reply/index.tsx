@@ -1,32 +1,32 @@
 import styled from '@emotion/styled';
 
-import { Comment as TComment } from 'entities/comment/model/type';
-import { ReportButton } from 'entities/post/ui/ReportButton';
+import { ReportButton } from 'entities/community/ui/ReportButton';
+import { Reply as TReply } from 'entities/reply/model/type';
 import { ProfileImage } from 'entities/user/ui/ProfileImage';
 
 import { StarRatingInput } from 'shared/ui/Input';
 
-interface CommentProps {
-  comments: TComment[];
+interface ReplyProps {
+  comments: TReply[];
 }
 
-export const Comment = ({ comments }: CommentProps) => {
+export const Reply = ({ comments }: ReplyProps) => {
   return (
     <>
       {comments.map(({ userId, src, content, rate }) => (
-        <CommentBox key={userId}>
+        <ReplyBox key={userId}>
           <ProfileImage width={56} height={56} src={src || ''} />
           <Box>
             <Block>
-              <CommentUserIdBlock>
+              <ReplyUserIdBlock>
                 <UserName>{userId}</UserName>
                 <StarRatingInput value={rate} enabled={false} />
-              </CommentUserIdBlock>
+              </ReplyUserIdBlock>
               <ReportButton />
             </Block>
             <Content>{content}</Content>
           </Box>
-        </CommentBox>
+        </ReplyBox>
       ))}
     </>
   );
@@ -35,12 +35,12 @@ export const Comment = ({ comments }: CommentProps) => {
 const Box = styled.div`
   width: 100%;
 `;
-const CommentBox = styled.div`
+const ReplyBox = styled.div`
   display: flex;
   gap: 20px;
   align-items: flex-start;
 `;
-const CommentUserIdBlock = styled.div`
+const ReplyUserIdBlock = styled.div`
   display: flex;
   align-items: center;
   gap: 18px;

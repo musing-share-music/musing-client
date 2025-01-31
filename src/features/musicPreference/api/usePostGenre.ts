@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
 import URL from 'shared/config/urls';
-import axiosInstance from 'shared/hooks/useAxiosInstance';
+import axiosInstance from 'shared/lib/axiosInstance';
 
 const PostGenre = async (selectedGenres: number[]) => {
   const response = await axiosInstance({

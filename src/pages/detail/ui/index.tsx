@@ -1,4 +1,4 @@
-import { ReviewForm } from 'features/reviewComments/ui/ReviewForm';
+import { ReviewForm } from 'entities/reply/ui/ReplyForm';
 
 import { Contents } from './Contents';
 import { MusicInfo } from './MusicInfo';

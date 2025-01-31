@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import { updateCheckedSet } from 'features/createPost/lib/updateCheckedSet';
+import { updateCheckedSet } from 'features/community/createPost/lib/updateCheckedSet';
 
 import { GENRE, Genre, GenreId } from 'entities/genre/model/genre';
 import { MOOD, Mood, MoodId } from 'entities/mood/model/mood';

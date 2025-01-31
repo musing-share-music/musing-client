@@ -5,7 +5,7 @@ import { REVIEW_FILTER_OPTIONS } from 'pages/detail/config/filterOption';
 
 import { Filter } from 'shared/ui/';
 
-import { Comment } from './Comment';
+import { Reply } from './Reply';
 
 export const ReviewList = () => {
   return (
@@ -14,8 +14,8 @@ export const ReviewList = () => {
         별점 및 리뷰(7)
         <Filter placeholder="별점순" options={REVIEW_FILTER_OPTIONS} />
       </SectionTitle>
-      <CommentList id={ANCHOR_REVIEW}>
-        <Comment
+      <ReplyList id={ANCHOR_REVIEW}>
+        <Reply
           comments={[
             {
               userId: '이재훈',
@@ -25,7 +25,7 @@ export const ReviewList = () => {
             },
           ]}
         />
-      </CommentList>
+      </ReplyList>
     </Section>
   );
 };
@@ -43,7 +43,7 @@ const SectionTitle = styled.div`
   ${({ theme }) => theme.fonts.wantedSans.B2};
 `;
 
-const CommentList = styled.div`
+const ReplyList = styled.div`
   width: 100%;
   display: flex;
   padding: 32px;

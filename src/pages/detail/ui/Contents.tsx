@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { ANCHOR_CONTENT } from 'pages/detail/config/anchor';
 
-import { ReportButton } from 'entities/post/ui/ReportButton';
+import { ReportButton } from 'entities/community/ui/ReportButton';
 
 import { RightDownArrowButton, YoutubeIframe } from 'shared/ui/';
 
