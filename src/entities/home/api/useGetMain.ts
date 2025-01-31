@@ -1,19 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 
 import URL from 'shared/config/urls';
-
-// axios 인스턴스 생성
-const axiosInstance = axios.create({
-  baseURL: URL.BASEURL,
-  timeout: 5000, // 임의로 지정
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+import axiosInstance from 'shared/hooks/useAxiosInstance';
 
 // 메인데이터 호출
-const fetchMain = async () => {
+const GetMain = async () => {
   const response = await axiosInstance({
     method: 'GET',
     url: URL.SERVERURL + URL.API.MAIN,
@@ -22,12 +13,12 @@ const fetchMain = async () => {
   return response.data;
 };
 
-function useNetworkMain(queryConfig = {}) {
+function useGetMain(queryConfig = {}) {
   const queryKey = ['network', { method: 'GET', url: URL.SERVERURL + URL.API.MAIN, params: {} }];
 
   const { data, error, isLoading } = useQuery({
     queryKey,
-    queryFn: fetchMain,
+    queryFn: GetMain,
     retry: 3,
     ...queryConfig,
   });
@@ -35,4 +26,4 @@ function useNetworkMain(queryConfig = {}) {
   return [data, error, isLoading];
 }
 
-export { useNetworkMain };
+export { useGetMain };

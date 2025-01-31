@@ -5,10 +5,14 @@ import { NAV_BAR_WIDTH } from 'widgets/config/navBarWidth';
 import { Header } from 'widgets/ui/Header';
 import { NavBar } from 'widgets/ui/NavBar';
 
+import { useUserInfoStore } from 'shared/store/userInfo';
+
 export const MainLayout = ({ children }: { children: React.ReactNode }) => {
+  const { isLogin } = useUserInfoStore();
+
   return (
     <PageLayout>
-      <Header isLoggedIn />
+      <Header isLoggedIn={isLogin()} />
       <LeftContainer>
         <NavBar />
       </LeftContainer>

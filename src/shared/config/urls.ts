@@ -10,7 +10,12 @@ const URL = {
 
   // 서버 API
   API: {
-    MAIN: 'musing/main', // 메인
+    MAIN: 'musing/main', //메인
+    LOGOUT: 'musing/logout', //로그아웃
+    GENREMODAL: 'musing/modal/like/genres', //장르모달
+    MOODMODAL: 'musing/modal/like/moods', //무드모달
+    ARTISTMODAL: 'musing/modal/like/artists', //아티스트모달
+    GENRE: 'musing/main/genre', //장르
   },
 };
 

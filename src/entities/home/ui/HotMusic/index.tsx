@@ -3,7 +3,9 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
-import { HotMusicList } from 'entities/home/model/types';
+import { recommendGenre, recommendGenres } from 'entities/home/model/types';
+
+import { Nodata } from 'shared/ui';
 
 import { HotMusicItem } from './HotMusicItem';
 
@@ -12,6 +14,13 @@ const HotContainer = styled.div`
   width: 1280px;
   height: 364px;
   position: relative;
+`;
+
+const HotContainerWrapper = styled.div`
+  width: 1280px;
+  height: 336px;
+  position: relative;
+  background-color: ${({ theme }) => theme.colors[600]};
 `;
 
 // 장르의 음악 리스트 영역
@@ -97,11 +106,12 @@ const SliderWrapper = styled(Slider)`
   }
 `;
 
-interface HotMusicListProps {
-  HotMusicList: HotMusicList;
+interface recommendGenreProps {
+  recommendGenre: recommendGenre;
+  recommendGenres: recommendGenres;
 }
 
-const HotMusic = ({ HotMusicList }: HotMusicListProps) => {
+const HotMusic = ({ recommendGenre, recommendGenres }: recommendGenreProps) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -112,22 +122,28 @@ const HotMusic = ({ HotMusicList }: HotMusicListProps) => {
 
   return (
     <HotContainer>
-      <HotMusingTitle>
-        <PageTitle>
-          지금 뮤징에서
-          <br />
-          가장 핫🔥한 음악 모음
-        </PageTitle>
-        <SubTitle>POP • 얼터너티브</SubTitle>
-      </HotMusingTitle>
+      <HotContainerWrapper>
+        {recommendGenres.length === 0 ? (
+          <Nodata Comment={'아직 핫한 음악이 없어요.'}></Nodata>
+        ) : (
+          <>
+            <HotMusingTitle>
+              <PageTitle>
+                지금 뮤징에서
+                <br />
+                가장 핫🔥한 음악 모음
+              </PageTitle>
+              <SubTitle>{recommendGenre.genreName}</SubTitle>
+            </HotMusingTitle>
 
-      {/* <HotMusingBlock> */}
-      <SliderWrapper {...settings}>
-        {HotMusicList.map((item, index) => (
-          <HotMusicItem item={item} key={index} />
-        ))}
-      </SliderWrapper>
-      {/* </HotMusingBlock> */}
+            <SliderWrapper {...settings}>
+              {recommendGenres.map((item, index) => (
+                <HotMusicItem item={item} key={index} />
+              ))}
+            </SliderWrapper>
+          </>
+        )}
+      </HotContainerWrapper>
     </HotContainer>
   );
 };

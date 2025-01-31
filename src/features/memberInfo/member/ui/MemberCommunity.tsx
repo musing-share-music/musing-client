@@ -2,15 +2,15 @@ import styled from '@emotion/styled';
 import moment from 'moment';
 moment.locale('ko');
 
-import { CommunityMusicInfo } from 'entities/home/model/types';
+import { recentBoard } from 'entities/home/model/types';
 
 import { commonStyles } from 'shared/styles/common';
 
-interface CommunityMusicProps {
-  CommunityMusicInfo: CommunityMusicInfo;
+interface recentBoardProps {
+  recentBoard: recentBoard;
 }
 
-export const MemberCommunity = ({ CommunityMusicInfo }: CommunityMusicProps) => {
+export const MemberCommunity = ({ recentBoard }: recentBoardProps) => {
   return (
     <MemberContainer>
       <TitleBlock>
@@ -20,16 +20,16 @@ export const MemberCommunity = ({ CommunityMusicInfo }: CommunityMusicProps) => 
 
       <CommunityBlock>
         <CommunityListBlock>
-          {CommunityMusicInfo.communityList.map((item) => {
+          {recentBoard.map((item) => {
             return (
               <div key={item.id}>
                 <CommunityListWrapper>
                   <CommunityList>
-                    <ListImg src={item.img} alt={item.title} />
+                    <ListImg src={item.thumbNailLink} alt={item.title} />
                     <ListContent>
                       <ContentInfo>
                         <ContentsSongName>{item.title}</ContentsSongName>
-                        <ContentsSongDescription>{item.description}</ContentsSongDescription>
+                        <ContentsSongDescription>{item.musicName}</ContentsSongDescription>
                       </ContentInfo>
 
                       <ContentTitleBlock>
@@ -37,7 +37,7 @@ export const MemberCommunity = ({ CommunityMusicInfo }: CommunityMusicProps) => 
                       </ContentTitleBlock>
 
                       <ActivityInfo>
-                        <ActivityStatus>{moment(item.date).format('YYYY-MM-DD')}</ActivityStatus>
+                        <ActivityStatus>{moment(item.createdAt).format('YYYY-MM-DD')}</ActivityStatus>
                       </ActivityInfo>
                     </ListContent>
                   </CommunityList>

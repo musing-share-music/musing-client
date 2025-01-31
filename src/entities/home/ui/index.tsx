@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
+import { useEffect } from 'react';
 
-import { useNetworkMain } from 'entities/home/api/useNetworkMain';
-import { MAIN_ITEM } from 'entities/home/model/model';
+import { useGetMain } from 'entities/home/api/useGetMain';
 
+import { useUserInfoStore } from 'shared/store/userInfo';
 import { Spinner } from 'shared/ui/Spinner';
 
 import CommunityMusic from './CommunityMusic';
@@ -13,42 +14,53 @@ import LikeMusic from './LikeMusic';
 import ThumbnailMusic from './ThumbnailMusic';
 
 export const Main = () => {
-  const [data, error, isLoading] = useNetworkMain();
+  const { setUser, setPassModal, isLogin } = useUserInfoStore();
+  const [data, isLoading] = useGetMain();
 
-  if (data) {
-    console.log(data.data);
-  }
+  //메인홈
+  useEffect(() => {
+    if (data?.data) {
+      setPassModal(data.data.passModal);
+    }
 
-  if (isLoading) {
-    console.log('로딩중');
-  }
-
-  if (error) {
-    console.log(error);
-  }
+    //사용자정보 있으면 저장
+    if (data?.data?.userInfoDto) {
+      setUser(data.data.userInfoDto);
+    }
+  }, [data, setUser, setPassModal]);
 
   return isLoading ? (
     <Spinner isLoading={isLoading}></Spinner>
   ) : (
     <MainContents>
       <ComponentWrapper marginBottom={40}>
-        <ThumbnailMusic noticeDto={data?.data?.noticeDto} />
+        {data?.data?.noticeDto ? <ThumbnailMusic noticeDto={data?.data?.noticeDto} /> : null}
       </ComponentWrapper>
 
-      <ComponentWrapper marginBottom={104}>
-        <GenreMusic GenreMusicList={MAIN_ITEM.GenreMusicList} />
-      </ComponentWrapper>
+      {isLogin() && (
+        <>
+          <ComponentWrapper marginBottom={104}>
+            {data?.data?.genreMusics ? (
+              <GenreMusic genreMusics={data?.data?.genreMusics} likeGenre={data?.data?.likeGenre} />
+            ) : null}
+          </ComponentWrapper>
 
-      <ComponentWrapper marginBottom={144}>
-        <LikeMusic LikeMusicList={MAIN_ITEM.LikeMusicList} />
-      </ComponentWrapper>
+          <ComponentWrapper marginBottom={144}>
+            {data?.data?.likeMusicDtos ? <LikeMusic likeMusicDtos={data?.data?.likeMusicDtos} /> : null}
+          </ComponentWrapper>
+        </>
+      )}
 
       <ComponentWrapper marginBottom={124}>
-        <HotMusic HotMusicList={MAIN_ITEM.HotMusicList} />
+        {data?.data?.recommendGenre ? (
+          <HotMusic recommendGenre={data?.data?.recommendGenre} recommendGenres={data?.data?.recommendGenres} />
+        ) : null}
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={120}>
-        <CommunityMusic CommunityMusicInfo={MAIN_ITEM.CommunityMusicInfo} />
+        {data?.data?.recentBoard ? (
+          <CommunityMusic recentBoard={data?.data?.recentBoard} hotMusicBoard={data.data.hotMusicBoard} />
+        ) : null}
       </ComponentWrapper>
 
       {/* <ComponentWrapper>
