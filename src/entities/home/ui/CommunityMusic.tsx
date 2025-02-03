@@ -1,12 +1,112 @@
 import styled from '@emotion/styled';
 import moment from 'moment';
 moment.locale('ko');
+import { useNavigate } from 'react-router-dom';
 
 import { hotMusicBoard, recentBoard } from 'entities/home/model/types';
 
 import arrow3 from 'shared/assets/image/main/arrow 3.png';
+import { ROUTES } from 'shared/config/routes';
 import { commonStyles } from 'shared/styles/common';
 import { Nodata } from 'shared/ui';
+
+interface recentBoardProps {
+  recentBoard: recentBoard;
+  hotMusicBoard: hotMusicBoard;
+}
+
+const CommunityMusic = ({ recentBoard, hotMusicBoard }: recentBoardProps) => {
+  const navigate = useNavigate();
+  return (
+    <CommunityContainer>
+      <TitleBlock>
+        <PageTitle
+          onClick={async () => {
+            await navigate(`${ROUTES.COMMUNITY.COMMUNITY}`);
+          }}
+        >
+          음악 추천 게시판
+        </PageTitle>
+        <SubTitle>취향을 발견하는 또다른 방법</SubTitle>
+      </TitleBlock>
+
+      <CommunityBlock>
+        <PlayListBlock>
+          <PlayListTitle>인기 플레이리스트</PlayListTitle>
+          <PlayListWrapper>
+            <PlayListImageBackGround src={hotMusicBoard.thumbNailLink} />
+          </PlayListWrapper>
+          <PlayListImage src={hotMusicBoard.thumbNailLink}></PlayListImage>
+          <PlayListInfoBlock>
+            <PlayListInfoTitle>
+              {hotMusicBoard.musicName} · {hotMusicBoard.artists[0].name}
+            </PlayListInfoTitle>
+            <PlayListInfoDescription>{hotMusicBoard.title}</PlayListInfoDescription>
+          </PlayListInfoBlock>
+          <PlayListInfoButton src={arrow3}></PlayListInfoButton>
+        </PlayListBlock>
+
+        <CommunityListBlock>
+          {recentBoard.length === 0 ? (
+            <Nodata Comment={'아직 추천 게시판이 없어요.'} />
+          ) : (
+            recentBoard.map((item, index) => {
+              const itemDate = moment(item.createdAt);
+
+              const now = moment();
+              const diffDays = now.diff(itemDate, 'days');
+              const diffWeeks = now.diff(itemDate, 'weeks');
+              const diffYears = now.diff(itemDate, 'years');
+
+              let formattedDate;
+              if (diffDays < 1) {
+                formattedDate = itemDate.format('HH:mm');
+              } else if (diffDays < 7) {
+                formattedDate = `${diffDays}일 전`;
+              } else if (diffWeeks < 4) {
+                formattedDate = `${diffWeeks}주 전`;
+              } else if (diffYears < 1) {
+                const diffMonths = now.diff(itemDate, 'months');
+                formattedDate = `${diffMonths}개월 전`;
+              } else {
+                formattedDate = `${diffYears}년 전`;
+              }
+
+              return (
+                <div key={item.id}>
+                  <CommunityListWrapper>
+                    <CommunityList>
+                      <ListDate isRecent={diffDays < 1}>{formattedDate}</ListDate>
+                      <ListImg src={item.thumbNailLink} alt={item.title} />
+                      <ListContent>
+                        <ContentInfo>
+                          <ContentsTitle>
+                            {item.artist} · {item.musicName}
+                          </ContentsTitle>
+                          <ContentsDescription>{item.title}</ContentsDescription>
+                        </ContentInfo>
+
+                        <ActivityInfo>
+                          <ActivityStatus>
+                            댓글 {item.recommendCount} · 추천 {item.replyCount} · 조회 {item.viewCount}
+                          </ActivityStatus>
+                          <ActivityName>{item.username}</ActivityName>
+                        </ActivityInfo>
+                      </ListContent>
+                    </CommunityList>
+                  </CommunityListWrapper>
+                  {index < 4 ? <StyledHr /> : ''}
+                </div>
+              );
+            })
+          )}
+        </CommunityListBlock>
+      </CommunityBlock>
+    </CommunityContainer>
+  );
+};
+
+export default CommunityMusic;
 
 // 게시판 전체영역
 const CommunityContainer = styled.div`
@@ -25,6 +125,7 @@ const PageTitle = styled.div`
   color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts.wantedSans.H1};
   margin-right: 16px;
+  cursor: pointer;
 `;
 
 const SubTitle = styled.div`
@@ -245,94 +346,3 @@ const StyledHr = styled.hr`
   margin-top: 10px;
   margin-bottom: 10px;
 `;
-
-interface recentBoardProps {
-  recentBoard: recentBoard;
-  hotMusicBoard: hotMusicBoard;
-}
-
-const CommunityMusic = ({ recentBoard, hotMusicBoard }: recentBoardProps) => {
-  return (
-    <CommunityContainer>
-      <TitleBlock>
-        <PageTitle>음악 추천 게시판</PageTitle>
-        <SubTitle>취향을 발견하는 또다른 방법</SubTitle>
-      </TitleBlock>
-
-      <CommunityBlock>
-        <PlayListBlock>
-          <PlayListTitle>인기 플레이리스트</PlayListTitle>
-          <PlayListWrapper>
-            <PlayListImageBackGround src={hotMusicBoard.thumbNailLink} />
-          </PlayListWrapper>
-          <PlayListImage src={hotMusicBoard.thumbNailLink}></PlayListImage>
-          <PlayListInfoBlock>
-            <PlayListInfoTitle>
-              {hotMusicBoard.musicName} · {hotMusicBoard.artists[0].name}
-            </PlayListInfoTitle>
-            <PlayListInfoDescription>{hotMusicBoard.title}</PlayListInfoDescription>
-          </PlayListInfoBlock>
-          <PlayListInfoButton src={arrow3}></PlayListInfoButton>
-        </PlayListBlock>
-
-        <CommunityListBlock>
-          {recentBoard.length === 0 ? (
-            <Nodata Comment={'아직 추천 게시판이 없어요.'} />
-          ) : (
-            recentBoard.map((item, index) => {
-              const itemDate = moment(item.createdAt);
-
-              const now = moment();
-              const diffDays = now.diff(itemDate, 'days');
-              const diffWeeks = now.diff(itemDate, 'weeks');
-              const diffYears = now.diff(itemDate, 'years');
-
-              let formattedDate;
-              if (diffDays < 1) {
-                formattedDate = itemDate.format('HH:mm');
-              } else if (diffDays < 7) {
-                formattedDate = `${diffDays}일 전`;
-              } else if (diffWeeks < 4) {
-                formattedDate = `${diffWeeks}주 전`;
-              } else if (diffYears < 1) {
-                const diffMonths = now.diff(itemDate, 'months');
-                formattedDate = `${diffMonths}개월 전`;
-              } else {
-                formattedDate = `${diffYears}년 전`;
-              }
-
-              return (
-                <div key={item.id}>
-                  <CommunityListWrapper>
-                    <CommunityList>
-                      <ListDate isRecent={diffDays < 1}>{formattedDate}</ListDate>
-                      <ListImg src={item.thumbNailLink} alt={item.title} />
-                      <ListContent>
-                        <ContentInfo>
-                          <ContentsTitle>
-                            {item.artist} · {item.musicName}
-                          </ContentsTitle>
-                          <ContentsDescription>{item.title}</ContentsDescription>
-                        </ContentInfo>
-
-                        <ActivityInfo>
-                          <ActivityStatus>
-                            댓글 {item.recommendCount} · 추천 {item.replyCount} · 조회 {item.viewCount}
-                          </ActivityStatus>
-                          <ActivityName>{item.username}</ActivityName>
-                        </ActivityInfo>
-                      </ListContent>
-                    </CommunityList>
-                  </CommunityListWrapper>
-                  {index < 4 ? <StyledHr /> : ''}
-                </div>
-              );
-            })
-          )}
-        </CommunityListBlock>
-      </CommunityBlock>
-    </CommunityContainer>
-  );
-};
-
-export default CommunityMusic;
