@@ -15,7 +15,7 @@ export const CommonTag = ({ type, name }: TagProps) => {
 
 // Styled component에서 prop 타입 정의
 const Tag = styled.div<{ type: string }>`
-  width: 68px;
+  min-width: 68px;
   height: 33px;
   border-radius: 4px;
   background-color: ${({ theme }) => theme.colors[400]};

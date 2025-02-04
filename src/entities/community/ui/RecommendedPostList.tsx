@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
 import { SetStateAction, useState } from 'react';
 
+import { useGetPageList } from 'entities/community/api/useGetPageList';
 import { boardDtos } from 'entities/community/model/types';
 
 import { commonStyles } from 'shared/styles/common';
 import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
+import { Spinner } from 'shared/ui/Spinner';
 import { CommonTag } from 'shared/ui/Tag';
 
 interface boardDtosProps {
@@ -35,20 +37,28 @@ const CommunitySearchSelectWrapper = () => {
   );
 };
 
+type GetPageListResponse = {
+  data: boardDtos;
+};
+
 const RecommendedPostList = ({ boardDtos }: boardDtosProps) => {
   const [activePage, setActivePage] = useState(1);
+  const { data, isLoading } = useGetPageList(activePage);
 
   const handlePageClick = (pageNumber: SetStateAction<number>) => {
     setActivePage(pageNumber);
   };
-  return (
+
+  return isLoading ? (
+    <Spinner isLoading={isLoading}></Spinner>
+  ) : (
     <ComuContainer>
       <TitleBlock>
         <PageTitle>음악 추천 게시판</PageTitle>
       </TitleBlock>
 
       <CommunityList>
-        {boardDtos.content.map((item, index) => (
+        {(data as GetPageListResponse)?.data?.content?.map((item, index) => (
           <CommunityItem key={index}>
             <CommunityImageWrapper>
               <CommunityImage src={item.thumbNailLink} alt="Community" />
@@ -80,7 +90,7 @@ const RecommendedPostList = ({ boardDtos }: boardDtosProps) => {
           </CommunityItem>
         ))}
 
-        <>
+        <CommunityPagenationWrapper isActive={false}>
           {Array.from({ length: boardDtos.totalPages }, (_, i) => i + 1).map((pageNumber) => (
             <CommunityPagenation
               key={pageNumber}
@@ -90,7 +100,7 @@ const RecommendedPostList = ({ boardDtos }: boardDtosProps) => {
               {pageNumber}
             </CommunityPagenation>
           ))}
-        </>
+        </CommunityPagenationWrapper>
       </CommunityList>
 
       <CommuniySearchBlock>
@@ -123,11 +133,11 @@ const CommunityList = styled.div`
   height: 1120px;
   padding: 20px;
   display: flex;
-  justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
   background-color: ${({ theme }) => theme.colors[700]};
   border-radius: 12px;
+  position: relative;
 `;
 
 const CommunityItem = styled.div`
@@ -165,6 +175,7 @@ const CommunityInfo = styled.div`
 const CommunitySongInfo = styled.div`
   color: ${({ theme }) => theme.colors[200]};
   ${({ theme }) => theme.fonts.wantedSans.B5};
+  ${commonStyles.limitText};
 `;
 
 const CommunitySongDescription = styled.div`
@@ -212,6 +223,14 @@ const CommunityTagBlock = styled.div`
 //   justify-content: center;
 //   align-items: center;
 // `;
+
+const CommunityPagenationWrapper = styled.div<{ isActive: boolean }>`
+  display: flex;
+  gap: 12px;
+  position: absolute;
+  bottom: 40px;
+  left: 580px;
+`;
 
 const CommunityPagenation = styled.div<{ isActive: boolean }>`
   color: ${({ theme, isActive }) => (isActive ? theme.colors[100] : theme.colors[200])};

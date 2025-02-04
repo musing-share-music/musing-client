@@ -17,8 +17,8 @@ const URL = {
     ARTISTMODAL: 'musing/modal/like/artists', //아티스트모달
     GENRE: 'musing/main/genre', //장르
     LIST: 'musing/board/list', //게시판
-    LISTPAGE: 'musing/board/list/page ', //게시판페이지
-    LISTSEARCH: 'musing/board/list/page/search ', //게시판페이지검색
+    LISTPAGE: 'musing/board/list/page', //게시판페이지
+    LISTSEARCH: 'musing/board/list/page/search', //게시판페이지검색
   },
 };
 
