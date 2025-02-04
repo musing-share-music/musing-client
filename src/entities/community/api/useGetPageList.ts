@@ -19,7 +19,6 @@ function useGetPageList(page?: number, queryConfig = {}) {
   const { data, error, isLoading } = useQuery({
     queryKey,
     queryFn: () => (page ? GetPageList(page) : Promise.resolve(null)),
-    enabled: !!page,
     retry: 3,
     ...queryConfig,
   });

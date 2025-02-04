@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 
-import { useGetPageList } from 'entities/community/api/useGetPageList';
-import { boardDtos } from 'entities/community/model/types';
+import { useGetPageList, useGetSearchList } from 'entities/community/api';
+import { boardDtos, boardDtosItem } from 'entities/community/model/types';
 
 import { commonStyles } from 'shared/styles/common';
 import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
@@ -13,11 +13,31 @@ interface boardDtosProps {
   boardDtos: boardDtos;
 }
 
-const CommunitySearchSelectWrapper = () => {
+const CommunitySearchSelectWrapper = ({ keyWord, onSearch }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('작성자');
+  const [enabled, setEnabled] = useState(false);
+  const [selectedTitle, setSelectedTitle] = useState('제목');
+  const [selectedOption, setSelectedOption] = useState('title');
+  const { data: searchData } = useGetSearchList(selectedOption, 1, keyWord, {
+    enabled: enabled,
+  });
 
-  const handleOptionClick = (option: string) => {
+  useEffect(() => {
+    if (keyWord) {
+      setEnabled(true);
+    } else {
+      setEnabled(false);
+    }
+  }, [keyWord]);
+
+  useEffect(() => {
+    if (searchData) {
+      onSearch(searchData);
+    }
+  }, [searchData, onSearch]);
+
+  const handleOptionClick = (title: string, option: string) => {
+    setSelectedTitle(title);
     setSelectedOption(option);
     setIsOpen(false);
   };
@@ -25,12 +45,14 @@ const CommunitySearchSelectWrapper = () => {
   return (
     <CommunitySearchSelect onClick={() => setIsOpen(!isOpen)}>
       <Arrow>{isOpen ? '▲' : '▼'}</Arrow>
-      {selectedOption}
+      {selectedTitle}
       {isOpen && (
         <CommunitySearchOption>
-          <div onClick={() => handleOptionClick('작성자')}>작성자</div>
-          <div onClick={() => handleOptionClick('옵션1')}>옵션1</div>
-          <div onClick={() => handleOptionClick('옵션2')}>옵션2</div>
+          <div onClick={() => handleOptionClick('제목', 'title')}>제목</div>
+          <div onClick={() => handleOptionClick('작성자', 'username')}>작성자</div>
+          <div onClick={() => handleOptionClick('가수명', 'artist')}>가수명</div>
+          <div onClick={() => handleOptionClick('장르명', 'gerne')}>장르명</div>
+          <div onClick={() => handleOptionClick('분위기명', 'mood')}>분위기명</div>
         </CommunitySearchOption>
       )}
     </CommunitySearchSelect>
@@ -43,14 +65,40 @@ type GetPageListResponse = {
 
 const RecommendedPostList = ({ boardDtos }: boardDtosProps) => {
   const [activePage, setActivePage] = useState(1);
-  const { data, isLoading } = useGetPageList(activePage);
+  const [enabled, setEnabled] = useState(false);
+  const [keyWord, setKeyWord] = useState<string | null>('');
+  const [musingList, setMusingList] = useState(boardDtos.content);
+  const { data: pageData, isLoading: pageLoading } = useGetPageList(activePage, {
+    enabled: enabled,
+  });
+  useEffect(() => {
+    // 초기 렌더링 시에는 실행하지 않음
+    if (activePage !== 1) {
+      setEnabled(true);
+    }
+  }, [activePage]);
+
+  useEffect(() => {
+    if (!keyWord && !pageData) {
+      setMusingList(boardDtos.content);
+    } else if (pageData) {
+      setMusingList((pageData as GetPageListResponse)?.data?.content);
+    }
+  }, [boardDtos.content, pageData, keyWord]);
 
   const handlePageClick = (pageNumber: SetStateAction<number>) => {
     setActivePage(pageNumber);
+    setKeyWord(''); // Reset search when changing pages
   };
 
-  return isLoading ? (
-    <Spinner isLoading={isLoading}></Spinner>
+  const handleSearch = (searchResults: { data: { content: SetStateAction<boardDtosItem[]> } }) => {
+    if (searchResults?.data?.content) {
+      setMusingList(searchResults.data.content);
+    }
+  };
+
+  return pageLoading ? (
+    <Spinner isLoading={pageLoading}></Spinner>
   ) : (
     <ComuContainer>
       <TitleBlock>
@@ -58,7 +106,7 @@ const RecommendedPostList = ({ boardDtos }: boardDtosProps) => {
       </TitleBlock>
 
       <CommunityList>
-        {(data as GetPageListResponse)?.data?.content?.map((item, index) => (
+        {musingList?.map((item, index) => (
           <CommunityItem key={index}>
             <CommunityImageWrapper>
               <CommunityImage src={item.thumbNailLink} alt="Community" />
@@ -104,8 +152,14 @@ const RecommendedPostList = ({ boardDtos }: boardDtosProps) => {
       </CommunityList>
 
       <CommuniySearchBlock>
-        <CommunitySearchSelectWrapper />
-        <CommunitySearchInput type="text" placeholder="게시글 내용을 입력해 주세요." />
+        <CommunitySearchSelectWrapper keyWord={keyWord} onSearch={handleSearch} />
+        <CommunitySearchInput
+          type="text"
+          placeholder="게시글 내용을 입력해 주세요."
+          onChange={(e) => {
+            setKeyWord(e.target.value);
+          }}
+        />
       </CommuniySearchBlock>
     </ComuContainer>
   );
