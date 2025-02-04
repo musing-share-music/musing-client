@@ -1,5 +1,3 @@
-import image from 'shared/assets/image/main/image1.png';
-
 import { CommunityItem } from './types';
 
 export const COMMUNITY_ITEM: CommunityItem = {

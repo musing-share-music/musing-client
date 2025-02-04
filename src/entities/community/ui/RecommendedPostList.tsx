@@ -13,7 +13,12 @@ interface boardDtosProps {
   boardDtos: boardDtos;
 }
 
-const CommunitySearchSelectWrapper = ({ keyWord, onSearch }) => {
+interface CommunitySearchSelectWrapperProps {
+  keyWord: string;
+  onSearch: (data: { data: { content: boardDtosItem[] } }) => void;
+}
+
+const CommunitySearchSelectWrapper = ({ keyWord, onSearch }: CommunitySearchSelectWrapperProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [enabled, setEnabled] = useState(false);
   const [selectedTitle, setSelectedTitle] = useState('제목');
@@ -66,7 +71,7 @@ type GetPageListResponse = {
 const RecommendedPostList = ({ boardDtos }: boardDtosProps) => {
   const [activePage, setActivePage] = useState(1);
   const [enabled, setEnabled] = useState(false);
-  const [keyWord, setKeyWord] = useState<string | null>('');
+  const [keyWord, setKeyWord] = useState<string>('');
   const [musingList, setMusingList] = useState(boardDtos.content);
   const { data: pageData, isLoading: pageLoading } = useGetPageList(activePage, {
     enabled: enabled,
