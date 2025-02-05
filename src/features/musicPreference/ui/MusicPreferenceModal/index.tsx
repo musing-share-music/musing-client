@@ -1,78 +1,47 @@
 import { useEffect, useState } from 'react';
 import { useTransitionState } from 'react-transition-state';
 
-import { useGetGenre, useGetMood, usePostArtist, usePostGenre, usePostMood } from 'features/musicPreference/api';
+import { GenreChipCheckbox } from 'features/genre/selectMood/ui';
+import { MoodChipCheckbox } from 'features/mood/selectMood/ui';
+import { usePostArtist, usePostGenre, usePostMood } from 'features/musicPreference/api';
 import { Step, StepContent } from 'features/musicPreference/model/type';
 
-// import { GENRE, GenreId } from 'entities/genre/model/genre';
-// import { MOOD, MoodId } from 'entities/mood/model/mood';
+import { Genre, GenreId } from 'entities/genre/model/genre';
+import { Mood, MoodId } from 'entities/mood/model/mood';
+
 import URL from 'shared/config/urls';
 import { useUserInfoStore } from 'shared/store/userInfo';
-import { CheckBox, Chip, Modal, RightArrowButton, TextInput } from 'shared/ui/';
+import { Chip, Modal, RightArrowButton, TextInput } from 'shared/ui/';
 
 import { Caption, ChipBlock, Container, durationMs, Footer, Form, Header, ModalCaption } from './styled';
 
 type Artist = string;
 
-const handleCheck = <T extends number>(
-  e: React.ChangeEvent<HTMLInputElement>,
-  updateState: React.Dispatch<React.SetStateAction<Set<T>>>,
-) => {
-  const { id, checked } = e.target;
-
-  updateState((prev) => {
-    const updatedSet = new Set(prev);
-
-    if (checked) {
-      updatedSet.add(Number(id) as T);
-    } else {
-      updatedSet.delete(Number(id) as T);
-    }
-
-    return updatedSet;
-  });
-};
-
-interface GenreType {
-  id: number;
-  genreName: string;
-}
-
-interface MoodType {
-  id: number;
-  moodName: string;
-}
-
 export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const [{ status }, toggle] = useTransitionState({ timeout: durationMs });
 
   const [step, setStep] = useState<Step>('genre');
-  const [selectedGenres, setSelectedGenres] = useState<Set<number>>(new Set());
-  const [selectedMoods, setSelectedMoods] = useState<Set<number>>(new Set());
+  const [selectedGenres, setSelectedGenres] = useState<GenreId[]>([]);
+  const [selectedMoods, setSelectedMoods] = useState<MoodId[]>([]);
   const [artist, setArtist] = useState<Set<Artist>>(new Set());
   const [inputValue, setInputValue] = useState('');
   const [isValid, setIsValid] = useState(true);
 
   //사용자 정보
-  const { userInfo, passModal, isLogin } = useUserInfoStore();
+  const { userInfo, passModal } = useUserInfoStore();
 
-  //api call
-  const [Genredata] = useGetGenre({
-    enabled: isLogin(),
-  });
-  const [Mooddata] = useGetMood({
-    enabled: isLogin(),
-  });
   const genreMutation = usePostGenre();
   const moodMutation = usePostMood();
   const artistMutation = usePostArtist();
 
-  const handleGenreCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleCheck(e, setSelectedGenres);
+  const handleMoodCheck = (mood: Mood[]) => {
+    const moodId = mood.map((m) => m.id);
+    setSelectedMoods(moodId);
   };
 
-  const handleMoodCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleCheck(e, setSelectedMoods);
+  const handleGenreCheck = (genre: Genre[]) => {
+    const genreId = genre.map((g) => g.id);
+    setSelectedGenres(genreId);
   };
 
   const addArtist = (artist: Artist) => {
@@ -111,38 +80,12 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
           {userInfo.name}님이 선호하는 <strong>장르</strong>를 선택해 주세요!
         </>
       ),
-      form: (
-        <>
-          {Genredata?.data?.map(({ id, genreName }: GenreType) => (
-            <CheckBox
-              key={id}
-              id={id.toString()}
-              text={genreName}
-              name={id.toString()}
-              checked={selectedGenres.has(id)}
-              onChange={handleGenreCheck}
-            />
-          ))}
-        </>
-      ),
+      form: <GenreChipCheckbox onSelectChip={handleGenreCheck} />,
     },
     mood: {
       title: <>좋은 취향이네요!</>,
       caption: <>다음으로 즐겨 듣는 음악의 분위기를 선택해 주세요.</>,
-      form: (
-        <>
-          {Mooddata?.data?.map(({ id, moodName }: MoodType) => (
-            <CheckBox
-              key={id}
-              id={id.toString()}
-              text={moodName}
-              name={id.toString()}
-              checked={selectedMoods.has(id)}
-              onChange={handleMoodCheck}
-            />
-          ))}
-        </>
-      ),
+      form: <MoodChipCheckbox onSelectChip={handleMoodCheck} />,
     },
     artist: {
       title: <>마지막으로, 좋아하는 아티스트가 있나요?</>,
@@ -205,13 +148,13 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
 
   useEffect(() => {
     const stepsValidation = {
-      genre: () => selectedGenres.size > 0,
-      mood: () => selectedMoods.size > 0,
+      genre: () => selectedGenres.length > 0,
+      mood: () => selectedMoods.length > 0,
       artist: () => artist.size > 0,
     };
 
     setIsValid(stepsValidation[step]());
-  }, [artist.size, selectedGenres.size, selectedMoods.size, step]);
+  }, [artist.size, selectedGenres, selectedMoods, step]);
 
   return (
     <Modal open={open} onClose={() => onClose()}>

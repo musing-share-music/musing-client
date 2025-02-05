@@ -1,0 +1,1 @@
+export { GenreChipCheckbox } from './GenreChipCheckbox';

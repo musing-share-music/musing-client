@@ -12,7 +12,7 @@ export type CommunityListInfo = {
 export type CommunityTag = {
   id: string;
   name: string;
-  type: string;
+  type: 'genre' | 'mood';
 };
 
 export type CommunityItem = {

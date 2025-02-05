@@ -1,16 +1,17 @@
 import styled from '@emotion/styled';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
-import { Genre, GENRE } from 'entities/genre/model/genre';
-import { MOOD, Mood } from 'entities/mood/model/mood';
+import { GenreChipCheckbox } from 'features/genre/selectMood/ui';
+import { MoodChipCheckbox } from 'features/mood/selectMood/ui';
+
+import { Genre } from 'entities/genre/model/genre';
+import { Mood } from 'entities/mood/model/mood';
 
 import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
 import image1 from 'shared/assets/image/main/image1.png';
 import { commonStyles } from 'shared/styles/common';
-import { CheckBox, Chip, Modal, TextInput } from 'shared/ui/';
+import { Chip, Modal, TextInput } from 'shared/ui/';
 
-type GenreId = Genre['id'];
-type MoodId = Mood['id'];
 type ModalType = 'genre' | 'mood' | 'artist' | null;
 type Artist = string;
 
@@ -18,73 +19,20 @@ interface TagInputProps {
   onConfirm: (tags: (Genre | Mood)[]) => void;
 }
 
-const handleCheck = <T extends string>(
-  e: React.ChangeEvent<HTMLInputElement>,
-  updateState: React.Dispatch<React.SetStateAction<Set<T>>>,
-) => {
-  const { id, checked } = e.target;
-
-  updateState((prev) => {
-    const updatedSet = new Set(prev);
-
-    if (checked) {
-      updatedSet.add(id as T);
-    } else {
-      updatedSet.delete(id as T);
-    }
-
-    return updatedSet;
-  });
-};
-
-type SelectTagId = {
-  type: 'genre' | 'mood';
-  id: GenreId | MoodId;
-};
-
 export const MemberPreference = ({ onConfirm }: TagInputProps) => {
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState<ModalType>(null);
-  const [selectedGenres, setSelectedGenres] = useState<Set<GenreId>>(new Set());
-  const [selectedMoods, setSelectedMoods] = useState<Set<MoodId>>(new Set());
-  const [selectedTagId, setSelectedTagId] = useState<SelectTagId[]>([]);
+  const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
+  const [selectedMoods, setSelectedMoods] = useState<Mood[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [artist, setArtist] = useState<Set<Artist>>(new Set());
 
-  const handleGenreCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, checked } = e.target;
-
-    if (checked) {
-      setSelectedTagId((prev) => [...prev, { type: 'genre', id }]);
-    } else {
-      const copiedPrev = selectedTagId?.filter((val) => {
-        if (val.type === 'genre' && val.id === id) {
-          return;
-        }
-        return val;
-      });
-      setSelectedTagId(copiedPrev);
-    }
-
-    handleCheck(e, setSelectedGenres);
+  const handleMoodCheck = (mood: Mood[]) => {
+    setSelectedMoods(mood);
   };
 
-  const handleMoodCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, checked } = e.target;
-
-    if (checked) {
-      setSelectedTagId((prev) => [...prev, { type: 'mood', id }]);
-    } else {
-      const copiedPrev = selectedTagId?.filter((val) => {
-        if (val.type === 'mood' && val.id === id) {
-          return;
-        }
-        return val;
-      });
-      setSelectedTagId(copiedPrev);
-    }
-
-    handleCheck(e, setSelectedMoods);
+  const handleGenreCheck = (genre: Genre[]) => {
+    setSelectedGenres(genre);
   };
 
   const openModal = (type: ModalType) => {
@@ -97,22 +45,11 @@ export const MemberPreference = ({ onConfirm }: TagInputProps) => {
     setOpen(false);
   };
 
-  const tags: (Genre | Mood)[] = useMemo(() => {
-    const updatedTags = selectedTagId.map((selectedTag) => {
-      if (selectedTag.type === 'genre') {
-        return GENRE.find((val) => val.id === selectedTag.id);
-      }
-      if (selectedTag.type === 'mood') {
-        return MOOD.find((val) => val.id === selectedTag.id);
-      }
-    }) as (Genre | Mood)[];
-    return updatedTags;
-  }, [selectedTagId]);
-
   const handleConfirm = () => {
-    if (modalType === 'genre' && selectedGenres.size === 0) return;
-    if (modalType === 'mood' && selectedMoods.size === 0) return;
+    if (modalType === 'genre' && selectedGenres.length === 0) return;
+    if (modalType === 'mood' && selectedMoods.length === 0) return;
 
+    const tags = [...selectedGenres, ...selectedMoods];
     onConfirm(tags);
     closeModal();
   };
@@ -212,35 +149,13 @@ export const MemberPreference = ({ onConfirm }: TagInputProps) => {
 
           {modalType === 'genre' && (
             <ChipBlock>
-              <ChipContainer>
-                {GENRE.map(({ id, text }) => (
-                  <CheckBox
-                    key={id}
-                    id={id}
-                    text={text}
-                    name={id}
-                    checked={selectedGenres.has(id)}
-                    onChange={handleGenreCheck}
-                  />
-                ))}
-              </ChipContainer>
+              <GenreChipCheckbox onSelectChip={handleGenreCheck} />
             </ChipBlock>
           )}
 
           {modalType === 'mood' && (
             <ChipBlock>
-              <ChipContainer>
-                {MOOD.map(({ id, text }) => (
-                  <CheckBox
-                    key={id}
-                    id={id}
-                    text={text}
-                    name={id}
-                    checked={selectedMoods.has(id)}
-                    onChange={handleMoodCheck}
-                  />
-                ))}
-              </ChipContainer>
+              <MoodChipCheckbox onSelectChip={handleMoodCheck} />
             </ChipBlock>
           )}
 
@@ -417,13 +332,6 @@ const ChipBlock = styled.div`
 //   color: ${({ theme }) => theme.colors.white};
 //   ${({ theme }) => theme.fonts.wantedSans.B3};
 // `;
-
-const ChipContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 18px;
-  row-gap: 20px;
-`;
 
 const TitleBlock = styled.div`
   display: flex;
