@@ -1,3 +1,27 @@
+//상단리스트
+export type recommendBoardFirstDto = {
+  title: string;
+  content: string;
+  musicName: string;
+  artists: Artist[];
+  rating: number;
+  thumbNailLink: string;
+};
+
+export type recommendBoardListDto = {
+  title: string;
+  musicName: string;
+  artists: Artist[];
+  thumbNailLink: string;
+  createAt: string;
+}[];
+
+export type boardPopUpDto = {
+  recommendBoardFirstDto: recommendBoardFirstDto;
+  recommendBoardListDto: recommendBoardListDto;
+};
+
+//하단리스트
 export type Artist = {
   id: number;
   name: string;

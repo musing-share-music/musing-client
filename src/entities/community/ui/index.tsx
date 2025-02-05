@@ -14,7 +14,7 @@ export const Community = () => {
     <Spinner isLoading={isLoading}></Spinner>
   ) : (
     <MainContents>
-      <RecommendedPost></RecommendedPost>
+      {data?.data?.boardPopUpDto ? <RecommendedPost boardPopUpDto={data?.data?.boardPopUpDto}></RecommendedPost> : null}
       {data?.data?.boardDtos ? <RecommendedPostList boardDtos={data?.data?.boardDtos}></RecommendedPostList> : null}
     </MainContents>
   );

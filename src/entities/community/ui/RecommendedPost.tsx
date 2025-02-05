@@ -1,4 +1,9 @@
 import styled from '@emotion/styled';
+import moment from 'moment';
+moment.locale('ko');
+import { useState } from 'react';
+
+import { boardPopUpDto } from 'entities/community/model/types';
 
 import gradient from 'shared/assets/image/community/hover-gradient.png';
 import arrow2 from 'shared/assets/image/main/arrow 2.png';
@@ -6,6 +11,91 @@ import image1 from 'shared/assets/image/main/image1.png';
 import { theme } from 'shared/styles/theme';
 import { Button } from 'shared/ui/';
 import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
+
+interface boardPopUpDtoProps {
+  boardPopUpDto: boardPopUpDto;
+}
+
+const RecommendedPost = ({ boardPopUpDto }: boardPopUpDtoProps) => {
+  const [recommendBoardFirstDto] = useState(boardPopUpDto.recommendBoardFirstDto);
+  const [recommendBoardListDto] = useState(boardPopUpDto.recommendBoardListDto);
+  return (
+    <ComuContainer>
+      <TitleBlock>
+        <PageTitle>이런 게시글은 어때요?</PageTitle>
+        <Button variant="primaryOutline" width={132}>
+          글쓰기
+        </Button>
+      </TitleBlock>
+
+      <PostBlock>
+        <PostCard>
+          <PostImage src={recommendBoardFirstDto.thumbNailLink}></PostImage>
+          <PostContent>
+            <PostInfo>
+              <PostSongInfo>
+                {recommendBoardFirstDto.musicName} · {recommendBoardFirstDto.artists[0].name}
+              </PostSongInfo>
+              <PostSongTitle>{recommendBoardFirstDto.title}</PostSongTitle>
+              <PostSongDescription>{recommendBoardFirstDto.content}</PostSongDescription>
+            </PostInfo>
+            <PostAction>
+              <PostRateArea>
+                {/* <StarRatingInput value={3} color={theme.colors.white} enabled={false} /> */}
+              </PostRateArea>
+              <PostArrowWrapper>
+                <PostArrow src={arrow2}></PostArrow>
+                <PostArrowHover src={gradient}></PostArrowHover>
+              </PostArrowWrapper>
+            </PostAction>
+          </PostContent>
+        </PostCard>
+
+        <PostComuList>
+          {recommendBoardListDto.map((item, index) => {
+            const itemDate = moment(item.createAt);
+            const now = moment();
+
+            const diffMinutes = now.diff(itemDate, 'minutes');
+            const diffHours = now.diff(itemDate, 'hours');
+            const diffDays = now.diff(itemDate, 'days');
+            const diffWeeks = now.diff(itemDate, 'weeks');
+            const diffYears = now.diff(itemDate, 'years');
+
+            let formattedDate;
+            if (diffMinutes < 60) {
+              formattedDate = `${diffMinutes}분 전`;
+            } else if (diffHours < 24) {
+              formattedDate = `${diffHours}시간 전`;
+            } else if (diffDays < 7) {
+              formattedDate = `${diffDays}일 전`;
+            } else if (diffWeeks < 4) {
+              formattedDate = `${diffWeeks}주 전`;
+            } else if (diffYears < 1) {
+              const diffMonths = now.diff(itemDate, 'months');
+              formattedDate = `${diffMonths}개월 전`;
+            } else {
+              formattedDate = `${diffYears}년 전`;
+            }
+
+            return (
+              <PostComuItem key={index}>
+                <PostComuImage src={item.thumbNailLink} />
+                <PostComuSongInfo>
+                  {item.musicName} · {item.artists[0]?.name}
+                </PostComuSongInfo>
+                <PostComuSongTitle>{item.title}</PostComuSongTitle>
+                <PostComuDate>{formattedDate}</PostComuDate>
+              </PostComuItem>
+            );
+          })}
+        </PostComuList>
+      </PostBlock>
+    </ComuContainer>
+  );
+};
+
+export default RecommendedPost;
 
 const ComuContainer = styled.div`
   width: 1280px;
@@ -176,58 +266,3 @@ const PostComuDate = styled.div`
   color: ${({ theme }) => theme.colors.primary2};
   ${({ theme }) => theme.fonts.wantedSans.B4};
 `;
-
-const RecommendedPost = () => {
-  return (
-    <ComuContainer>
-      <TitleBlock>
-        <PageTitle>이런 게시글은 어때요?</PageTitle>
-        <Button variant="primaryOutline" width={132}>
-          글쓰기
-        </Button>
-      </TitleBlock>
-
-      <PostBlock>
-        <PostCard>
-          <PostImage src={image1}></PostImage>
-          <PostContent>
-            <PostInfo>
-              <PostSongInfo>Love You On Christmas · 백예린</PostSongInfo>
-              <PostSongTitle>크리스마스에 어떤 곡을 즐겨 들으시나요?</PostSongTitle>
-              <PostSongDescription>
-                크리스마스를 앞두고 좋아하던 캐롤을 꺼내 듣고 있어요. 그 중에서도 이 곡을 가장 많이 듣게 되는 것 같아요.
-              </PostSongDescription>
-            </PostInfo>
-            <PostAction>
-              <PostRateArea>
-                <StarRatingInput value={3} color={theme.colors.white} enabled={false} />
-              </PostRateArea>
-              <PostArrowWrapper>
-                <PostArrow src={arrow2}></PostArrow>
-                <PostArrowHover src={gradient}></PostArrowHover>
-              </PostArrowWrapper>
-            </PostAction>
-          </PostContent>
-        </PostCard>
-
-        <PostComuList>
-          <PostComuItem>
-            <PostComuImage src={image1}></PostComuImage>
-            <PostComuSongInfo>Highway Tune · Greta Van Fleet</PostComuSongInfo>
-            <PostComuSongTitle>글 제목</PostComuSongTitle>
-            <PostComuDate>1분 전</PostComuDate>
-          </PostComuItem>
-
-          <PostComuItem>
-            <PostComuImage src={image1}></PostComuImage>
-            <PostComuSongInfo>Highway Tune · Greta Van Fleet</PostComuSongInfo>
-            <PostComuSongTitle>글 제목</PostComuSongTitle>
-            <PostComuDate>5시간 전</PostComuDate>
-          </PostComuItem>
-        </PostComuList>
-      </PostBlock>
-    </ComuContainer>
-  );
-};
-
-export default RecommendedPost;

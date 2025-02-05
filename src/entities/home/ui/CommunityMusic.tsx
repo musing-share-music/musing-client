@@ -54,12 +54,18 @@ const CommunityMusic = ({ recentBoard, hotMusicBoard }: recentBoardProps) => {
               const itemDate = moment(item.createdAt);
 
               const now = moment();
+              const diffMinutes = now.diff(itemDate, 'minutes');
+              const diffHours = now.diff(itemDate, 'hours');
               const diffDays = now.diff(itemDate, 'days');
               const diffWeeks = now.diff(itemDate, 'weeks');
               const diffYears = now.diff(itemDate, 'years');
 
               let formattedDate;
-              if (diffDays < 1) {
+              if (diffMinutes < 60) {
+                formattedDate = `${diffMinutes}분 전`;
+              } else if (diffHours < 24) {
+                formattedDate = `${diffHours}시간 전`;
+              } else if (diffDays < 1) {
                 formattedDate = itemDate.format('HH:mm');
               } else if (diffDays < 7) {
                 formattedDate = `${diffDays}일 전`;
