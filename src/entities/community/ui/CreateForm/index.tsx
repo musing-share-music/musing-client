@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useRef } from 'react';
 
-import { FormData } from 'features/createPost/model/useFormState';
+import { FormData } from 'features/community/createPost/model/useFormState';
 
 import { Button, StarRatingInput, TextArea, TextInput, YoutubeIframe } from 'shared/ui/';
 import { ErrorModal } from 'shared/ui/Modal/ErrorModal';

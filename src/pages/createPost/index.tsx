@@ -2,12 +2,16 @@ import { useState } from 'react';
 
 import { MainLayout } from 'widgets/ui/Layout';
 
-import { useCreatePostMutation } from 'features/createPost/lib/useCreatePostMutation';
-import { getFromErrorMessage, validateFormSchema, validateYoutubeLink } from 'features/createPost/lib/validate';
-import { useFormState } from 'features/createPost/model/useFormState';
+import { useCreatePostMutation } from 'features/community/createPost/lib/useCreatePostMutation';
+import {
+  getFromErrorMessage,
+  validateFormSchema,
+  validateYoutubeLink,
+} from 'features/community/createPost/lib/validate';
+import { useFormState } from 'features/community/createPost/model/useFormState';
 
-import { CreatePostDto } from 'entities/post/api/createPost';
-import { CreateForm } from 'entities/post/ui/CreateForm';
+import { CreatePostDto } from 'entities/community/api/createPost';
+import { CreateForm } from 'entities/community/ui/CreateForm';
 
 import { Container, Layout } from './ui/styled';
 
