@@ -44,7 +44,7 @@ const RecommendedPost = ({ boardPopUpDto }: boardPopUpDtoProps) => {
             </PostInfo>
             <PostAction>
               <PostRateArea>
-                {/* <StarRatingInput value={3} color={theme.colors.white} enabled={false} /> */}
+                <StarRatingInput value={3} color={theme.colors.white} enabled={false} />
               </PostRateArea>
               <PostArrowWrapper>
                 <PostArrow src={arrow2}></PostArrow>

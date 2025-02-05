@@ -125,19 +125,19 @@ const RecommendedPostList = ({ boardDtos }: boardDtosProps) => {
               </CommunityInfo>
               <CommunityAction>
                 <CommunityRating>
-                  {/* <StarRatingInput value={item.rating} enabled={false} /> */}
+                  <StarRatingInput value={item.rating} enabled={false} />
                   <CommunityRatingNumber>{item.replyCount}</CommunityRatingNumber>
                 </CommunityRating>
 
-                {/* <CommunityTagBlock>
-                  {item.genreList.map((tagItem) => (
-                    <CommonTag key={index} name={tagItem.genreName} type="genre" />
+                <CommunityTagBlock>
+                  {item.genreList.map((tagItem, tagIndex) => (
+                    <CommonTag key={tagIndex} name={tagItem.genreName} type="genre" />
                   ))}
 
-                  {item.moodList.map((tagItem) => (
-                    <CommonTag key={index} name={tagItem.moodName} type="mood" />
+                  {item.moodList.map((tagItem, tagIndex) => (
+                    <CommonTag key={tagIndex} name={tagItem.moodName} type="mood" />
                   ))}
-                </CommunityTagBlock> */}
+                </CommunityTagBlock>
               </CommunityAction>
             </CommuityContent>
           </CommunityItem>
