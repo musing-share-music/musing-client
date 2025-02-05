@@ -2,12 +2,13 @@ import styled from '@emotion/styled';
 import moment from 'moment';
 moment.locale('ko');
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { boardPopUpDto } from 'entities/community/model/types';
 
 import gradient from 'shared/assets/image/community/hover-gradient.png';
 import arrow2 from 'shared/assets/image/main/arrow 2.png';
-import image1 from 'shared/assets/image/main/image1.png';
+import { ROUTES } from 'shared/config/routes';
 import { theme } from 'shared/styles/theme';
 import { Button } from 'shared/ui/';
 import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
@@ -19,11 +20,13 @@ interface boardPopUpDtoProps {
 const RecommendedPost = ({ boardPopUpDto }: boardPopUpDtoProps) => {
   const [recommendBoardFirstDto] = useState(boardPopUpDto.recommendBoardFirstDto);
   const [recommendBoardListDto] = useState(boardPopUpDto.recommendBoardListDto);
+  const navigate = useNavigate();
+
   return (
     <ComuContainer>
       <TitleBlock>
         <PageTitle>이런 게시글은 어때요?</PageTitle>
-        <Button variant="primaryOutline" width={132}>
+        <Button variant="primaryOutline" width={132} onClick={async () => await navigate(`${ROUTES.CREATE}`)}>
           글쓰기
         </Button>
       </TitleBlock>
