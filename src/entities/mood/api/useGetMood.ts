@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Mood } from 'entities/mood/model/mood';
 
 import URL from 'shared/config/urls';
-import axiosInstance from 'shared/hooks/useAxiosInstance';
+import axiosInstance from 'shared/lib/axiosInstance';
 
 interface GetMoodResponse {
   data: Mood[];

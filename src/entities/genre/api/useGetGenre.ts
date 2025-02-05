@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Genre } from 'entities/genre/model/genre';
 
 import URL from 'shared/config/urls';
-import axiosInstance from 'shared/hooks/useAxiosInstance';
+import axiosInstance from 'shared/lib/axiosInstance';
 
 interface GetGenreResponse {
   data: Genre[];
