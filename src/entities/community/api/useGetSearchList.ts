@@ -25,7 +25,7 @@ function useGetSearchList(option: string, page: number, keyword: string, queryCo
 
   const { data, error, isLoading } = useQuery({
     queryKey,
-    queryFn: () => (option ? GetSearchList(option, page, keyword) : Promise.resolve(null)),
+    queryFn: () => GetSearchList(option, page, keyword),
     retry: 3,
     ...queryConfig,
   });

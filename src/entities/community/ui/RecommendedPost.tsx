@@ -18,7 +18,7 @@ interface boardPopUpDtoProps {
 }
 
 const RecommendedPost = ({ boardPopUpDto }: boardPopUpDtoProps) => {
-  const [recommendBoardFirstDto] = useState(boardPopUpDto.recommendBoardFirstDto);
+  const recommendBoardFirstDto = boardPopUpDto.recommendBoardFirstDto;
   const [recommendBoardListDto] = useState(boardPopUpDto.recommendBoardListDto);
   const navigate = useNavigate();
 
