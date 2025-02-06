@@ -1,22 +1,84 @@
-export type CommunityListInfo = {
-  id: string;
-  songinfo: string;
+//상단리스트
+export type recommendBoardFirstDto = {
   title: string;
-  rateCount: string;
-  reviewCount: string;
-  img: string;
-  tag: CommunityTag[];
+  content: string;
+  musicName: string;
+  artists: Artist[];
+  rating: number;
+  thumbNailLink: string;
+};
+
+export type recommendBoardListDto = {
+  title: string;
+  musicName: string;
+  artists: Artist[];
+  thumbNailLink: string;
+  createAt: string;
 }[];
 
-// 커뮤니티 리스트
-export type CommunityTag = {
-  id: string;
+export type boardPopUpDto = {
+  recommendBoardFirstDto: recommendBoardFirstDto;
+  recommendBoardListDto: recommendBoardListDto;
+};
+
+//하단리스트
+export type Artist = {
+  id: number;
   name: string;
-  type: string;
+};
+
+export type Genre = {
+  id: number;
+  genreName: string;
+};
+
+export type Mood = {
+  id: number;
+  moodName: string;
+};
+
+export type boardDtosItem = {
+  title: string;
+  musicName: string;
+  artists: Artist[];
+  rating: number;
+  replyCount: number;
+  thumbNailLink: string;
+  genreList: Genre[];
+  moodList: Mood[];
+};
+
+export type Sort = {
+  empty: boolean;
+  sorted: boolean;
+  unsorted: boolean;
+};
+
+export type Pageable = {
+  pageNumber: number;
+  pageSize: number;
+  sort: Sort;
+  offset: number;
+  paged: boolean;
+  unpaged: boolean;
+};
+
+export type boardDtos = {
+  content: boardDtosItem[];
+  pageable: Pageable;
+  last: boolean;
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  number: number;
+  sort: Sort;
+  first: boolean;
+  numberOfElements: number;
+  empty: boolean;
 };
 
 export type CommunityItem = {
-  CommunityListInfo: CommunityListInfo;
+  boardDtos: boardDtos;
 };
 
 // FIXME: 삭제 response 타입을 위해 생성. 상세 조회 api에 타입 재사용 가능한지 확인 필요

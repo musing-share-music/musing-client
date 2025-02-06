@@ -32,13 +32,13 @@ export const ADMIN_NAV_ITEM: NavItem[] = [
 export const NAV_ITEM: NavItemWithIcon[] = [
   {
     text: 'Home',
-    href: '#',
+    href: ROUTES.HOME,
     icon: IconHomeSrc,
     activeIcon: IconHomeActiveSrc,
   },
   {
     text: 'Board',
-    href: '#',
+    href: ROUTES.COMMUNITY.COMMUNITY,
     icon: IconBoard,
     activeIcon: IconBoardActiveSrc,
   },

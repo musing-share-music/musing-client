@@ -1,11 +1,176 @@
 import styled from '@emotion/styled';
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 
-import { CommunityListInfo } from 'entities/community/model/types';
+import { useGetPageList, useGetSearchList } from 'entities/community/api';
+import { boardDtos, boardDtosItem } from 'entities/community/model/types';
 
 import { commonStyles } from 'shared/styles/common';
 import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
+import { Spinner } from 'shared/ui/Spinner';
 import { CommonTag } from 'shared/ui/Tag';
+
+interface boardDtosProps {
+  boardDtos: boardDtos;
+}
+
+interface CommunitySearchSelectWrapperProps {
+  keyWord: string;
+  onSearch: (data: { data: { content: boardDtosItem[] } }) => void;
+}
+
+const CommunitySearchSelectWrapper = ({ keyWord, onSearch }: CommunitySearchSelectWrapperProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [enabled, setEnabled] = useState(false);
+  const [selectedTitle, setSelectedTitle] = useState('제목');
+  const [selectedOption, setSelectedOption] = useState('title');
+  const { data: searchData } = useGetSearchList(selectedOption, 1, keyWord, {
+    enabled: enabled,
+  });
+
+  useEffect(() => {
+    if (keyWord) {
+      setEnabled(true);
+    } else {
+      setEnabled(false);
+    }
+  }, [keyWord]);
+
+  useEffect(() => {
+    if (searchData) {
+      onSearch(searchData);
+    }
+  }, [searchData, onSearch]);
+
+  const handleOptionClick = (title: string, option: string) => {
+    setSelectedTitle(title);
+    setSelectedOption(option);
+    setIsOpen(false);
+  };
+
+  return (
+    <CommunitySearchSelect onClick={() => setIsOpen(!isOpen)}>
+      <Arrow>{isOpen ? '▲' : '▼'}</Arrow>
+      {selectedTitle}
+      {isOpen && (
+        <CommunitySearchOption>
+          <div onClick={() => handleOptionClick('제목', 'title')}>제목</div>
+          <div onClick={() => handleOptionClick('작성자', 'username')}>작성자</div>
+          <div onClick={() => handleOptionClick('가수명', 'artist')}>가수명</div>
+          <div onClick={() => handleOptionClick('장르명', 'gerne')}>장르명</div>
+          <div onClick={() => handleOptionClick('분위기명', 'mood')}>분위기명</div>
+        </CommunitySearchOption>
+      )}
+    </CommunitySearchSelect>
+  );
+};
+
+type GetPageListResponse = {
+  data: boardDtos;
+};
+
+const RecommendedPostList = ({ boardDtos }: boardDtosProps) => {
+  const [activePage, setActivePage] = useState(1);
+  const [enabled, setEnabled] = useState(false);
+  const [keyWord, setKeyWord] = useState<string>('');
+  const [musingList, setMusingList] = useState(boardDtos.content);
+  const { data: pageData, isLoading: pageLoading } = useGetPageList(activePage, {
+    enabled: enabled,
+  });
+  useEffect(() => {
+    // 초기 렌더링 시에는 실행하지 않음
+    if (activePage !== 1) {
+      setEnabled(true);
+    }
+  }, [activePage]);
+
+  useEffect(() => {
+    if (!keyWord && !pageData) {
+      setMusingList(boardDtos.content);
+    } else if (pageData) {
+      setMusingList((pageData as GetPageListResponse)?.data?.content);
+    }
+  }, [boardDtos.content, pageData, keyWord]);
+
+  const handlePageClick = (pageNumber: SetStateAction<number>) => {
+    setActivePage(pageNumber);
+    setKeyWord(''); // Reset search when changing pages
+  };
+
+  const handleSearch = (searchResults: { data: { content: SetStateAction<boardDtosItem[]> } }) => {
+    if (searchResults?.data?.content) {
+      setMusingList(searchResults.data.content);
+    }
+  };
+
+  return pageLoading ? (
+    <Spinner isLoading={pageLoading}></Spinner>
+  ) : (
+    <ComuContainer>
+      <TitleBlock>
+        <PageTitle>음악 추천 게시판</PageTitle>
+      </TitleBlock>
+
+      <CommunityList>
+        {musingList?.map((item, index) => (
+          <CommunityItem key={index}>
+            <CommunityImageWrapper>
+              <CommunityImage src={item.thumbNailLink} alt="Community" />
+            </CommunityImageWrapper>
+            <CommuityContent>
+              <CommunityInfo>
+                <CommunitySongInfo>
+                  {item.musicName} · {item.artists[0].name}
+                </CommunitySongInfo>
+                <CommunitySongDescription>{item.title}</CommunitySongDescription>
+              </CommunityInfo>
+              <CommunityAction>
+                <CommunityRating>
+                  <StarRatingInput value={item.rating} enabled={false} />
+                  <CommunityRatingNumber>{item.replyCount}</CommunityRatingNumber>
+                </CommunityRating>
+
+                <CommunityTagBlock>
+                  {item.genreList.map((tagItem, tagIndex) => (
+                    <CommonTag key={tagIndex} name={tagItem.genreName} type="genre" />
+                  ))}
+
+                  {item.moodList.map((tagItem, tagIndex) => (
+                    <CommonTag key={tagIndex} name={tagItem.moodName} type="mood" />
+                  ))}
+                </CommunityTagBlock>
+              </CommunityAction>
+            </CommuityContent>
+          </CommunityItem>
+        ))}
+
+        <CommunityPagenationWrapper isActive={false}>
+          {Array.from({ length: boardDtos.totalPages }, (_, i) => i + 1).map((pageNumber) => (
+            <CommunityPagenation
+              key={pageNumber}
+              onClick={() => handlePageClick(pageNumber)}
+              isActive={activePage === pageNumber}
+            >
+              {pageNumber}
+            </CommunityPagenation>
+          ))}
+        </CommunityPagenationWrapper>
+      </CommunityList>
+
+      <CommuniySearchBlock>
+        <CommunitySearchSelectWrapper keyWord={keyWord} onSearch={handleSearch} />
+        <CommunitySearchInput
+          type="text"
+          placeholder="게시글 내용을 입력해 주세요."
+          onChange={(e) => {
+            setKeyWord(e.target.value);
+          }}
+        />
+      </CommuniySearchBlock>
+    </ComuContainer>
+  );
+};
+
+export default RecommendedPostList;
 
 const ComuContainer = styled.div`
   width: 1280px;
@@ -27,11 +192,11 @@ const CommunityList = styled.div`
   height: 1120px;
   padding: 20px;
   display: flex;
-  justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
   background-color: ${({ theme }) => theme.colors[700]};
   border-radius: 12px;
+  position: relative;
 `;
 
 const CommunityItem = styled.div`
@@ -69,6 +234,7 @@ const CommunityInfo = styled.div`
 const CommunitySongInfo = styled.div`
   color: ${({ theme }) => theme.colors[200]};
   ${({ theme }) => theme.fonts.wantedSans.B5};
+  ${commonStyles.limitText};
 `;
 
 const CommunitySongDescription = styled.div`
@@ -82,8 +248,7 @@ const CommunityAction = styled.div`
   position: absolute;
   bottom: 0px;
   left: 8px;
-  width: 140px;
-  height: 70px;
+  width: 100%;
 `;
 
 const CommunityRating = styled.div`
@@ -98,8 +263,7 @@ const CommunityRatingNumber = styled.div`
 `;
 
 const CommunityTagBlock = styled.div`
-  width: 140px;
-  height: 34px;
+  width: 100%;
   display: flex;
   gap: 10px;
   margin-top: 12px;
@@ -118,6 +282,14 @@ const CommunityTagBlock = styled.div`
 //   justify-content: center;
 //   align-items: center;
 // `;
+
+const CommunityPagenationWrapper = styled.div<{ isActive: boolean }>`
+  display: flex;
+  gap: 12px;
+  position: absolute;
+  bottom: 40px;
+  left: 580px;
+`;
 
 const CommunityPagenation = styled.div<{ isActive: boolean }>`
   color: ${({ theme, isActive }) => (isActive ? theme.colors[100] : theme.colors[200])};
@@ -191,96 +363,3 @@ const CommunitySearchInput = styled.input`
   color: ${({ theme }) => theme.colors[200]};
   ${({ theme }) => theme.fonts.wantedSans.B4};
 `;
-
-interface CommunityItemProps {
-  CommunityListInfo: CommunityListInfo;
-}
-
-const CommunitySearchSelectWrapper = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('작성자');
-
-  const handleOptionClick = (option: string) => {
-    setSelectedOption(option);
-    setIsOpen(false);
-  };
-
-  return (
-    <CommunitySearchSelect onClick={() => setIsOpen(!isOpen)}>
-      <Arrow>{isOpen ? '▲' : '▼'}</Arrow>
-      {selectedOption}
-      {isOpen && (
-        <CommunitySearchOption>
-          <div onClick={() => handleOptionClick('작성자')}>작성자</div>
-          <div onClick={() => handleOptionClick('옵션1')}>옵션1</div>
-          <div onClick={() => handleOptionClick('옵션2')}>옵션2</div>
-        </CommunitySearchOption>
-      )}
-    </CommunitySearchSelect>
-  );
-};
-
-const RecommendedPostList = ({ CommunityListInfo }: CommunityItemProps) => {
-  const [activePage, setActivePage] = useState(1);
-
-  const handlePageClick = (pageNumber: SetStateAction<number>) => {
-    setActivePage(pageNumber);
-  };
-  return (
-    <ComuContainer>
-      <TitleBlock>
-        <PageTitle>음악 추천 게시판</PageTitle>
-      </TitleBlock>
-
-      <CommunityList>
-        {CommunityListInfo.map((item, index) => (
-          <CommunityItem key={index}>
-            <CommunityImageWrapper>
-              <CommunityImage src={item.img} alt="Community" />
-            </CommunityImageWrapper>
-            <CommuityContent>
-              <CommunityInfo>
-                <CommunitySongInfo>{item.songinfo}</CommunitySongInfo>
-                <CommunitySongDescription>{item.title}</CommunitySongDescription>
-              </CommunityInfo>
-              <CommunityAction>
-                <CommunityRating>
-                  <StarRatingInput value={3} enabled={false} />
-                  {/* {[...Array(5)].map((_, index) => {
-                    return index < Number(item.rateCount) ? <StarActive key={index} /> : <StarDefalut key={index} />;
-                  })} */}
-                  <CommunityRatingNumber>{item.reviewCount}</CommunityRatingNumber>
-                </CommunityRating>
-
-                <CommunityTagBlock>
-                  {item.tag.map((tagItem) => (
-                    <CommonTag key={index} name={tagItem.name} type={tagItem.type} />
-                  ))}
-                </CommunityTagBlock>
-              </CommunityAction>
-            </CommuityContent>
-          </CommunityItem>
-        ))}
-
-        <>
-          {[1, 2, 3, 4, 5].map((pageNumber) => (
-            <CommunityPagenation
-              key={pageNumber}
-              onClick={() => handlePageClick(pageNumber)}
-              isActive={activePage === pageNumber}
-            >
-              {pageNumber}
-            </CommunityPagenation>
-          ))}
-        </>
-      </CommunityList>
-
-      <CommuniySearchBlock>
-        <CommunitySearchSelectWrapper />
-        <CommunitySearchInput type="text" placeholder="게시글 내용을 입력해 주세요." />
-      </CommuniySearchBlock>
-    </ComuContainer>
-  );
-};
-
-export default RecommendedPostList;

@@ -48,10 +48,10 @@ export const StarRatingInput = ({
           onClick={() => handleClick(index)}
           onMouseEnter={() => handleMouseEnter(index)}
           onMouseLeave={handleMouseLeave}
-          filled={index < currentValue}
+          filled={index < currentValue ? 'true' : 'false'}
           width={width}
           height={height}
-          enabled={enabled}
+          enabled={enabled ? 'true' : undefined}
           color={color}
         />
       ))}
@@ -66,10 +66,10 @@ const StarContainer = styled.div<{ enabled: boolean }>`
 `;
 
 const AnimatedStar = styled(IconStar)<{
-  filled: boolean;
-  enabled: boolean;
+  filled: 'true' | 'false';
+  enabled: 'true' | undefined;
   color?: string;
 }>`
-  fill: ${({ filled, theme, color }) => (filled ? color || theme.colors.primary1 : theme.colors[300])};
+  fill: ${({ filled, theme, color }) => (filled === 'true' ? color || theme.colors.primary1 : theme.colors[300])};
   ${({ enabled }) => enabled && commonStyles.hoverTransition};
 `;
