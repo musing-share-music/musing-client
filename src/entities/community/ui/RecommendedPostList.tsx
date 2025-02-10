@@ -56,7 +56,7 @@ const CommunitySearchSelectWrapper = ({ keyWord, onSearch }: CommunitySearchSele
           <div onClick={() => handleOptionClick('제목', 'title')}>제목</div>
           <div onClick={() => handleOptionClick('작성자', 'username')}>작성자</div>
           <div onClick={() => handleOptionClick('가수명', 'artist')}>가수명</div>
-          <div onClick={() => handleOptionClick('장르명', 'gerne')}>장르명</div>
+          <div onClick={() => handleOptionClick('장르명', 'genre')}>장르명</div>
           <div onClick={() => handleOptionClick('분위기명', 'mood')}>분위기명</div>
         </CommunitySearchOption>
       )}
