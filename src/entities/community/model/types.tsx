@@ -26,6 +26,7 @@ export type boardPopUpDto = {
 export type Artistboard = {
   id: number;
   name: string;
+  type: 'genre' | 'mood';
 };
 
 export type Genreboard = {

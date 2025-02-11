@@ -1,10 +1,13 @@
 import styled from '@emotion/styled';
 
 type TagProps = {
-  type: string;
+  type: 'genre' | 'mood';
   name: string;
 };
 
+/**
+ * 장르/분위기 태그
+ */
 export const CommonTag = ({ type, name }: TagProps) => {
   return (
     <>
