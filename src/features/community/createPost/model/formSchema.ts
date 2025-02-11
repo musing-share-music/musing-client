@@ -1,19 +1,21 @@
 import { string, z } from 'zod';
 
+import { ERROR_MESSAGE } from 'features/community/createPost/lib/errorMessage';
+
 export const CreateFormSchema = z.object({
   title: string({
-    required_error: '제목을 입력해 주세요.',
+    required_error: ERROR_MESSAGE.title.required,
   }).trim(),
-  musicTitle: string({ required_error: '곡 제목을 입력해 주세요.' }).trim(),
-  artist: string({ required_error: '아티스트 명을 입력해 주세요.' }).trim(),
-  youtubeLink: string({ required_error: '유튜브 링크를 입력해 주세요.' }).trim(),
+  musicTitle: string({ required_error: ERROR_MESSAGE.musicTitle.required }).trim(),
+  artist: string({ required_error: ERROR_MESSAGE.artist.required }).trim(),
+  youtubeLink: string({ required_error: ERROR_MESSAGE.youtubeLink.required }).trim(),
   hashtags: string({
-    required_error: '분위기를 선택해 주세요.',
+    required_error: ERROR_MESSAGE.hashtags.required,
   })
     .trim()
     .array(),
-  genre: string({ required_error: '장르를 선택해 주세요.' }).trim(),
+  genre: string({ required_error: ERROR_MESSAGE.genre.required }).trim(),
   content: string({
-    required_error: '내용을 입력해 주세요.',
+    required_error: ERROR_MESSAGE.content.required,
   }).trim(),
 });
