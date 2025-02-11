@@ -1,9 +1,10 @@
+//커뮤니티 리스트
 //상단리스트
 export type recommendBoardFirstDto = {
   title: string;
   content: string;
   musicName: string;
-  artists: Artist[];
+  artists: Artistboard[];
   rating: number;
   thumbNailLink: string;
 };
@@ -11,7 +12,7 @@ export type recommendBoardFirstDto = {
 export type recommendBoardListDto = {
   title: string;
   musicName: string;
-  artists: Artist[];
+  artists: Artistboard[];
   thumbNailLink: string;
   createAt: string;
 }[];
@@ -22,17 +23,17 @@ export type boardPopUpDto = {
 };
 
 //하단리스트
-export type Artist = {
+export type Artistboard = {
   id: number;
   name: string;
 };
 
-export type Genre = {
+export type Genreboard = {
   id: number;
   genreName: string;
 };
 
-export type Mood = {
+export type Moodboard = {
   id: number;
   moodName: string;
 };
@@ -40,12 +41,12 @@ export type Mood = {
 export type boardDtosItem = {
   title: string;
   musicName: string;
-  artists: Artist[];
+  artists: Artistboard[];
   rating: number;
   replyCount: number;
   thumbNailLink: string;
-  genreList: Genre[];
-  moodList: Mood[];
+  genreList: Genreboard[];
+  moodList: Moodboard[];
 };
 
 export type Sort = {
