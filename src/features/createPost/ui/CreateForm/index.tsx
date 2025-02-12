@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 import { ERROR_MESSAGE } from 'features/createPost/lib/errorMessage';
 import { useCreatePostMutation } from 'features/createPost/lib/useCreatePostMutation';
 import { getFromErrorMessage, validateFormSchema } from 'features/createPost/lib/validate';
+import { getYoutubeVideoId } from 'features/createPost/lib/youtubeId';
 import { useFormStore } from 'features/createPost/model/useFormStore';
 
 import { CreatePostDto } from 'entities/community/api/createPost';
@@ -28,6 +29,7 @@ export const CreateForm = () => {
   const createFormMutation = useCreatePostMutation();
 
   const { youtubeUrl, artist, musicTitle, title, content, mood, genre, image } = formData;
+  const videoId = useMemo(() => getYoutubeVideoId(youtubeUrl), [youtubeUrl]);
 
   const showErrorModal = (msg: string) => {
     setErrorMessage(msg);
@@ -123,7 +125,7 @@ export const CreateForm = () => {
         </TrackField>
 
         <BodyField>
-          <YoutubeIframe videoId={youtubeUrl} />
+          <YoutubeIframe videoId={videoId} />
           <TextArea
             placeholder="내용을 입력해 주세요."
             style={{

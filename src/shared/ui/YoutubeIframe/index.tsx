@@ -5,7 +5,7 @@ const IframeStyle = css`
   aspect-ratio: 16/9;
 `;
 
-export const YoutubeIframe = ({ videoId }: { videoId: string }) => {
+export const YoutubeIframe = ({ videoId }: { videoId?: string }) => {
   return (
     <>
       {videoId && (

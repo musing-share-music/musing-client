@@ -18,7 +18,7 @@ type SelectedChip =
     } & Genre);
 
 interface TagInputProps {
-  onConfirm: ({ genre, mood }: { genre: string; mood: string[] }) => void;
+  onConfirm: ({ genre, mood }: { genre: number; mood: number[] }) => void;
 }
 
 export const TagInput = ({ onConfirm }: TagInputProps) => {
@@ -35,10 +35,10 @@ export const TagInput = ({ onConfirm }: TagInputProps) => {
     });
     setSelectedTagList(tag);
 
-    const genreStr = genre!.map((_genre) => _genre.genreName)[0];
-    const moodStr = mood!.map((_mood) => _mood.moodName);
+    const genreId = genre!.map((_genre) => _genre.id)[0];
+    const moodId = mood!.map((_mood) => _mood.id);
 
-    onConfirm({ genre: genreStr, mood: moodStr });
+    onConfirm({ genre: genreId, mood: moodId });
     setOpen(false);
   };
 

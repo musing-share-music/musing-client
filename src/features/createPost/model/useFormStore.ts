@@ -7,8 +7,8 @@ export interface FormData {
   musicTitle: string; // 곡 제목
   title: string; // 게시글 제목
   content: string; // 게시글 내용
-  mood: string[]; // 분위기
-  genre: string; // 장르
+  mood: number[]; // 분위기 id
+  genre: number; // 장르 id
   image?: File; // 이미지 파일
 }
 type FormStore = {
