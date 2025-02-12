@@ -54,8 +54,8 @@ export const CreateForm = () => {
       musicTitle,
       artist,
       youtubeLink: youtubeUrl,
-      hashtags: mood,
-      genre,
+      hashtags: mood.map((m) => m.toString()),
+      genre: genre.toString(),
       image,
       content,
     };

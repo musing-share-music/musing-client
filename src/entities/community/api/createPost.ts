@@ -5,8 +5,8 @@ export interface CreatePostDto {
   musicTitle: string; // 곡명
   artist: string; // 아티스트명
   youtubeLink: string;
-  hashtags: number[]; // 분위기
-  genre: number; // 장르
+  hashtags: string[]; // 분위기
+  genre: string; // 장르
   image?: File; // TODO 이미지 여러장
   content: string; // 글 내용
 }
