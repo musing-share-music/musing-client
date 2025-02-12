@@ -1,6 +1,6 @@
 import { ZodError } from 'zod';
 
-import { CreateFormSchema } from 'features/community/createPost/model/formSchema';
+import { CreateFormSchema } from 'features/createPost/model/formSchema';
 
 import { CreatePostDto } from 'entities/community/api/createPost';
 import { Genre } from 'entities/genre/model/genre';

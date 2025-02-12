@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import { validateTag } from 'features/community/createPost/lib/validate';
+import { validateTag } from 'features/createPost/lib/validate';
 import { GenreChipCheckbox } from 'features/genre/selectMood/ui';
 import { MoodChipCheckbox } from 'features/mood/selectMood/ui';
 

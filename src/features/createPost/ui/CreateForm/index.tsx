@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
 
-import { ERROR_MESSAGE } from 'features/community/createPost/lib/errorMessage';
-import { useCreatePostMutation } from 'features/community/createPost/lib/useCreatePostMutation';
-import { getFromErrorMessage, validateFormSchema } from 'features/community/createPost/lib/validate';
-import { useFormStore } from 'features/community/createPost/model/useFormStore';
+import { ERROR_MESSAGE } from 'features/createPost/lib/errorMessage';
+import { useCreatePostMutation } from 'features/createPost/lib/useCreatePostMutation';
+import { getFromErrorMessage, validateFormSchema } from 'features/createPost/lib/validate';
+import { useFormStore } from 'features/createPost/model/useFormStore';
 
 import { CreatePostDto } from 'entities/community/api/createPost';
 

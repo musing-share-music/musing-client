@@ -1,6 +1,6 @@
 import { string, z } from 'zod';
 
-import { ERROR_MESSAGE } from 'features/community/createPost/lib/errorMessage';
+import { ERROR_MESSAGE } from 'features/createPost/lib/errorMessage';
 
 export const CreateFormSchema = z.object({
   title: string({

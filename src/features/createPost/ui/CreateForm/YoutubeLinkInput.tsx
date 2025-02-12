@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-import { ERROR_MESSAGE } from 'features/community/createPost/lib/errorMessage';
-import { useValidateYoutubeUrl } from 'features/community/createPost/lib/useValidateYoutubeUrl';
-import { validateYoutubeLink } from 'features/community/createPost/lib/validate';
-import { useFormStore } from 'features/community/createPost/model/useFormStore';
+import { ERROR_MESSAGE } from 'features/createPost/lib/errorMessage';
+import { useValidateYoutubeUrl } from 'features/createPost/lib/useValidateYoutubeUrl';
+import { validateYoutubeLink } from 'features/createPost/lib/validate';
+import { useFormStore } from 'features/createPost/model/useFormStore';
 
 import { TextInput } from 'shared/ui';
 

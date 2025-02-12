@@ -1,6 +1,6 @@
 import { MainLayout } from 'widgets/ui/Layout';
 
-import { CreateForm } from 'entities/community/ui/CreateForm';
+import { CreateForm } from 'features/createPost/ui/CreateForm';
 
 import { Container, Layout } from './ui/styled';
 
