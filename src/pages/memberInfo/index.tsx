@@ -1,3 +1,5 @@
-export { MemberCommunity } from './community';
-export { MemberInfo } from './member';
-export { MemberReview } from './review';
+import MemberCommunity from './community';
+import MemberInfo from './member';
+import MemberReview from './review';
+
+export { MemberCommunity, MemberInfo, MemberReview };
