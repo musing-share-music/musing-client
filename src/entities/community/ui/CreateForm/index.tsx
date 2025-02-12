@@ -8,7 +8,7 @@ import { useFormStore } from 'features/community/createPost/model/useFormStore';
 
 import { CreatePostDto } from 'entities/community/api/createPost';
 
-import { Button, StarRatingInput, TextArea, YoutubeIframe } from 'shared/ui/';
+import { Button, TextArea, YoutubeIframe } from 'shared/ui/';
 import { ErrorModal } from 'shared/ui/Modal/ErrorModal';
 
 import { EditableElement } from './EditableElement';
@@ -27,7 +27,7 @@ export const CreateForm = () => {
   const isValidYoutubeUrl = useFormStore((state) => state.isValidYoutubeUrl);
   const createFormMutation = useCreatePostMutation();
 
-  const { rating, youtubeUrl, artist, musicTitle, title, content, mood, genre, image } = formData;
+  const { youtubeUrl, artist, musicTitle, title, content, mood, genre, image } = formData;
 
   const showErrorModal = (msg: string) => {
     setErrorMessage(msg);
@@ -107,10 +107,6 @@ export const CreateForm = () => {
                 onChange={(value) => updateFormData('musicTitle', value)}
               />
             </Track>
-            <RatingBox>
-              <StarRatingInput value={rating} onChange={(val) => updateFormData('rating', val)} />
-              <RateText>{rating}.0</RateText>
-            </RatingBox>
           </InfoBlock>
         </TitleField>
 
@@ -224,17 +220,6 @@ const BodyField = styled.div`
 const InfoBlock = styled.div``;
 const Track = styled.p`
   ${({ theme }) => theme.fonts.wantedSans.B2};
-  color: ${({ theme }) => theme.colors[200]};
-`;
-const RatingBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 12px;
-`;
-
-const RateText = styled.p`
-  ${({ theme }) => theme.fonts.wantedSans.B6};
   color: ${({ theme }) => theme.colors[200]};
 `;
 

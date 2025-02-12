@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 export interface FormData {
-  rating: number; // 별점
   youtubeUrl: string; // youtube 링크
   artist: string; // 아티스트명
   musicTitle: string; // 곡 제목
