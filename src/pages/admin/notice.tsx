@@ -1,1 +1,2 @@
-export { AdminNoticePage } from './ui';
+import { AdminNoticePage } from './ui';
+export default AdminNoticePage;

@@ -1,4 +1,4 @@
-import { NavItem, NavItemWithIcon } from 'widgets/model/types';
+import { AdminNavItem, NavItemWithIcon } from 'widgets/model/types';
 
 import IconBoardActiveSrc from 'shared/assets/image/icons/nav-bar/icon-board-active.png';
 import IconBoard from 'shared/assets/image/icons/nav-bar/icon-board.png';
@@ -6,7 +6,7 @@ import IconHomeActiveSrc from 'shared/assets/image/icons/nav-bar/icon-home-activ
 import IconHomeSrc from 'shared/assets/image/icons/nav-bar/icon-home.png';
 import { ROUTES } from 'shared/config/routes';
 
-export const ADMIN_NAV_ITEM: NavItem[] = [
+export const ADMIN_NAV_ITEM: AdminNavItem[] = [
   {
     text: '공지사항',
     href: ROUTES.ADMIN.NOTICE,
@@ -21,7 +21,10 @@ export const ADMIN_NAV_ITEM: NavItem[] = [
   },
   {
     text: '신고 접수',
-    href: ROUTES.ADMIN.REPORT,
+    children: [
+      { text: '게시글', href: ROUTES.ADMIN.POST_REPORT },
+      { text: '댓글', href: ROUTES.ADMIN.REVIEW_REPORT },
+    ],
   },
   {
     text: '삭제된 게시글 조회',

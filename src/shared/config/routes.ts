@@ -34,7 +34,8 @@ export const ROUTES = {
   // 관리자
   ADMIN: {
     USER: '/admin/user', // 회원 조회
-    REPORT: '/admin/report', // 신고 잡스
+    POST_REPORT: '/admin/post-report', // 게시글 신고 접수
+    REVIEW_REPORT: '/admin/review-report', // 댓글 신고 접수
     NOTICE: '/admin/notice', // 공지사항
     CHECK: '/admin/check', // 관리자 확인
     DELETED: '/admin/deleted', // 삭제된 게시글 조회

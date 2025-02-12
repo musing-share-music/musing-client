@@ -1,16 +1,24 @@
+import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { AdminCheckPage, AdminDeletedPage, AdminNoticePage, AdminReportPage, AdminUserPage } from 'pages/admin'; // TODO 분리
-import Community from 'pages/community';
-import Create from 'pages/createPost';
-import Demo from 'pages/demo';
-import MusicDetail from 'pages/detail';
-import Home from 'pages/home';
-import { MemberCommunity, MemberInfo, MemberReview } from 'pages/memberInfo';
-import NotFound from 'pages/notFound/NotFound';
-import PlayList from 'pages/playList';
-
 import { ROUTES } from 'shared/config/routes';
+
+const AdminCheckPage = lazy(() => import('../../pages/admin/check'));
+const AdminDeletedPage = lazy(() => import('../../pages/admin/delete'));
+const AdminNoticePage = lazy(() => import('../../pages/admin/notice'));
+const AdminPostReportPage = lazy(() => import('../../pages/admin/postReport'));
+const AdminReviewReportPage = lazy(() => import('../../pages/admin/reviewReport'));
+const AdminUserPage = lazy(() => import('../../pages/admin/user'));
+const Community = lazy(() => import('../../pages/community'));
+const Create = lazy(() => import('../../pages/createPost'));
+const Demo = lazy(() => import('../../pages/demo'));
+const MusicDetail = lazy(() => import('../../pages/detail'));
+const Home = lazy(() => import('../../pages/home'));
+const MemberCommunity = lazy(() => import('../../pages/memberInfo/community'));
+const MemberInfo = lazy(() => import('../../pages/memberInfo/member'));
+const MemberReview = lazy(() => import('../../pages/memberInfo/review'));
+const NotFound = lazy(() => import('../../pages/notFound/NotFound'));
+const PlayList = lazy(() => import('../../pages/playList'));
 
 export const AppRouter = () => {
   return (
@@ -29,7 +37,8 @@ export const AppRouter = () => {
       <Route path={ROUTES.ADMIN.NOTICE} element={<AdminNoticePage />} />
       <Route path={ROUTES.ADMIN.USER} element={<AdminUserPage />} />
       <Route path={ROUTES.ADMIN.CHECK} element={<AdminCheckPage />} />
-      <Route path={ROUTES.ADMIN.REPORT} element={<AdminReportPage />} />
+      <Route path={ROUTES.ADMIN.POST_REPORT} element={<AdminPostReportPage />} />
+      <Route path={ROUTES.ADMIN.REVIEW_REPORT} element={<AdminReviewReportPage />} />
       <Route path={ROUTES.ADMIN.DELETED} element={<AdminDeletedPage />} />
 
       <Route path="*" element={<NotFound />} />
