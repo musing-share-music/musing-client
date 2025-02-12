@@ -1,5 +1,6 @@
 export { AdminCheckPage } from './check';
 export { AdminDeletedPage } from './delete';
 export { AdminNoticePage } from './notice';
-export { AdminReportPage } from './report';
+export { AdminPostReportPage } from './postReport';
+export { AdminReviewReportPage } from './reviewReport';
 export { AdminUserPage } from './user';

@@ -1,1 +1,0 @@
-export { AdminReportPage } from './ui';

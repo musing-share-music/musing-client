@@ -1,1 +1,3 @@
-export { AdminCheckPage } from './ui';
+import { AdminCheckPage } from './ui';
+
+export default AdminCheckPage;
