@@ -1,27 +1,38 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { useGetMainQuery } from 'pages/home/lib/useGetMainQuery';
 
 import { MainLayout } from 'widgets/ui/';
 
 import { MusicSelectionModal } from 'features/musicPreference/ui/MusicPreferenceModal';
 
-import { Main } from 'entities/home/ui';
+import { Main } from 'entities/home/ui/index';
+
+import { useUserInfoStore } from 'shared/store/userInfo';
+import { Spinner } from 'shared/ui/Spinner';
 
 // 컴포넌트 렌더링 테스트를 위한 /demo 페이지
-const Demo = () => {
-  const [open, setOpen] = useState(true);
-  return (
+const Home = () => {
+  const { passModal } = useUserInfoStore();
+  const [open, setOpen] = useState(false);
+  const { data, isLoading } = useGetMainQuery();
+
+  useEffect(() => {
+    if (passModal == 'pass' || passModal == 'notLogIn') {
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
+  }, [passModal]);
+
+  return isLoading ? (
+    <Spinner isLoading={isLoading}></Spinner>
+  ) : (
     <MainLayout>
-      <button
-        style={{
-          background: '#fff',
-        }}
-        onClick={() => setOpen(true)}
-      >
-        선호 음악 모달 열기
-      </button>
-      <Main></Main>
+      {data?.data ? <Main MainData={data?.data} /> : null}
       <MusicSelectionModal open={open} onClose={() => setOpen(false)} />
     </MainLayout>
   );
 };
-export default Demo;
+
+export default Home;

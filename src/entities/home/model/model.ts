@@ -301,4 +301,12 @@ export const MAIN_ITEM: MainItem = {
       img: image,
     },
   ],
+  passModal: '',
+  userInfoDto: {
+    email: '',
+    name: '',
+    authority: '',
+    likeMusicCount: 0,
+    myPlaylistCount: 0,
+  },
 };
