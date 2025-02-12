@@ -1,5 +1,3 @@
-import { string } from 'zod';
-
 // 공지사항
 export type noticeDto = {
   id: number;
