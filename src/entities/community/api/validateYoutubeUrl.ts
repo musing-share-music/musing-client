@@ -1,16 +1,13 @@
+import URL from 'shared/config/urls';
 import axiosInstance from 'shared/lib/axiosInstance';
-
 export interface ValidateYoutubeUrlRequest {
   url: string;
 }
 
-interface ValidateYoutubeUrlResponse {
-  message: string;
-  valid: boolean;
-}
+type ValidateYoutubeUrlResponse = string;
 
 export const validateYoutubeUrl = async ({ url }: ValidateYoutubeUrlRequest) => {
-  const data = await axiosInstance.get<ValidateYoutubeUrlResponse>('/validate-key', {
+  const data = await axiosInstance.get<ValidateYoutubeUrlResponse>(URL.API.VALIDATE_YOUTUBE_URL, {
     params: { url },
   });
   return data;

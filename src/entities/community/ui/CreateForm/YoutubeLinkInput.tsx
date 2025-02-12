@@ -35,12 +35,13 @@ export const YoutubeLinkInput = ({ youtubeUrl, onChange }: YoutubeLinkInputProps
       { url: youtubeUrl },
       {
         onSuccess: ({ data }) => {
-          if (data.valid) {
+          // 유효하지 않은 url response: ❌ 유효한 YouTube 영상 URL이 아닙니다!
+          if (data.includes('❌')) {
+            setIsValidYoutubeUrl(false);
+            setErrorMessage(ERROR_MESSAGE.youtubeLink.invalid);
+          } else {
             setIsValidYoutubeUrl(true);
           }
-        },
-        onError: () => {
-          setErrorMessage('오류가 발생했습니다.');
         },
       },
     );

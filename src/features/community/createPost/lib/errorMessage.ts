@@ -10,7 +10,7 @@ export const ERROR_MESSAGE = {
   },
   youtubeLink: {
     required: '유튜브 링크를 입력해 주세요.',
-    invalid: '유튜브 링크를 다시 확인해 주세요.',
+    invalid: '유효하지 않은 유튜브 링크입니다.',
   },
   hashtags: {
     required: '분위기를 선택해 주세요.',
