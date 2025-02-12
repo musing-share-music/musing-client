@@ -1,40 +1,81 @@
 import styled from '@emotion/styled';
-import { useRef } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
-import { FormData } from 'features/community/createPost/model/useFormState';
+import { ERROR_MESSAGE } from 'features/createPost/lib/errorMessage';
+import { useCreatePostMutation } from 'features/createPost/lib/useCreatePostMutation';
+import { getFromErrorMessage, validateFormSchema } from 'features/createPost/lib/validate';
+import { getYoutubeVideoId } from 'features/createPost/lib/youtubeId';
+import { useFormStore } from 'features/createPost/model/useFormStore';
 
-import { Button, StarRatingInput, TextArea, TextInput, YoutubeIframe } from 'shared/ui/';
+import { CreatePostDto } from 'entities/community/api/createPost';
+
+import { Button, TextArea, YoutubeIframe } from 'shared/ui/';
 import { ErrorModal } from 'shared/ui/Modal/ErrorModal';
 
 import { EditableElement } from './EditableElement';
 import { ImageInput } from './ImageInput';
 import { Section } from './styled';
 import { TagInput } from './TagInput';
+import { YoutubeLinkInput } from './YoutubeLinkInput';
 
-interface CreateFormProps {
-  formData: FormData;
-  errorMessage: string;
-  errorModalOpen: boolean;
-  closeErrorModal: () => void;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  updateFormData: <Key extends keyof FormData>(key: Key, value: FormData[Key]) => void;
-}
-
-export const CreateForm = ({
-  formData,
-  errorMessage,
-  errorModalOpen,
-  closeErrorModal,
-  onSubmit,
-  updateFormData,
-}: CreateFormProps) => {
-  const { rating, youtubeUrl, artist, musicTitle, title, content } = formData;
-
+export const CreateForm = () => {
+  const [errorMessage, setErrorMessage] = useState(''); // 폼과 관련된 에러 핸들링
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
   const artistInputRef = useRef<HTMLSpanElement>(null);
   const musicTitleInputRef = useRef<HTMLSpanElement>(null);
+  const formData = useFormStore((state) => state.formData);
+  const updateFormData = useFormStore((state) => state.updateFormData);
+  const isValidYoutubeUrl = useFormStore((state) => state.isValidYoutubeUrl);
+  const createFormMutation = useCreatePostMutation();
+
+  const { youtubeUrl, artist, musicTitle, title, content, mood, genre, image } = formData;
+  const videoId = useMemo(() => getYoutubeVideoId(youtubeUrl), [youtubeUrl]);
+
+  const showErrorModal = (msg: string) => {
+    setErrorMessage(msg);
+    setErrorModalOpen(true);
+  };
+  const closeErrorModal = () => {
+    setErrorModalOpen(false);
+    setErrorMessage('');
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (createFormMutation.isPending) return;
+
+    if (!isValidYoutubeUrl) {
+      showErrorModal(ERROR_MESSAGE.youtubeLink.invalid);
+      return;
+    }
+
+    const _formData: CreatePostDto = {
+      title,
+      musicTitle,
+      artist,
+      youtubeLink: youtubeUrl,
+      hashtags: mood.map((m) => m.toString()),
+      genre: genre.toString(),
+      image,
+      content,
+    };
+
+    // form schema가 올바른지 검증
+    const formValidation = validateFormSchema(_formData);
+    if (!formValidation.success) {
+      showErrorModal(getFromErrorMessage(formValidation.error));
+      return;
+    }
+
+    createFormMutation.mutate(_formData, {
+      onError: (err) => {
+        showErrorModal(err.message || '서버에 문제가 생겼습니다. 다시 시도해 주세요.');
+      },
+    });
+  };
 
   return (
-    <Form onSubmit={(e) => onSubmit(e)}>
+    <Form onSubmit={handleSubmit}>
       <ErrorModal
         open={errorModalOpen}
         onClose={() => {
@@ -68,19 +109,11 @@ export const CreateForm = ({
                 onChange={(value) => updateFormData('musicTitle', value)}
               />
             </Track>
-            <RatingBox>
-              <StarRatingInput value={rating} onChange={(val) => updateFormData('rating', val)} />
-              <RateText>{rating}.0</RateText>
-            </RatingBox>
           </InfoBlock>
         </TitleField>
 
         <TrackField>
-          <TextInput
-            placeholder="유튜브 링크를 기입해 주세요."
-            value={youtubeUrl}
-            onChange={(e) => updateFormData('youtubeUrl', e.target.value)}
-          />
+          <YoutubeLinkInput youtubeUrl={youtubeUrl} onChange={(e) => updateFormData('youtubeUrl', e.target.value)} />
           <TagInput
             onConfirm={(tags) => {
               const { genre, mood } = tags;
@@ -92,7 +125,7 @@ export const CreateForm = ({
         </TrackField>
 
         <BodyField>
-          <YoutubeIframe videoId={youtubeUrl} />
+          <YoutubeIframe videoId={videoId} />
           <TextArea
             placeholder="내용을 입력해 주세요."
             style={{
@@ -189,17 +222,6 @@ const BodyField = styled.div`
 const InfoBlock = styled.div``;
 const Track = styled.p`
   ${({ theme }) => theme.fonts.wantedSans.B2};
-  color: ${({ theme }) => theme.colors[200]};
-`;
-const RatingBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 12px;
-`;
-
-const RateText = styled.p`
-  ${({ theme }) => theme.fonts.wantedSans.B6};
   color: ${({ theme }) => theme.colors[200]};
 `;
 

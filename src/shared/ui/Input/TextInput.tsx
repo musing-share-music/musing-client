@@ -1,11 +1,28 @@
 import styled from '@emotion/styled';
 import { ComponentProps } from 'react';
 
-type InputProps = ComponentProps<'input'>;
+interface InputProps extends ComponentProps<'input'> {
+  errorMessage?: string; // 에러 메세지
+}
 
-export const TextInput = ({ value, ...props }: InputProps) => {
-  return <StyledInput {...props} type="text" value={value} />;
+export const TextInput = ({ value, errorMessage, ...props }: InputProps) => {
+  return (
+    <Box>
+      <StyledInput {...props} type="text" value={value} />
+      {errorMessage && <ErrorMessage>{errorMessage} </ErrorMessage>}
+    </Box>
+  );
 };
+
+const Box = styled.div`
+  position: relative;
+`;
+
+const ErrorMessage = styled.p`
+  position: absolute;
+  margin-top: 6px;
+  color: ${({ theme }) => theme.colors.secondary1};
+`;
 
 const StyledInput = styled.input`
   width: 100%;

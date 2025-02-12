@@ -19,6 +19,9 @@ const URL = {
     LIST: 'musing/board/list', //게시판
     LISTPAGE: 'musing/board/list/page', //게시판페이지
     LISTSEARCH: 'musing/board/list/page/search', //게시판페이지검색
+    BOARD_CREATE: 'musing/board/create', // 게시글 작성
+    BOARD_DELETE: 'musing/board/deletePost', // 게시글 삭제
+    VALIDATE_YOUTUBE_URL: 'checkURL', // 유튜브 url 검증
   },
 };
 

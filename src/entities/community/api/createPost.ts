@@ -1,7 +1,5 @@
-import axios from 'axios';
-
 import URL from 'shared/config/urls';
-
+import axiosInstance from 'shared/lib/axiosInstance';
 export interface CreatePostDto {
   title: string; // 글 제목
   musicTitle: string; // 곡명
@@ -16,12 +14,6 @@ export interface CreatePostDto {
 interface CreatePostResponse {
   data: '';
 }
-
-// TODO 공통 instance로 개선
-const instance = axios.create({
-  baseURL: URL.SERVERURL,
-  timeout: 5000, // 임의로 지정
-});
 
 export const fetchCreatePost = async (body: CreatePostDto): Promise<CreatePostResponse> => {
   const formData = new FormData();
@@ -40,7 +32,7 @@ export const fetchCreatePost = async (body: CreatePostDto): Promise<CreatePostRe
     formData.append('image', body.image);
   }
 
-  const response = await instance.post('/musing/boards/create', formData, {
+  const response = await axiosInstance.post(URL.API.BOARD_CREATE, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

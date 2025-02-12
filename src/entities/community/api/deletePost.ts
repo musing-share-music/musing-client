@@ -1,5 +1,6 @@
 import { CommunityDetail } from 'entities/community/model/types';
 
+import URL from 'shared/config/urls';
 import axiosInstance from 'shared/lib/axiosInstance';
 
 export interface DeletePostDto {
@@ -12,7 +13,7 @@ interface DeletePostResponse {
 }
 
 export const fetchDeletePost = async ({ boardId }: DeletePostDto) => {
-  const response = await axiosInstance.delete<DeletePostResponse>(`/musing/boards/deletePost?boardId=${boardId}`, {
+  const response = await axiosInstance.delete<DeletePostResponse>(`${URL.API.BOARD_DELETE}?boardId=${boardId}`, {
     withCredentials: true,
   });
 
