@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ERROR_MESSAGE } from 'features/community/createPost/lib/errorMessage';
 import { useValidateYoutubeUrl } from 'features/community/createPost/lib/useValidateYoutubeUrl';
 import { validateYoutubeLink } from 'features/community/createPost/lib/validate';
-import { useFormState } from 'features/community/createPost/model/useFormState';
+import { useFormStore } from 'features/community/createPost/model/useFormStore';
 
 import { TextInput } from 'shared/ui';
 
@@ -13,7 +13,7 @@ interface YoutubeLinkInputProps {
 }
 
 export const YoutubeLinkInput = ({ youtubeUrl, onChange }: YoutubeLinkInputProps) => {
-  const { setIsValidYoutubeUrl } = useFormState();
+  const setIsValidYoutubeUrl = useFormStore((state) => state.setIsValidYoutubeUrl);
   const validateYoutubeUrlMutation = useValidateYoutubeUrl();
   const [errorMessage, setErrorMessage] = useState('');
 
