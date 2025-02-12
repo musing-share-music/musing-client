@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { Key, useState } from 'react';
 
-import { useGetGenre } from 'entities/home/api/useGetGenre';
+import { useGetGenreQuery } from 'features/home/lib/useGetGenreQuery';
+
 import { genreMusics, genreMusicsItem, likeGenre, likeGenreItem } from 'entities/home/model/types';
 
 import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
@@ -20,7 +21,7 @@ const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
   const [activeCtgId, setActiveCtgId] = useState<number>(filterLikeGenre[0].id);
   const [activeCtgName, setActiveCtgName] = useState<string>(filterLikeGenre[0].genreName);
 
-  const { data } = useGetGenre(activeCtgName);
+  const { data } = useGetGenreQuery(activeCtgName);
 
   const CategoryClick = (Category: likeGenreItem) => {
     setActiveCtgId(Category.id);

@@ -1,3 +1,5 @@
+import { string } from 'zod';
+
 // 공지사항
 export type noticeDto = {
   id: number;
@@ -98,6 +100,17 @@ export type RecommendedMusicList = {
   img: string;
 }[];
 
+// 선택 모달창
+export type passModal = string;
+
+export type userInfoDto = {
+  email: string;
+  name: string;
+  authority: string;
+  likeMusicCount: number;
+  myPlaylistCount: number;
+};
+
 export type MainItem = {
   //공지사항
   noticeDto: noticeDto;
@@ -117,4 +130,10 @@ export type MainItem = {
   hotMusicBoard: hotMusicBoard;
   recentBoard: recentBoard;
   RecommendedMusicList: RecommendedMusicList;
+
+  //모달창
+  passModal: passModal;
+
+  //사용자 정보
+  userInfoDto: userInfoDto;
 };
