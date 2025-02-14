@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { reportSearchFilterOptions } from 'pages/admin/config/searchFilterOptions';
 
 import { AdminLayout } from 'widgets/ui/Layout';
 
+import { ROUTES } from 'shared/config/routes';
 import { Button, Filter, OuterCloseModal, Pagination, SearchInputWithFilter, Table } from 'shared/ui';
 
 import {
@@ -18,9 +20,9 @@ import {
   TableContainer,
 } from './styled';
 
-export const AdminReportPage = () => {
-  const [isPost, setIsPost] = useState(true); // 게시글, 댓글 선택 상태
+export const AdminPostReportPage = () => {
   const [open, setOpen] = useState(false); // 모달 open 상태
+  const navigate = useNavigate();
 
   const tableHead = [
     { key: 'title', content: '제목', width: 40 },
@@ -91,6 +93,11 @@ export const AdminReportPage = () => {
     },
   ];
 
+  const isPost = true;
+  const toggleMenu = async () => {
+    await navigate(ROUTES.ADMIN.REVIEW_REPORT); // 댓글 신고 접수 페이지로 이동
+  };
+
   return (
     <>
       <AdminLayout>
@@ -99,11 +106,9 @@ export const AdminReportPage = () => {
             <Header>
               <H1>신고 접수</H1>
               <OptionBox>
-                <OptionButton isActive={isPost} onClick={() => setIsPost(true)}>
-                  게시글
-                </OptionButton>
+                <OptionButton isActive={isPost}>게시글</OptionButton>
                 <OptionDivider />
-                <OptionButton isActive={!isPost} onClick={() => setIsPost(false)}>
+                <OptionButton isActive={!isPost} onClick={toggleMenu}>
                   댓글
                 </OptionButton>
               </OptionBox>

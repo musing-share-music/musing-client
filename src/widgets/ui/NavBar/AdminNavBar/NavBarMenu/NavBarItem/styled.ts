@@ -5,7 +5,9 @@ import { NavBarSizeProps } from 'widgets/ui/NavBar/AdminNavBar/type';
 
 import { commonStyles } from 'shared/styles/common';
 
-export const NavBarItem = styled.li``;
+export const NavBarItem = styled.li`
+  width: 100%;
+`;
 
 interface NavLinkProps extends NavBarSizeProps {
   isActive: boolean;
@@ -16,10 +18,51 @@ export const NavLink = styled.a<NavLinkProps>`
   align-items: center;
   padding: 16px;
   gap: 20px;
-  border-radius: 16px;
   text-decoration: none;
   color: ${({ theme, isActive }) =>
     isActive ? theme.colors.white : theme.colors[200]}; // 링크가 활성화되었을 때 색상 변경
+  border-bottom: 1px solid ${({ theme }) => theme.colors[500]};
+  font-size: 18px;
+  ${({ theme }) => theme.fonts.wantedSans.B6};
+  ${commonStyles.hoverTransition}
+
+  &:hover {
+    ${({ size, theme }) =>
+      size === 'large' &&
+      css`
+        color: ${theme.colors[100]};
+      `};
+  }
+
+  ${({ size }) =>
+    size === 'small' &&
+    css`
+      flex-direction: column;
+      padding: 8px 12px;
+      font-size: 14px;
+      gap: 8px !important;
+    `};
+`;
+
+export const SubNavLinkContainer = styled.div`
+  display: flex;
+  width: 100%;
+`;
+
+export const SubNavLink = styled(NavLink)`
+  justify-content: center;
+`;
+
+export const NavButton = styled.button<NavLinkProps>`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+  gap: 20px;
+  text-decoration: none;
+  color: ${({ theme, isActive }) =>
+    isActive ? theme.colors.white : theme.colors[200]}; // 링크가 활성화되었을 때 색상 변경
+  border: none;
   border-bottom: 1px solid ${({ theme }) => theme.colors[500]};
   font-size: 18px;
   ${({ theme }) => theme.fonts.wantedSans.B6};

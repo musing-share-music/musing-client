@@ -1,1 +1,3 @@
-export { AdminDeletedPage } from './ui';
+import { AdminDeletedPage } from './ui';
+
+export default AdminDeletedPage;
