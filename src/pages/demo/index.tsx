@@ -29,7 +29,7 @@ const Home = () => {
     <Spinner isLoading={isLoading}></Spinner>
   ) : (
     <MainLayout>
-      {data?.data ? <Main MainData={data?.data} /> : null}
+      {data?.data ? <Main mainData={data?.data} /> : null}
       <MusicSelectionModal open={open} onClose={() => setOpen(false)} />
     </MainLayout>
   );

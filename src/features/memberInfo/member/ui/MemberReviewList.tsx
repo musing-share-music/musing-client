@@ -2,16 +2,16 @@ import styled from '@emotion/styled';
 import moment from 'moment';
 moment.locale('ko');
 
-import { recentBoard } from 'entities/home/model/types';
+import { RecentBoard } from 'entities/home/model/types';
 
 import { commonStyles } from 'shared/styles/common';
 import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
 
-interface recentBoardProps {
-  recentBoard: recentBoard;
+interface RecentBoardProps {
+  recentBoard: RecentBoard;
 }
 
-export const MemberReviewList = ({ recentBoard }: recentBoardProps) => {
+export const MemberReviewList = ({ recentBoard }: RecentBoardProps) => {
   return (
     <MemberContainer>
       <TitleBlock>

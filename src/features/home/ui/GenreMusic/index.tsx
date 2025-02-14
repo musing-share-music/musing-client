@@ -3,7 +3,7 @@ import { Key, useState } from 'react';
 
 import { useGetGenreQuery } from 'features/home/lib/useGetGenreQuery';
 
-import { genreMusics, genreMusicsItem, likeGenre, likeGenreItem } from 'entities/home/model/types';
+import { GenreMusics, GenreMusicsItem, LikeGenre, LikeGenreItem } from 'entities/home/model/types';
 
 import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
 import { Nodata } from 'shared/ui';
@@ -11,8 +11,8 @@ import { Nodata } from 'shared/ui';
 import { GenreMusicItem } from './GenreMusicItem';
 
 interface genreMusicsProps {
-  genreMusics: genreMusics;
-  likeGenre: likeGenre;
+  genreMusics: GenreMusics;
+  likeGenre: LikeGenre;
 }
 
 const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
@@ -23,7 +23,7 @@ const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
 
   const { data } = useGetGenreQuery(activeCtgName);
 
-  const CategoryClick = (Category: likeGenreItem) => {
+  const CategoryClick = (Category: LikeGenreItem) => {
     setActiveCtgId(Category.id);
     setActiveCtgName(Category.genreName);
     console.log(genreMusics);
@@ -50,7 +50,7 @@ const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
           <Nodata Comment={`아직 ${activeCtgName} 장르의 음악이 없어요.`} />
         ) : (
           <>
-            {data?.data.slice(0, 4).map((item: genreMusicsItem, index: Key | null | undefined) => (
+            {data?.data.slice(0, 4).map((item: GenreMusicsItem, index: Key | null | undefined) => (
               <GenreMusicItem key={index} item={item} />
             ))}
             <GenreMore>

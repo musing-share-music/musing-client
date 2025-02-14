@@ -13,11 +13,11 @@ import { theme } from 'shared/styles/theme';
 import { Button } from 'shared/ui/';
 import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
 
-interface boardPopUpDtoProps {
+interface BoardPopUpDtoProps {
   boardPopUpDto: BoardPopUpDto;
 }
 
-const RecommendedPost = ({ boardPopUpDto }: boardPopUpDtoProps) => {
+const RecommendedPost = ({ boardPopUpDto }: BoardPopUpDtoProps) => {
   const recommendBoardFirstDto = boardPopUpDto.recommendBoardFirstDto;
   const [recommendBoardListDto] = useState(boardPopUpDto.recommendBoardListDto);
   const navigate = useNavigate();

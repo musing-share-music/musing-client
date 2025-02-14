@@ -3,19 +3,19 @@ import moment from 'moment';
 moment.locale('ko');
 import { useNavigate } from 'react-router-dom';
 
-import { hotMusicBoard, recentBoard } from 'entities/home/model/types';
+import { HotMusicBoard, RecentBoard } from 'entities/home/model/types';
 
 import arrow3 from 'shared/assets/image/main/arrow 3.png';
 import { ROUTES } from 'shared/config/routes';
 import { commonStyles } from 'shared/styles/common';
 import { Nodata } from 'shared/ui';
 
-interface recentBoardProps {
-  recentBoard: recentBoard;
-  hotMusicBoard: hotMusicBoard;
+interface RecentBoardProps {
+  recentBoard: RecentBoard;
+  hotMusicBoard: HotMusicBoard;
 }
 
-const CommunityMusic = ({ recentBoard, hotMusicBoard }: recentBoardProps) => {
+const CommunityMusic = ({ recentBoard, hotMusicBoard }: RecentBoardProps) => {
   const navigate = useNavigate();
   return (
     <CommunityContainer>

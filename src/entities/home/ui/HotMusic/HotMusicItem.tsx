@@ -1,16 +1,16 @@
 import styled from '@emotion/styled';
 
-import { recommendGenresItem } from 'entities/home/model/types';
+import { RecommendGenresItem } from 'entities/home/model/types';
 import { HoverRevealButton } from 'entities/home/ui/HoverRevealButton';
 
 import btn_add from 'shared/assets/image/main/btn-add.png';
 import { withHover, WithHoverProps } from 'shared/ui/withHover';
 
-interface recommendGenresItemProps {
-  item: recommendGenresItem;
+interface RecommendGenresItemProps {
+  item: RecommendGenresItem;
 }
 
-const HotMusicItemBase = ({ item, isHover }: recommendGenresItemProps & WithHoverProps) => {
+const HotMusicItemBase = ({ item, isHover }: RecommendGenresItemProps & WithHoverProps) => {
   return (
     <HotMusingImageWrapper>
       <HotMusingImage src={item.thumbNailLink} alt="이미지" className="main-image" />

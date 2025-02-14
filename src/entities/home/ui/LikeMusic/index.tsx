@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { likeMusicDtos } from 'entities/home/model/types';
+import { LikeMusicDtos } from 'entities/home/model/types';
 
 import arrow2 from 'shared/assets/image/main/arrow 2.png';
 import { Nodata } from 'shared/ui';
@@ -68,11 +68,11 @@ const Arrow = styled.img`
   cursor: pointer;
 `;
 
-interface likeMusicDtosProps {
-  likeMusicDtos: likeMusicDtos;
+interface LikeMusicDtosProps {
+  likeMusicDtos: LikeMusicDtos;
 }
 
-const LikeMusic = ({ likeMusicDtos }: likeMusicDtosProps) => {
+const LikeMusic = ({ likeMusicDtos }: LikeMusicDtosProps) => {
   const limitedLikeMusicList = likeMusicDtos.slice(0, 4);
   // const limitedLikeMusicList2 = likeMusicDtos.slice(4, 7);
   // const limitedLikeMusicList3 = likeMusicDtos.slice(7, 10);

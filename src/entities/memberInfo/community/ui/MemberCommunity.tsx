@@ -4,7 +4,7 @@ import { SetStateAction, useState } from 'react';
 
 moment.locale('ko');
 
-import { recentBoard } from 'entities/home/model/types';
+import { RecentBoard } from 'entities/home/model/types';
 
 import { commonStyles } from 'shared/styles/common';
 import { Filter } from 'shared/ui/Input/Filter';
@@ -33,11 +33,11 @@ const CommunitySearchSelectWrapper = () => {
   );
 };
 
-interface recentBoardProps {
-  recentBoard: recentBoard;
+interface RecentBoardProps {
+  recentBoard: RecentBoard;
 }
 
-export const MemberCommunity = ({ recentBoard }: recentBoardProps) => {
+export const MemberCommunity = ({ recentBoard }: RecentBoardProps) => {
   const [activePage, setActivePage] = useState(1);
 
   const handlePageClick = (pageNumber: SetStateAction<number>) => {

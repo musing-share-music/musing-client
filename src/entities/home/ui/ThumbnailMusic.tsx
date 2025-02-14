@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { noticeDto } from 'entities/home/model/types';
+import { NoticeDto } from 'entities/home/model/types';
 
 import GoogleLogin from 'shared/assets/image/google_login.png';
 import IconHeart from 'shared/assets/image/icons/icon-heart.svg?react';
@@ -14,11 +14,11 @@ import URL from 'shared/config/urls';
 import { useUserInfoStore } from 'shared/store/userInfo';
 import { commonStyles } from 'shared/styles/common';
 
-interface noticeDtoProps {
-  noticeDto: noticeDto;
+interface NoticeDtoProps {
+  noticeDto: NoticeDto;
 }
 
-const ThumbnailMusic = ({ noticeDto }: noticeDtoProps) => {
+const ThumbnailMusic = ({ noticeDto }: NoticeDtoProps) => {
   const navigate = useNavigate();
   const { userInfo, isLogin } = useUserInfoStore();
   const theme = useTheme();

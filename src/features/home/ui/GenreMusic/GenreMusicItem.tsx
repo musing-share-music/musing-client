@@ -1,17 +1,17 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { genreMusicsItem } from 'entities/home/model/types';
+import { GenreMusicsItem } from 'entities/home/model/types';
 import { HoverRevealButton } from 'entities/home/ui/HoverRevealButton';
 
 import btn_add from 'shared/assets/image/main/btn-add.png';
 import { withHover, WithHoverProps } from 'shared/ui/withHover';
 
-interface genreMusicsItemProps {
-  item: genreMusicsItem;
+interface GenreMusicsItemProps {
+  item: GenreMusicsItem;
 }
 
-const GenreMusicItemBase = ({ item, isHover }: genreMusicsItemProps & WithHoverProps) => {
+const GenreMusicItemBase = ({ item, isHover }: GenreMusicsItemProps & WithHoverProps) => {
   return (
     <GenreMusingWrapper>
       <GenreMusingImageWrapper>

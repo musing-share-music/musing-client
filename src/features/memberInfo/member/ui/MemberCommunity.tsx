@@ -2,15 +2,15 @@ import styled from '@emotion/styled';
 import moment from 'moment';
 moment.locale('ko');
 
-import { recentBoard } from 'entities/home/model/types';
+import { RecentBoard } from 'entities/home/model/types';
 
 import { commonStyles } from 'shared/styles/common';
 
-interface recentBoardProps {
-  recentBoard: recentBoard;
+interface RecentBoardProps {
+  recentBoard: RecentBoard;
 }
 
-export const MemberCommunity = ({ recentBoard }: recentBoardProps) => {
+export const MemberCommunity = ({ recentBoard }: RecentBoardProps) => {
   return (
     <MemberContainer>
       <TitleBlock>

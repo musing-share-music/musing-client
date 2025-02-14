@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
-import { recommendGenre, recommendGenres } from 'entities/home/model/types';
+import { RecommendGenre, RecommendGenres } from 'entities/home/model/types';
 
 import { Nodata } from 'shared/ui';
 
@@ -106,12 +106,12 @@ const SliderWrapper = styled(Slider)`
   }
 `;
 
-interface recommendGenreProps {
-  recommendGenre: recommendGenre;
-  recommendGenres: recommendGenres;
+interface RecommendGenreProps {
+  recommendGenre: RecommendGenre;
+  recommendGenres: RecommendGenres;
 }
 
-const HotMusic = ({ recommendGenre, recommendGenres }: recommendGenreProps) => {
+const HotMusic = ({ recommendGenre, recommendGenres }: RecommendGenreProps) => {
   const settings = {
     dots: true,
     infinite: true,
