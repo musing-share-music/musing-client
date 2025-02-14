@@ -4,7 +4,7 @@ moment.locale('ko');
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { boardPopUpDto } from 'entities/community/model/types';
+import { BoardPopUpDto } from 'entities/community/model/types';
 
 import gradient from 'shared/assets/image/community/hover-gradient.png';
 import arrow2 from 'shared/assets/image/main/arrow 2.png';
@@ -14,7 +14,7 @@ import { Button } from 'shared/ui/';
 import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
 
 interface boardPopUpDtoProps {
-  boardPopUpDto: boardPopUpDto;
+  boardPopUpDto: BoardPopUpDto;
 }
 
 const RecommendedPost = ({ boardPopUpDto }: boardPopUpDtoProps) => {

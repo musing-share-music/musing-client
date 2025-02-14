@@ -1,21 +1,22 @@
 import styled from '@emotion/styled';
 import { SetStateAction, useEffect, useState } from 'react';
 
-import { useGetPageList, useGetSearchList } from 'entities/community/api';
-import { boardDtos, boardDtosItem } from 'entities/community/model/types';
+import { useGetPageListQuery, useGetSearchListQuery } from 'features/community/list/lib';
+
+import { BoardDtos, BoardDtosItem } from 'entities/community/model/types';
 
 import { commonStyles } from 'shared/styles/common';
 import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
 import { Spinner } from 'shared/ui/Spinner';
 import { CommonTag } from 'shared/ui/Tag';
 
-interface boardDtosProps {
-  boardDtos: boardDtos;
+interface BoardDtosProps {
+  boardDtos: BoardDtos;
 }
 
 interface CommunitySearchSelectWrapperProps {
   keyWord: string;
-  onSearch: (data: { data: { content: boardDtosItem[] } }) => void;
+  onSearch: (data: { data: { content: BoardDtosItem[] } }) => void;
 }
 
 const CommunitySearchSelectWrapper = ({ keyWord, onSearch }: CommunitySearchSelectWrapperProps) => {
@@ -23,7 +24,7 @@ const CommunitySearchSelectWrapper = ({ keyWord, onSearch }: CommunitySearchSele
   const [enabled, setEnabled] = useState(false);
   const [selectedTitle, setSelectedTitle] = useState('제목');
   const [selectedOption, setSelectedOption] = useState('title');
-  const { data: searchData } = useGetSearchList(selectedOption, 1, keyWord, {
+  const { data: searchData } = useGetSearchListQuery(selectedOption, 1, keyWord, {
     enabled: enabled,
   });
 
@@ -65,15 +66,15 @@ const CommunitySearchSelectWrapper = ({ keyWord, onSearch }: CommunitySearchSele
 };
 
 type GetPageListResponse = {
-  data: boardDtos;
+  data: BoardDtos;
 };
 
-const RecommendedPostList = ({ boardDtos }: boardDtosProps) => {
+const RecommendedPostList = ({ boardDtos }: BoardDtosProps) => {
   const [activePage, setActivePage] = useState(1);
   const [enabled, setEnabled] = useState(false);
   const [keyWord, setKeyWord] = useState<string>('');
   const [musingList, setMusingList] = useState(boardDtos.content);
-  const { data: pageData, isLoading: pageLoading } = useGetPageList(activePage, {
+  const { data: pageData, isLoading: pageLoading } = useGetPageListQuery(activePage, {
     enabled: enabled,
   });
   useEffect(() => {
@@ -96,7 +97,7 @@ const RecommendedPostList = ({ boardDtos }: boardDtosProps) => {
     setKeyWord(''); // Reset search when changing pages
   };
 
-  const handleSearch = (searchResults: { data: { content: SetStateAction<boardDtosItem[]> } }) => {
+  const handleSearch = (searchResults: { data: { content: SetStateAction<BoardDtosItem[]> } }) => {
     if (searchResults?.data?.content) {
       setMusingList(searchResults.data.content);
     }
