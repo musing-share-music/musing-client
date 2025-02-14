@@ -1,21 +1,19 @@
 import styled from '@emotion/styled';
 
-import { useGetList } from 'entities/community/api/useGetList';
-
-import { Spinner } from 'shared/ui/Spinner';
+import { CommunityItem } from 'entities/community/model/types';
 
 import RecommendedPost from './RecommendedPost';
 import RecommendedPostList from './RecommendedPostList';
 
-export const Community = () => {
-  const [data, isLoading] = useGetList();
+interface CommunityItemProps {
+  communityData: CommunityItem;
+}
 
-  return isLoading ? (
-    <Spinner isLoading={isLoading}></Spinner>
-  ) : (
+export const Community = ({ communityData }: CommunityItemProps) => {
+  return (
     <MainContents>
-      {data?.data?.boardPopUpDto && <RecommendedPost boardPopUpDto={data?.data?.boardPopUpDto}></RecommendedPost>}
-      {data?.data?.boardDtos && <RecommendedPostList boardDtos={data?.data?.boardDtos}></RecommendedPostList>}
+      {communityData?.boardPopUpDto && <RecommendedPost boardPopUpDto={communityData?.boardPopUpDto}></RecommendedPost>}
+      {communityData?.boardDtos && <RecommendedPostList boardDtos={communityData?.boardDtos}></RecommendedPostList>}
     </MainContents>
   );
 };

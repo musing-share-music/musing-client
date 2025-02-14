@@ -1,6 +1,6 @@
 //커뮤니티 리스트
 //상단리스트
-export type recommendBoardFirstDto = {
+export type RecommendBoardFirstDto = {
   title: string;
   content: string;
   musicName: string;
@@ -9,7 +9,7 @@ export type recommendBoardFirstDto = {
   thumbNailLink: string;
 };
 
-export type recommendBoardListDto = {
+export type RecommendBoardListDto = {
   title: string;
   musicName: string;
   artists: Artistboard[];
@@ -17,9 +17,9 @@ export type recommendBoardListDto = {
   createAt: string;
 }[];
 
-export type boardPopUpDto = {
-  recommendBoardFirstDto: recommendBoardFirstDto;
-  recommendBoardListDto: recommendBoardListDto;
+export type BoardPopUpDto = {
+  recommendBoardFirstDto: RecommendBoardFirstDto;
+  recommendBoardListDto: RecommendBoardListDto;
 };
 
 //하단리스트
@@ -39,7 +39,7 @@ export type Moodboard = {
   moodName: string;
 };
 
-export type boardDtosItem = {
+export type BoardDtosItem = {
   title: string;
   musicName: string;
   artists: Artistboard[];
@@ -65,8 +65,8 @@ export type Pageable = {
   unpaged: boolean;
 };
 
-export type boardDtos = {
-  content: boardDtosItem[];
+export type BoardDtos = {
+  content: BoardDtosItem[];
   pageable: Pageable;
   last: boolean;
   totalPages: number;
@@ -80,7 +80,8 @@ export type boardDtos = {
 };
 
 export type CommunityItem = {
-  boardDtos: boardDtos;
+  boardDtos: BoardDtos;
+  boardPopUpDto: BoardPopUpDto;
 };
 
 // FIXME: 삭제 response 타입을 위해 생성. 상세 조회 api에 타입 재사용 가능한지 확인 필요
