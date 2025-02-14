@@ -1,5 +1,5 @@
 // 공지사항
-export type noticeDto = {
+export type NoticeDto = {
   id: number;
   title: string;
   content: string;
@@ -8,14 +8,14 @@ export type noticeDto = {
 };
 
 //장르의 음악 카테고리
-export type likeGenreItem = {
+export type LikeGenreItem = {
   id: number;
   genreName: string;
 };
-export type likeGenre = likeGenreItem[];
+export type LikeGenre = LikeGenreItem[];
 
 //장르의 음악
-export type genreMusicsItem = {
+export type GenreMusicsItem = {
   id: number;
   musicName: string;
   artists: [
@@ -26,10 +26,10 @@ export type genreMusicsItem = {
   ];
   thumbNailLink: string;
 };
-export type genreMusics = genreMusicsItem[];
+export type GenreMusics = GenreMusicsItem[];
 
 //좋아요한 음악
-export type likeMusicDtosItem = {
+export type LikeMusicDtosItem = {
   id: number;
   musicName: string;
   artists: [
@@ -40,10 +40,10 @@ export type likeMusicDtosItem = {
   ];
   thumbNailLink: string;
 };
-export type likeMusicDtos = likeMusicDtosItem[];
+export type LikeMusicDtos = LikeMusicDtosItem[];
 
 // 핫한 음악
-export type recommendGenresItem = {
+export type RecommendGenresItem = {
   id: number;
   musicName: string;
   artists: [
@@ -54,16 +54,16 @@ export type recommendGenresItem = {
   ];
   thumbNailLink: string;
 };
-export type recommendGenres = recommendGenresItem[];
+export type RecommendGenres = RecommendGenresItem[];
 
 // 핫한 음악 장르타이틀
-export type recommendGenre = {
+export type RecommendGenre = {
   id: number;
   genreName: string;
 };
 
 // 음악 추천 게시판 리스트
-export type recentBoardItem = {
+export type RecentBoardItem = {
   id: number;
   title: string;
   username: string;
@@ -75,10 +75,10 @@ export type recentBoardItem = {
   artist: string;
   thumbNailLink: string;
 };
-export type recentBoard = recentBoardItem[];
+export type RecentBoard = RecentBoardItem[];
 
 // 음악 추천 게시판 정보
-export type hotMusicBoard = {
+export type HotMusicBoard = {
   id: number;
   title: string;
   musicName: string;
@@ -99,9 +99,9 @@ export type RecommendedMusicList = {
 }[];
 
 // 선택 모달창
-export type passModal = string;
+export type PassModal = string;
 
-export type userInfoDto = {
+export type UserInfoDto = {
   email: string;
   name: string;
   authority: string;
@@ -111,27 +111,27 @@ export type userInfoDto = {
 
 export type MainItem = {
   //공지사항
-  noticeDto: noticeDto;
+  noticeDto: NoticeDto;
 
   //장르의 음악
-  likeGenre: likeGenre; //카테고리
-  genreMusics: genreMusics;
+  likeGenre: LikeGenre; //카테고리
+  genreMusics: GenreMusics;
 
   //좋아요한 음악
-  likeMusicDtos: likeMusicDtos;
+  likeMusicDtos: LikeMusicDtos;
 
   //핫한 음악
-  recommendGenre: recommendGenre; //타이틀
-  recommendGenres: recommendGenres;
+  recommendGenre: RecommendGenre; //타이틀
+  recommendGenres: RecommendGenres;
 
   //음악추천게시판
-  hotMusicBoard: hotMusicBoard;
-  recentBoard: recentBoard;
+  hotMusicBoard: HotMusicBoard;
+  recentBoard: RecentBoard;
   RecommendedMusicList: RecommendedMusicList;
 
   //모달창
-  passModal: passModal;
+  passModal: PassModal;
 
   //사용자 정보
-  userInfoDto: userInfoDto;
+  userInfoDto: UserInfoDto;
 };

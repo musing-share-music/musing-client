@@ -14,53 +14,52 @@ import ThumbnailMusic from './ThumbnailMusic';
 // import RecommendedMusic from './RecommendedMusic';
 
 interface MainItemProps {
-  MainData: MainItem;
+  mainData: MainItem;
 }
 
-export const Main = ({ MainData }: MainItemProps) => {
+export const Main = ({ mainData }: MainItemProps) => {
   const { setUser, setPassModal, isLogin } = useUserInfoStore();
-
   //메인홈
   useEffect(() => {
-    if (MainData) {
-      setPassModal(MainData.passModal);
+    if (mainData) {
+      setPassModal(mainData.passModal);
     }
 
     //사용자정보 있으면 저장
-    if (MainData.userInfoDto) {
-      setUser(MainData.userInfoDto);
+    if (mainData.userInfoDto) {
+      setUser(mainData.userInfoDto);
     }
-  }, [MainData, setUser, setPassModal]);
+  }, [mainData, setUser, setPassModal]);
 
   return (
     <MainContents>
       <ComponentWrapper marginBottom={40}>
-        {MainData?.noticeDto ? <ThumbnailMusic noticeDto={MainData?.noticeDto} /> : null}
+        {mainData?.noticeDto ? <ThumbnailMusic noticeDto={mainData?.noticeDto} /> : null}
       </ComponentWrapper>
 
       {isLogin() && (
         <>
           <ComponentWrapper marginBottom={104}>
-            {MainData?.genreMusics ? (
-              <GenreMusic genreMusics={MainData?.genreMusics} likeGenre={MainData?.likeGenre} />
+            {mainData?.genreMusics ? (
+              <GenreMusic genreMusics={mainData?.genreMusics} likeGenre={mainData?.likeGenre} />
             ) : null}
           </ComponentWrapper>
 
           <ComponentWrapper marginBottom={144}>
-            {MainData?.likeMusicDtos ? <LikeMusic likeMusicDtos={MainData?.likeMusicDtos} /> : null}
+            {mainData?.likeMusicDtos ? <LikeMusic likeMusicDtos={mainData?.likeMusicDtos} /> : null}
           </ComponentWrapper>
         </>
       )}
 
       <ComponentWrapper marginBottom={124}>
-        {MainData?.recommendGenre ? (
-          <HotMusic recommendGenre={MainData?.recommendGenre} recommendGenres={MainData?.recommendGenres} />
+        {mainData?.recommendGenre ? (
+          <HotMusic recommendGenre={mainData?.recommendGenre} recommendGenres={mainData?.recommendGenres} />
         ) : null}
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={120}>
-        {MainData?.recentBoard ? (
-          <CommunityMusic recentBoard={MainData?.recentBoard} hotMusicBoard={MainData.hotMusicBoard} />
+        {mainData?.recentBoard ? (
+          <CommunityMusic recentBoard={mainData?.recentBoard} hotMusicBoard={mainData.hotMusicBoard} />
         ) : null}
       </ComponentWrapper>
 
