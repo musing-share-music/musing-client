@@ -5,6 +5,7 @@ import { useGetPageList, useGetSearchList } from 'entities/community/api';
 import { boardDtos, boardDtosItem } from 'entities/community/model/types';
 
 import { commonStyles } from 'shared/styles/common';
+import { Pagination } from 'shared/ui';
 import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
 import { Spinner } from 'shared/ui/Spinner';
 import { CommonTag } from 'shared/ui/Tag';
@@ -91,7 +92,7 @@ const RecommendedPostList = ({ boardDtos }: boardDtosProps) => {
     }
   }, [boardDtos.content, pageData, keyWord]);
 
-  const handlePageClick = (pageNumber: SetStateAction<number>) => {
+  const handlePageClick = (pageNumber: number) => {
     setActivePage(pageNumber);
     setKeyWord(''); // Reset search when changing pages
   };
@@ -144,15 +145,7 @@ const RecommendedPostList = ({ boardDtos }: boardDtosProps) => {
         ))}
 
         <CommunityPagenationWrapper isActive={false}>
-          {Array.from({ length: boardDtos.totalPages }, (_, i) => i + 1).map((pageNumber) => (
-            <CommunityPagenation
-              key={pageNumber}
-              onClick={() => handlePageClick(pageNumber)}
-              isActive={activePage === pageNumber}
-            >
-              {pageNumber}
-            </CommunityPagenation>
-          ))}
+          <Pagination totalPages={boardDtos.totalPages} activePage={activePage} onClick={handlePageClick} />
         </CommunityPagenationWrapper>
       </CommunityList>
 
@@ -289,12 +282,6 @@ const CommunityPagenationWrapper = styled.div<{ isActive: boolean }>`
   position: absolute;
   bottom: 40px;
   left: 580px;
-`;
-
-const CommunityPagenation = styled.div<{ isActive: boolean }>`
-  color: ${({ theme, isActive }) => (isActive ? theme.colors[100] : theme.colors[200])};
-  ${({ theme }) => theme.fonts.wantedSans.B5};
-  cursor: pointer;
 `;
 
 const CommuniySearchBlock = styled.div`

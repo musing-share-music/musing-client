@@ -117,7 +117,7 @@ export const AdminReviewReportPage = () => {
               <Table head={tableHead} data={tableData} />
             </TableContainer>
             <PaginationBlock>
-              <Pagination />
+              <Pagination totalPages={1} />
             </PaginationBlock>
           </BoardContainer>
           <FilterBlock>
