@@ -19,6 +19,8 @@ const MemberInfo = lazy(() => import('../../pages/memberInfo/member'));
 const MemberReview = lazy(() => import('../../pages/memberInfo/review'));
 const NotFound = lazy(() => import('../../pages/notFound/NotFound'));
 const PlayList = lazy(() => import('../../pages/playList'));
+const NoticePage = lazy(() => import('../../pages/notice'));
+const NoticeDetailPage = lazy(() => import('../../pages/noticeDetail'));
 
 export const AppRouter = () => {
   return (
@@ -33,6 +35,9 @@ export const AppRouter = () => {
       <Route path={ROUTES.MEMBERINFO.MEMBERINFO} element={<MemberInfo />} />
       <Route path={ROUTES.MEMBERINFO.MEMBERINFOCOMMUNITY} element={<MemberCommunity />} />
       <Route path={ROUTES.MEMBERINFO.MEMBERINFOREVIEW} element={<MemberReview />} />
+
+      <Route path={ROUTES.NOTICE} element={<NoticePage />} />
+      <Route path={ROUTES.NOTICE_DETAIL} element={<NoticeDetailPage />} />
 
       <Route path={ROUTES.ADMIN.NOTICE} element={<AdminNoticePage />} />
       <Route path={ROUTES.ADMIN.USER} element={<AdminUserPage />} />
