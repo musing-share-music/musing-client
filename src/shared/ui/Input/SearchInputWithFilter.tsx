@@ -33,7 +33,9 @@ export const SearchInputWithFilter = ({
         searchFilterPlaceholder={searchFilterPlaceholder}
         onSelectChange={onSelectChange}
       />
-      <TextInput {...textInputProps} />
+      <TextInputWrapper>
+        <TextInput {...textInputProps} />
+      </TextInputWrapper>
     </>
   );
 };
@@ -134,4 +136,8 @@ const OptionItem = styled.li<{ isSelected?: boolean }>`
 const Arrow = styled.span`
   margin-left: 6px;
   font-size: 12px;
+`;
+
+const TextInputWrapper = styled.div`
+  width: 888px;
 `;
