@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { SkeletonBox } from 'shared/ui';
+
 export interface TableHead {
   key: string;
   content: string | React.ReactNode;
@@ -16,37 +18,61 @@ export type TableData<T extends readonly TableHead[]> = {
 interface TableProps<T extends readonly TableHead[]> {
   head: T;
   data: TableData<T>[];
+  isLoading?: boolean;
 }
 
 // 관리자 게시판 리스트 컴포넌트
-export const Table = <T extends readonly TableHead[]>({ head, data }: TableProps<T>) => {
+export const Table = <T extends readonly TableHead[]>({ head, data, isLoading }: TableProps<T>) => {
   return (
     <Container>
       <StyledTable>
         <THead>
-          <tr>
-            {head.map((item) => (
-              <Th
-                key={item.key}
-                style={{
-                  width: `${item.width}%`,
-                }}
-              >
-                {item.content}
+          {/* 로딩 중 스켈레톤 ui */}
+          {isLoading && (
+            <tr>
+              <Th>
+                <SkeletonBox height={60} />
               </Th>
-            ))}
-          </tr>
-        </THead>
-        <TBody>
-          {data.map((row, rowIndex) => (
-            <tr key={rowIndex}>
-              {head.map((header) => (
-                <Td key={`${rowIndex}-${header.key}`} width={1}>
-                  {row[header.key as keyof typeof row]}
-                </Td>
+            </tr>
+          )}
+          {!isLoading && (
+            <tr>
+              {head.map((item) => (
+                <Th
+                  key={item.key}
+                  style={{
+                    width: `${item.width}%`,
+                  }}
+                >
+                  {item.content}
+                </Th>
               ))}
             </tr>
-          ))}
+          )}
+        </THead>
+
+        <TBody>
+          {/* 로딩 중 스켈레톤 ui */}
+          {isLoading &&
+            Array(6)
+              .fill(0)
+              .map((_, idx) => (
+                <tr key={idx}>
+                  <Td>
+                    <SkeletonBox height={40} />
+                  </Td>
+                </tr>
+              ))}
+          {!isLoading &&
+            data.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {head.map((header) => (
+                  <Td key={`${rowIndex}-${header.key}`} width={1}>
+                    {row[header.key as keyof typeof row]}
+                  </Td>
+                ))}
+              </tr>
+            ))}
         </TBody>
       </StyledTable>
     </Container>

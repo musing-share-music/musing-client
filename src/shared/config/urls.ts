@@ -22,6 +22,8 @@ const URL = {
     BOARD_CREATE: 'musing/board/create', // 게시글 작성
     BOARD_DELETE: 'musing/board/deletePost', // 게시글 삭제
     VALIDATE_YOUTUBE_URL: 'checkURL', // 유튜브 url 검증
+    NOTICE: 'musing/notice/list', // 공지사항 리스트
+    NOTICE_DETAIL: 'musing/notice', // 공지사항 상세 페이지
   },
 };
 

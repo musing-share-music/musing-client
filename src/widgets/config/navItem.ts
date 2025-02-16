@@ -47,7 +47,7 @@ export const NAV_ITEM: NavItemWithIcon[] = [
   },
   {
     text: 'Notice',
-    href: '#',
+    href: ROUTES.NOTICE,
     icon: IconHomeSrc,
     activeIcon: IconHomeActiveSrc,
   },

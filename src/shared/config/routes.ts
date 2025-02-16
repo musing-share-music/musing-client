@@ -18,7 +18,7 @@ export const ROUTES = {
   // 음악 추천 게시판 상세
   DETAIL: '/detail/:id',
 
-  // 음악 추천 게시
+  // 음악 추천 글 작성
   CREATE: '/create',
 
   //플레이리스트
@@ -30,6 +30,10 @@ export const ROUTES = {
     MEMBERINFOCOMMUNITY: '/memberinfo/community',
     MEMBERINFOREVIEW: '/memberinfo/review',
   },
+
+  // 공지사항
+  NOTICE: '/notice',
+  NOTICE_DETAIL: '/notice/:id',
 
   // 관리자
   ADMIN: {

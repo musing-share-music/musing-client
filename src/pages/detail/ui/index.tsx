@@ -1,16 +1,12 @@
 import { ReviewForm } from 'entities/reply/ui/ReplyForm';
 
 import { Contents } from './Contents';
-import { MusicInfo } from './MusicInfo';
 import { ReviewList } from './ReviewList';
-import { Layout, LeftContainer, RightContainer, Section, SectionTitle } from './styled';
+import { Layout, RightContainer, Section, SectionTitle } from './styled';
 
 export const DetailPage = () => {
   return (
     <Layout>
-      <LeftContainer>
-        <MusicInfo />
-      </LeftContainer>
       <RightContainer>
         <Contents />
         <Section>

@@ -1,15 +1,25 @@
 import styled from '@emotion/styled';
-import { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 
-export const Pagination = () => {
-  const [activePage, setActivePage] = useState(1);
+interface PaginationProps {
+  totalPages: number; // 총 페이지 수
+  activePage?: number; // 현재 페이지 번호
+  onClick?: (pageNumber: number) => void; // 페이지 버튼을 클릭했을 때
+}
 
-  function handlePageClick(pageNumber: SetStateAction<number>) {
+export const Pagination = ({ totalPages, activePage: activePageNumber = 1, onClick }: PaginationProps) => {
+  const [activePage, setActivePage] = useState(activePageNumber);
+
+  function handlePageClick(pageNumber: number) {
+    if (onClick) {
+      onClick(pageNumber);
+    }
+
     setActivePage(pageNumber);
   }
   return (
     <PaginationContainer>
-      {[1, 2, 3, 4, 5].map((pageNumber) => (
+      {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
         <PaginationItem
           key={pageNumber}
           onClick={() => handlePageClick(pageNumber)}

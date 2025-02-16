@@ -117,7 +117,7 @@ export const AdminPostReportPage = () => {
               <Table head={tableHead} data={tableData} />
             </TableContainer>
             <PaginationBlock>
-              <Pagination />
+              <Pagination totalPages={0} />
             </PaginationBlock>
           </BoardContainer>
           <FilterBlock>
