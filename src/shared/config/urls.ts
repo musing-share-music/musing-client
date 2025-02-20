@@ -24,6 +24,7 @@ const URL = {
     VALIDATE_YOUTUBE_URL: 'checkURL', // 유튜브 url 검증
     NOTICE: 'musing/notice/list', // 공지사항 리스트
     NOTICE_DETAIL: 'musing/notice', // 공지사항 상세 페이지
+    MEMBERINFO: 'musing/user', // 회원정보조회
   },
 };
 

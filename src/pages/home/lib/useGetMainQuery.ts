@@ -1,12 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { fetchGetMain } from 'entities/home/api/MainGet';
+import { home } from 'entities/home/api/home.query';
 
 function useGetMainQuery(queryConfig = {}) {
   const { data, error, isLoading } = useQuery({
     select: (data) => data.data,
-    queryKey: ['main'],
-    queryFn: fetchGetMain,
+    ...home.main(),
     retry: 3,
     ...queryConfig,
   });

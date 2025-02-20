@@ -1,12 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { fetchGetList } from 'entities/community/api/ListGet';
+import { community } from 'entities/community/api/community.query';
 
 function useGetListQuery(queryConfig = {}) {
   const { data, error, isLoading } = useQuery({
     select: (data) => data.data,
-    queryKey: ['List'],
-    queryFn: fetchGetList,
+    ...community.list(),
     retry: 3,
     ...queryConfig,
   });

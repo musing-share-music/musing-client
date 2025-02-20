@@ -46,11 +46,11 @@ const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
       </TitleBlock>
 
       <GenreMusingBlock>
-        {data?.data.length === 0 ? (
+        {data?.length === 0 ? (
           <Nodata Comment={`아직 ${activeCtgName} 장르의 음악이 없어요.`} />
         ) : (
           <>
-            {data?.data.slice(0, 4).map((item: GenreMusicsItem, index: Key | null | undefined) => (
+            {data?.slice(0, 4).map((item: GenreMusicsItem, index: Key | null | undefined) => (
               <GenreMusicItem key={index} item={item} />
             ))}
             <GenreMore>
