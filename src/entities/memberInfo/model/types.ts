@@ -58,6 +58,33 @@ export type MemberInfo = {
   message: string;
 };
 
+/* 나의 추천 게시판 */
+export type BoardListItem = {
+  title: string;
+  musicName: string;
+  artists: Artist[];
+  thumbNailLink: string;
+  createAt: string;
+};
+
+export type BoardList = {
+  content: BoardListItem[];
+  pageable: Pageable;
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  size: number;
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  numberOfElements: number;
+  first: boolean;
+  empty: boolean;
+};
+
 /* 나의 별점 및 리뷰 */
 export type ContentItem = {
   id: number;

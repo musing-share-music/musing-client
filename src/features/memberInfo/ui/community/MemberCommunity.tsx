@@ -1,12 +1,17 @@
 import styled from '@emotion/styled';
 import moment from 'moment';
-import { SetStateAction, useState } from 'react';
+import { Key, SetStateAction, useEffect, useState } from 'react';
 
 moment.locale('ko');
 
-import { RecentBoard } from 'entities/home/model/types';
+import { useGetCommunityQuery } from 'features/memberInfo/lib/useGetCommunityQuery';
+import { useGetCommunitySearchQuery } from 'features/memberInfo/lib/useGetCommunitySearchQuery';
+
+import { BoardListItem } from 'entities/memberInfo/model/types';
 
 import { commonStyles } from 'shared/styles/common';
+import { Pagination } from 'shared/ui';
+import { Nodata } from 'shared/ui';
 import { Filter } from 'shared/ui/Input/Filter';
 
 const CommunitySearchSelectWrapper = () => {
@@ -33,16 +38,29 @@ const CommunitySearchSelectWrapper = () => {
   );
 };
 
-interface RecentBoardProps {
-  recentBoard: RecentBoard;
-}
-
-export const MemberCommunity = ({ recentBoard }: RecentBoardProps) => {
-  const [activePage, setActivePage] = useState(1);
+export const MemberCommunity = () => {
+  const [enabled, setEnabled] = useState(false);
+  const [activePage, setActivePage] = useState(0);
+  const [sortOrder, setSortOrder] = useState('DESC');
+  const [keyWord, setKeyWord] = useState<string>('');
+  const { data } = useGetCommunityQuery(activePage, sortOrder);
+  const { data: searchData } = useGetCommunitySearchQuery(activePage, sortOrder, keyWord, {
+    enabled: enabled,
+  });
+  const communityList = keyWord ? searchData?.content ?? [] : data?.content ?? [];
+  console.log(communityList);
 
   const handlePageClick = (pageNumber: SetStateAction<number>) => {
     setActivePage(pageNumber);
   };
+
+  useEffect(() => {
+    if (keyWord) {
+      setEnabled(true);
+    } else {
+      setEnabled(false);
+    }
+  }, [keyWord]);
 
   return (
     <MemberContainer>
@@ -57,65 +75,64 @@ export const MemberCommunity = ({ recentBoard }: RecentBoardProps) => {
           placeholder="전체"
           options={[
             {
-              label: '제목',
-              value: 'title',
+              label: '최신순',
+              value: 'DESC',
             },
             {
-              label: '별점순',
-              value: 'star',
-            },
-            {
-              label: '리뷰만 보기',
-              value: 'review',
+              label: '오래된 순',
+              value: 'ASC',
             },
           ]}
+          onChange={(option) => {
+            setSortOrder(option.value);
+          }}
         />
       </HeaderBlock>
 
       <CommunityBlock>
         <CommunityListBlock>
-          {recentBoard.map((item) => {
-            return (
-              <div key={item.id}>
+          {communityList.length === 0 ? (
+            <Nodata Comment={'나의 음악 추천 게시글이 없어요.'} />
+          ) : (
+            communityList.map((item: BoardListItem, idx: Key | null | undefined) => (
+              <div key={idx}>
                 <CommunityListWrapper>
                   <CommunityList>
-                    <ListImg src={item.thumbNailLink} alt={item.title} />
+                    <ListImg src={item.thumbNailLink} />
                     <ListContent>
                       <ContentInfo>
-                        <ContentsSongName>{item.title}</ContentsSongName>
-                        <ContentsSongDescription>{item.musicName}</ContentsSongDescription>
+                        <ContentsSongName>{item.musicName}</ContentsSongName>
+                        <ContentsSongDescription>{item.artists[0].name}</ContentsSongDescription>
                       </ContentInfo>
 
                       <ContentTitleBlock>
-                        <ContentTitle>게시글 제목</ContentTitle>
+                        <ContentTitle>{item.title}</ContentTitle>
                       </ContentTitleBlock>
 
                       <ActivityInfo>
-                        <ActivityStatus>{moment(item.createdAt).format('YYYY-MM-DD')}</ActivityStatus>
+                        <ActivityStatus>{moment(item.createAt).format('YYYY-MM-DD')}</ActivityStatus>
                       </ActivityInfo>
                     </ListContent>
                   </CommunityList>
                 </CommunityListWrapper>
               </div>
-            );
-          })}
+            ))
+          )}
         </CommunityListBlock>
       </CommunityBlock>
 
       <CommunityPagenationWrapper>
-        {[1, 2, 3, 4, 5].map((pageNumber) => (
-          <CommunityPagenation
-            key={pageNumber}
-            onClick={() => handlePageClick(pageNumber)}
-            isActive={activePage === pageNumber}
-          >
-            {pageNumber}
-          </CommunityPagenation>
-        ))}
+        <Pagination totalPages={data?.totalPages} activePage={activePage} onClick={handlePageClick} />
       </CommunityPagenationWrapper>
       <CommuniySearchBlock>
         <CommunitySearchSelectWrapper />
-        <CommunitySearchInput type="text" placeholder="게시글 내용을 입력해 주세요." />
+        <CommunitySearchInput
+          type="text"
+          placeholder="게시글 내용을 입력해 주세요."
+          onChange={(e) => {
+            setKeyWord(e.target.value);
+          }}
+        />
       </CommuniySearchBlock>
     </MemberContainer>
   );
@@ -124,7 +141,7 @@ export const MemberCommunity = ({ recentBoard }: RecentBoardProps) => {
 const MemberContainer = styled.div`
   width: 1024px;
   height: 1500px;
-  background-color: ${({ theme }) => theme.colors[500]};
+  background-color: ${({ theme }) => theme.colors[700]};
   position: relative;
 `;
 
@@ -140,7 +157,8 @@ const HeaderBlock = styled.div`
   width: 100%;
   height: 60px;
   padding: 16px 52px 16px 52px;
-  border: 1px solid ${({ theme }) => theme.colors[400]};
+  border-top: 1px solid ${({ theme }) => theme.colors[400]};
+  border-bottom: 1px solid ${({ theme }) => theme.colors[400]};
   display: flex;
   justify-content: flex-start; /* 시작점 기준 정렬 */
 `;
@@ -170,6 +188,7 @@ const CommunityBlock = styled.div`
   gap: 24px;
   border-radius: 12px;
   width: 1024px;
+  height: 100%;
 `;
 
 const CommunityListBlock = styled.div`
@@ -199,7 +218,7 @@ const CommunityList = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid ${({ theme }) => theme.colors[400]};
+  border-bottom: 1px solid ${({ theme }) => theme.colors[400]};
   border-radius: 1px;
 `;
 
