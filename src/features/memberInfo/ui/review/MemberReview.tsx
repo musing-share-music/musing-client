@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import moment from 'moment';
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 
 moment.locale('ko');
 
 import { useGetReviewQuery } from 'features/memberInfo/lib/useGetReviewQuery';
+import { useGetReviewSearchQuery } from 'features/memberInfo/lib/useGetReviewSearchQuery';
 
 import { ContentItem } from 'entities/memberInfo/model/types';
 
@@ -39,14 +40,27 @@ const CommunitySearchSelectWrapper = () => {
 };
 
 export const MemberReview = () => {
+  const [enabled, setEnabled] = useState(false);
   const [activePage, setActivePage] = useState(0);
-  const [sortOrder, setSortOrder] = useState('DESC'); // 기본값은 최신순
+  const [sortOrder, setSortOrder] = useState('DESC');
+  const [keyWord, setKeyWord] = useState<string>('');
   const { data } = useGetReviewQuery(activePage, sortOrder);
-  const reviewList = data?.content || [];
+  const { data: searchData } = useGetReviewSearchQuery(activePage, sortOrder, keyWord, {
+    enabled: enabled,
+  });
+  const reviewList = keyWord ? searchData?.content ?? [] : data?.content ?? [];
 
   const handlePageClick = (pageNumber: SetStateAction<number>) => {
     setActivePage(pageNumber);
   };
+
+  useEffect(() => {
+    if (keyWord) {
+      setEnabled(true);
+    } else {
+      setEnabled(false);
+    }
+  }, [keyWord]);
 
   return (
     <MemberContainer>
@@ -112,7 +126,13 @@ export const MemberReview = () => {
       </CommunityPagenationWrapper>
       <CommuniySearchBlock>
         <CommunitySearchSelectWrapper />
-        <CommunitySearchInput type="text" placeholder="게시글 내용을 입력해 주세요." />
+        <CommunitySearchInput
+          type="text"
+          placeholder="게시글 내용을 입력해 주세요."
+          onChange={(e) => {
+            setKeyWord(e.target.value);
+          }}
+        />
       </CommuniySearchBlock>
     </MemberContainer>
   );

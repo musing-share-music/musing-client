@@ -31,7 +31,7 @@ const URL = {
       COMMUNITY: 'musing/user/my-board', //음악 추천 게시글
       COMMUNITYSEARCH: 'musing/user/my-board/search', //조회
       REVIEW: 'musing/user/my-reply', // 리뷰 및 별점
-      REVIEWPSEARCH: 'musing/user/my-reply/search', //조회
+      REVIEWSEARCH: 'musing/user/my-reply/search', //조회
     },
   },
 };
