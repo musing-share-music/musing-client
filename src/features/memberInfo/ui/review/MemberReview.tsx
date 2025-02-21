@@ -4,9 +4,13 @@ import { SetStateAction, useState } from 'react';
 
 moment.locale('ko');
 
-import { RecentBoard } from 'entities/home/model/types';
+import { useGetReviewQuery } from 'features/memberInfo/lib/useGetReviewQuery';
+
+import { ContentItem } from 'entities/memberInfo/model/types';
 
 import { commonStyles } from 'shared/styles/common';
+import { Pagination } from 'shared/ui';
+import { Nodata } from 'shared/ui';
 import { Filter } from 'shared/ui/Input/Filter';
 import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
 
@@ -34,12 +38,11 @@ const CommunitySearchSelectWrapper = () => {
   );
 };
 
-interface RecentBoardProps {
-  recentBoard: RecentBoard;
-}
-
-export const MemberReview = ({ recentBoard }: RecentBoardProps) => {
-  const [activePage, setActivePage] = useState(1);
+export const MemberReview = () => {
+  const [activePage, setActivePage] = useState(0);
+  const [sortOrder, setSortOrder] = useState('DESC'); // 기본값은 최신순
+  const { data } = useGetReviewQuery(activePage, sortOrder);
+  const reviewList = data?.content || [];
 
   const handlePageClick = (pageNumber: SetStateAction<number>) => {
     setActivePage(pageNumber);
@@ -55,39 +58,42 @@ export const MemberReview = ({ recentBoard }: RecentBoardProps) => {
         <HeaderText>별점</HeaderText>
         <HeaderText>리뷰 내용</HeaderText>
         <Filter
-          placeholder="전체"
+          placeholder="최신순"
           options={[
             {
-              label: '제목',
-              value: 'title',
+              label: '최신순',
+              value: 'DESC',
             },
             {
-              label: '별점순',
-              value: 'star',
-            },
-            {
-              label: '리뷰만 보기',
-              value: 'review',
+              label: '오래된 순',
+              value: 'ASC',
             },
           ]}
+          onChange={(option) => {
+            setSortOrder(option.value);
+          }}
         />
       </HeaderBlock>
 
       <CommunityBlock>
         <CommunityListBlock>
-          {recentBoard.map((item) => {
-            return (
+          {reviewList.length === 0 ? (
+            <Nodata Comment={'나의 별점 및 리뷰가 없어요.'} />
+          ) : (
+            reviewList.map((item: ContentItem) => (
               <div key={item.id}>
                 <CommunityListWrapper>
                   <CommunityList>
                     <StarRatingWrapper>
-                      <StarRatingInput value={5} enabled={false} />
+                      <StarRatingInput value={item.starScore} enabled={false} />
                     </StarRatingWrapper>
                     <ListContent>
-                      <ListImg src={item.thumbNailLink} alt={item.title} />
+                      <ListImg src={item.musicDto.thumbNailLink} />
                       <ContentInfo>
-                        <ContentsSongName>{item.title}</ContentsSongName>
-                        <ContentsSongDescription>{item.musicName}</ContentsSongDescription>
+                        <ContentsSongName>{item.content}</ContentsSongName>
+                        <ContentsSongDescription>
+                          {item.musicDto.artists[0].name} · {item.musicDto.musicName}
+                        </ContentsSongDescription>
                       </ContentInfo>
                     </ListContent>
                     <ActivityInfo>
@@ -96,21 +102,13 @@ export const MemberReview = ({ recentBoard }: RecentBoardProps) => {
                   </CommunityList>
                 </CommunityListWrapper>
               </div>
-            );
-          })}
+            ))
+          )}
         </CommunityListBlock>
       </CommunityBlock>
 
       <CommunityPagenationWrapper>
-        {[1, 2, 3, 4, 5].map((pageNumber) => (
-          <CommunityPagenation
-            key={pageNumber}
-            onClick={() => handlePageClick(pageNumber)}
-            isActive={activePage === pageNumber}
-          >
-            {pageNumber}
-          </CommunityPagenation>
-        ))}
+        <Pagination totalPages={data?.totalPages} activePage={activePage} onClick={handlePageClick} />
       </CommunityPagenationWrapper>
       <CommuniySearchBlock>
         <CommunitySearchSelectWrapper />
@@ -123,7 +121,7 @@ export const MemberReview = ({ recentBoard }: RecentBoardProps) => {
 const MemberContainer = styled.div`
   width: 1024px;
   height: 1500px;
-  background-color: ${({ theme }) => theme.colors[500]};
+  background-color: ${({ theme }) => theme.colors[700]};
   position: relative;
 `;
 
@@ -139,7 +137,8 @@ const HeaderBlock = styled.div`
   width: 100%;
   height: 60px;
   padding: 16px 52px 16px 52px;
-  border: 1px solid ${({ theme }) => theme.colors[400]};
+  border-top: 1px solid ${({ theme }) => theme.colors[400]};
+  border-bottom: 1px solid ${({ theme }) => theme.colors[400]};
   display: flex;
   justify-content: flex-start; /* 시작점 기준 정렬 */
 `;
@@ -168,6 +167,7 @@ const CommunityBlock = styled.div`
   gap: 24px;
   border-radius: 12px;
   width: 1024px;
+  height: 100%;
 `;
 
 const CommunityListBlock = styled.div`
@@ -197,7 +197,7 @@ const CommunityList = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid ${({ theme }) => theme.colors[400]};
+  border-bottom: 1px solid ${({ theme }) => theme.colors[400]};
   border-radius: 1px;
   padding: 24px 52px 24px 52px;
 `;
@@ -217,7 +217,7 @@ const ListContent = styled.div`
 `;
 
 const ContentInfo = styled.div`
-  width: 160px;
+  /* width: 160px; */
   height: 64px;
   display: flex;
   flex-direction: column;
@@ -227,14 +227,14 @@ const ContentInfo = styled.div`
 const ContentsSongName = styled.div`
   ${({ theme }) => theme.fonts.wantedSans.B4};
   color: ${({ theme }) => theme.colors[100]};
-  ${commonStyles.limitText};
+  /* ${commonStyles.limitText}; */
 `;
 
 const ContentsSongDescription = styled.div`
   ${({ theme }) => theme.fonts.wantedSans.C1};
   color: ${({ theme }) => theme.colors[200]};
-  max-width: 396px;
-  ${commonStyles.limitText};
+  /* max-width: 396px; */
+  /* ${commonStyles.limitText}; */
 `;
 
 const StarRatingWrapper = styled.div`

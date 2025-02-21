@@ -1,3 +1,4 @@
+/* 회원정보 */
 export type LikeGenre = {
   id: number;
   genreName: string;
@@ -55,4 +56,45 @@ export type MemberInfoItem = {
 export type MemberInfo = {
   data: MemberInfoItem;
   message: string;
+};
+
+/* 나의 별점 및 리뷰 */
+export type ContentItem = {
+  id: number;
+  starScore: number;
+  content: string;
+  musicDto: MusicDto;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type Pageable = {
+  pageNumber: number;
+  pageSize: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  offset: number;
+  paged: boolean;
+  unpaged: boolean;
+};
+
+export type Review = {
+  content: ContentItem[];
+  pageable: Pageable;
+  last: boolean;
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  first: boolean;
+  numberOfElements: number;
+  empty: boolean;
 };

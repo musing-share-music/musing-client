@@ -1,6 +1,6 @@
 import { MainLayout } from 'widgets/ui/Layout';
 
-import { MemberInfoReview } from 'entities/memberInfo/review/ui';
+import { MemberInfoReview } from 'features/memberInfo/ui/review';
 
 const MemberReview = () => {
   return (
