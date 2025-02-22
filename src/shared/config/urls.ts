@@ -32,6 +32,9 @@ const URL = {
       COMMUNITYSEARCH: 'musing/user/my-board/search', //조회
       REVIEW: 'musing/user/my-reply', // 리뷰 및 별점
       REVIEWSEARCH: 'musing/user/my-reply/search', //조회
+      GENREMODIFY: 'musing/user/like/genre', //장르수정
+      MOODMODIFY: 'musing/user/like/mood', //무드수정
+      ARTISTMODIFY: 'musing/user/like/artist ', //아티스트수정
     },
   },
 };

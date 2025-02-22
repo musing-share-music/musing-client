@@ -2,6 +2,9 @@ import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 
 import { GenreChipCheckbox } from 'features/genre/selectMood/ui';
+import { useArtistPostMutation } from 'features/memberInfo/lib/usePostArtistQuery';
+import { useGenrePostMutation } from 'features/memberInfo/lib/usePostGenreQuery';
+import { useMoodPostMutation } from 'features/memberInfo/lib/usePostMoodQuery';
 import { MoodChipCheckbox } from 'features/mood/selectMood/ui';
 import { Step } from 'features/musicPreference/model/type';
 import {
@@ -40,6 +43,10 @@ export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreference
   const [inputValue, setInputValue] = useState('');
   const [artist, setArtist] = useState<Set<Artist>>(new Set());
 
+  const genreMutation = useGenrePostMutation();
+  const moodMutation = useMoodPostMutation();
+  const artistMutation = useArtistPostMutation();
+
   const handleMoodCheck = (mood: Mood[]) => {
     setSelectedMoods(mood);
   };
@@ -63,6 +70,15 @@ export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreference
     if (modalType === 'mood' && selectedMoods.length === 0) return;
 
     const tags = [...selectedGenres, ...selectedMoods];
+
+    if (modalType === 'genre') {
+      genreMutation.mutate(selectedGenres.map((genre) => genre.id));
+    } else if (modalType === 'mood') {
+      moodMutation.mutate(selectedMoods.map((mood) => mood.id));
+    } else if (modalType === 'artist') {
+      artistMutation.mutate(Array.from(artist));
+    }
+
     onConfirm(tags);
     closeModal();
   };
