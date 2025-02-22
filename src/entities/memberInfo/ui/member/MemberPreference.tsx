@@ -155,13 +155,13 @@ export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreference
 
           {modalType === 'genre' && (
             <ChipBlock>
-              <GenreChipCheckbox onSelectChip={handleGenreCheck} />
+              <GenreChipCheckbox initialChecked={memberInfoItem?.likeGenre} onSelectChip={handleGenreCheck} />
             </ChipBlock>
           )}
 
           {modalType === 'mood' && (
             <ChipBlock>
-              <MoodChipCheckbox onSelectChip={handleMoodCheck} />
+              <MoodChipCheckbox initialChecked={memberInfoItem?.likeMood} onSelectChip={handleMoodCheck} />
             </ChipBlock>
           )}
 
