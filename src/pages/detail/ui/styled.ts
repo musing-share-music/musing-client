@@ -18,6 +18,7 @@ export const RightContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 840px;
 `;
 
 export const SectionTitle = styled.div`

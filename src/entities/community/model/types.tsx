@@ -84,9 +84,26 @@ export type CommunityItem = {
   boardPopUpDto: BoardPopUpDto;
 };
 
-// FIXME: 삭제 response 타입을 위해 생성. 상세 조회 api에 타입 재사용 가능한지 확인 필요
 // 커뮤니티 상세
-export interface CommunityDetail {
+export interface BoardDetailDto {
+  data: BoardDetail;
+  message: string;
+}
+export interface BoardDetail {
+  title: string;
+  musicTitle: string;
+  artist: string;
+  youtubeLink: string;
+  hashtags: string[];
+  genre: number;
+  content: string;
+  playtime: string;
+  songLink: string;
+  thumbNailLink: string;
+  albumName: string;
+}
+
+export interface DeletePostResponseData {
   createdAt: string;
   updatedAt: string;
   id: number;

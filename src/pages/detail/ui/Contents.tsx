@@ -2,27 +2,35 @@ import styled from '@emotion/styled';
 
 import { ANCHOR_CONTENT } from 'pages/detail/config/anchor';
 
+import { getYoutubeVideoId } from 'features/createPost/lib/youtubeId';
+
+import { BoardDetail } from 'entities/community/model/types';
 import { ReportButton } from 'entities/community/ui/ReportButton';
 
 import { RightDownArrowButton, YoutubeIframe } from 'shared/ui/';
 
 import { Section } from './styled';
 
-export const Contents = () => {
-  const videoId = 'videoId';
+type ContentsProps = BoardDetail;
+
+export const Contents = ({ title, musicTitle, artist, youtubeLink, content }: ContentsProps) => {
+  const videoId = getYoutubeVideoId(youtubeLink);
+  const author = ''; // 작성자
   return (
     <Section>
       <Header>
         <TitleBlock>
-          <Title>Lorem ipsum dolor sit amet consectetur adipisicing elit.</Title>
+          <Title>{title}</Title>
           <ButtonBox>
             <ReportButton />
             <Edit>편집</Edit>
           </ButtonBox>
         </TitleBlock>
         <InfoBlock>
-          <Track>Pink! · 권진아</Track>
-          <Author>작성자 taeri kim</Author>
+          <Track>
+            {musicTitle} · {artist}
+          </Track>
+          <Author>작성자 {author}</Author>
         </InfoBlock>
         <InfoBlock>
           <RatingBox />
@@ -44,15 +52,7 @@ export const Contents = () => {
         <YoutubePreview id={ANCHOR_CONTENT}>
           <YoutubeIframe videoId={videoId} />
         </YoutubePreview>
-        <TextBox>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Non beatae recusandae tempora fugiat, officiis
-          assumenda dolor quia eaque consequuntur amet odio corrupti aspernatur corporis nisi vero ullam hic? Eveniet,
-          similique? Lorem ipsum dolor sit amet consectetur adipisicing elit. Non beatae recusandae tempora fugiat,
-          officiis assumenda dolor quia eaque consequuntur amet odio corrupti aspernatur corporis nisi vero ullam hic?
-          Eveniet, similique? Lorem ipsum dolor sit amet consectetur adipisicing elit. Non beatae recusandae tempora
-          fugiat, officiis assumenda dolor quia eaque consequuntur amet odio corrupti aspernatur corporis nisi vero
-          ullam hic? Eveniet, similique?
-        </TextBox>
+        <TextBox>{content}</TextBox>
       </Body>
     </Section>
   );

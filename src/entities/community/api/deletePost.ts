@@ -1,4 +1,4 @@
-import { CommunityDetail } from 'entities/community/model/types';
+import { DeletePostResponseData } from 'entities/community/model/types';
 
 import URL from 'shared/config/urls';
 import axiosInstance from 'shared/lib/axiosInstance';
@@ -8,7 +8,7 @@ export interface DeletePostDto {
 }
 
 interface DeletePostResponse {
-  data: CommunityDetail;
+  data: DeletePostResponseData;
   message: string;
 }
 

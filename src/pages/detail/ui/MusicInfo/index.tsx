@@ -1,28 +1,47 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { AnchorButton } from 'pages/detail/ui/AnchorButton';
-import CoverSrc from 'pages/detail/ui/cover.png';
 import { MoreButton } from 'pages/detail/ui/MoreButton';
 
 import { DeleteReviewModal } from 'widgets/ui/PlayList/DeleteReviewModal';
 
 import { useDeletePostMutation } from 'features/community/deletePost/lib/useDeletePostMutation';
 
+import { BoardDetail } from 'entities/community/model/types';
+import { useGetGenre } from 'entities/genre/api/useGetGenre';
+import { useGetMood } from 'entities/mood/api/useGetMood';
+
 import { ROUTES } from 'shared/config/routes';
 import { Button, StarRatingInput } from 'shared/ui/';
+import { CommonTag } from 'shared/ui/Tag';
 
 import { LikeButton } from './LikeButton';
 
-export const MusicInfo = () => {
+interface MusicInfoProps extends BoardDetail {
+  boardId: number;
+}
+
+export const MusicInfo = ({ boardId, musicTitle, artist, hashtags, genre, thumbNailLink }: MusicInfoProps) => {
   const [open, setOpen] = useState(false);
   const deletePostMutation = useDeletePostMutation();
   const navigate = useNavigate();
-  const params = useParams();
+  const { data: moodData } = useGetMood();
+  const { data: genreData } = useGetGenre();
 
-  const boardId = Number(params.id); // 게시글 id
   const isConfirmed = true; // 관리자 확인 여부
+  const genreText: string = useMemo(() => {
+    const data = genreData?.find(({ id }) => id === genre);
+    return data?.genreName || '';
+  }, [genre, genreData]);
+  const moodText: string[] = useMemo(
+    () =>
+      hashtags
+        .map((tagId) => moodData?.find(({ id }) => id === Number(tagId))?.moodName || '')
+        .filter((value) => !!value),
+    [hashtags, moodData],
+  );
 
   const menuItem = [
     {
@@ -63,14 +82,15 @@ export const MusicInfo = () => {
           </AdminBlock>
 
           <CoverBox>
-            <CoverImg src={CoverSrc} />
+            {/* TODO: 썸네일 defaul 이미지 */}
+            <CoverImg src={thumbNailLink} />
           </CoverBox>
 
           <TrackDetailsBlock>
             <TrackDetails>
               <Box>
-                <Title>Pink!</Title>
-                <Artist>권진아</Artist>
+                <Title>{musicTitle}</Title>
+                <Artist>{artist}</Artist>
               </Box>
               <MoreButton menuItem={menuItem} />
             </TrackDetails>
@@ -85,7 +105,10 @@ export const MusicInfo = () => {
           </ButtonBlock>
 
           <TagBlock>
-            <Tag>K-POP</Tag> <Tag>귀여운</Tag> <Tag>K-POP</Tag> <Tag>귀여운</Tag>
+            <CommonTag type="genre" name={genreText} />
+            {moodText.map((val) => (
+              <CommonTag key={val} type="genre" name={val} />
+            ))}
           </TagBlock>
         </MusicInfoBox>
 
@@ -212,12 +235,4 @@ const TagBlock = styled.div`
   gap: 12px;
   align-self: stretch;
   flex-wrap: wrap;
-`;
-
-const Tag = styled.div`
-  padding: 6px 10px 7px 10px;
-  border-radius: 4px;
-  background: ${({ theme }) => theme.colors[400]};
-  color: ${({ theme }) => theme.colors.primary2};
-  ${({ theme }) => theme.fonts.wantedSans.B6};
 `;
