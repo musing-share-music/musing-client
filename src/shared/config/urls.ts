@@ -24,6 +24,18 @@ const URL = {
     VALIDATE_YOUTUBE_URL: 'checkURL', // 유튜브 url 검증
     NOTICE: 'musing/notice/list', // 공지사항 리스트
     NOTICE_DETAIL: 'musing/notice', // 공지사항 상세 페이지
+
+    // 회원정보
+    MEMBERINFO: {
+      INFO: 'musing/user',
+      COMMUNITY: 'musing/user/my-board', //음악 추천 게시글
+      COMMUNITYSEARCH: 'musing/user/my-board/search', //조회
+      REVIEW: 'musing/user/my-reply', // 리뷰 및 별점
+      REVIEWSEARCH: 'musing/user/my-reply/search', //조회
+      GENREMODIFY: 'musing/user/like/genre', //장르수정
+      MOODMODIFY: 'musing/user/like/mood', //무드수정
+      ARTISTMODIFY: 'musing/user/like/artist ', //아티스트수정
+    },
   },
 };
 
