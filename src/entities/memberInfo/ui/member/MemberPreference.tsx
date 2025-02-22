@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { GenreChipCheckbox } from 'features/genre/selectMood/ui';
 import { MoodChipCheckbox } from 'features/mood/selectMood/ui';
@@ -66,6 +66,12 @@ export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreference
     onConfirm(tags);
     closeModal();
   };
+
+  useEffect(() => {
+    if (memberInfoItem?.likeArtist) {
+      setArtist(new Set(memberInfoItem.likeArtist.map((artist) => artist.name)));
+    }
+  }, [memberInfoItem?.likeArtist]);
 
   const addArtist = (artist: Artist) => {
     if (!artist.trim()) return;
