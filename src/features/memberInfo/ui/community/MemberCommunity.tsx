@@ -1,14 +1,18 @@
 import styled from '@emotion/styled';
 import moment from 'moment';
-import { SetStateAction, useState } from 'react';
+import { Key, SetStateAction, useEffect, useState } from 'react';
 
 moment.locale('ko');
 
-import { RecentBoard } from 'entities/home/model/types';
+import { useGetCommunityQuery } from 'features/memberInfo/lib/useGetCommunityQuery';
+import { useGetCommunitySearchQuery } from 'features/memberInfo/lib/useGetCommunitySearchQuery';
+
+import { BoardListItem } from 'entities/memberInfo/model/types';
 
 import { commonStyles } from 'shared/styles/common';
+import { Pagination } from 'shared/ui';
+import { Nodata } from 'shared/ui';
 import { Filter } from 'shared/ui/Input/Filter';
-import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
 
 const CommunitySearchSelectWrapper = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,87 +38,101 @@ const CommunitySearchSelectWrapper = () => {
   );
 };
 
-interface RecentBoardProps {
-  recentBoard: RecentBoard;
-}
-
-export const MemberReview = ({ recentBoard }: RecentBoardProps) => {
-  const [activePage, setActivePage] = useState(1);
+export const MemberCommunity = () => {
+  const [enabled, setEnabled] = useState(false);
+  const [activePage, setActivePage] = useState(0);
+  const [sortOrder, setSortOrder] = useState('DESC');
+  const [keyWord, setKeyWord] = useState<string>('');
+  const { data } = useGetCommunityQuery(activePage, sortOrder);
+  const { data: searchData } = useGetCommunitySearchQuery(activePage, sortOrder, keyWord, {
+    enabled: enabled,
+  });
+  const communityList = keyWord ? searchData?.content ?? [] : data?.content ?? [];
+  console.log(communityList);
 
   const handlePageClick = (pageNumber: SetStateAction<number>) => {
     setActivePage(pageNumber);
   };
 
+  useEffect(() => {
+    if (keyWord) {
+      setEnabled(true);
+    } else {
+      setEnabled(false);
+    }
+  }, [keyWord]);
+
   return (
     <MemberContainer>
       <TitleBlock>
-        <PageTitle>나의 별점 및 리뷰</PageTitle>
+        <PageTitle>나의 음악 추천 게시글</PageTitle>
       </TitleBlock>
 
       <HeaderBlock>
-        <HeaderText>별점</HeaderText>
-        <HeaderText>리뷰 내용</HeaderText>
+        <HeaderText>추천곡</HeaderText>
+        <HeaderText>게시글 제목</HeaderText>
         <Filter
           placeholder="전체"
           options={[
             {
-              label: '제목',
-              value: 'title',
+              label: '최신순',
+              value: 'DESC',
             },
             {
-              label: '별점순',
-              value: 'star',
-            },
-            {
-              label: '리뷰만 보기',
-              value: 'review',
+              label: '오래된 순',
+              value: 'ASC',
             },
           ]}
+          onChange={(option) => {
+            setSortOrder(option.value);
+          }}
         />
       </HeaderBlock>
 
       <CommunityBlock>
         <CommunityListBlock>
-          {recentBoard.map((item) => {
-            return (
-              <div key={item.id}>
+          {communityList.length === 0 ? (
+            <Nodata Comment={'나의 음악 추천 게시글이 없어요.'} />
+          ) : (
+            communityList.map((item: BoardListItem, idx: Key | null | undefined) => (
+              <div key={idx}>
                 <CommunityListWrapper>
                   <CommunityList>
-                    <StarRatingWrapper>
-                      <StarRatingInput value={5} enabled={false} />
-                    </StarRatingWrapper>
+                    <ListImg src={item.thumbNailLink} />
                     <ListContent>
-                      <ListImg src={item.thumbNailLink} alt={item.title} />
                       <ContentInfo>
-                        <ContentsSongName>{item.title}</ContentsSongName>
-                        <ContentsSongDescription>{item.musicName}</ContentsSongDescription>
+                        <ContentsSongName>{item.musicName}</ContentsSongName>
+                        <ContentsSongDescription>{item.artists[0].name}</ContentsSongDescription>
                       </ContentInfo>
+
+                      <ContentTitleBlock>
+                        <ContentTitle>{item.title}</ContentTitle>
+                      </ContentTitleBlock>
+
+                      <ActivityInfo>
+                        <ActivityStatus>{moment(item.createAt).format('YYYY-MM-DD')}</ActivityStatus>
+                      </ActivityInfo>
                     </ListContent>
-                    <ActivityInfo>
-                      <ActivityStatus>{moment(item.createdAt).format('YYYY-MM-DD')}</ActivityStatus>
-                    </ActivityInfo>
                   </CommunityList>
                 </CommunityListWrapper>
               </div>
-            );
-          })}
+            ))
+          )}
         </CommunityListBlock>
       </CommunityBlock>
 
       <CommunityPagenationWrapper>
-        {[1, 2, 3, 4, 5].map((pageNumber) => (
-          <CommunityPagenation
-            key={pageNumber}
-            onClick={() => handlePageClick(pageNumber)}
-            isActive={activePage === pageNumber}
-          >
-            {pageNumber}
-          </CommunityPagenation>
-        ))}
+        <Pagination totalPages={data?.totalPages} activePage={activePage} onClick={handlePageClick} />
       </CommunityPagenationWrapper>
       <CommuniySearchBlock>
         <CommunitySearchSelectWrapper />
-        <CommunitySearchInput type="text" placeholder="게시글 내용을 입력해 주세요." />
+        <CommunitySearchInput
+          type="text"
+          placeholder="게시글 내용을 입력해 주세요."
+          onChange={(e) => {
+            setKeyWord(e.target.value);
+          }}
+        />
       </CommuniySearchBlock>
     </MemberContainer>
   );
@@ -123,7 +141,7 @@ export const MemberReview = ({ recentBoard }: RecentBoardProps) => {
 const MemberContainer = styled.div`
   width: 1024px;
   height: 1500px;
-  background-color: ${({ theme }) => theme.colors[500]};
+  background-color: ${({ theme }) => theme.colors[700]};
   position: relative;
 `;
 
@@ -139,7 +157,8 @@ const HeaderBlock = styled.div`
   width: 100%;
   height: 60px;
   padding: 16px 52px 16px 52px;
-  border: 1px solid ${({ theme }) => theme.colors[400]};
+  border-top: 1px solid ${({ theme }) => theme.colors[400]};
+  border-bottom: 1px solid ${({ theme }) => theme.colors[400]};
   display: flex;
   justify-content: flex-start; /* 시작점 기준 정렬 */
 `;
@@ -149,11 +168,12 @@ const HeaderText = styled.div`
   ${({ theme }) => theme.fonts.wantedSans.B4};
 
   &:nth-child(1) {
-    margin-right: 105px;
+    margin-left: 10px;
+    margin-right: 198px;
   }
 
   &:nth-child(2) {
-    margin-right: auto;
+    margin-right: 405px;
   }
 `;
 
@@ -168,6 +188,7 @@ const CommunityBlock = styled.div`
   gap: 24px;
   border-radius: 12px;
   width: 1024px;
+  height: 100%;
 `;
 
 const CommunityListBlock = styled.div`
@@ -197,9 +218,8 @@ const CommunityList = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid ${({ theme }) => theme.colors[400]};
+  border-bottom: 1px solid ${({ theme }) => theme.colors[400]};
   border-radius: 1px;
-  padding: 24px 52px 24px 52px;
 `;
 
 const ListImg = styled.img`
@@ -212,8 +232,8 @@ const ListContent = styled.div`
   width: 820px;
   height: 64px;
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin-left: 32px;
 `;
 
 const ContentInfo = styled.div`
@@ -237,9 +257,21 @@ const ContentsSongDescription = styled.div`
   ${commonStyles.limitText};
 `;
 
-const StarRatingWrapper = styled.div`
-  width: 148px;
+const ContentTitleBlock = styled.div`
+  width: 708px;
   height: 28px;
+  margin-left: 16px;
+`;
+
+const ContentTitle = styled.div`
+  ${({ theme }) => theme.fonts.wantedSans.B3};
+  color: ${({ theme }) => theme.colors[100]};
+  ${commonStyles.limitText};
+
+  &::before {
+    content: '·';
+    margin-right: 4px;
+  }
 `;
 
 const ActivityInfo = styled.div`
@@ -264,13 +296,13 @@ const CommunityPagenationWrapper = styled.div`
   display: flex;
 `;
 
-const CommunityPagenation = styled.div<{ isActive: boolean }>`
-  color: ${({ theme, isActive }) => (isActive ? theme.colors[100] : theme.colors[200])};
-  ${({ theme }) => theme.fonts.wantedSans.B5};
-  cursor: pointer;
-  width: 24px;
-  height: 28px;
-`;
+// const CommunityPagenation = styled.div<{ isActive: boolean }>`
+//   color: ${({ theme, isActive }) => (isActive ? theme.colors[100] : theme.colors[200])};
+//   ${({ theme }) => theme.fonts.wantedSans.B5};
+//   cursor: pointer;
+//   width: 24px;
+//   height: 28px;
+// `;
 
 const CommuniySearchBlock = styled.div`
   width: 888px;

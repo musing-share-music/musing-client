@@ -1,44 +1,48 @@
 import styled from '@emotion/styled';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 moment.locale('ko');
 
-import { RecentBoard } from 'entities/home/model/types';
+import { BoardDtos } from 'entities/memberInfo/model/types';
 
+import { ROUTES } from 'shared/config/routes';
 import { commonStyles } from 'shared/styles/common';
-import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
 
-interface RecentBoardProps {
-  recentBoard: RecentBoard;
+interface MemberInfoItemProps {
+  boardDtos: BoardDtos;
 }
 
-export const MemberReviewList = ({ recentBoard }: RecentBoardProps) => {
+export const MemberCommunity = ({ boardDtos }: MemberInfoItemProps) => {
+  const navigate = useNavigate();
   return (
     <MemberContainer>
       <TitleBlock>
-        <PageTitle>나의 별점 및 리뷰</PageTitle>
-        <MoreTitle>더보기</MoreTitle>
+        <PageTitle>나의 음악 추천 게시글</PageTitle>
+        <MoreTitle onClick={async () => await navigate(`${ROUTES.MEMBERINFO.MEMBERINFOCOMMUNITY}`)}>더보기</MoreTitle>
       </TitleBlock>
 
       <CommunityBlock>
         <CommunityListBlock>
-          {recentBoard.map((item) => {
+          {boardDtos.map((item, index) => {
             return (
-              <div key={item.id}>
+              <div key={index}>
                 <CommunityListWrapper>
                   <CommunityList>
-                    <StarRatingWrapper>
-                      <StarRatingInput value={5} enabled={false} />
-                    </StarRatingWrapper>
+                    <ListImg src={item.thumbNailLink} />
                     <ListContent>
-                      <ListImg src={item.thumbNailLink} alt={item.title} />
                       <ContentInfo>
-                        <ContentsSongName>{item.title}</ContentsSongName>
-                        <ContentsSongDescription>{item.musicName}</ContentsSongDescription>
+                        <ContentsSongName>{item.musicName}</ContentsSongName>
+                        <ContentsSongDescription>{item.artists[0].name}</ContentsSongDescription>
                       </ContentInfo>
+
+                      <ContentTitleBlock>
+                        <ContentTitle>{item.title}</ContentTitle>
+                      </ContentTitleBlock>
+
+                      <ActivityInfo>
+                        <ActivityStatus>{moment(item.createAt).format('YYYY-MM-DD')}</ActivityStatus>
+                      </ActivityInfo>
                     </ListContent>
-                    <ActivityInfo>
-                      <ActivityStatus>{moment(item.createdAt).format('YYYY-MM-DD')}</ActivityStatus>
-                    </ActivityInfo>
                   </CommunityList>
                 </CommunityListWrapper>
               </div>
@@ -71,6 +75,7 @@ const PageTitle = styled.div`
 const MoreTitle = styled.div`
   color: ${({ theme }) => theme.colors[200]};
   ${({ theme }) => theme.fonts.wantedSans.B5};
+  cursor: pointer;
 `;
 
 const CommunityBlock = styled.div`
@@ -107,6 +112,7 @@ const CommunityListWrapper = styled.div`
 `;
 
 const CommunityList = styled.div`
+  padding: 24px;
   width: 1160px;
   height: 112px;
   display: flex;
@@ -114,12 +120,6 @@ const CommunityList = styled.div`
   align-items: center;
   border: 1px solid ${({ theme }) => theme.colors[400]};
   border-radius: 1px;
-  padding: 24px;
-`;
-
-const StarRatingWrapper = styled.div`
-  width: 148px;
-  height: 28px;
 `;
 
 const ListImg = styled.img`
@@ -129,15 +129,15 @@ const ListImg = styled.img`
 `;
 
 const ListContent = styled.div`
-  width: 968px;
+  width: 1040px;
   height: 64px;
   display: flex;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
 `;
 
 const ContentInfo = styled.div`
-  width: 234px;
+  width: 160px;
   height: 64px;
   display: flex;
   flex-direction: column;
@@ -157,12 +157,28 @@ const ContentsSongDescription = styled.div`
   ${commonStyles.limitText};
 `;
 
+const ContentTitleBlock = styled.div`
+  width: 708px;
+  height: 28px;
+  margin-left: 16px;
+`;
+
+const ContentTitle = styled.div`
+  ${({ theme }) => theme.fonts.wantedSans.B3};
+  color: ${({ theme }) => theme.colors[100]};
+  ${commonStyles.limitText};
+
+  &::before {
+    content: '·';
+    margin-right: 4px;
+  }
+`;
+
 const ActivityInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 8px;
-  width: 120px;
+  width: 200px;
   height: 52px;
   margin-left: 16px;
 `;
@@ -170,9 +186,5 @@ const ActivityInfo = styled.div`
 const ActivityStatus = styled.div`
   ${({ theme }) => theme.fonts.wantedSans.B6};
   color: ${({ theme }) => theme.colors[200]};
-  max-width: 192px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   text-align: right;
 `;
