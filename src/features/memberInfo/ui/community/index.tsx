@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { MAIN_ITEM } from 'entities/home/model/model';
-
 import { MemberCommunity } from './MemberCommunity';
 
 export const MemberInfoCommunity = () => {
@@ -12,7 +10,7 @@ export const MemberInfoCommunity = () => {
 
   return (
     <MainContents>
-      <MemberCommunity recentBoard={MAIN_ITEM.recentBoard}></MemberCommunity>
+      <MemberCommunity></MemberCommunity>
     </MainContents>
   );
 };

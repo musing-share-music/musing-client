@@ -296,13 +296,13 @@ const CommunityPagenationWrapper = styled.div`
   display: flex;
 `;
 
-const CommunityPagenation = styled.div<{ isActive: boolean }>`
-  color: ${({ theme, isActive }) => (isActive ? theme.colors[100] : theme.colors[200])};
-  ${({ theme }) => theme.fonts.wantedSans.B5};
-  cursor: pointer;
-  width: 24px;
-  height: 28px;
-`;
+// const CommunityPagenation = styled.div<{ isActive: boolean }>`
+//   color: ${({ theme, isActive }) => (isActive ? theme.colors[100] : theme.colors[200])};
+//   ${({ theme }) => theme.fonts.wantedSans.B5};
+//   cursor: pointer;
+//   width: 24px;
+//   height: 28px;
+// `;
 
 const CommuniySearchBlock = styled.div`
   width: 888px;
