@@ -3,10 +3,10 @@ import { forwardRef } from 'react';
 
 import { ProfileModalRef } from 'widgets/config/profileModal';
 
+import { useLogoutPostMutation } from 'features/home/lib/usePostLogoutQuery';
+
 import { useUserInfoStore } from 'shared/store/userInfo';
 import { Button } from 'shared/ui/Button';
-
-// import { useNetworkLogout } from './api/useNetworkLogout';
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -20,21 +20,14 @@ const ALARM_DATA = [
 
 export const ProfileModal = forwardRef<ProfileModalRef, ProfileModalProps>(({ isOpen }, ref) => {
   const { userInfo, logout } = useUserInfoStore();
-
-  // const userName = '김태리';
-  // const userEmail = 'test@test.com';
+  const logoutMutation = useLogoutPostMutation();
 
   if (!isOpen) return;
 
   const fetchLogout = () => {
     //로그아웃
-    // const [enable, setEnable] = useState(false);
-    // const [data] = useNetworkLogout({}, enable);
-    // if (data) {
-    //   setEnable(true);
-    // }
     logout();
-    window.location.href = 'http://localhost:8090/musing/logout'; //임시설정
+    logoutMutation.mutate();
   };
 
   return (
