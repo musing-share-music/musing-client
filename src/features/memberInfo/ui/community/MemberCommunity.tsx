@@ -14,45 +14,19 @@ import { Pagination } from 'shared/ui';
 import { Nodata } from 'shared/ui';
 import { Filter } from 'shared/ui/Input/Filter';
 
-const CommunitySearchSelectWrapper = () => {
+interface CommunitySearchSelectWrapperProps {
+  keyWord: string;
+  onSearch: (data: { content: BoardListItem[] }) => void;
+}
+
+const CommunitySearchSelectWrapper = ({ keyWord, onSearch }: CommunitySearchSelectWrapperProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('작성자');
-
-  const handleOptionClick = (option: string) => {
-    setSelectedOption(option);
-    setIsOpen(false);
-  };
-
-  return (
-    <CommunitySearchSelect onClick={() => setIsOpen(!isOpen)}>
-      <Arrow>{isOpen ? '▲' : '▼'}</Arrow>
-      {selectedOption}
-      {isOpen && (
-        <CommunitySearchOption>
-          <div onClick={() => handleOptionClick('작성자')}>작성자</div>
-          <div onClick={() => handleOptionClick('옵션1')}>옵션1</div>
-          <div onClick={() => handleOptionClick('옵션2')}>옵션2</div>
-        </CommunitySearchOption>
-      )}
-    </CommunitySearchSelect>
-  );
-};
-
-export const MemberCommunity = () => {
   const [enabled, setEnabled] = useState(false);
-  const [activePage, setActivePage] = useState(0);
-  const [sortOrder, setSortOrder] = useState('DESC');
-  const [keyWord, setKeyWord] = useState<string>('');
-  const { data } = useGetCommunityQuery(activePage, sortOrder);
-  const { data: searchData } = useGetCommunitySearchQuery(activePage, sortOrder, keyWord, {
+  const [selectedTitle, setSelectedTitle] = useState('내용');
+  const [selectedOption, setSelectedOption] = useState('content');
+  const { data: searchData } = useGetCommunitySearchQuery(1, 'DESC', selectedOption, keyWord, {
     enabled: enabled,
   });
-  const communityList = keyWord ? searchData?.content ?? [] : data?.content ?? [];
-  console.log(communityList);
-
-  const handlePageClick = (pageNumber: SetStateAction<number>) => {
-    setActivePage(pageNumber);
-  };
 
   useEffect(() => {
     if (keyWord) {
@@ -61,6 +35,57 @@ export const MemberCommunity = () => {
       setEnabled(false);
     }
   }, [keyWord]);
+
+  useEffect(() => {
+    if (searchData) {
+      onSearch(searchData);
+    }
+  }, [searchData, onSearch]);
+
+  const handleOptionClick = (title: string, option: string) => {
+    setSelectedTitle(title);
+    setSelectedOption(option);
+    setIsOpen(false);
+  };
+
+  return (
+    <CommunitySearchSelect onClick={() => setIsOpen(!isOpen)}>
+      <Arrow>{isOpen ? '▲' : '▼'}</Arrow>
+      {selectedTitle}
+      {isOpen && (
+        <CommunitySearchOption>
+          <div onClick={() => handleOptionClick('내용', 'content')}>내용</div>
+          <div onClick={() => handleOptionClick('노래명', 'musicName')}>노래명</div>
+          <div onClick={() => handleOptionClick('가수명', 'artist')}>가수명</div>
+        </CommunitySearchOption>
+      )}
+    </CommunitySearchSelect>
+  );
+};
+
+export const MemberCommunity = () => {
+  const [activePage, setActivePage] = useState(0);
+  const [sortOrder, setSortOrder] = useState('DESC');
+  const [keyWord, setKeyWord] = useState<string>('');
+  const { data } = useGetCommunityQuery(activePage, sortOrder);
+  const [communityList, setCommunityList] = useState<BoardListItem[]>([]);
+
+  useEffect(() => {
+    if (data?.content) {
+      setCommunityList(data.content);
+    }
+  }, [data]);
+
+  const handlePageClick = (pageNumber: SetStateAction<number>) => {
+    setActivePage(pageNumber);
+    setKeyWord(''); // 페이지 변경 시 검색어 초기화
+  };
+
+  const handleSearch = (searchResults: { content: BoardListItem[] }) => {
+    if (searchResults?.content) {
+      setCommunityList(searchResults.content);
+    }
+  };
 
   return (
     <MemberContainer>
@@ -125,7 +150,7 @@ export const MemberCommunity = () => {
         <Pagination totalPages={data?.totalPages} activePage={activePage} onClick={handlePageClick} />
       </CommunityPagenationWrapper>
       <CommuniySearchBlock>
-        <CommunitySearchSelectWrapper />
+        <CommunitySearchSelectWrapper keyWord={keyWord} onSearch={handleSearch} />
         <CommunitySearchInput
           type="text"
           placeholder="게시글 내용을 입력해 주세요."
@@ -296,14 +321,6 @@ const CommunityPagenationWrapper = styled.div`
   bottom: 40px;
   display: flex;
 `;
-
-// const CommunityPagenation = styled.div<{ isActive: boolean }>`
-//   color: ${({ theme, isActive }) => (isActive ? theme.colors[100] : theme.colors[200])};
-//   ${({ theme }) => theme.fonts.wantedSans.B5};
-//   cursor: pointer;
-//   width: 24px;
-//   height: 28px;
-// `;
 
 const CommuniySearchBlock = styled.div`
   width: 888px;
