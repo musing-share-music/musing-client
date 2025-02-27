@@ -25,9 +25,11 @@ export const ProfileModal = forwardRef<ProfileModalRef, ProfileModalProps>(({ is
   if (!isOpen) return;
 
   const fetchLogout = () => {
-    //로그아웃
-    logout();
-    logoutMutation.mutate();
+    logoutMutation.mutate(undefined, {
+      onSuccess: () => {
+        logout();
+      },
+    });
   };
 
   return (
