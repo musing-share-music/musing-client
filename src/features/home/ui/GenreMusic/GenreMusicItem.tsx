@@ -60,6 +60,7 @@ const GenreMusingImage = styled.img`
   border-radius: 12px;
   background-size: cover;
   background-position: center;
+  object-fit: cover;
   margin-bottom: 16px;
   transition: opacity 0.3s ease;
 `;

@@ -226,6 +226,7 @@ const ListImg = styled.img`
   width: 64px;
   height: 64px;
   margin-right: 20px;
+  object-fit: cover;
 `;
 
 const ListContent = styled.div`

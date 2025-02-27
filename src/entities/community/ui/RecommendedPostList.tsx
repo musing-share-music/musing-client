@@ -208,6 +208,7 @@ const CommunityImageWrapper = styled.div`
 const CommunityImage = styled.img`
   width: 100%;
   height: 100%;
+  object-fit: cover;
 `;
 
 const CommuityContent = styled.div`

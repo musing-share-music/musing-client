@@ -52,4 +52,5 @@ const LikeMusingImage = styled.img`
   background-image: url(${(props) => props.src});
   background-size: cover;
   background-position: center;
+  object-fit: cover;
 `;
