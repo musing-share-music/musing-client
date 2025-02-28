@@ -1,15 +1,14 @@
-export interface Notice {
-  totalPages: number; // 전체 페이지 수
-  totalElements: number;
-  size: number;
+import { Pagination } from 'shared/types/pagination';
+
+interface Sort {
+  direction: string;
+  nullHandling: string;
+  ascending: boolean;
+  property: string;
+  ignoreCase: boolean;
+}
+export interface Notice extends Pagination<Sort> {
   content: Content[];
-  number: number;
-  sort: Sort[];
-  pageable: Pageable;
-  numberOfElements: number;
-  first: boolean;
-  last: boolean;
-  empty: boolean;
 }
 
 export interface Content {
@@ -19,21 +18,4 @@ export interface Content {
   createdAt: string;
   username: string;
   imageUrl: string[];
-}
-
-export interface Sort {
-  direction: string;
-  nullHandling: string;
-  ascending: boolean;
-  property: string;
-  ignoreCase: boolean;
-}
-
-export interface Pageable {
-  offset: number;
-  sort: Sort[];
-  paged: boolean;
-  pageNumber: number;
-  pageSize: number;
-  unpaged: boolean;
 }

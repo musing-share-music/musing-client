@@ -1,3 +1,5 @@
+import { Pagination } from 'shared/types/pagination';
+
 /* 회원정보 */
 export type LikeGenre = {
   id: number;
@@ -69,21 +71,13 @@ export type BoardListItem = {
 
 export type BoardList = {
   content: BoardListItem[];
-  pageable: Pageable;
-  totalPages: number;
-  totalElements: number;
-  last: boolean;
-  size: number;
-  number: number;
+} & Pagination<{
   sort: {
     empty: boolean;
     sorted: boolean;
     unsorted: boolean;
   };
-  numberOfElements: number;
-  first: boolean;
-  empty: boolean;
-};
+}>;
 
 /* 나의 별점 및 리뷰 */
 export type ContentItem = {
@@ -95,33 +89,12 @@ export type ContentItem = {
   updatedAt: string;
 };
 
-export type Pageable = {
-  pageNumber: number;
-  pageSize: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
-  };
-  offset: number;
-  paged: boolean;
-  unpaged: boolean;
-};
-
 export type Review = {
   content: ContentItem[];
-  pageable: Pageable;
-  last: boolean;
-  totalPages: number;
-  totalElements: number;
-  size: number;
-  number: number;
+} & Pagination<{
   sort: {
     empty: boolean;
     sorted: boolean;
     unsorted: boolean;
   };
-  first: boolean;
-  numberOfElements: number;
-  empty: boolean;
-};
+}>;
