@@ -3,8 +3,6 @@ import { forwardRef } from 'react';
 
 import { ProfileModalRef } from 'widgets/config/profileModal';
 
-// import { useLogoutPostMutation } from 'features/home/lib/usePostLogoutQuery';
-
 import URL from 'shared/config/urls';
 import { useUserInfoStore } from 'shared/store/userInfo';
 import { Button } from 'shared/ui/Button';
@@ -21,18 +19,12 @@ const ALARM_DATA = [
 
 export const ProfileModal = forwardRef<ProfileModalRef, ProfileModalProps>(({ isOpen }, ref) => {
   const { userInfo, logout } = useUserInfoStore();
-  // const logoutMutation = useLogoutPostMutation();
 
   if (!isOpen) return;
 
   const fetchLogout = () => {
     window.location.href = URL.SERVERURL + URL.API.LOGOUT;
     logout();
-    // logoutMutation.mutate(undefined, {
-    //   onSuccess: () => {
-    //     logout();
-    //   },
-    // });
   };
 
   return (
