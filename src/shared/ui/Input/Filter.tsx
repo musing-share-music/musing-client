@@ -3,35 +3,33 @@ import { useRef, useState } from 'react';
 
 import { useClickOutside } from 'shared/hooks/useClickOutside';
 
-type Option = {
+type Option<T> = {
   label: string;
-  value: string;
+  value: T;
 };
 
-type FilterProps = {
-  options: Option[];
-  onChange?: (option: Option) => void;
+type FilterProps<T = string> = {
+  options: Option<T>[];
+  onChange?: (option: Option<T>) => void;
   placeholder?: string;
-  width?: number;
-  align?: 'left' | 'right'; // TODO
 };
 
-export const Filter = ({ options, width = 148, onChange, placeholder }: FilterProps) => {
+export const Filter = <T,>({ options, onChange, placeholder }: FilterProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+  const [selectedOption, setSelectedOption] = useState<Option<T> | null>(null);
   const ref = useRef<HTMLUListElement>(null);
   const selectRef = useRef<HTMLDivElement>(null);
   useClickOutside({ ref, ignoreRef: selectRef, click: () => setIsOpen(false) });
 
   const toggleDropdown = () => setIsOpen(!isOpen);
-  const handleOptionClick = (option: Option) => {
+  const handleOptionClick = (option: Option<T>) => {
     setSelectedOption(option);
     if (onChange) onChange(option);
     setIsOpen(false);
   };
 
   return (
-    <Container width={width}>
+    <Container>
       <Selected ref={selectRef} onClick={toggleDropdown}>
         {selectedOption ? selectedOption.label : placeholder || 'Select an option'}
         <Arrow>{isOpen ? '▲' : '▼'}</Arrow>
@@ -40,7 +38,7 @@ export const Filter = ({ options, width = 148, onChange, placeholder }: FilterPr
         <Dropdown ref={ref}>
           {options.map((option) => (
             <OptionItem
-              key={option.value}
+              key={option.label}
               isSelected={selectedOption?.value === option.value}
               onClick={() => handleOptionClick(option)}
             >
@@ -53,11 +51,10 @@ export const Filter = ({ options, width = 148, onChange, placeholder }: FilterPr
   );
 };
 
-const Container = styled.div<{ width: number }>`
+const Container = styled.div`
   display: flex;
   justify-content: flex-end;
   position: relative;
-  width: ${({ width }) => `${width}px`};
 `;
 
 const Selected = styled.div`
@@ -86,11 +83,13 @@ const Dropdown = styled.ul`
   box-shadow: 0px 0px 10px 0px rgba(20, 20, 22, 0.64);
 `;
 const OptionItem = styled.li<{ isSelected?: boolean }>`
+  width: 100%;
   padding: 10px;
   border-radius: 4px;
   cursor: pointer;
   background: ${({ isSelected, theme }) => (isSelected ? theme.colors[400] : theme.colors[500])};
   color: ${({ theme }) => theme.colors[200]};
+  text-align: center;
   ${({ theme }) => theme.fonts.wantedSans.B6};
   &:hover {
     background: ${({ theme }) => theme.colors[400]};

@@ -29,3 +29,11 @@ export const SectionTitle = styled.div`
   color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts.wantedSans.B2};
 `;
+
+export const ErrorBoundaryMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  color: ${({ theme }) => theme.colors[200]};
+  padding-top: 350px;
+  ${({ theme }) => theme.fonts.wantedSans.B2};
+`;
