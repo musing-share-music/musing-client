@@ -34,7 +34,6 @@ export const AdminReviewReportPage = () => {
       key: 'sort',
       content: (
         <Filter
-          width={56}
           placeholder="전체"
           options={[
             { label: '전체', value: '0' },
