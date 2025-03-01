@@ -1,7 +1,13 @@
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+
 import { noticeSearchFilterOptions } from 'pages/admin/config/searchFilterOptions';
 
 import { AdminLayout } from 'widgets/ui/Layout';
 
+import { adminNotice } from 'entities/notice/api/notice.query';
+
+import { ROUTES } from 'shared/config/routes';
 import { Button, Pagination, SearchInputWithFilter, Table } from 'shared/ui';
 
 import {
@@ -12,33 +18,42 @@ import {
   Header,
   HoverBox,
   PaginationBlock,
+  StyledLink,
   TableContainer,
 } from './styled';
 
-export const AdminNoticePage = () => {
-  const tableHead = [
-    { key: 'title', content: '제목', width: 40 },
-    { key: 'user', content: '작성자', width: 20 },
-    { key: 'createdAt', content: '작성일자', width: 20 },
-  ] as const;
+const tableHead = [
+  { key: 'title', content: '제목', width: 40 },
+  { key: 'username', content: '작성자', width: 20 },
+  { key: 'createdAt', content: '작성일자', width: 20 },
+] as const;
 
-  const tableData = [
-    {
-      title: <HoverBox>공지사항 제목</HoverBox>,
-      user: '관리자',
-      createdAt: '2024-12-03',
-    },
-    {
-      title: <HoverBox>공지사항 제목</HoverBox>,
-      user: '관리자',
-      createdAt: '2024-12-03',
-    },
-    {
-      title: <HoverBox>공지사항 제목</HoverBox>,
-      user: '관리자',
-      createdAt: '2024-12-03',
-    },
-  ];
+export const AdminNoticePage = () => {
+  const [activePage, setActivePage] = useState(1); // 현재 페이지 번호
+
+  const { data, isLoading } = useQuery({
+    ...adminNotice.list({ page: activePage }),
+    select: (data) => data.data,
+  });
+
+  const content = data?.content || [];
+  const totalPages = data?.totalPages || 1; // 전체 페이지 수
+
+  const tableData = content.map(({ id, title, username, createdAt }) => {
+    return {
+      title: (
+        <HoverBox>
+          <StyledLink to={`${ROUTES.ADMIN.NOTICE}/${id}`}>{title}</StyledLink>
+        </HoverBox>
+      ),
+      username,
+      createdAt: new Date(createdAt).toLocaleDateString(),
+    };
+  });
+
+  const handlePageClick = (pageNumber: number) => {
+    setActivePage(pageNumber);
+  };
 
   return (
     <AdminLayout>
@@ -46,15 +61,15 @@ export const AdminNoticePage = () => {
         <BoardContainer>
           <Header>
             <H1>공지사항</H1>
-            <Button width={132} variant="primaryOutline">
+            <Button width={132} variant="primaryOutline" href={ROUTES.ADMIN.CREATE_NOTICE}>
               작성
             </Button>
           </Header>
           <TableContainer>
-            <Table head={tableHead} data={tableData} />
+            <Table head={tableHead} data={tableData} isLoading={isLoading} />
           </TableContainer>
           <PaginationBlock>
-            <Pagination totalPages={1} />
+            <Pagination totalPages={totalPages} activePage={activePage} onClick={handlePageClick} />
           </PaginationBlock>
         </BoardContainer>
         <FilterBlock>
