@@ -15,16 +15,16 @@ export const member = createQueryKeys('member', {
     queryKey: [{ page, sort }],
     queryFn: () => fetchGetReview(page, sort),
   }),
-  reviewSearch: (page: number, sort: string, keyword: string) => ({
+  reviewSearch: (page: number, sort: string, searchType: string, keyword: string) => ({
     queryKey: [{ keyword }],
-    queryFn: () => fetchGetReviewSearch(page, sort, keyword),
+    queryFn: () => fetchGetReviewSearch(page, sort, searchType, keyword),
   }),
   community: (page: number, sort: string) => ({
     queryKey: [{ page, sort }],
     queryFn: () => fetchGetCommunity(page, sort),
   }),
-  communitySearch: (page: number, sort: string, keyword: string) => ({
+  communitySearch: (page: number, sort: string, searchType: string, keyword: string) => ({
     queryKey: [{ keyword }],
-    queryFn: () => fetchGetCommunitySearch(page, sort, keyword),
+    queryFn: () => fetchGetCommunitySearch(page, sort, searchType, keyword),
   }),
 });

@@ -177,6 +177,7 @@ const PlayListImageBackGround = styled.img`
   filter: blur(20px);
   overflow: hidden;
   z-index: 10;
+  object-fit: cover;
 `;
 
 const PlayListTitle = styled.div`
@@ -197,6 +198,7 @@ const PlayListImage = styled.img`
   height: 312px;
   background-image: url(${(props) => props.src});
   z-index: 11;
+  object-fit: cover;
 `;
 
 const PlayListInfoBlock = styled.div`
@@ -289,6 +291,7 @@ const ListImg = styled.img`
   width: 64px;
   height: 64px;
   margin-right: 20px;
+  object-fit: cover;
 `;
 
 const ListContent = styled.div`

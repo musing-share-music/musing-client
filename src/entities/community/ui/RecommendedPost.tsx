@@ -137,6 +137,7 @@ const PostCard = styled.div`
 const PostImage = styled.img`
   width: 240px;
   height: 240px;
+  object-fit: cover;
 `;
 
 const PostContent = styled.div`
@@ -244,6 +245,7 @@ const PostComuImage = styled.img`
   width: 64px;
   height: 64px;
   border-radius: 4px;
+  object-fit: cover;
 `;
 
 const PostComuSongInfo = styled.div`

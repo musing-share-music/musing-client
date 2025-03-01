@@ -15,44 +15,19 @@ import { Nodata } from 'shared/ui';
 import { Filter } from 'shared/ui/Input/Filter';
 import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
 
-const CommunitySearchSelectWrapper = () => {
+interface CommunitySearchSelectWrapperProps {
+  keyWord: string;
+  onSearch: (data: { content: ContentItem[] }) => void;
+}
+
+const CommunitySearchSelectWrapper = ({ keyWord, onSearch }: CommunitySearchSelectWrapperProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('작성자');
-
-  const handleOptionClick = (option: string) => {
-    setSelectedOption(option);
-    setIsOpen(false);
-  };
-
-  return (
-    <CommunitySearchSelect onClick={() => setIsOpen(!isOpen)}>
-      <Arrow>{isOpen ? '▲' : '▼'}</Arrow>
-      {selectedOption}
-      {isOpen && (
-        <CommunitySearchOption>
-          <div onClick={() => handleOptionClick('작성자')}>작성자</div>
-          <div onClick={() => handleOptionClick('옵션1')}>옵션1</div>
-          <div onClick={() => handleOptionClick('옵션2')}>옵션2</div>
-        </CommunitySearchOption>
-      )}
-    </CommunitySearchSelect>
-  );
-};
-
-export const MemberReview = () => {
   const [enabled, setEnabled] = useState(false);
-  const [activePage, setActivePage] = useState(0);
-  const [sortOrder, setSortOrder] = useState('DESC');
-  const [keyWord, setKeyWord] = useState<string>('');
-  const { data } = useGetReviewQuery(activePage, sortOrder);
-  const { data: searchData } = useGetReviewSearchQuery(activePage, sortOrder, keyWord, {
+  const [selectedTitle, setSelectedTitle] = useState('내용');
+  const [selectedOption, setSelectedOption] = useState('content');
+  const { data: searchData } = useGetReviewSearchQuery(1, 'DESC', selectedOption, keyWord, {
     enabled: enabled,
   });
-  const reviewList = keyWord ? searchData?.content ?? [] : data?.content ?? [];
-
-  const handlePageClick = (pageNumber: SetStateAction<number>) => {
-    setActivePage(pageNumber);
-  };
 
   useEffect(() => {
     if (keyWord) {
@@ -61,6 +36,57 @@ export const MemberReview = () => {
       setEnabled(false);
     }
   }, [keyWord]);
+
+  useEffect(() => {
+    if (searchData) {
+      onSearch(searchData);
+    }
+  }, [searchData, onSearch]);
+
+  const handleOptionClick = (title: string, option: string) => {
+    setSelectedTitle(title);
+    setSelectedOption(option);
+    setIsOpen(false);
+  };
+
+  return (
+    <CommunitySearchSelect onClick={() => setIsOpen(!isOpen)}>
+      <Arrow>{isOpen ? '▲' : '▼'}</Arrow>
+      {selectedTitle}
+      {isOpen && (
+        <CommunitySearchOption>
+          <div onClick={() => handleOptionClick('내용', 'content')}>내용</div>
+          <div onClick={() => handleOptionClick('노래명', 'musicName')}>노래명</div>
+          <div onClick={() => handleOptionClick('가수명', 'artist')}>가수명</div>
+        </CommunitySearchOption>
+      )}
+    </CommunitySearchSelect>
+  );
+};
+
+export const MemberReview = () => {
+  const [activePage, setActivePage] = useState(0);
+  const [sortOrder, setSortOrder] = useState('DESC');
+  const [keyWord, setKeyWord] = useState<string>('');
+  const { data } = useGetReviewQuery(activePage, sortOrder);
+  const [reviewList, setReviewList] = useState<ContentItem[]>([]);
+
+  useEffect(() => {
+    if (data?.content) {
+      setReviewList(data.content);
+    }
+  }, [data]);
+
+  const handlePageClick = (pageNumber: SetStateAction<number>) => {
+    setActivePage(pageNumber);
+    setKeyWord(''); // 페이지 변경 시 검색어 초기화
+  };
+
+  const handleSearch = (searchResults: { content: ContentItem[] }) => {
+    if (searchResults?.content) {
+      setReviewList(searchResults.content);
+    }
+  };
 
   return (
     <MemberContainer>
@@ -125,7 +151,7 @@ export const MemberReview = () => {
         <Pagination totalPages={data?.totalPages} activePage={activePage} onClick={handlePageClick} />
       </CommunityPagenationWrapper>
       <CommuniySearchBlock>
-        <CommunitySearchSelectWrapper />
+        <CommunitySearchSelectWrapper keyWord={keyWord} onSearch={handleSearch} />
         <CommunitySearchInput
           type="text"
           placeholder="게시글 내용을 입력해 주세요."
@@ -226,6 +252,7 @@ const ListImg = styled.img`
   width: 64px;
   height: 64px;
   margin-right: 20px;
+  object-fit: cover;
 `;
 
 const ListContent = styled.div`
