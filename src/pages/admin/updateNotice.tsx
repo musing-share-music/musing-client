@@ -5,4 +5,4 @@ const AdminUpdateNoticePage = () => {
     </div>
   );
 };
-export default AdminUpdateNoticePage;`;
+export default AdminUpdateNoticePage;

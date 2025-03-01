@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { useCreatePostMutation } from 'features/createNotice/lib/useCreatePostMutation';
 import { getFromErrorMessage, validateFormSchema } from 'features/createNotice/lib/validate';
-import { FormData, useFormStore } from 'features/createNotice/model/useFormStore';
+import { useFormStore } from 'features/createNotice/model/useFormStore';
 
 import { CreateNoticeDto } from 'entities/notice/api/createNotice';
 
@@ -13,9 +13,7 @@ import { ErrorModal } from 'shared/ui/Modal/ErrorModal';
 import { ImageInput } from './ImageInput';
 import { Section } from './styled';
 
-type NoticeFormProps = Partial<FormData>;
-
-export const NoticeForm = (defaultFormData: NoticeFormProps) => {
+export const NoticeForm = () => {
   const [errorMessage, setErrorMessage] = useState(''); // 폼과 관련된 에러 핸들링
   const [errorModalOpen, setErrorModalOpen] = useState(false);
   const formData = useFormStore((state) => state.formData);
