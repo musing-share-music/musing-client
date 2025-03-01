@@ -1,6 +1,4 @@
-import styled from '@emotion/styled';
-
-import { OuterCloseModal } from 'shared/ui/Modal';
+import { ConfirmModal } from 'shared/ui/Modal';
 
 export const DeleteReviewModal = ({
   open,
@@ -12,35 +10,13 @@ export const DeleteReviewModal = ({
   onConfirm: () => void;
 }) => {
   return (
-    <OuterCloseModal open={open} onClose={onClose}>
-      <Content>
-        <P>
-          정말 플레이리스트를 <br></br> 삭제하시겠어요?
-        </P>
-        <Button onClick={onConfirm}>삭제하기</Button>
-      </Content>
-    </OuterCloseModal>
+    <ConfirmModal
+      text={`정말 플레이리스트를 
+              삭제하시겠어요?`}
+      confirmText="삭제하기"
+      open={open}
+      onClose={onClose}
+      onConfirm={onConfirm}
+    />
   );
 };
-
-const Content = styled.div`
-  display: flex;
-  width: 420px;
-  padding: 64px 52px 64px 56px;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-`;
-
-const P = styled.p`
-  color: ${({ theme }) => theme.colors.white};
-  text-align: center;
-  ${({ theme }) => theme.fonts.wantedSans.B2};
-`;
-const Button = styled.button`
-  color: ${({ theme }) => theme.colors.secondary1};
-  text-align: center;
-  ${({ theme }) => theme.fonts.wantedSans.B3};
-  border: none;
-  cursor: pointer;
-`;
