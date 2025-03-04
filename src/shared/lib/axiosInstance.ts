@@ -7,7 +7,7 @@ const getUserInfo = () => {
   try {
     return useUserInfoStore.getState().userInfo;
   } catch (err) {
-    console.error(err);
+    alert(err);
     return null;
   }
 };
@@ -23,19 +23,27 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
     if (error.response?.status === 401) {
-      const userInfo = getUserInfo(); // 안전한 상태 접근
+      const userInfo = getUserInfo();
 
-      // 이메일 확인
       if (!userInfo?.email) {
         window.location.href = '/';
         return Promise.reject(error);
       }
 
-      // 토큰 재발급 페이지로 이동
-      window.location.href = `${URL.TOKENREISSUE}?email=${userInfo.email}`;
-      return Promise.reject(error);
+      try {
+        const response = await axios.get(`${URL.SERVERURL}${URL.API.TOKENREISSUE}?email=${userInfo.email}`, {
+          withCredentials: true,
+        });
+
+        if (response.status === 200) {
+          return axiosInstance(error.config);
+        }
+      } catch (reissueError) {
+        alert(reissueError);
+        window.location.href = '/';
+      }
     }
     return Promise.reject(error);
   },
