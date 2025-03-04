@@ -4,37 +4,92 @@ import URL from 'shared/config/urls';
 import axiosInstance from 'shared/lib/axiosInstance';
 
 // 공지사항 조회 request dto
-export interface FetchGetNoticeRequestDto {
+export interface FetchGetNoticeDto {
   page?: number; // 페이지
 }
 
 // 공지사항 조회 response dto
-interface FetchGetNoticeResponseDto {
+interface FetchGetNoticeResponse {
   data: Notice;
   message: string;
 }
 
 // 공지사항 상세 조회 request dto
-export interface FetchGetNoticeDetailRequestDto {
+export interface FetchGetNoticeDetailDto {
   noticeId: number;
 }
 
 // 공지사항 상세 조회 response dto
-interface FetchGetNoticeDetailResponseDto {
+interface FetchGetNoticeDetailResponse {
   data: Content;
   message: string;
 }
 
-export const fetchGetNotice = async ({ page = 1 }: FetchGetNoticeRequestDto) => {
-  const response = await axiosInstance.get<FetchGetNoticeResponseDto>(URL.API.NOTICE, {
+// 공지사항 삭제 request dto
+export interface FetchRemoveNoticeDto {
+  noticeId: number;
+}
+
+interface FetchRemoveNoticeResponse {
+  data: Content;
+  message: string;
+}
+
+// 공지사항 업데이트 request dto
+export interface FetchUpdateNoticeDto {
+  noticeId: number;
+  title: string;
+  content: string;
+  files?: File[];
+  deleteFileLinks?: string[]; // 삭제할 파일 url
+}
+
+interface FetchUpdateNoticeResponse {
+  data: Content;
+  message: string;
+}
+
+export const fetchGetNotice = async ({ page = 1 }: FetchGetNoticeDto) => {
+  const response = await axiosInstance.get<FetchGetNoticeResponse>(URL.API.NOTICE, {
     params: { page },
   });
   return response.data;
 };
 
-export const fetchGetNoticeDetail = async ({ noticeId }: FetchGetNoticeDetailRequestDto) => {
-  const response = await axiosInstance.get<FetchGetNoticeDetailResponseDto>(URL.API.NOTICE_DETAIL, {
+export const fetchGetNoticeDetail = async ({ noticeId }: FetchGetNoticeDetailDto) => {
+  const response = await axiosInstance.get<FetchGetNoticeDetailResponse>(URL.API.NOTICE_DETAIL, {
     params: { noticeId },
   });
+  return response.data;
+};
+
+export const fetchRemoveNotice = async ({ noticeId }: FetchRemoveNoticeDto) => {
+  const response = await axiosInstance.put<FetchRemoveNoticeResponse>(`${URL.API.ADMIN.DELETE_NOTICE}/${noticeId}`);
+  return response.data;
+};
+
+export const fetchUpdateNotice = async (body: FetchUpdateNoticeDto) => {
+  const formData = new FormData();
+
+  formData.append(
+    'requestDto',
+    JSON.stringify({
+      title: body.title,
+      content: body.content,
+    }),
+  );
+  body.files?.forEach((files) => {
+    formData.append('files', files);
+  });
+  body.deleteFileLinks?.forEach((files) => {
+    formData.append('deleteFileLinks', files);
+  });
+
+  const response = await axiosInstance.put<FetchUpdateNoticeResponse>(URL.API.ADMIN.NOTICE, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
   return response.data;
 };

@@ -7,7 +7,8 @@ import { reportSearchFilterOptions } from 'pages/admin/config/searchFilterOption
 import { AdminLayout } from 'widgets/ui/Layout';
 
 import { ROUTES } from 'shared/config/routes';
-import { Button, Filter, OuterCloseModal, Pagination, SearchInputWithFilter, Table } from 'shared/ui';
+import { Button, Filter, Pagination, SearchInputWithFilter, Table } from 'shared/ui';
+import { ConfirmModal } from 'shared/ui/Modal';
 
 import {
   BoardContainer,
@@ -128,25 +129,19 @@ export const AdminReviewReportPage = () => {
           </FilterBlock>
         </Container>
       </AdminLayout>
-      <OuterCloseModal
+
+      <ConfirmModal
+        text={`정말 ${isPost ? '게시글' : '댓글'}을
+              삭제하시겠어요?`}
+        confirmText="삭제하기"
         open={open}
         onClose={() => {
           setOpen(false);
         }}
-      >
-        <ModalContent>
-          <P>
-            정말 {isPost ? '게시글' : '댓글'}을 <br /> 삭제하시겠어요?
-          </P>
-          <CloseButton
-            onClick={() => {
-              setOpen(false);
-            }}
-          >
-            삭제하기
-          </CloseButton>
-        </ModalContent>
-      </OuterCloseModal>
+        onConfirm={() => {
+          setOpen(false);
+        }}
+      />
     </>
   );
 };
@@ -169,26 +164,5 @@ const OptionButton = styled.button<{ isActive?: boolean }>`
 `;
 
 const DeleteButtonText = styled.span`
-  color: ${({ theme }) => theme.colors.secondary1};
-`;
-
-const ModalContent = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  gap: 24px;
-  width: 420px;
-  height: 236px;
-`;
-
-const P = styled.p`
-  text-align: center;
-  ${({ theme }) => theme.fonts.wantedSans.B2};
-`;
-const CloseButton = styled.button`
-  border: none;
-  margin: 0;
-  padding: 0;
-  ${({ theme }) => theme.fonts.wantedSans.B3};
   color: ${({ theme }) => theme.colors.secondary1};
 `;

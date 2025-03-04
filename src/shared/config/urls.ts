@@ -38,6 +38,12 @@ const URL = {
       MOODMODIFY: 'musing/user/like/mood', //무드수정
       ARTISTMODIFY: 'musing/user/like/artist ', //아티스트수정
     },
+
+    // 관리자
+    ADMIN: {
+      NOTICE: 'musing/admin/notice', // 공지사항
+      DELETE_NOTICE: 'musing/admin/notice/remove', // 공지사항 삭제
+    },
   } as const,
 };
 

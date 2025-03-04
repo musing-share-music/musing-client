@@ -6,6 +6,9 @@ import { ROUTES } from 'shared/config/routes';
 const AdminCheckPage = lazy(() => import('../../pages/admin/check'));
 const AdminDeletedPage = lazy(() => import('../../pages/admin/delete'));
 const AdminNoticePage = lazy(() => import('../../pages/admin/notice'));
+const AdminNoticeDetailPage = lazy(() => import('../../pages/admin/noticeDetail'));
+const AdminCreateNoticePage = lazy(() => import('../../pages/admin/createNotice'));
+const AdminUpdateNoticePage = lazy(() => import('../../pages/admin/updateNotice'));
 const AdminPostReportPage = lazy(() => import('../../pages/admin/postReport'));
 const AdminReviewReportPage = lazy(() => import('../../pages/admin/reviewReport'));
 const AdminUserPage = lazy(() => import('../../pages/admin/user'));
@@ -40,6 +43,9 @@ export const AppRouter = () => {
       <Route path={ROUTES.NOTICE_DETAIL} element={<NoticeDetailPage />} />
 
       <Route path={ROUTES.ADMIN.NOTICE} element={<AdminNoticePage />} />
+      <Route path={ROUTES.ADMIN.NOTICE_DETAIL} element={<AdminNoticeDetailPage />} />
+      <Route path={ROUTES.ADMIN.CREATE_NOTICE} element={<AdminCreateNoticePage />} />
+      <Route path={ROUTES.ADMIN.UPDATE_NOTICE} element={<AdminUpdateNoticePage />} />
       <Route path={ROUTES.ADMIN.USER} element={<AdminUserPage />} />
       <Route path={ROUTES.ADMIN.CHECK} element={<AdminCheckPage />} />
       <Route path={ROUTES.ADMIN.POST_REPORT} element={<AdminPostReportPage />} />

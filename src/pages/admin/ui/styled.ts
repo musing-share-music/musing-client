@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   margin: 60px auto 0;
@@ -45,5 +46,14 @@ export const HoverBox = styled.div`
     -webkit-box-shadow: inset 0 -1px 0 0 ${({ theme }) => theme.colors[100]};
     -moz-box-shadow: inset 0 -1px 0 0 ${({ theme }) => theme.colors[100]};
     box-shadow: inset 0 -1px 0 0 ${({ theme }) => theme.colors[100]};
+  }
+`;
+
+export const StyledLink = styled(Link)`
+  color: inherit;
+  text-decoration: none;
+
+  &:visited {
+    color: inherit;
   }
 `;
