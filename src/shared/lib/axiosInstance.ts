@@ -1,25 +1,41 @@
 import axios from 'axios';
 
 import URL from 'shared/config/urls';
+import { useUserInfoStore } from 'shared/store/userInfo';
 
-// axios 인스턴스 생성
+const getUserInfo = () => {
+  try {
+    return useUserInfoStore.getState().userInfo;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
 const axiosInstance = axios.create({
   baseURL: URL.SERVERURL,
   withCredentials: true,
-  timeout: 5000, // 임의로 지정
+  timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// 응답 인터셉터 설정
 axiosInstance.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  function (error) {
-    if (error.response.status === 401) {
-      window.location.href = URL.GOOGLELOGIN;
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      const userInfo = getUserInfo(); // 안전한 상태 접근
+
+      // 이메일 확인
+      if (!userInfo?.email) {
+        window.location.href = '/';
+        return Promise.reject(error);
+      }
+
+      // 토큰 재발급 페이지로 이동
+      window.location.href = `${URL.TOKENREISSUE}?email=${userInfo.email}`;
+      return Promise.reject(error);
     }
     return Promise.reject(error);
   },

@@ -8,6 +8,9 @@ const URL = {
   // 구글 로그인 URL
   GOOGLELOGIN: 'http://localhost:8090/oauth2/authorization/google',
 
+  // 토큰 재발급 URL
+  TOKENREISSUE: 'http://localhost:8090/auth/reissue',
+
   // 서버 API
   API: {
     MAIN: 'musing/main', //메인
