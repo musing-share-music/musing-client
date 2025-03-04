@@ -23,6 +23,7 @@ const URL = {
     BOARD_DELETE: 'musing/board/deletePost', // 게시글 삭제
     BOARD_DETAIL: 'musing/board/selectDetail', // 게시글 상세 조회
     VALIDATE_YOUTUBE_URL: 'checkURL', // 유튜브 url 검증
+    REPLY: (boardId: number) => `/musing/board/${boardId}/reply`, // 리뷰 조회
     NOTICE: 'musing/notice/list', // 공지사항 리스트
     NOTICE_DETAIL: 'musing/notice', // 공지사항 상세 페이지
 

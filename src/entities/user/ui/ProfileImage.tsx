@@ -14,9 +14,9 @@ export const ProfileImage = ({ width, height, src }: ProfileImageProps) => {
 };
 
 const Profile = styled.img<{ width: number; height: number }>`
-  min-width: ${({ width }) => width};
-  width: ${({ width }) => width};
-  height: ${({ height }) => height};
+  min-width: ${({ width }) => width}px;
+  width: ${({ width }) => width}px;
+  height: ${({ height }) => height}px;
   border-radius: 12px;
   object-fit: contain;
 `;

@@ -1,4 +1,7 @@
 //커뮤니티 리스트
+
+import { Pagination } from 'shared/types/pagination';
+
 //상단리스트
 export type RecommendBoardFirstDto = {
   title: string;
@@ -56,28 +59,9 @@ export type Sort = {
   unsorted: boolean;
 };
 
-export type Pageable = {
-  pageNumber: number;
-  pageSize: number;
-  sort: Sort;
-  offset: number;
-  paged: boolean;
-  unpaged: boolean;
-};
-
 export type BoardDtos = {
   content: BoardDtosItem[];
-  pageable: Pageable;
-  last: boolean;
-  totalPages: number;
-  totalElements: number;
-  size: number;
-  number: number;
-  sort: Sort;
-  first: boolean;
-  numberOfElements: number;
-  empty: boolean;
-};
+} & Pagination<Sort>;
 
 export type CommunityItem = {
   boardDtos: BoardDtos;

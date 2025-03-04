@@ -13,14 +13,17 @@ interface ReplyProps {
 export const Reply = ({ comments }: ReplyProps) => {
   return (
     <>
-      {comments.map(({ userId, src, content, rate }) => (
+      {comments.map(({ id: userId, content, starScore, profileInfo }) => (
         <ReplyBox key={userId}>
-          <ProfileImage width={56} height={56} src={src || ''} />
+          <ProfileImage width={56} height={56} src={profileInfo.profileUrl || ''} />
           <Box>
             <Block>
               <ReplyUserIdBlock>
-                <UserName>{userId}</UserName>
-                <StarRatingInput value={rate} enabled={false} />
+                <UserName>{profileInfo.name}</UserName>
+                <ScoreBox>
+                  <StarRatingInput value={starScore} enabled={false} />
+                  {starScore}
+                </ScoreBox>
               </ReplyUserIdBlock>
               <ReportButton />
             </Block>
@@ -62,5 +65,12 @@ const Content = styled.div`
   border-radius: 8px;
   background: ${({ theme }) => theme.colors[600]};
   color: ${({ theme }) => theme.colors[100]};
+  ${({ theme }) => theme.fonts.wantedSans.B4};
+`;
+const ScoreBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: ${({ theme }) => theme.colors[200]};
   ${({ theme }) => theme.fonts.wantedSans.B4};
 `;
