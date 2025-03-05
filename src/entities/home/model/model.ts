@@ -303,6 +303,7 @@ export const MAIN_ITEM: MainItem = {
   ],
   passModal: '',
   userInfoDto: {
+    userId: '',
     email: '',
     name: '',
     authority: '',
