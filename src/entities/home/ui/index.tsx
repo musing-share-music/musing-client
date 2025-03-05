@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import GenreMusic from 'features/home/ui/GenreMusic';
 
 import { MainItem } from 'entities/home/model/types';
 
 import { useUserInfoStore } from 'shared/store/userInfo';
+import { ErrorModal } from 'shared/ui/Modal';
 
 import CommunityMusic from './CommunityMusic';
 import HotMusic from './HotMusic';
@@ -19,6 +20,18 @@ interface MainItemProps {
 
 export const Main = ({ mainData }: MainItemProps) => {
   const { setUser, setPassModal, isLogin } = useUserInfoStore();
+  const [errorMessage, setErrorMessage] = useState('');
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
+
+  const showErrorModal = (msg: string) => {
+    setErrorMessage(msg);
+    setErrorModalOpen(true);
+  };
+  const closeErrorModal = () => {
+    setErrorModalOpen(false);
+    setErrorMessage('');
+  };
+
   //메인홈
   useEffect(() => {
     if (mainData) {
@@ -33,6 +46,22 @@ export const Main = ({ mainData }: MainItemProps) => {
 
   return (
     <MainContents>
+      <button
+        onClick={() => {
+          showErrorModal('서버에 문제가 생겼습니다. 다시 시도해 주세요.');
+        }}
+      >
+        에러버튼
+      </button>
+      <ErrorModal
+        open={errorModalOpen}
+        onClose={() => {
+          closeErrorModal();
+        }}
+      >
+        {errorMessage}
+      </ErrorModal>
+
       <ComponentWrapper marginBottom={40}>
         {mainData?.noticeDto ? <ThumbnailMusic noticeDto={mainData?.noticeDto} /> : null}
       </ComponentWrapper>
