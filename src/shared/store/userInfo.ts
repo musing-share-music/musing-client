@@ -8,6 +8,7 @@ export const useUserInfoStore = create<UserState>()(
     (set, get) => ({
       // 로그인한 사용자의 정보
       userInfo: {
+        userId: '',
         email: '',
         name: '',
         authority: '',
@@ -40,6 +41,7 @@ export const useUserInfoStore = create<UserState>()(
       logout: () => {
         set({
           userInfo: {
+            userId: '',
             email: '',
             name: '',
             authority: '',

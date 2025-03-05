@@ -11,6 +11,7 @@ interface UserState {
 
 // UserInfo 타입 정의
 export type UserInfo = {
+  userId: string;
   email: string;
   name: string;
   authority: string;

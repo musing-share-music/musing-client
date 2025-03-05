@@ -27,13 +27,13 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401) {
       const userInfo = getUserInfo();
 
-      if (!userInfo?.email) {
+      if (!userInfo?.userId) {
         window.location.href = '/';
         return Promise.reject(error);
       }
 
       try {
-        const response = await axios.get(`${URL.SERVERURL}${URL.API.TOKENREISSUE}?email=${userInfo.email}`, {
+        const response = await axios.get(`${URL.SERVERURL}${URL.API.TOKENREISSUE}?userId=${userInfo.userId}`, {
           withCredentials: true,
         });
 
