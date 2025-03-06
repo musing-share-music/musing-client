@@ -8,11 +8,20 @@ export const useErrorModalStore = create<ErrorModalState>()(
     (set) => ({
       isOpen: false,
       message: '',
-      openModal: (message) => set({ isOpen: true, message }),
-      closeModal: () => set({ isOpen: false, message: '' }),
+      isTokenReissueModal: false, // 토큰 재발급 관련 모달인지 여부
+      openModal: (message: string, isTokenReissueModal = false) => set({ isOpen: true, message, isTokenReissueModal }),
+      closeModal: () => {
+        set((state) => {
+          // 토큰 재발급 모달이었다면 확인 이벤트 발생
+          if (state.isTokenReissueModal) {
+            window.dispatchEvent(new CustomEvent('token-reissue-confirmed'));
+          }
+          return { isOpen: false, message: '', isTokenReissueModal: false };
+        });
+      },
     }),
     {
-      name: 'error-modal-storage', // localStorage에 저장될 key 값
+      name: 'error-modal-storage',
       storage: createJSONStorage(() => localStorage),
     },
   ),

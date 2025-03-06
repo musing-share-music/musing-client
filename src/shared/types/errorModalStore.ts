@@ -2,6 +2,7 @@
 export interface ErrorModalState {
   isOpen: boolean;
   message: string;
-  openModal: (message: string) => void;
+  isTokenReissueModal: boolean;
+  openModal: (message: string, isTokenReissueModal?: boolean) => void;
   closeModal: () => void;
 }
