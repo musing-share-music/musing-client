@@ -5,9 +5,12 @@ import { NAV_BAR_WIDTH } from 'widgets/config/navBarWidth';
 import { Header } from 'widgets/ui/Header';
 import { NavBar } from 'widgets/ui/NavBar';
 
+import { useErrorModalStore } from 'shared/store/errorModalStore';
 import { useUserInfoStore } from 'shared/store/userInfo';
+import { ErrorModal } from 'shared/ui/Modal';
 
 export const MainLayout = ({ children }: { children: React.ReactNode }) => {
+  const { isOpen, message, closeModal } = useErrorModalStore();
   const { isLogin } = useUserInfoStore();
 
   return (
@@ -18,6 +21,9 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
       </LeftContainer>
       <RightContainer>
         <ScrollableMainContainer>
+          <ErrorModal open={isOpen} onClose={closeModal}>
+            {message}
+          </ErrorModal>
           <ContentsContainer>{children}</ContentsContainer>
         </ScrollableMainContainer>
       </RightContainer>

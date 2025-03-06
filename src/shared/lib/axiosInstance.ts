@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import URL from 'shared/config/urls';
+import { useErrorModalStore } from 'shared/store/errorModalStore';
 import { useUserInfoStore } from 'shared/store/userInfo';
 
 const getUserInfo = () => {
@@ -33,6 +34,7 @@ axiosInstance.interceptors.response.use(
       }
 
       try {
+        useErrorModalStore.getState().openModal('세션이 만료되었습니다. 토큰을 재발급합니다.');
         const response = await axios.get(`${URL.SERVERURL}${URL.API.TOKENREISSUE}?userId=${userInfo.userId}`, {
           withCredentials: true,
         });
@@ -41,7 +43,8 @@ axiosInstance.interceptors.response.use(
           return axiosInstance(error.config);
         }
       } catch (reissueError) {
-        alert(reissueError);
+        console.log(reissueError);
+        useErrorModalStore.getState().openModal('토큰 재발급에 실패했습니다. 다시 로그인해주세요.');
         window.location.href = '/';
       }
     }
