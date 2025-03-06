@@ -6,7 +6,6 @@ import GenreMusic from 'features/home/ui/GenreMusic';
 import { MainItem } from 'entities/home/model/types';
 
 import { useUserInfoStore } from 'shared/store/userInfo';
-import { ErrorModal } from 'shared/ui/Modal';
 
 import CommunityMusic from './CommunityMusic';
 import HotMusic from './HotMusic';
