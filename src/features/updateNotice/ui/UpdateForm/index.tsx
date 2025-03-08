@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import { ImageInput } from 'features/createNotice/ui/CreateForm/ImageInput';
 import { useUpdateNoticeMutation } from 'features/updateNotice/lib/useUpdateNoticeMutation';
 import { getFromErrorMessage, validateFormSchema } from 'features/updateNotice/lib/validate';
 
@@ -9,6 +8,7 @@ import IconCloseSvg from 'shared/assets/image/icons/icon-close.svg?react';
 import { useFormValue } from 'shared/hooks/useFormValue';
 import { Button } from 'shared/ui/Button';
 import { TextArea } from 'shared/ui/Input';
+import { ImageInput } from 'shared/ui/Input/ImageInput';
 import { ErrorModal } from 'shared/ui/Modal';
 
 import { Section } from './styled';
@@ -82,8 +82,8 @@ export const NoticeForm = ({ noticeId, ...defaultFormValues }: NoticeFormProps) 
     updateFormData('deleteFileLinks', [...formData.deleteFileLinks, url]);
   };
 
-  const addImage = (file: File) => {
-    updateFormData('files', [...formData.files, file]);
+  const addImage = (file: File[]) => {
+    updateFormData('files', [...file]);
   };
 
   return (
