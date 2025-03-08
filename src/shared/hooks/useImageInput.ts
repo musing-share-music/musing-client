@@ -4,19 +4,19 @@ import { useDropzone } from 'react-dropzone';
 /**
  * 이미지를 업로드하는 커스텀 훅
  */
-export const useImageInput = (onUpload: (file: File) => void) => {
-  const [file, setFile] = useState<File | null>(null);
+export const useImageInput = (onUpload: (file: File[]) => void) => {
+  const [file, setFile] = useState<File[]>([]);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const onDrop = (acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
-    if (file) {
+    const uploadedFile = acceptedFiles[0];
+    if (uploadedFile) {
       const reader = new FileReader();
       reader.onload = () => {
         setImagePreview(reader.result as string);
       };
-      reader.readAsDataURL(file);
-      setFile(file);
+      reader.readAsDataURL(uploadedFile);
+      setFile((prev) => [...prev, uploadedFile]);
     }
   };
 
