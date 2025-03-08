@@ -9,7 +9,7 @@ export interface FormData {
   content: string; // 게시글 내용
   mood: number[]; // 분위기 id
   genre: number; // 장르 id
-  image?: File; // 이미지 파일
+  image?: File[]; // 이미지 파일
 }
 type FormStore = {
   formData: FormData;

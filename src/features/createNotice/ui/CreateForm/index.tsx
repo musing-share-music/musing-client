@@ -8,15 +8,15 @@ import { CreateNoticeDto } from 'entities/notice/api/createNotice';
 
 import { useFormValue } from 'shared/hooks/useFormValue';
 import { Button, TextArea } from 'shared/ui/';
+import { ImageInput } from 'shared/ui/Input/ImageInput';
 import { ErrorModal } from 'shared/ui/Modal/ErrorModal';
 
-import { ImageInput } from './ImageInput';
 import { Section } from './styled';
 
 interface FormData {
   title: string; // 게시글 제목
   content: string; // 게시글 내용
-  files?: File; // 이미지 파일
+  files?: File[]; // 이미지 파일
 }
 
 export const NoticeForm = () => {
@@ -47,7 +47,7 @@ export const NoticeForm = () => {
 
     const _formData: CreateNoticeDto = {
       title,
-      files: image && [image],
+      files: image,
       content,
     };
 

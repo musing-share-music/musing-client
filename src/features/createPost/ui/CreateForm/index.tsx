@@ -10,10 +10,10 @@ import { useFormStore } from 'features/createPost/model/useFormStore';
 import { CreatePostDto } from 'entities/community/api/createPost';
 
 import { Button, TextArea, YoutubeIframe } from 'shared/ui/';
+import { ImageInput } from 'shared/ui/Input/ImageInput';
 import { ErrorModal } from 'shared/ui/Modal/ErrorModal';
 
 import { EditableElement } from './EditableElement';
-import { ImageInput } from './ImageInput';
 import { Section } from './styled';
 import { TagInput } from './TagInput';
 import { YoutubeLinkInput } from './YoutubeLinkInput';
