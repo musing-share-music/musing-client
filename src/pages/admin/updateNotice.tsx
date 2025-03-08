@@ -1,8 +1,2 @@
-const AdminUpdateNoticePage = () => {
-  return (
-    <div>
-      <h1>AdminUpdateNoticePage</h1>
-    </div>
-  );
-};
+import { AdminUpdateNoticePage } from './ui';
 export default AdminUpdateNoticePage;
