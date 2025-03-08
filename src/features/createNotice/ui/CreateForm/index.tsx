@@ -3,21 +3,31 @@ import { useState } from 'react';
 
 import { useCreatePostMutation } from 'features/createNotice/lib/useCreatePostMutation';
 import { getFromErrorMessage, validateFormSchema } from 'features/createNotice/lib/validate';
-import { useFormStore } from 'features/createNotice/model/useFormStore';
 
 import { CreateNoticeDto } from 'entities/notice/api/createNotice';
 
+import { useFormValue } from 'shared/hooks/useFormValue';
 import { Button, TextArea } from 'shared/ui/';
 import { ErrorModal } from 'shared/ui/Modal/ErrorModal';
 
 import { ImageInput } from './ImageInput';
 import { Section } from './styled';
 
+interface FormData {
+  title: string; // 게시글 제목
+  content: string; // 게시글 내용
+  files?: File; // 이미지 파일
+}
+
 export const NoticeForm = () => {
   const [errorMessage, setErrorMessage] = useState(''); // 폼과 관련된 에러 핸들링
   const [errorModalOpen, setErrorModalOpen] = useState(false);
-  const formData = useFormStore((state) => state.formData);
-  const updateFormData = useFormStore((state) => state.updateFormData);
+  const { formData, updateFormData } = useFormValue({
+    title: '',
+    content: '',
+    files: undefined,
+  } as FormData);
+
   const createFormMutation = useCreatePostMutation();
 
   const { title, content, files: image } = formData;
