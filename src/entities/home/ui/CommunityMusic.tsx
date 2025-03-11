@@ -39,7 +39,7 @@ const CommunityMusic = ({ recentBoard, hotMusicBoard }: RecentBoardProps) => {
           <PlayListImage src={hotMusicBoard.thumbNailLink}></PlayListImage>
           <PlayListInfoBlock>
             <PlayListInfoTitle>
-              {hotMusicBoard.musicName} · {hotMusicBoard.artists[0].name}
+              {hotMusicBoard.musicName} · {hotMusicBoard.artists[0]?.name}
             </PlayListInfoTitle>
             <PlayListInfoDescription>{hotMusicBoard.title}</PlayListInfoDescription>
           </PlayListInfoBlock>

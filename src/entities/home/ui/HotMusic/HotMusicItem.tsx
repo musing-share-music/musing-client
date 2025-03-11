@@ -17,7 +17,7 @@ const HotMusicItemBase = ({ item, isHover }: RecommendGenresItemProps & WithHove
       <Border />
       <HoverItemBox>
         <HotTitle>{item.musicName}</HotTitle>
-        <HotSubTitle>{item.artists[0].name}</HotSubTitle>
+        <HotSubTitle>{item.artists[0]?.name}</HotSubTitle>
         <ButtonBlock>
           <HotButton src={btn_add} alt="추가" className="btn_add" />
           <HoverRevealButton isHover={isHover} menuItem={[]} />
