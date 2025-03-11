@@ -37,7 +37,7 @@ export const MemberReviewList = ({ replyDtos }: ReplyDtosProps) => {
                       <ContentInfo>
                         <ContentsSongName>{item.content}</ContentsSongName>
                         <ContentsSongDescription>
-                          {item.musicDto.musicName} · {item.musicDto.artists[0].name}
+                          {item.musicDto.musicName} · {item.musicDto.artists[0]?.name}
                         </ContentsSongDescription>
                       </ContentInfo>
                     </ListContent>

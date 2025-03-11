@@ -85,7 +85,7 @@ export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreference
 
   useEffect(() => {
     if (memberInfoItem?.likeArtist) {
-      setArtist(new Set(memberInfoItem.likeArtist.map((artist) => artist.name)));
+      setArtist(new Set(memberInfoItem.likeArtist.map((artist) => artist?.name)));
     }
   }, [memberInfoItem?.likeArtist]);
 
@@ -163,7 +163,7 @@ export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreference
             <PreferTagWrapper>
               {/* 9개까지만 보여줌 */}
               {memberInfoItem?.likeArtist.slice(0, 9).map((item, index) => (
-                <PreferTag key={index}>{item.name}</PreferTag>
+                <PreferTag key={index}>{item?.name}</PreferTag>
               ))}
               <Arrowdown></Arrowdown>
             </PreferTagWrapper>

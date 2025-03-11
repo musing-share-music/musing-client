@@ -37,7 +37,7 @@ const RecommendedPost = ({ boardPopUpDto }: BoardPopUpDtoProps) => {
           <PostContent>
             <PostInfo>
               <PostSongInfo>
-                {recommendBoardFirstDto.musicName} · {recommendBoardFirstDto.artists[0].name}
+                {recommendBoardFirstDto.musicName} · {recommendBoardFirstDto.artists[0]?.name}
               </PostSongInfo>
               <PostSongTitle>{recommendBoardFirstDto.title}</PostSongTitle>
               <PostSongDescription>{recommendBoardFirstDto.content}</PostSongDescription>

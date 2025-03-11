@@ -121,7 +121,7 @@ const RecommendedPostList = ({ boardDtos }: BoardDtosProps) => {
             <CommuityContent>
               <CommunityInfo>
                 <CommunitySongInfo>
-                  {item.musicName} · {item.artists[0].name}
+                  {item.musicName} · {item.artists[0]?.name}
                 </CommunitySongInfo>
                 <CommunitySongDescription>{item.title}</CommunitySongDescription>
               </CommunityInfo>

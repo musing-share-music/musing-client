@@ -132,7 +132,7 @@ export const MemberReview = () => {
                       <ContentInfo>
                         <ContentsSongName>{item.content}</ContentsSongName>
                         <ContentsSongDescription>
-                          {item.musicDto.artists[0].name} · {item.musicDto.musicName}
+                          {item.musicDto.artists[0]?.name} · {item.musicDto.musicName}
                         </ContentsSongDescription>
                       </ContentInfo>
                     </ListContent>

@@ -32,7 +32,7 @@ export const MemberCommunity = ({ boardDtos }: MemberInfoItemProps) => {
                     <ListContent>
                       <ContentInfo>
                         <ContentsSongName>{item.musicName}</ContentsSongName>
-                        <ContentsSongDescription>{item.artists[0].name}</ContentsSongDescription>
+                        <ContentsSongDescription>{item.artists[0]?.name}</ContentsSongDescription>
                       </ContentInfo>
 
                       <ContentTitleBlock>

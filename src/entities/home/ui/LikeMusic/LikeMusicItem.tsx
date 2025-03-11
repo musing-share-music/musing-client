@@ -16,7 +16,7 @@ const LikeMusicItemBase = ({ item, isHover }: LikeMusicDtosItemProps & WithHover
       <HoverRevealButton top={12} right={12} isHover={isHover} menuItem={[]} />
 
       <LikeTextBlock>
-        <LikeTitle>{item.artists[0].name}</LikeTitle>
+        <LikeTitle>{item.artists[0]?.name}</LikeTitle>
         <LikeSubTitle>{item.musicName}</LikeSubTitle>
       </LikeTextBlock>
     </LikeMusingImageWrapper>
