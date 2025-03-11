@@ -22,7 +22,7 @@ const GenreMusicItemBase = ({ item, isHover }: GenreMusicsItemProps & WithHoverP
 
       <GenreTextBlock>
         <GenreTitle>{item.musicName}</GenreTitle>
-        <GenreSubTitle>{item.artists[0].name}</GenreSubTitle>
+        <GenreSubTitle>{item.artists[0]?.name}</GenreSubTitle>
       </GenreTextBlock>
     </GenreMusingWrapper>
   );
