@@ -26,10 +26,13 @@ export const PlayListMusicInfo = () => {
           <TrackDetails>
             <Box>
               <Title>Pink!</Title>
-              <Artist>
+              <InputTitle placeholder="제목을 입력해주세요."></InputTitle>
+
+              <Description>
                 플레이리스트 설명!입니다. 플레이리스트 소개 기입 가능 네 줄까지만 보여지도록 네 줄까지만 보여지도록 네
                 줄까지만 보여지도록 네 줄까지만 보여지도록
-              </Artist>
+              </Description>
+              <TextAreaContent placeholder="내용을 입력해주세요."></TextAreaContent>
             </Box>
             {/* <MoreButton menuItem={menuItem} /> */}
           </TrackDetails>
@@ -161,9 +164,10 @@ const TrackDetails = styled.div`
 `;
 
 const Box = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 8px;
 `;
 
 const Title = styled.h1`
@@ -172,7 +176,7 @@ const Title = styled.h1`
   color: ${({ theme }) => theme.colors.white};
 `;
 
-const Artist = styled.p`
+const Description = styled.p`
   margin: 0;
   ${({ theme }) => theme.fonts.wantedSans.B5};
   color: ${({ theme }) => theme.colors[200]};
@@ -181,6 +185,38 @@ const Artist = styled.p`
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+const InputTitle = styled.input`
+  margin: 0;
+  width: 100%;
+  padding: 16px 24px;
+  border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme.colors[300]};
+  color: ${({ theme }) => theme.colors.white};
+
+  ::placeholder {
+    ${({ theme }) => theme.fonts.wantedSans.B4};
+    color: ${({ theme }) => theme.colors[200]};
+  }
+`;
+
+const TextAreaContent = styled.textarea`
+  display: flex;
+  width: 100%;
+  resize: none;
+  padding: 20px 24px;
+  border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme.colors[300]};
+  color: ${({ theme }) => theme.colors[200]};
+  ${({ theme }) => theme.fonts.wantedSans.B4};
+  &::placeholder {
+    ${({ theme }) => theme.colors[200]};
+  }
+  &:disabled {
+    background-color: ${({ theme }) => theme.colors[600]};
+    color: ${({ theme }) => theme.colors[200]};
+  }
 `;
 
 const RateBlock = styled.div``;
