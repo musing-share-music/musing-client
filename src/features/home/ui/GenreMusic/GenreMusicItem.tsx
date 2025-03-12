@@ -16,8 +16,17 @@ const GenreMusicItemBase = ({ item, isHover }: GenreMusicsItemProps & WithHoverP
     <GenreMusingWrapper>
       <GenreMusingImageWrapper>
         <GenreMusingImage src={item.thumbNailLink} alt="이미지" className="main-image" />
-        <GenreButton src={btn_add} alt="추가" className="btn_add" />
-        <HoverRevealButton top={12} right={12} isHover={isHover} menuItem={[]} />
+        <GenreButton src={btn_add} className="btn_add" />
+        <HoverRevealButton
+          top={12}
+          right={12}
+          isHover={isHover}
+          menuItem={[
+            { onClick: () => {}, content: '곡정보' },
+            { onClick: () => {}, content: '좋아요' },
+            { onClick: () => {}, content: '플레이리스트 추가' },
+          ]}
+        />
       </GenreMusingImageWrapper>
 
       <GenreTextBlock>
@@ -50,6 +59,10 @@ const GenreMusingImageWrapper = styled.div`
   width: 256px;
   height: 256px;
   border-radius: 12px;
+
+  &:hover .btn_add {
+    opacity: 1;
+  }
 `;
 
 // 이미지
@@ -74,11 +87,8 @@ const GenreButton = styled.img`
   opacity: 0;
   transition: opacity 0.3s ease;
   cursor: pointer;
-
-  &.btn_add {
-    bottom: 12px;
-    left: 12px;
-  }
+  bottom: 12px;
+  left: 12px;
 `;
 
 // 텍스트 컨테이너 스타일

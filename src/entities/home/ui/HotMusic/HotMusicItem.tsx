@@ -20,7 +20,14 @@ const HotMusicItemBase = ({ item, isHover }: RecommendGenresItemProps & WithHove
         <HotSubTitle>{item.artists[0]?.name}</HotSubTitle>
         <ButtonBlock>
           <HotButton src={btn_add} alt="추가" className="btn_add" />
-          <HoverRevealButton isHover={isHover} menuItem={[]} />
+          <HoverRevealButton
+            isHover={isHover}
+            menuItem={[
+              { onClick: () => {}, content: '곡정보' },
+              { onClick: () => {}, content: '좋아요' },
+              { onClick: () => {}, content: '플레이리스트 추가' },
+            ]}
+          />
         </ButtonBlock>
       </HoverItemBox>
     </HotMusingImageWrapper>

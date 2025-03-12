@@ -13,7 +13,16 @@ const LikeMusicItemBase = ({ item, isHover }: LikeMusicDtosItemProps & WithHover
   return (
     <LikeMusingImageWrapper>
       <LikeMusingImage src={item.thumbNailLink} alt="이미지" className="main-image" />
-      <HoverRevealButton top={12} right={12} isHover={isHover} menuItem={[]} />
+      <HoverRevealButton
+        isHover={isHover!}
+        menuItem={[
+          { onClick: () => {}, content: '곡정보' },
+          { onClick: () => {}, content: '좋아요' },
+          { onClick: () => {}, content: '플레이리스트 추가' },
+        ]}
+        top={24}
+        right={24}
+      />
 
       <LikeTextBlock>
         <LikeTitle>{item.artists[0]?.name}</LikeTitle>
