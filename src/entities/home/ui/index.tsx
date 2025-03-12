@@ -6,6 +6,8 @@ import GenreMusic from 'features/home/ui/GenreMusic';
 import { MainItem } from 'entities/home/model/types';
 
 import { useUserInfoStore } from 'shared/store/userInfo';
+import { CreatePlayListModal } from 'shared/ui/Modal/PlayListModal/CreatePlayList';
+import { PersistPlayListModal } from 'shared/ui/Modal/PlayListModal/PersistPlayList';
 
 import CommunityMusic from './CommunityMusic';
 import HotMusic from './HotMusic';
@@ -34,6 +36,13 @@ export const Main = ({ mainData }: MainItemProps) => {
 
   return (
     <MainContents>
+      <PersistPlayListModal
+        open={true}
+        children={undefined}
+        onClose={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+      ></PersistPlayListModal>
       <ComponentWrapper marginBottom={40}>
         {mainData?.noticeDto ? <ThumbnailMusic noticeDto={mainData?.noticeDto} /> : null}
       </ComponentWrapper>
