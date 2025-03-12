@@ -51,7 +51,7 @@ export const Main = ({ mainData }: MainItemProps) => {
       {isLogin() && (
         <>
           <ComponentWrapper marginBottom={104}>
-            {mainData?.genreMusics ? (
+            {mainData?.genreMusics && mainData?.likeGenre ? (
               <GenreMusic genreMusics={mainData?.genreMusics} likeGenre={mainData?.likeGenre} />
             ) : null}
           </ComponentWrapper>
@@ -63,13 +63,13 @@ export const Main = ({ mainData }: MainItemProps) => {
       )}
 
       <ComponentWrapper marginBottom={124}>
-        {mainData?.recommendGenre ? (
+        {mainData?.recommendGenre && mainData?.recommendGenres ? (
           <HotMusic recommendGenre={mainData?.recommendGenre} recommendGenres={mainData?.recommendGenres} />
         ) : null}
       </ComponentWrapper>
 
       <ComponentWrapper marginBottom={120}>
-        {mainData?.recentBoard ? (
+        {mainData?.recentBoard && mainData?.hotMusicBoard ? (
           <CommunityMusic recentBoard={mainData?.recentBoard} hotMusicBoard={mainData.hotMusicBoard} />
         ) : null}
       </ComponentWrapper>
