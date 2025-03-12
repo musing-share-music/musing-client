@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 
 import { Button } from 'shared/ui/Button';
-// import { TextInput } from 'shared/ui/Input';
-// import { TextArea } from 'shared/ui/Input';
 import { Modal } from 'shared/ui/Modal/BaseModal';
 import { OuterCloseModal } from 'shared/ui/Modal/OuterCloseModal';
 import { OuterCloseModalProps } from 'shared/ui/Modal/type';
