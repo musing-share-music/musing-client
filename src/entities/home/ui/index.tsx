@@ -84,7 +84,7 @@ export const Main = ({ mainData }: MainItemProps) => {
 //스타일링
 const MainContents = styled.div`
   width: 100%;
-  height: 2832px;
+  min-height: 1800px;
 `;
 
 const ComponentWrapper = styled.div<{ marginBottom?: number }>`

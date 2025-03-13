@@ -19,16 +19,19 @@ const CommunityMusic = ({ recentBoard, hotMusicBoard }: RecentBoardProps) => {
   const navigate = useNavigate();
   return (
     <CommunityContainer>
-      <TitleBlock>
-        <PageTitle
-          onClick={async () => {
-            await navigate(`${ROUTES.COMMUNITY.COMMUNITY}`);
-          }}
-        >
-          음악 추천 게시판
-        </PageTitle>
-        <SubTitle>취향을 발견하는 또다른 방법</SubTitle>
-      </TitleBlock>
+      <TitleWraper>
+        <TitleBlock>
+          <PageTitle
+            onClick={async () => {
+              await navigate(`${ROUTES.COMMUNITY.COMMUNITY}`);
+            }}
+          >
+            음악 추천 게시판
+          </PageTitle>
+          <SubTitle>취향을 발견하는 또다른 방법</SubTitle>
+        </TitleBlock>
+        <MoreTitle onClick={async () => await navigate(`${ROUTES.COMMUNITY.COMMUNITY}`)}>더보기</MoreTitle>
+      </TitleWraper>
 
       <CommunityBlock>
         <PlayListBlock>
@@ -121,6 +124,11 @@ const CommunityContainer = styled.div`
 `;
 
 //게시판 음악 타이틀
+const TitleWraper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const TitleBlock = styled.div`
   display: flex;
   align-items: center;
@@ -137,6 +145,13 @@ const PageTitle = styled.div`
 const SubTitle = styled.div`
   color: ${({ theme }) => theme.colors[200]};
   ${({ theme }) => theme.fonts.wantedSans.B5};
+  margin-top: 12px;
+`;
+
+const MoreTitle = styled.div`
+  color: ${({ theme }) => theme.colors[200]};
+  ${({ theme }) => theme.fonts.wantedSans.B5};
+  cursor: pointer;
   margin-top: 12px;
 `;
 
