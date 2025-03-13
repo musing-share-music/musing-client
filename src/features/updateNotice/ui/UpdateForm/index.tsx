@@ -1,35 +1,46 @@
 import styled from '@emotion/styled';
-import { useMemo, useRef, useState } from 'react';
+import { useState } from 'react';
 
-import { ERROR_MESSAGE } from 'features/createPost/lib/errorMessage';
-import { useCreatePostMutation } from 'features/createPost/lib/useCreatePostMutation';
-import { getFromErrorMessage, validateFormSchema } from 'features/createPost/lib/validate';
-import { getYoutubeVideoId } from 'features/createPost/lib/youtubeId';
-import { useFormStore } from 'features/createPost/model/useFormStore';
+import { useUpdateNoticeMutation } from 'features/updateNotice/lib/useUpdateNoticeMutation';
+import { getFromErrorMessage, validateFormSchema } from 'features/updateNotice/lib/validate';
 
-import { CreatePostDto } from 'entities/community/api/createPost';
-
-import { Button, TextArea, YoutubeIframe } from 'shared/ui/';
+import IconCloseSvg from 'shared/assets/image/icons/icon-close.svg?react';
+import { useFormValue } from 'shared/hooks/useFormValue';
+import { Button } from 'shared/ui/Button';
+import { TextArea } from 'shared/ui/Input';
 import { ImageInput } from 'shared/ui/Input/ImageInput';
-import { ErrorModal } from 'shared/ui/Modal/ErrorModal';
+import { ErrorModal } from 'shared/ui/Modal';
 
-import { EditableElement } from './EditableElement';
 import { Section } from './styled';
-import { TagInput } from './TagInput';
-import { YoutubeLinkInput } from './YoutubeLinkInput';
 
-export const CreateForm = () => {
+interface NoticeFormProps {
+  noticeId: number;
+  title: string;
+  content: string;
+  imageUrl?: string[];
+}
+
+export interface FormData {
+  title: string;
+  content: string;
+  files: File[];
+  deleteFileLinks: string[]; // 삭제할 파일 url
+}
+
+export const NoticeForm = ({ noticeId, ...defaultFormValues }: NoticeFormProps) => {
   const [errorMessage, setErrorMessage] = useState(''); // 폼과 관련된 에러 핸들링
   const [errorModalOpen, setErrorModalOpen] = useState(false);
-  const artistInputRef = useRef<HTMLSpanElement>(null);
-  const musicTitleInputRef = useRef<HTMLSpanElement>(null);
-  const formData = useFormStore((state) => state.formData);
-  const updateFormData = useFormStore((state) => state.updateFormData);
-  const isValidYoutubeUrl = useFormStore((state) => state.isValidYoutubeUrl);
-  const createFormMutation = useCreatePostMutation();
+  const { formData, updateFormData } = useFormValue({
+    title: defaultFormValues.title,
+    content: defaultFormValues.content,
+    files: [],
+    deleteFileLinks: [],
+  } as FormData);
+  // 기존 이미지 url
+  const [imageUrl, setImageUrl] = useState<string[]>(defaultFormValues.imageUrl || []);
+  const updateFormMutation = useUpdateNoticeMutation(noticeId);
 
-  const { youtubeUrl, artist, musicTitle, title, content, mood, genre, image } = formData;
-  const videoId = useMemo(() => getYoutubeVideoId(youtubeUrl), [youtubeUrl]);
+  const { title, content, files: image } = formData;
 
   const showErrorModal = (msg: string) => {
     setErrorMessage(msg);
@@ -42,22 +53,14 @@ export const CreateForm = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (createFormMutation.isPending) return;
+    if (updateFormMutation.isPending) return;
 
-    if (!isValidYoutubeUrl) {
-      showErrorModal(ERROR_MESSAGE.youtubeLink.invalid);
-      return;
-    }
-
-    const _formData: CreatePostDto = {
+    const _formData = {
+      noticeId,
       title,
-      musicTitle,
-      artist,
-      youtubeLink: youtubeUrl,
-      hashtags: mood.map((m) => m.toString()),
-      genre: genre.toString(),
-      image,
+      files: image?.length ? image : undefined,
       content,
+      deleteFileLinks: formData.deleteFileLinks,
     };
 
     // form schema가 올바른지 검증
@@ -67,11 +70,20 @@ export const CreateForm = () => {
       return;
     }
 
-    createFormMutation.mutate(_formData, {
+    updateFormMutation.mutate(_formData, {
       onError: (err) => {
         showErrorModal(err.message || '서버에 문제가 생겼습니다. 다시 시도해 주세요.');
       },
     });
+  };
+
+  const removeImage = (url: string) => {
+    setImageUrl((prevUrl) => prevUrl.filter((prev) => prev !== url));
+    updateFormData('deleteFileLinks', [...formData.deleteFileLinks, url]);
+  };
+
+  const addImage = (file: File[]) => {
+    updateFormData('files', [...file]);
   };
 
   return (
@@ -92,40 +104,17 @@ export const CreateForm = () => {
               type="text"
               placeholder="제목을 입력해 주세요."
               value={title}
+              name="title"
               onChange={(e) => updateFormData('title', e.target.value)}
             />
           </TitleBlock>
-          <InfoBlock>
-            <Track>
-              <EditableElement
-                ref={artistInputRef}
-                placeholder={artist || '아티스트 명'}
-                onChange={(value) => updateFormData('artist', value)}
-              />
-              &nbsp;·&nbsp;
-              <EditableElement
-                ref={musicTitleInputRef}
-                placeholder={musicTitle || '곡 제목'}
-                onChange={(value) => updateFormData('musicTitle', value)}
-              />
-            </Track>
-          </InfoBlock>
         </TitleField>
 
         <TrackField>
-          <YoutubeLinkInput youtubeUrl={youtubeUrl} onChange={(e) => updateFormData('youtubeUrl', e.target.value)} />
-          <TagInput
-            onConfirm={(tags) => {
-              const { genre, mood } = tags;
-              updateFormData('genre', genre);
-              updateFormData('mood', mood);
-            }}
-          />
-          <ImageInput onUpload={(file) => updateFormData('image', file)} />
+          <ImageInput onUpload={(file) => addImage(file)} />
         </TrackField>
 
         <BodyField>
-          <YoutubeIframe videoId={videoId} />
           <TextArea
             placeholder="내용을 입력해 주세요."
             style={{
@@ -134,8 +123,19 @@ export const CreateForm = () => {
               minHeight: '760px',
             }}
             value={content}
+            name="content"
             onChange={(e) => updateFormData('content', e.target.value)}
           />
+          <ImageList>
+            {imageUrl?.map((url, index) => (
+              <ImageItem key={index}>
+                <img src={url} alt={`uploaded-${index}`} />
+                <DeleteButton onClick={() => removeImage(url)}>
+                  <IconCloseSvg />
+                </DeleteButton>
+              </ImageItem>
+            ))}
+          </ImageList>
         </BodyField>
       </Section>
 
@@ -145,13 +145,8 @@ export const CreateForm = () => {
         }}
       >
         <SubmitBlock>
-          <SubmitCaption>
-            등록한 게시물은 관리자 확인 이후 랭킹과 알고리즘에 반영돼요.
-            <br />
-            계속해서 등록하시겠어요?
-          </SubmitCaption>
           <ButtonBox>
-            <Button>등록</Button>
+            <Button type="submit">등록</Button>
           </ButtonBox>
         </SubmitBlock>
       </Section>
@@ -177,11 +172,6 @@ const TextField = styled.input`
 
 const ButtonBox = styled.div`
   width: 163px;
-`;
-
-const SubmitCaption = styled.p`
-  color: ${({ theme }) => theme.colors[100]};
-  ${({ theme }) => theme.fonts.wantedSans.B3};
 `;
 
 const SubmitBlock = styled.div`
@@ -219,11 +209,6 @@ const BodyField = styled.div`
   min-height: 760px;
   padding: 32px 32px 48px 32px;
 `;
-const InfoBlock = styled.div``;
-const Track = styled.p`
-  ${({ theme }) => theme.fonts.wantedSans.B2};
-  color: ${({ theme }) => theme.colors[200]};
-`;
 
 const TrackField = styled.section`
   display: flex;
@@ -232,4 +217,37 @@ const TrackField = styled.section`
   padding: 32px 32px 48px;
   background-color: ${({ theme }) => theme.colors[700]};
   border-bottom: 1px solid ${({ theme }) => theme.colors[500]};
+`;
+
+const ImageList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+`;
+
+const ImageItem = styled.div`
+  position: relative;
+  img {
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+`;
+
+const DeleteButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 `;

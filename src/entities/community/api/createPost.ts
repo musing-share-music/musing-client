@@ -7,7 +7,7 @@ export interface CreatePostDto {
   youtubeLink: string;
   hashtags: string[]; // 분위기
   genre: string; // 장르
-  image?: File; // TODO 이미지 여러장
+  image?: File[]; // 이미지 파일
   content: string; // 글 내용
 }
 
@@ -29,7 +29,9 @@ export const fetchCreatePost = async (body: CreatePostDto): Promise<CreatePostRe
   });
 
   if (body.image) {
-    formData.append('image', body.image);
+    body.image.forEach((image) => {
+      formData.append('image', image);
+    });
   }
 
   const response = await axiosInstance.post(URL.API.BOARD_CREATE, formData, {

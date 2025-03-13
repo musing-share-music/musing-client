@@ -70,6 +70,9 @@ const StyledButton = styled.button<{ width?: number; height?: number; variant: B
   &:disabled {
     background: ${({ theme }) => theme.colors[400]};
     color: ${({ theme }) => theme.colors[300]};
+    &:hover {
+      background: ${({ theme }) => theme.colors[400]};
+    }
   }
 
   ${({ theme, variant }) => buttonVariantStyle[variant](theme)}
