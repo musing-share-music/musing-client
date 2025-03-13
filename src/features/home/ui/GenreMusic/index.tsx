@@ -5,8 +5,9 @@ import { useGetGenreQuery } from 'features/home/lib/useGetGenreQuery';
 
 import { GenreMusics, GenreMusicsItem, LikeGenre, LikeGenreItem } from 'entities/home/model/types';
 
-import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
+// import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
 import { Nodata } from 'shared/ui';
+import { DownArrowButton } from 'shared/ui/';
 
 import { GenreMusicItem } from './GenreMusicItem';
 
@@ -37,7 +38,7 @@ const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
             {item.genreName}
           </PreferTag>
         ))}
-        <Arrowdown />
+        <DownArrowButton backgroundColor={500} hoverBackgroundColor={300} iconColor="primary1Hover1" disabled={true} />
       </PreferTagWrapper>
 
       <TitleBlock>
@@ -116,8 +117,10 @@ const GenreMore = styled.div`
 
 const PreferTagWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 40px;
+  max-width: 100%;
 `;
 
 const PreferTag = styled.label<{ active: boolean }>`
