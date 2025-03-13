@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
 import { forwardRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { ProfileModalRef } from 'widgets/config/profileModal';
 
+import { ROUTES } from 'shared/config/routes';
 import URL from 'shared/config/urls';
 import { useUserInfoStore } from 'shared/store/userInfo';
 import { Button } from 'shared/ui/Button';
@@ -19,6 +21,7 @@ const ALARM_DATA = [
 
 export const ProfileModal = forwardRef<ProfileModalRef, ProfileModalProps>(({ isOpen }, ref) => {
   const { userInfo, logout } = useUserInfoStore();
+  const navigate = useNavigate();
 
   if (!isOpen) return;
 
@@ -35,7 +38,14 @@ export const ProfileModal = forwardRef<ProfileModalRef, ProfileModalProps>(({ is
           <UserEmail>{userInfo.email}</UserEmail>
         </UserInfo>
         <ButtonBlock>
-          <Button variant="outlined">회원 정보</Button>
+          <Button
+            variant="outlined"
+            onClick={async () => {
+              await navigate(`${ROUTES.MEMBERINFO.MEMBERINFO}`);
+            }}
+          >
+            회원 정보
+          </Button>
           <Button variant="outlined" onClick={fetchLogout}>
             <WarnText>로그아웃</WarnText>
           </Button>
