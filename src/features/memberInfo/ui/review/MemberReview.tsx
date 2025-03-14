@@ -126,7 +126,7 @@ export const MemberReview = () => {
             reviewList.map((item: ContentItem) => (
               <div key={item.id}>
                 <CommunityListWrapper
-                  onClick={async () => await navigate(ROUTES.DETAIL.replace(':id', item.artists[0].id.toString()))}
+                  onClick={async () => await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()))}
                 >
                   <CommunityList>
                     <StarRatingWrapper>

@@ -27,7 +27,9 @@ export const MemberReviewList = ({ replyDtos }: ReplyDtosProps) => {
           {replyDtos.map((item, index) => {
             return (
               <div key={index}>
-                <CommunityListWrapper>
+                <CommunityListWrapper
+                  onClick={async () => await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()))}
+                >
                   <CommunityList>
                     <StarRatingWrapper>
                       <StarRatingInput value={item.starScore} enabled={false} />
