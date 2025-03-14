@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import moment from 'moment';
 import { SetStateAction, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 moment.locale('ko');
 
@@ -9,6 +10,7 @@ import { useGetReviewSearchQuery } from 'features/memberInfo/lib/useGetReviewSea
 
 import { ContentItem } from 'entities/memberInfo/model/types';
 
+import { ROUTES } from 'shared/config/routes';
 import { commonStyles } from 'shared/styles/common';
 import { Pagination } from 'shared/ui';
 import { Nodata } from 'shared/ui';
@@ -65,6 +67,7 @@ const CommunitySearchSelectWrapper = ({ keyWord, onSearch }: CommunitySearchSele
 };
 
 export const MemberReview = () => {
+  const navigate = useNavigate();
   const [activePage, setActivePage] = useState(0);
   const [sortOrder, setSortOrder] = useState('DESC');
   const [keyWord, setKeyWord] = useState<string>('');
@@ -122,7 +125,9 @@ export const MemberReview = () => {
           ) : (
             reviewList.map((item: ContentItem) => (
               <div key={item.id}>
-                <CommunityListWrapper>
+                <CommunityListWrapper
+                  onClick={async () => await navigate(ROUTES.DETAIL.replace(':id', item.artists[0].id.toString()))}
+                >
                   <CommunityList>
                     <StarRatingWrapper>
                       <StarRatingInput value={item.starScore} enabled={false} />
