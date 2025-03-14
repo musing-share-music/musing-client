@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 
 import { LikeMusicDtosItem } from 'entities/home/model/types';
 import { HoverRevealButton } from 'entities/home/ui/HoverRevealButton';
 
+import { ROUTES } from 'shared/config/routes';
 import { withHover, WithHoverProps } from 'shared/ui/withHover';
 
 interface LikeMusicDtosItemProps {
@@ -10,13 +12,19 @@ interface LikeMusicDtosItemProps {
 }
 
 const LikeMusicItemBase = ({ item, isHover }: LikeMusicDtosItemProps & WithHoverProps) => {
+  const navigate = useNavigate();
   return (
     <LikeMusingImageWrapper>
       <LikeMusingImage src={item.thumbNailLink} alt="이미지" className="main-image" />
       <HoverRevealButton
         isHover={isHover!}
         menuItem={[
-          { onClick: () => {}, content: '곡정보' },
+          {
+            onClick: async () => {
+              await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()));
+            },
+            content: '곡정보',
+          },
           { onClick: () => {}, content: '좋아요' },
           { onClick: () => {}, content: '플레이리스트 추가' },
         ]}

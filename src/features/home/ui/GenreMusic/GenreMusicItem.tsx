@@ -1,10 +1,12 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 
 import { GenreMusicsItem } from 'entities/home/model/types';
 import { HoverRevealButton } from 'entities/home/ui/HoverRevealButton';
 
 import btn_add from 'shared/assets/image/main/btn-add.png';
+import { ROUTES } from 'shared/config/routes';
 import { withHover, WithHoverProps } from 'shared/ui/withHover';
 
 interface GenreMusicsItemProps {
@@ -12,6 +14,7 @@ interface GenreMusicsItemProps {
 }
 
 const GenreMusicItemBase = ({ item, isHover }: GenreMusicsItemProps & WithHoverProps) => {
+  const navigate = useNavigate();
   return (
     <GenreMusingWrapper>
       <GenreMusingImageWrapper>
@@ -22,7 +25,12 @@ const GenreMusicItemBase = ({ item, isHover }: GenreMusicsItemProps & WithHoverP
           right={12}
           isHover={isHover}
           menuItem={[
-            { onClick: () => {}, content: '곡정보' },
+            {
+              onClick: async () => {
+                await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()));
+              },
+              content: '곡정보',
+            },
             { onClick: () => {}, content: '좋아요' },
             { onClick: () => {}, content: '플레이리스트 추가' },
           ]}

@@ -31,12 +31,12 @@ const ArrowCircleButton = styled(CircleButton)<ArrowCircleButtonProps<'button' |
     background: ${({ theme, hoverBackgroundColor }) => theme.colors[hoverBackgroundColor]};
   }
 
-  ${({ disabled }) =>
+  ${({ disabled, theme }) =>
     disabled &&
     css`
       pointer-events: none;
       opacity: 0.5;
-      background: ${({ theme }) => theme.colors[400]}; // 원하는 비활성화 색상 지정
+      background: ${theme.colors[400]};
     `}
 `;
 

@@ -46,7 +46,10 @@ const CommunityMusic = ({ recentBoard, hotMusicBoard }: RecentBoardProps) => {
             </PlayListInfoTitle>
             <PlayListInfoDescription>{hotMusicBoard.title}</PlayListInfoDescription>
           </PlayListInfoBlock>
-          <PlayListInfoButton src={arrow3}></PlayListInfoButton>
+          <PlayListInfoButton
+            src={arrow3}
+            onClick={async () => await navigate(ROUTES.DETAIL.replace(':id', hotMusicBoard.id.toString()))}
+          ></PlayListInfoButton>
         </PlayListBlock>
 
         <CommunityListBlock>
@@ -83,7 +86,9 @@ const CommunityMusic = ({ recentBoard, hotMusicBoard }: RecentBoardProps) => {
 
               return (
                 <div key={item.id}>
-                  <CommunityListWrapper>
+                  <CommunityListWrapper
+                    onClick={async () => await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()))}
+                  >
                     <CommunityList>
                       <ListDate isRecent={diffDays < 1}>{formattedDate}</ListDate>
                       <ListImg src={item.thumbNailLink} alt={item.title} />

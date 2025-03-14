@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 
 import { RecommendGenresItem } from 'entities/home/model/types';
 import { HoverRevealButton } from 'entities/home/ui/HoverRevealButton';
 
 import btn_add from 'shared/assets/image/main/btn-add.png';
+import { ROUTES } from 'shared/config/routes';
 import { withHover, WithHoverProps } from 'shared/ui/withHover';
 
 interface RecommendGenresItemProps {
@@ -11,6 +13,7 @@ interface RecommendGenresItemProps {
 }
 
 const HotMusicItemBase = ({ item, isHover }: RecommendGenresItemProps & WithHoverProps) => {
+  const navigate = useNavigate();
   return (
     <HotMusingImageWrapper>
       <HotMusingImage src={item.thumbNailLink} alt="이미지" className="main-image" />
@@ -23,7 +26,12 @@ const HotMusicItemBase = ({ item, isHover }: RecommendGenresItemProps & WithHove
           <HoverRevealButton
             isHover={isHover}
             menuItem={[
-              { onClick: () => {}, content: '곡정보' },
+              {
+                onClick: async () => {
+                  await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()));
+                },
+                content: '곡정보',
+              },
               { onClick: () => {}, content: '좋아요' },
               { onClick: () => {}, content: '플레이리스트 추가' },
             ]}
