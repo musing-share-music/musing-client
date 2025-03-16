@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import moment from 'moment';
 
 import { ANCHOR_CONTENT } from 'pages/detail/config/anchor';
 
@@ -13,9 +14,17 @@ import { Section } from './styled';
 
 type ContentsProps = BoardDetail;
 
-export const Contents = ({ title, musicTitle, artist, youtubeLink, content }: ContentsProps) => {
+export const Contents = ({
+  title,
+  username,
+  musicTitle,
+  artist,
+  youtubeLink,
+  content,
+  createdAt,
+  updatedAt,
+}: ContentsProps) => {
   const videoId = getYoutubeVideoId(youtubeLink);
-  const author = ''; // 작성자
   return (
     <Section>
       <Header>
@@ -30,11 +39,14 @@ export const Contents = ({ title, musicTitle, artist, youtubeLink, content }: Co
           <Track>
             {musicTitle} · {artist}
           </Track>
-          <Author>작성자 {author}</Author>
+          <Author>작성자 {username}</Author>
         </InfoBlock>
         <InfoBlock>
           <RatingBox />
-          <CreatedAt>작성일 2024-12-05 11:05(수정됨)</CreatedAt>
+          <CreatedAt>
+            {moment(createdAt).utcOffset(9).format('YYYY년 MM월 DD일')}
+            {createdAt === updatedAt ? '(수정됨)' : ''}
+          </CreatedAt>
         </InfoBlock>
       </Header>
 

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AnchorButton } from 'pages/detail/ui/AnchorButton';
@@ -10,8 +10,6 @@ import { DeleteReviewModal } from 'widgets/ui/PlayList/DeleteReviewModal';
 import { useDeletePostMutation } from 'features/community/deletePost/lib/useDeletePostMutation';
 
 import { BoardDetail } from 'entities/community/model/types';
-import { useGetGenre } from 'entities/genre/api/useGetGenre';
-import { useGetMood } from 'entities/mood/api/useGetMood';
 
 import { ROUTES } from 'shared/config/routes';
 import { Button, StarRatingInput } from 'shared/ui/';
@@ -23,25 +21,18 @@ interface MusicInfoProps extends BoardDetail {
   boardId: number;
 }
 
-export const MusicInfo = ({ boardId, musicTitle, artist, hashtags, genre, thumbNailLink }: MusicInfoProps) => {
+export const MusicInfo = ({
+  boardId,
+  musicTitle,
+  artist,
+  hashtags,
+  genre,
+  thumbNailLink,
+  permitRegister,
+}: MusicInfoProps) => {
   const [open, setOpen] = useState(false);
   const deletePostMutation = useDeletePostMutation();
   const navigate = useNavigate();
-  const { data: moodData } = useGetMood();
-  const { data: genreData } = useGetGenre();
-
-  const isConfirmed = true; // 관리자 확인 여부
-  const genreText: string = useMemo(() => {
-    const data = genreData?.find(({ id }) => id === genre);
-    return data?.genreName || '';
-  }, [genre, genreData]);
-  const moodText: string[] = useMemo(
-    () =>
-      hashtags
-        .map((tagId) => moodData?.find(({ id }) => id === Number(tagId))?.moodName || '')
-        .filter((value) => !!value),
-    [hashtags, moodData],
-  );
 
   const menuItem = [
     {
@@ -76,13 +67,12 @@ export const MusicInfo = ({ boardId, musicTitle, artist, hashtags, genre, thumbN
           <AdminBlock>
             <AdminConfirm>
               관리자 확인
-              <ConfirmAlert isConfirmed={isConfirmed} />
+              <ConfirmAlert isConfirmed={!(permitRegister === 'NON_CHECK')} />
               <ToolTip>관리자 확인이 완료될 시 좋아요가 알고리즘에 반영돼요.</ToolTip>
             </AdminConfirm>
           </AdminBlock>
 
           <CoverBox>
-            {/* TODO: 썸네일 defaul 이미지 */}
             <CoverImg src={thumbNailLink} />
           </CoverBox>
 
@@ -105,9 +95,11 @@ export const MusicInfo = ({ boardId, musicTitle, artist, hashtags, genre, thumbN
           </ButtonBlock>
 
           <TagBlock>
-            <CommonTag type="genre" name={genreText} />
-            {moodText.map((val) => (
-              <CommonTag key={val} type="genre" name={val} />
+            {genre.map((text) => (
+              <CommonTag key={text} type="genre" name={text} />
+            ))}
+            {hashtags.map((text) => (
+              <CommonTag key={text} type="mood" name={text} />
             ))}
           </TagBlock>
         </MusicInfoBox>
