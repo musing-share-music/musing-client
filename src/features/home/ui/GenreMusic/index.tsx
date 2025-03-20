@@ -1,11 +1,13 @@
 import styled from '@emotion/styled';
 import { Key, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useGetGenreQuery } from 'features/home/lib/useGetGenreQuery';
 
 import { GenreMusics, GenreMusicsItem, LikeGenre, LikeGenreItem } from 'entities/home/model/types';
 
 // import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
+import { ROUTES } from 'shared/config/routes';
 import { Nodata } from 'shared/ui';
 import { DownArrowButton } from 'shared/ui/';
 
@@ -17,6 +19,8 @@ interface genreMusicsProps {
 }
 
 const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
+  const navigate = useNavigate();
+
   const filterLikeGenre = Array.from(new Map(likeGenre.map((item) => [item.id, item])).values());
 
   const [activeCtgId, setActiveCtgId] = useState<number>(filterLikeGenre[0].id);
@@ -55,7 +59,14 @@ const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
               <GenreMusicItem key={index} item={item} />
             ))}
             <GenreMore>
-              <TitleBlock className="more">
+              <TitleBlock
+                className="more"
+                onClick={async () =>
+                  await navigate(ROUTES.COMMUNITY.COMMUNITY, {
+                    state: { activeCtgName: activeCtgName, activeCtgId: activeCtgId },
+                  })
+                }
+              >
                 <PageTitle>{activeCtgName}</PageTitle>
                 <SubTitle>장르 더 듣기</SubTitle>
               </TitleBlock>

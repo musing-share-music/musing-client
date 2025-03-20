@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { SetStateAction, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { useGetPageListQuery, useGetSearchListQuery } from 'features/community/list/lib';
 
@@ -23,6 +23,9 @@ interface CommunitySearchSelectWrapperProps {
 }
 
 const CommunitySearchSelectWrapper = ({ keyWord, onSearch }: CommunitySearchSelectWrapperProps) => {
+  const location = useLocation();
+  const state = location.state;
+
   const [isOpen, setIsOpen] = useState(false);
   const [enabled, setEnabled] = useState(false);
   const [selectedTitle, setSelectedTitle] = useState('제목');
@@ -44,6 +47,13 @@ const CommunitySearchSelectWrapper = ({ keyWord, onSearch }: CommunitySearchSele
       onSearch(searchData);
     }
   }, [searchData, onSearch]);
+
+  useEffect(() => {
+    if (state) {
+      setSelectedTitle('장르명');
+      setSelectedOption('genre');
+    }
+  }, [state]);
 
   const handleOptionClick = (title: string, option: string) => {
     setSelectedTitle(title);
@@ -73,6 +83,8 @@ type GetPageListResponse = {
 };
 
 const RecommendedPostList = ({ boardDtos }: BoardDtosProps) => {
+  const location = useLocation();
+  const state = location.state;
   const navigate = useNavigate();
   const [activePage, setActivePage] = useState(1);
   const [enabled, setEnabled] = useState(false);
@@ -87,6 +99,12 @@ const RecommendedPostList = ({ boardDtos }: BoardDtosProps) => {
       setEnabled(true);
     }
   }, [activePage]);
+
+  useEffect(() => {
+    if (state) {
+      setKeyWord(state.activeCtgName);
+    }
+  }, [state]);
 
   useEffect(() => {
     if (!keyWord && !pageData) {
