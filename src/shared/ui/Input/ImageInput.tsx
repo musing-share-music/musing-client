@@ -1,27 +1,42 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { useImageInput } from 'features/createPost/model/useImageInput';
-
+import { useImageInput } from 'shared/hooks/useImageInput';
 import { Button, Modal } from 'shared/ui/';
 
 export interface ImageUploaderProps {
-  onUpload: (file: File) => void;
+  onUpload: (file: File[]) => void;
 }
 
 export const ImageInput = ({ onUpload }: ImageUploaderProps) => {
   const [open, setOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
   const { file, isDragActive, getInputProps, getRootProps, imagePreview, handleSubmit } = useImageInput(onUpload);
+
+  useEffect(() => {
+    // 마지막으로 업로드한 이미지를 미리보기
+    setPreviewImage(imagePreview);
+  }, [imagePreview]);
+
+  const initPreviewImage = () => {
+    setPreviewImage(null);
+  };
 
   return (
     <>
       <Box>
-        <Label>{file && file.name}</Label>
+        <Label>{file.length > 0 && file.map(({ name }) => name).join(' ')}</Label>
         <Button type="button" variant="outlined" onClick={() => setOpen(true)}>
           이미지 업로드
         </Button>
       </Box>
-      <Modal open={open} onClose={() => setOpen(false)}>
+      <Modal
+        open={open}
+        onClose={() => {
+          initPreviewImage();
+          setOpen(false);
+        }}
+      >
         <ImageModalContainer>
           <ModalHeader>
             <Modal.Title>이미지 업로드</Modal.Title>
@@ -30,15 +45,13 @@ export const ImageInput = ({ onUpload }: ImageUploaderProps) => {
 
           <ImageDropBox {...getRootProps()}>
             <input {...getInputProps()} />
-            {isDragActive ? (
-              <DragActiveCaption>드래그하여 업로드</DragActiveCaption>
+            {isDragActive && <DragActiveCaption>드래그하여 업로드</DragActiveCaption>}
+            {previewImage ? (
+              <ImagePreviewBox>
+                <ImagePreview src={previewImage} alt="Preview" />
+              </ImagePreviewBox>
             ) : (
               <DragCaption>이미지를 드래그하거나 클릭해서 업로드하세요.</DragCaption>
-            )}
-            {imagePreview && (
-              <ImagePreviewBox>
-                <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', maxHeight: '300px' }} />
-              </ImagePreviewBox>
             )}
           </ImageDropBox>
           <ButtonBlock>
@@ -47,7 +60,9 @@ export const ImageInput = ({ onUpload }: ImageUploaderProps) => {
                 onClick={() => {
                   handleSubmit();
                   setOpen(false);
+                  initPreviewImage();
                 }}
+                disabled={!previewImage}
               >
                 첨부
               </Button>
@@ -66,7 +81,14 @@ const ButtonBlock = styled.div`
 `;
 
 const ImagePreviewBox = styled.div`
+  display: flex;
+  justify-content: center;
   width: 100%;
+`;
+const ImagePreview = styled.img`
+  width: auto;
+  height: 200px;
+  max-height: 200px;
 `;
 
 const DragActiveCaption = styled.p`

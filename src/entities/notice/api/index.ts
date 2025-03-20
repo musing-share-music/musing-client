@@ -68,7 +68,7 @@ export const fetchRemoveNotice = async ({ noticeId }: FetchRemoveNoticeDto) => {
   return response.data;
 };
 
-export const fetchUpdateNotice = async (body: FetchUpdateNoticeDto) => {
+export const fetchUpdateNotice = async ({ noticeId, ...body }: FetchUpdateNoticeDto) => {
   const formData = new FormData();
 
   formData.append(
@@ -81,11 +81,11 @@ export const fetchUpdateNotice = async (body: FetchUpdateNoticeDto) => {
   body.files?.forEach((files) => {
     formData.append('files', files);
   });
-  body.deleteFileLinks?.forEach((files) => {
-    formData.append('deleteFileLinks', files);
-  });
+  if (body.deleteFileLinks) {
+    formData.append('deleteFileLinks', JSON.stringify(body.deleteFileLinks));
+  }
 
-  const response = await axiosInstance.put<FetchUpdateNoticeResponse>(URL.API.ADMIN.NOTICE, formData, {
+  const response = await axiosInstance.put<FetchUpdateNoticeResponse>(`${URL.API.ADMIN.NOTICE}/${noticeId}`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
