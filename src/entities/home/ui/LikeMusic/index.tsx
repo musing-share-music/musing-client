@@ -74,8 +74,8 @@ interface LikeMusicDtosProps {
 
 const LikeMusic = ({ likeMusicDtos }: LikeMusicDtosProps) => {
   const limitedLikeMusicList = likeMusicDtos.slice(0, 4);
-  // const limitedLikeMusicList2 = likeMusicDtos.slice(4, 7);
-  // const limitedLikeMusicList3 = likeMusicDtos.slice(7, 10);
+  const limitedLikeMusicList2 = likeMusicDtos.slice(4, 7);
+  const limitedLikeMusicList3 = likeMusicDtos.slice(7, 10);
 
   return (
     <LikeContainer>
@@ -94,18 +94,22 @@ const LikeMusic = ({ likeMusicDtos }: LikeMusicDtosProps) => {
             ))}
 
             <LikeMore>
-              <LikeMoreList>
-                {limitedLikeMusicList.map((item, index) => (
-                  <LikeMoreItem key={index} item={item} />
-                ))}
-              </LikeMoreList>
+              {limitedLikeMusicList2 && limitedLikeMusicList2.length > 0 && (
+                <LikeMoreList>
+                  {limitedLikeMusicList2.map((item, index) => (
+                    <LikeMoreItem key={index} item={item} />
+                  ))}
+                </LikeMoreList>
+              )}
 
-              <LikeMoreList>
-                {limitedLikeMusicList.slice(0, 3).map((item, index) => (
-                  <LikeMoreItem key={index} item={item} />
-                ))}
-                <Arrow src={arrow2}></Arrow>
-              </LikeMoreList>
+              {limitedLikeMusicList3 && limitedLikeMusicList3.length > 0 && (
+                <LikeMoreList>
+                  {limitedLikeMusicList3.map((item, index) => (
+                    <LikeMoreItem key={index} item={item} />
+                  ))}
+                  <Arrow src={arrow2}></Arrow>
+                </LikeMoreList>
+              )}
             </LikeMore>
           </>
         )}
