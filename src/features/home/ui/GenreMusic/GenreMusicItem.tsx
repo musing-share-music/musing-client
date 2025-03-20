@@ -31,7 +31,12 @@ const GenreMusicItemBase = ({ item, isHover }: GenreMusicsItemProps & WithHoverP
               },
               content: '곡정보',
             },
-            { onClick: () => {}, content: '좋아요' },
+            {
+              onClick: async () => {
+                await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()), { state: { isLikedClick: true } });
+              },
+              content: '좋아요',
+            },
             { onClick: () => {}, content: '플레이리스트 추가' },
           ]}
         />

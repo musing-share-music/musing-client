@@ -1,5 +1,6 @@
 import { css, Theme, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useEffect } from 'react';
 
 import IconHeart from 'shared/assets/image/icons/icon-heart.svg?react';
 import { Button } from 'shared/ui/Button';
@@ -23,13 +24,36 @@ const ButtonStyles = {
     }
   `,
 };
-export const LikeButton = () => {
+
+interface LikeButtonProps {
+  isLikedClick: boolean;
+}
+
+export const LikeButton = ({ isLikedClick }: LikeButtonProps) => {
   const theme = useTheme();
   const isLiked = false;
   const color = isLiked ? theme.colors.primary1 : theme.colors[200];
 
+  const likeClick = () => {
+    if (isLikedClick) {
+      console.log('좋아요 클릭됨');
+    }
+  };
+
+  useEffect(() => {
+    if (isLikedClick) {
+      likeClick();
+    }
+  }, [isLikedClick]);
+
   return (
-    <Button variant="outlined" css={isLiked ? ButtonStyles.liked(theme) : ButtonStyles.unliked(theme)}>
+    <Button
+      variant="outlined"
+      css={isLiked ? ButtonStyles.liked(theme) : ButtonStyles.unliked(theme)}
+      onClick={() => {
+        likeClick();
+      }}
+    >
       <Container>
         <IconHeart fill={color} />
         좋아요

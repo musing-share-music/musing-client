@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { SetStateAction, useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useGetPageListQuery, useGetSearchListQuery } from 'features/community/list/lib';
 
