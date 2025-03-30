@@ -17,5 +17,5 @@ export interface Content {
   content: string;
   createdAt: string;
   username: string;
-  imageUrl: string[];
+  imageUrl: string[] | null;
 }

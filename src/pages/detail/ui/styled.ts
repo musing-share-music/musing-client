@@ -10,6 +10,11 @@ export const Layout = styled.div`
 `;
 
 export const LeftContainer = styled.div`
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   width: 336px;
   min-width: 336px;
 `;

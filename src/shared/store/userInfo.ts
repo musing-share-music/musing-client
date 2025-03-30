@@ -29,7 +29,8 @@ export const useUserInfoStore = create<UserState>()(
       },
 
       // 관리자 여부 확인
-      isAdmin: () => get().userInfo.authority === 'ADMIN',
+      // TODO api 연동
+      isAdmin: () => true,
 
       // 사용자 정보 설정
       setUser: (user: UserInfo) => set({ userInfo: user }),

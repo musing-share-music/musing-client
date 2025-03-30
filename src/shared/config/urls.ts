@@ -43,6 +43,10 @@ const URL = {
     ADMIN: {
       NOTICE: 'musing/admin/notice', // 공지사항
       DELETE_NOTICE: 'musing/admin/notice/remove', // 공지사항 삭제
+      PERMIT_BOARD_LIST: 'musing/admin/board/list', // 승인 대기 게시글 리스트
+      PERMIT_BOARD_SEARCH: 'musing/admin/board/list/search', // 승인 대기 게시글 검색
+      PERMIT_BOARD: 'musing/admin/board/permit', // 게시글 승인
+      REJECT_BOARD: 'musing/admin/board/non/permit', // 게시글 승인 거절
     },
 
     TOKENREISSUE: 'musing/auth/reissue', //토큰 재발급

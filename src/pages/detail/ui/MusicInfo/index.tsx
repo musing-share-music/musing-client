@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { AnchorButton } from 'pages/detail/ui/AnchorButton';
 import { MoreButton } from 'pages/detail/ui/MoreButton';
 
 import { DeleteReviewModal } from 'widgets/ui/PlayList/DeleteReviewModal';
@@ -103,8 +102,6 @@ export const MusicInfo = ({
             ))}
           </TagBlock>
         </MusicInfoBox>
-
-        <AnchorButton />
       </Layout>
       <DeleteReviewModal
         open={open}
@@ -117,10 +114,7 @@ export const MusicInfo = ({
   );
 };
 
-const Layout = styled.div`
-  position: sticky;
-  top: 24px;
-`;
+const Layout = styled.div``;
 
 const MusicInfoBox = styled.div`
   display: flex;

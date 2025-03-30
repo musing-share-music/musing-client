@@ -17,7 +17,7 @@ export const ADMIN_NAV_ITEM: AdminNavItem[] = [
   },
   {
     text: '관리자확인',
-    href: ROUTES.ADMIN.CHECK,
+    href: ROUTES.ADMIN.PERMIT,
   },
   {
     text: '신고 접수',

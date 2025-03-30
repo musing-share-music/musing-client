@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 import { fetchPermitBoardState, fetchRejectBoardState } from 'entities/adminPermit/api/boardList';
 import { community } from 'entities/community/api/community.query';
 
 export const AdminMenu = ({ boardId, isAdmin }: { boardId: number; isAdmin: boolean }) => {
   const queryClient = useQueryClient();
-
+  const navigate = useNavigate();
   // 관리자 권한으로 게시글 승인
   const perMitBoardMutation = useMutation({
     mutationFn: fetchPermitBoardState,
@@ -22,22 +23,17 @@ export const AdminMenu = ({ boardId, isAdmin }: { boardId: number; isAdmin: bool
     },
   });
 
-  // 관리자 권한으로 게시글 거절
-  const rejectBoardMutation = useMutation({
+  // 관리자 권한으로 게시글 삭제
+  const deleteBoardMutation = useMutation({
     mutationFn: fetchRejectBoardState,
     onSuccess: async () => {
-      window.alert('게시글이 거절되었습니다.');
-      // detail 페이지 새로고침
-      await queryClient.invalidateQueries({
-        queryKey: [community.detail(boardId)],
-      });
+      window.alert('게시글이 삭제되었습니다.');
+      await navigate(-1); // 뒤로가기
     },
     onError: (error) => {
       window.alert(error.message);
     },
   });
-
-  const isPending = perMitBoardMutation.isPending || rejectBoardMutation.isPending;
 
   const reportMenu = [
     { text: '확인', onClick: () => {} },
@@ -47,19 +43,18 @@ export const AdminMenu = ({ boardId, isAdmin }: { boardId: number; isAdmin: bool
 
   const permitMenu = [
     {
-      text: '승인',
+      text: '확인',
       onClick: () => {
-        if (isPending) return;
+        if (deleteBoardMutation.isPending || perMitBoardMutation.isPending) return;
         perMitBoardMutation.mutate({ boardId });
       },
     },
-
     {
-      text: '거절',
+      text: '삭제',
       onClick: () => {
-        if (isPending) return;
-        if (window.confirm('게시글을 거절하시겠습니까?')) {
-          rejectBoardMutation.mutate({ boardId });
+        if (deleteBoardMutation.isPending || perMitBoardMutation.isPending) return;
+        if (window.confirm('게시글을 삭제하시겠습니까?')) {
+          deleteBoardMutation.mutate({ boardId });
         }
       },
     },
@@ -74,7 +69,7 @@ export const AdminMenu = ({ boardId, isAdmin }: { boardId: number; isAdmin: bool
         <AdminMenuTitle>신고</AdminMenuTitle>
         <AdminMenuDivider />
         {reportMenu.map((menu, index) => (
-          <AdminPermitMenu key={index} onClick={menu.onClick} disabled={isPending}>
+          <AdminPermitMenu key={index} onClick={menu.onClick}>
             {menu.text}
           </AdminPermitMenu>
         ))}
@@ -83,7 +78,7 @@ export const AdminMenu = ({ boardId, isAdmin }: { boardId: number; isAdmin: bool
         <AdminMenuTitle>관리자 확인</AdminMenuTitle>
         <AdminMenuDivider />
         {permitMenu.map((menu, index) => (
-          <AdminPermitMenu key={index} onClick={menu.onClick} disabled={isPending}>
+          <AdminPermitMenu key={index} onClick={menu.onClick}>
             {menu.text}
           </AdminPermitMenu>
         ))}
