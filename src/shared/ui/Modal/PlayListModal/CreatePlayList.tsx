@@ -5,7 +5,11 @@ import { Modal } from 'shared/ui/Modal/BaseModal';
 import { OuterCloseModal } from 'shared/ui/Modal/OuterCloseModal';
 import { OuterCloseModalProps } from 'shared/ui/Modal/type';
 
-export const CreatePlayListModal = ({ ...props }: OuterCloseModalProps) => {
+interface CreatePlayListModalProps extends OuterCloseModalProps {
+  onOpenPersistModal?: () => void;
+}
+
+export const CreatePlayListModal = ({ onOpenPersistModal, ...props }: CreatePlayListModalProps) => {
   return (
     <OuterCloseModal {...props}>
       <Content>
@@ -23,7 +27,14 @@ export const CreatePlayListModal = ({ ...props }: OuterCloseModalProps) => {
         </GuideWrap>
         <ButtonBlock>
           <ButtonWrap>
-            <PeristButton onClick={props.onClose}>플레이리스트 연동하기</PeristButton>
+            <PeristButton
+              onClick={() => {
+                props.onClose?.();
+                onOpenPersistModal?.();
+              }}
+            >
+              플레이리스트 연동하기
+            </PeristButton>
           </ButtonWrap>
           <ButtonWrap>
             <Button onClick={props.onClose}>생성</Button>
