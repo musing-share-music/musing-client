@@ -10,9 +10,10 @@ import { withHover, WithHoverProps } from 'shared/ui/withHover';
 
 interface RecommendGenresItemProps {
   item: RecommendGenresItem;
+  onAddPlaylistClick?: () => void;
 }
 
-const HotMusicItemBase = ({ item, isHover }: RecommendGenresItemProps & WithHoverProps) => {
+const HotMusicItemBase = ({ item, isHover, onAddPlaylistClick }: RecommendGenresItemProps & WithHoverProps) => {
   const navigate = useNavigate();
   return (
     <HotMusingImageWrapper>
@@ -22,7 +23,7 @@ const HotMusicItemBase = ({ item, isHover }: RecommendGenresItemProps & WithHove
         <HotTitle>{item.musicName}</HotTitle>
         <HotSubTitle>{item.artists[0]?.name}</HotSubTitle>
         <ButtonBlock>
-          <HotButton src={btn_add} alt="추가" className="btn_add" />
+          <HotButton src={btn_add} alt="추가" className="btn_add" onClick={onAddPlaylistClick} />
           <HoverRevealButton
             isHover={isHover}
             menuItem={[
@@ -38,7 +39,10 @@ const HotMusicItemBase = ({ item, isHover }: RecommendGenresItemProps & WithHove
                 },
                 content: '좋아요',
               },
-              { onClick: () => {}, content: '플레이리스트 추가' },
+              {
+                content: '플레이리스트 추가',
+                onClick: onAddPlaylistClick ? onAddPlaylistClick : () => {},
+              },
             ]}
           />
         </ButtonBlock>

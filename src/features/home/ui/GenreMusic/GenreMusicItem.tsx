@@ -11,15 +11,16 @@ import { withHover, WithHoverProps } from 'shared/ui/withHover';
 
 interface GenreMusicsItemProps {
   item: GenreMusicsItem;
+  onAddPlaylistClick?: () => void;
 }
 
-const GenreMusicItemBase = ({ item, isHover }: GenreMusicsItemProps & WithHoverProps) => {
+const GenreMusicItemBase = ({ item, isHover, onAddPlaylistClick }: GenreMusicsItemProps & WithHoverProps) => {
   const navigate = useNavigate();
   return (
     <GenreMusingWrapper>
       <GenreMusingImageWrapper>
         <GenreMusingImage src={item.thumbNailLink} alt="이미지" className="main-image" />
-        <GenreButton src={btn_add} className="btn_add" />
+        <GenreButton src={btn_add} className="btn_add" onClick={onAddPlaylistClick} />
         <HoverRevealButton
           top={12}
           right={12}
@@ -33,11 +34,16 @@ const GenreMusicItemBase = ({ item, isHover }: GenreMusicsItemProps & WithHoverP
             },
             {
               onClick: async () => {
-                await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()), { state: { isLikedClick: true } });
+                await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()), {
+                  state: { isLikedClick: true },
+                });
               },
               content: '좋아요',
             },
-            { onClick: () => {}, content: '플레이리스트 추가' },
+            {
+              onClick: onAddPlaylistClick ? onAddPlaylistClick : () => {},
+              content: '플레이리스트 추가',
+            },
           ]}
         />
       </GenreMusingImageWrapper>

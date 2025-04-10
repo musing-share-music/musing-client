@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
+import { useState } from 'react';
 
 import { LikeMusicDtos } from 'entities/home/model/types';
 
 import arrow2 from 'shared/assets/image/main/arrow 2.png';
 import { Nodata } from 'shared/ui';
+import { AddPlayListModal } from 'shared/ui/Modal/PlayListModal/AddPlayList';
 
 import { LikeMoreItem } from './LikeMoreItem';
 import { LikeMusicItem } from './LikeMusicItem';
@@ -77,8 +79,14 @@ const LikeMusic = ({ likeMusicDtos }: LikeMusicDtosProps) => {
   const limitedLikeMusicList2 = likeMusicDtos.slice(4, 7);
   const limitedLikeMusicList3 = likeMusicDtos.slice(7, 10);
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
   return (
     <LikeContainer>
+      <AddPlayListModal open={modalOpen} onClose={closeModal} children={undefined} />
+
       <TitleBlock>
         <PageTitle>좋아요</PageTitle>
         <SubTitle>한 음악</SubTitle>
@@ -90,14 +98,14 @@ const LikeMusic = ({ likeMusicDtos }: LikeMusicDtosProps) => {
         ) : (
           <>
             {limitedLikeMusicList.map((item, index) => (
-              <LikeMusicItem key={index} item={item} />
+              <LikeMusicItem key={index} item={item} onAddPlaylistClick={openModal} />
             ))}
 
             <LikeMore>
               {limitedLikeMusicList2 && limitedLikeMusicList2.length > 0 && (
                 <LikeMoreList>
                   {limitedLikeMusicList2.map((item, index) => (
-                    <LikeMoreItem key={index} item={item} />
+                    <LikeMoreItem key={index} item={item} onAddPlaylistClick={openModal} />
                   ))}
                 </LikeMoreList>
               )}
@@ -105,7 +113,7 @@ const LikeMusic = ({ likeMusicDtos }: LikeMusicDtosProps) => {
               {limitedLikeMusicList3 && limitedLikeMusicList3.length > 0 && (
                 <LikeMoreList>
                   {limitedLikeMusicList3.map((item, index) => (
-                    <LikeMoreItem key={index} item={item} />
+                    <LikeMoreItem key={index} item={item} onAddPlaylistClick={openModal} />
                   ))}
                   <Arrow src={arrow2}></Arrow>
                 </LikeMoreList>

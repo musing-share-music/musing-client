@@ -9,9 +9,10 @@ import { withHover, WithHoverProps } from 'shared/ui/withHover';
 
 interface LikeMusicDtosItemProps {
   item: LikeMusicDtosItem;
+  onAddPlaylistClick?: () => void;
 }
 
-const LikeMusicItemBase = ({ item, isHover }: LikeMusicDtosItemProps & WithHoverProps) => {
+const LikeMusicItemBase = ({ item, isHover, onAddPlaylistClick }: LikeMusicDtosItemProps & WithHoverProps) => {
   const navigate = useNavigate();
   return (
     <LikeMusingImageWrapper>
@@ -31,7 +32,10 @@ const LikeMusicItemBase = ({ item, isHover }: LikeMusicDtosItemProps & WithHover
             },
             content: '좋아요',
           },
-          { onClick: () => {}, content: '플레이리스트 추가' },
+          {
+            content: '플레이리스트 추가',
+            onClick: onAddPlaylistClick ? onAddPlaylistClick : () => {},
+          },
         ]}
         top={24}
         right={24}
