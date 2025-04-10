@@ -20,8 +20,6 @@ const HotMusicItemBase = ({ item, isHover, onAddPlaylistClick }: RecommendGenres
       <HotMusingImage src={item.thumbNailLink} alt="이미지" className="main-image" />
       <Border />
       <HoverItemBox>
-        <HotTitle>{item.musicName}</HotTitle>
-        <HotSubTitle>{item.artists[0]?.name}</HotSubTitle>
         <ButtonBlock>
           <HotButton src={btn_add} alt="추가" className="btn_add" onClick={onAddPlaylistClick} />
           <HoverRevealButton
@@ -46,6 +44,8 @@ const HotMusicItemBase = ({ item, isHover, onAddPlaylistClick }: RecommendGenres
             ]}
           />
         </ButtonBlock>
+        <HotTitle>{item.musicName}</HotTitle>
+        <HotSubTitle>{item.artists[0]?.name}</HotSubTitle>
       </HoverItemBox>
     </HotMusingImageWrapper>
   );
@@ -57,7 +57,7 @@ const ButtonBlock = styled.div`
   display: flex;
   justify-content: center;
   gap: 22px;
-  margin-top: 16px;
+  margin-bottom: 30px;
 `;
 
 const HoverItemBox = styled.div`
