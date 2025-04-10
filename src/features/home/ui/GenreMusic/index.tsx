@@ -19,7 +19,7 @@ interface genreMusicsProps {
   likeGenre: LikeGenre;
 }
 
-const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
+const GenreMusic = ({ likeGenre }: genreMusicsProps) => {
   const navigate = useNavigate();
 
   const filterLikeGenre = Array.from(new Map(likeGenre.map((item) => [item.id, item])).values());
