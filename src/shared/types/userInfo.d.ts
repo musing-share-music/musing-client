@@ -6,7 +6,6 @@ interface UserState {
   setPassModal: (value: string) => void;
   isLogin: () => boolean;
   logout: () => void;
-  setIsAdmin: (value: boolean) => void;
 }
 
 // UserInfo 타입 정의
@@ -17,5 +16,4 @@ export type UserInfo = {
   authority: string;
   likeMusicCount: number;
   myPlaylistCount: number;
-  isAdmin?: boolean;
 };

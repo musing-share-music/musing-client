@@ -28,10 +28,6 @@ export const useUserInfoStore = create<UserState>()(
         return get().passModal !== 'notLogIn';
       },
 
-      // 관리자 여부 확인
-      // TODO api 연동
-      isAdmin: () => true,
-
       // 사용자 정보 설정
       setUser: (user: UserInfo) => set({ userInfo: user }),
 

@@ -1,14 +1,22 @@
 import styled from '@emotion/styled';
+import { Navigate } from 'react-router-dom';
 
 import { HEADER_HEIGHT } from 'widgets/config/headerHeight';
 import { NAV_BAR_WIDTH } from 'widgets/config/navBarWidth';
 import { Header } from 'widgets/ui/Header';
 import { AdminNavBar } from 'widgets/ui/NavBar';
 
+import { useAdminInfoQuery } from 'entities/adminIInfo/api/adminInfo.query';
+
 import { useUserInfoStore } from 'shared/store/userInfo';
 
 export const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const { isLogin } = useUserInfoStore();
+  const { data, isLoading } = useAdminInfoQuery();
+
+  if (!isLoading && !data?.isAdmin) {
+    return <Navigate to="/" replace />; // 관리자가 아니면 메인 페이지로 리다이렉트
+  }
 
   return (
     <PageLayout>

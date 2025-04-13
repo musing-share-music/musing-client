@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { community } from 'entities/community/api/community.query';
 import { ReviewForm } from 'entities/reply/ui/ReplyForm';
 
-import { useUserInfoStore } from 'shared/store/userInfo';
+import { useAdminInfoStore } from 'shared/store/adminInfo';
 import { SkeletonBox } from 'shared/ui';
 
 import { AdminMenu } from './AdminMenu';
@@ -18,7 +18,7 @@ import { Layout, LeftContainer, RightContainer, Section, SectionTitle } from './
 
 export const DetailPage = () => {
   const params = useParams();
-  const isAdmin = useUserInfoStore((state) => state.isAdmin);
+  const isAdmin = useAdminInfoStore((state) => state.isAdmin);
 
   const boardId = Number(params.id);
 
@@ -38,7 +38,7 @@ export const DetailPage = () => {
       <LeftContainer>
         <Suspense fallback={<LeftContainerSkeleton />}>
           <MusicInfo boardId={boardId} {...data} />
-          <AdminMenu boardId={boardId} isAdmin={isAdmin()} />
+          <AdminMenu boardId={boardId} isAdmin={isAdmin} />
           <AnchorButton />
         </Suspense>
       </LeftContainer>

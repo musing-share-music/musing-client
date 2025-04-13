@@ -41,6 +41,7 @@ const URL = {
 
     // 관리자
     ADMIN: {
+      INFO: 'musing/admin/info', // 관리자 정보
       NOTICE: 'musing/admin/notice', // 공지사항
       DELETE_NOTICE: 'musing/admin/notice/remove', // 공지사항 삭제
       PERMIT_BOARD_LIST: 'musing/admin/board/list', // 승인 대기 게시글 리스트
