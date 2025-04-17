@@ -1,5 +1,6 @@
 export { AdminCreateNoticePage } from './AdminCreateNotice';
 export { AdminDeletedPage } from './AdminDelete';
+export { AdminDeletedBoardDetailPage } from './AdminDeletedBoardDetailPage';
 export { AdminNoticePage } from './AdminNotice';
 export { AdminNoticeDetailPage } from './AdminNoticeDetailPage';
 export { AdminPermitPage } from './AdminPermit';

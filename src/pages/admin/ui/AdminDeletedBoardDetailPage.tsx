@@ -3,23 +3,21 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { AnchorButton } from 'pages/detail/ui/AnchorButton';
+import { ReviewList } from 'pages/detail/ui/ReviewList';
+
+import { AdminLayout } from 'widgets/ui';
 import { MusicInfo } from 'widgets/ui/MusicInfo';
 
-import { community } from 'entities/community/api/community.query';
+import { adminDeletedBoardList } from 'entities/adminDeleted/api/adminDeleted.query';
 import { ReviewForm } from 'entities/reply/ui/ReplyForm';
 
-import { useAdminInfoStore } from 'shared/store/adminInfo';
 import { SkeletonBox } from 'shared/ui';
 
-import { AdminMenu } from './AdminMenu';
-import { AnchorButton } from './AnchorButton';
 import { Contents } from './Contents';
-import { ReviewList } from './ReviewList';
-import { Layout, LeftContainer, RightContainer, Section, SectionTitle } from './styled';
 
-export const DetailPage = () => {
+export const AdminDeletedBoardDetailPage = () => {
   const params = useParams();
-  const isAdmin = useAdminInfoStore((state) => state.isAdmin);
 
   const boardId = Number(params.id);
 
@@ -28,18 +26,17 @@ export const DetailPage = () => {
   }
 
   const { data } = useSuspenseQuery({
-    ...community.detail(boardId),
+    ...adminDeletedBoardList.detail(boardId),
     select(data) {
       return data.data;
     },
   });
 
   return (
-    <Layout>
+    <AdminLayout>
       <LeftContainer>
         <Suspense fallback={<LeftContainerSkeleton />}>
           <MusicInfo boardId={boardId} {...data} />
-          <AdminMenu boardId={boardId} isAdmin={isAdmin} />
           <AnchorButton />
         </Suspense>
       </LeftContainer>
@@ -53,7 +50,7 @@ export const DetailPage = () => {
         </Section>
         <ReviewList />
       </RightContainer>
-    </Layout>
+    </AdminLayout>
   );
 };
 
@@ -113,4 +110,34 @@ const RightSkeltonHeader = styled.div`
 
 const RightSkeletonBody = styled.div`
   margin-top: 32px;
+`;
+
+const Section = styled.section`
+  background: ${({ theme }) => theme.colors[700]};
+`;
+
+const LeftContainer = styled.div`
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 336px;
+  min-width: 336px;
+`;
+
+const RightContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 840px;
+`;
+
+const SectionTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 34px 36px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors[600]};
+  color: ${({ theme }) => theme.colors.white};
+  ${({ theme }) => theme.fonts.wantedSans.B2};
 `;

@@ -1,4 +1,5 @@
 import AdminDeletedPage from './delete';
+import AdminDeletedBoardDetailPage from './deletedDetail';
 import AdminNoticePage from './notice';
 import AdminNoticeDetailPage from './noticeDetail';
 import AdminCheckPage from './permit';
@@ -9,6 +10,7 @@ import AdminUserPage from './user';
 
 export {
   AdminCheckPage,
+  AdminDeletedBoardDetailPage,
   AdminDeletedPage,
   AdminNoticeDetailPage,
   AdminNoticePage,
