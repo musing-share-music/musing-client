@@ -1,8 +1,13 @@
+import { useState } from 'react';
+
 import { deletedSearchFilterOptions } from 'pages/admin/config/searchFilterOptions';
 
 import { AdminLayout } from 'widgets/ui/Layout';
 
+import { useAdminDeletedBoardList } from 'entities/adminDeleted/api/adminDeleted.query';
+
 import { Pagination, SearchInputWithFilter, Table } from 'shared/ui';
+import { StyledLink } from 'shared/ui/admin';
 
 import {
   BoardContainer,
@@ -15,43 +20,49 @@ import {
   TableContainer,
 } from './styled';
 
-export const AdminDeletedPage = () => {
-  const tableHead = [
-    { key: 'title', content: '제목', width: 40 },
-    { key: 'user', content: '작성자', width: 20 },
-    { key: 'createdAt', content: '작성일자', width: 20 },
-  ] as const;
+const tableHead = [
+  { key: 'title', content: '제목', width: 40 },
+  { key: 'username', content: '작성자', width: 20 },
+  { key: 'createdAt', content: '작성일자', width: 20 },
+] as const;
 
-  const tableData = [
-    {
-      title: <HoverBox>게시글 제목</HoverBox>,
-      user: '회원ID',
-      createdAt: '2024-12-03',
-    },
-    {
-      title: <HoverBox>게시글 제목</HoverBox>,
-      user: '회원ID',
-      createdAt: '2024-12-03',
-    },
-    {
-      title: <HoverBox>게시글 제목</HoverBox>,
-      user: '회원ID',
-      createdAt: '2024-12-03',
-    },
-  ];
+export const AdminDeletedPage = () => {
+  const [activePage, setActivePage] = useState(1); // 현재 페이지 번호
+
+  const { data, isLoading } = useAdminDeletedBoardList();
+
+  const content = data?.content || [];
+  const totalPages = data?.totalPages || 1; // 전체 페이지 수
+
+  const tableData = content.map(({ id, title, username, createdAt }) => {
+    return {
+      title: (
+        <HoverBox>
+          {title}
+          <StyledLink to={`/admin/deleted/${id}`}>{title}</StyledLink>
+        </HoverBox>
+      ),
+      username,
+      createdAt: new Date(createdAt).toLocaleDateString(),
+    };
+  });
+
+  const handlePageClick = (pageNumber: number) => {
+    setActivePage(pageNumber);
+  };
 
   return (
     <AdminLayout>
       <Container>
         <BoardContainer>
           <Header>
-            <H1>관리자 확인</H1>
+            <H1>삭제된 게시글 조회</H1>
           </Header>
           <TableContainer>
-            <Table head={tableHead} data={tableData} />
+            <Table head={tableHead} data={tableData} isLoading={isLoading} />
           </TableContainer>
           <PaginationBlock>
-            <Pagination totalPages={1} />
+            <Pagination totalPages={totalPages} activePage={activePage} onClick={handlePageClick} />
           </PaginationBlock>
         </BoardContainer>
         <FilterBlock>
