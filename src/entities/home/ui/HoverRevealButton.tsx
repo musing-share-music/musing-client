@@ -40,4 +40,5 @@ const MoreButtonBox = styled.div<{ isHover: boolean } & MoreButtonPosition>`
   transition: opacity 0.3s ease;
   pointer-events: ${({ isHover }) => (isHover ? 'auto' : 'none')};
   cursor: pointer;
+  z-index: 1;
 `;

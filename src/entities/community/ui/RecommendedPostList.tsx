@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
 import { SetStateAction, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useGetPageListQuery, useGetSearchListQuery } from 'features/community/list/lib';
 
 import { BoardDtos, BoardDtosItem } from 'entities/community/model/types';
 
+import { ROUTES } from 'shared/config/routes';
 import { commonStyles } from 'shared/styles/common';
 import { Pagination } from 'shared/ui';
 import { StarRatingInput } from 'shared/ui/Input/StarRatingInput';
@@ -21,6 +23,9 @@ interface CommunitySearchSelectWrapperProps {
 }
 
 const CommunitySearchSelectWrapper = ({ keyWord, onSearch }: CommunitySearchSelectWrapperProps) => {
+  const location = useLocation();
+  const state = location.state;
+
   const [isOpen, setIsOpen] = useState(false);
   const [enabled, setEnabled] = useState(false);
   const [selectedTitle, setSelectedTitle] = useState('제목');
@@ -42,6 +47,13 @@ const CommunitySearchSelectWrapper = ({ keyWord, onSearch }: CommunitySearchSele
       onSearch(searchData);
     }
   }, [searchData, onSearch]);
+
+  useEffect(() => {
+    if (state) {
+      setSelectedTitle('장르명');
+      setSelectedOption('genre');
+    }
+  }, [state]);
 
   const handleOptionClick = (title: string, option: string) => {
     setSelectedTitle(title);
@@ -71,6 +83,9 @@ type GetPageListResponse = {
 };
 
 const RecommendedPostList = ({ boardDtos }: BoardDtosProps) => {
+  const location = useLocation();
+  const state = location.state;
+  const navigate = useNavigate();
   const [activePage, setActivePage] = useState(1);
   const [enabled, setEnabled] = useState(false);
   const [keyWord, setKeyWord] = useState<string>('');
@@ -84,6 +99,12 @@ const RecommendedPostList = ({ boardDtos }: BoardDtosProps) => {
       setEnabled(true);
     }
   }, [activePage]);
+
+  useEffect(() => {
+    if (state) {
+      setKeyWord(state.activeCtgName);
+    }
+  }, [state]);
 
   useEffect(() => {
     if (!keyWord && !pageData) {
@@ -115,11 +136,15 @@ const RecommendedPostList = ({ boardDtos }: BoardDtosProps) => {
       <CommunityList>
         {musingList?.map((item, index) => (
           <CommunityItem key={index}>
-            <CommunityImageWrapper>
+            <CommunityImageWrapper
+              onClick={async () => await navigate(ROUTES.DETAIL.replace(':id', item.artists[0].id.toString()))}
+            >
               <CommunityImage src={item.thumbNailLink} alt="Community" />
             </CommunityImageWrapper>
             <CommuityContent>
-              <CommunityInfo>
+              <CommunityInfo
+                onClick={async () => await navigate(ROUTES.DETAIL.replace(':id', item.artists[0].id.toString()))}
+              >
                 <CommunitySongInfo>
                   {item.musicName} · {item.artists[0]?.name}
                 </CommunitySongInfo>
@@ -203,6 +228,7 @@ const CommunityImageWrapper = styled.div`
   height: 296px;
   border-radius: 8px;
   border: 1px solid ${({ theme }) => theme.colors[500]};
+  cursor: pointer;
 `;
 
 const CommunityImage = styled.img`
@@ -224,6 +250,7 @@ const CommunityInfo = styled.div`
   left: 8px;
   width: 280px;
   height: 60px;
+  cursor: pointer;
 `;
 
 const CommunitySongInfo = styled.div`

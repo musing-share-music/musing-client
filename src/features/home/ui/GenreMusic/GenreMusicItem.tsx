@@ -1,23 +1,51 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 
 import { GenreMusicsItem } from 'entities/home/model/types';
 import { HoverRevealButton } from 'entities/home/ui/HoverRevealButton';
 
 import btn_add from 'shared/assets/image/main/btn-add.png';
+import { ROUTES } from 'shared/config/routes';
 import { withHover, WithHoverProps } from 'shared/ui/withHover';
 
 interface GenreMusicsItemProps {
   item: GenreMusicsItem;
+  onAddPlaylistClick?: () => void;
 }
 
-const GenreMusicItemBase = ({ item, isHover }: GenreMusicsItemProps & WithHoverProps) => {
+const GenreMusicItemBase = ({ item, isHover, onAddPlaylistClick }: GenreMusicsItemProps & WithHoverProps) => {
+  const navigate = useNavigate();
   return (
     <GenreMusingWrapper>
       <GenreMusingImageWrapper>
         <GenreMusingImage src={item.thumbNailLink} alt="이미지" className="main-image" />
-        <GenreButton src={btn_add} alt="추가" className="btn_add" />
-        <HoverRevealButton top={12} right={12} isHover={isHover} menuItem={[]} />
+        <GenreButton src={btn_add} className="btn_add" onClick={onAddPlaylistClick} />
+        <HoverRevealButton
+          top={12}
+          right={12}
+          isHover={isHover}
+          menuItem={[
+            {
+              onClick: async () => {
+                await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()));
+              },
+              content: '곡정보',
+            },
+            {
+              onClick: async () => {
+                await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()), {
+                  state: { isLikedClick: true },
+                });
+              },
+              content: '좋아요',
+            },
+            {
+              onClick: onAddPlaylistClick ? onAddPlaylistClick : () => {},
+              content: '플레이리스트 추가',
+            },
+          ]}
+        />
       </GenreMusingImageWrapper>
 
       <GenreTextBlock>
@@ -50,6 +78,10 @@ const GenreMusingImageWrapper = styled.div`
   width: 256px;
   height: 256px;
   border-radius: 12px;
+
+  &:hover .btn_add {
+    opacity: 1;
+  }
 `;
 
 // 이미지
@@ -74,11 +106,8 @@ const GenreButton = styled.img`
   opacity: 0;
   transition: opacity 0.3s ease;
   cursor: pointer;
-
-  &.btn_add {
-    bottom: 12px;
-    left: 12px;
-  }
+  bottom: 12px;
+  left: 12px;
 `;
 
 // 텍스트 컨테이너 스타일

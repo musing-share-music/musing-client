@@ -30,6 +30,14 @@ const ArrowCircleButton = styled(CircleButton)<ArrowCircleButtonProps<'button' |
   &:hover {
     background: ${({ theme, hoverBackgroundColor }) => theme.colors[hoverBackgroundColor]};
   }
+
+  ${({ disabled, theme }) =>
+    disabled &&
+    css`
+      pointer-events: none;
+      opacity: 0.5;
+      background: ${theme.colors[400]};
+    `}
 `;
 
 const BaseArrowButton = ({
@@ -74,6 +82,13 @@ export const LeftArrowButton = ({ ...props }: ArrowButtonProps) => {
 export const RightDownArrowButton = ({ ...props }: ArrowButtonProps) => {
   const rightDownArrowStyle = css`
     transform: rotate(220deg);
+  `;
+  return <BaseArrowButton css={rightDownArrowStyle} {...props} />;
+};
+
+export const DownArrowButton = ({ ...props }: ArrowButtonProps) => {
+  const rightDownArrowStyle = css`
+    transform: rotate(270deg);
   `;
   return <BaseArrowButton css={rightDownArrowStyle} {...props} />;
 };

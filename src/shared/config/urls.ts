@@ -45,6 +45,11 @@ const URL = {
       DELETE_NOTICE: 'musing/admin/notice/remove', // 공지사항 삭제
     },
 
+    // 플레이리스트
+    PLAYLIST: {
+      LIST: 'musing/playlist/playlist',
+    },
+
     TOKENREISSUE: 'musing/auth/reissue', //토큰 재발급
   } as const,
 };

@@ -42,6 +42,10 @@ export const NavBarContainer = styled.div<NavBarSizeProps>`
     css`
       width: 120px;
     `};
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const Aside = styled.aside``;
