@@ -76,15 +76,19 @@ export interface BoardDetailDto {
 export interface BoardDetail {
   title: string;
   musicTitle: string;
-  artist: string;
+  artist: string[];
   youtubeLink: string;
   hashtags: string[];
-  genre: number;
+  genre: string[];
   content: string;
   playtime: string;
   songLink: string;
   thumbNailLink: string;
-  albumName: string;
+  AlbumName: string;
+  createdAt: string;
+  updatedAt: string;
+  username: string;
+  permitRegister: 'NON_CHECK' | string;
 }
 
 export interface DeletePostResponseData {

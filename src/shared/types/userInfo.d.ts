@@ -4,7 +4,6 @@ interface UserState {
   passModal: string;
   setUser: (user: UserInfo) => void;
   setPassModal: (value: string) => void;
-  isAdmin: () => boolean;
   isLogin: () => boolean;
   logout: () => void;
 }

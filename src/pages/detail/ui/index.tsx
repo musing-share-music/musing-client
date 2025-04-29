@@ -6,8 +6,11 @@ import { useLocation, useParams } from 'react-router-dom';
 import { community } from 'entities/community/api/community.query';
 import { ReviewForm } from 'entities/reply/ui/ReplyForm';
 
+import { useAdminInfoStore } from 'shared/store/adminInfo';
 import { SkeletonBox } from 'shared/ui';
 
+import { AdminMenu } from './AdminMenu';
+import { AnchorButton } from './AnchorButton';
 import { Contents } from './Contents';
 import { MusicInfo } from './MusicInfo';
 import { ReviewList } from './ReviewList';
@@ -15,6 +18,7 @@ import { Layout, LeftContainer, RightContainer, Section, SectionTitle } from './
 
 export const DetailPage = () => {
   const params = useParams();
+  const isAdmin = useAdminInfoStore((state) => state.isAdmin);
   const location = useLocation();
 
   const boardId = Number(params.id);
@@ -35,6 +39,8 @@ export const DetailPage = () => {
       <LeftContainer>
         <Suspense fallback={<LeftContainerSkeleton />}>
           <MusicInfo boardId={boardId} {...data} isLikedClick={location.state?.isLikedClick} />
+          <AdminMenu boardId={boardId} isAdmin={isAdmin} />
+          <AnchorButton />
         </Suspense>
       </LeftContainer>
       <RightContainer>

@@ -28,9 +28,6 @@ export const useUserInfoStore = create<UserState>()(
         return get().passModal !== 'notLogIn';
       },
 
-      // 관리자 여부 확인
-      isAdmin: () => get().userInfo.authority === 'ADMIN',
-
       // 사용자 정보 설정
       setUser: (user: UserInfo) => set({ userInfo: user }),
 

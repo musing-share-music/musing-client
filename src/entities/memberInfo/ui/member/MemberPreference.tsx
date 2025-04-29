@@ -21,7 +21,8 @@ import { Genre } from 'entities/genre/model/genre';
 import { MemberInfoItem } from 'entities/memberInfo/model/types';
 import { Mood } from 'entities/mood/model/mood';
 
-import { useUserInfoStore } from 'shared/store/userInfo';
+import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
+import { useAdminInfoStore } from 'shared/store/adminInfo';
 import { commonStyles } from 'shared/styles/common';
 import { Chip, DownArrowButton, Modal, TextInput } from 'shared/ui/';
 
@@ -34,7 +35,7 @@ interface MemberPreferenceProps {
 }
 
 export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreferenceProps) => {
-  const { isAdmin } = useUserInfoStore();
+  const isAdmin = useAdminInfoStore((state) => state.isAdmin);
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState<ModalType>(null);
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
@@ -120,7 +121,7 @@ export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreference
             <MemberInfoEmail>{memberInfoItem.email}</MemberInfoEmail>
           </MemverInfoContent>
         </MemberInfoWrapper>
-        {isAdmin() ? <BlockButton>차단</BlockButton> : null}
+        {isAdmin ? <BlockButton>차단</BlockButton> : null}
       </MemberInfoBox>
 
       <MemberPreferBox>

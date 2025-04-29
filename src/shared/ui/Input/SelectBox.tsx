@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
 
+import { Z_INDEX } from 'shared/config/constants';
 import { useClickOutside } from 'shared/hooks/useClickOutside';
 
 export type Option = {
@@ -83,6 +84,7 @@ const Dropdown = styled.ul`
   border-radius: 8px;
   background: ${({ theme }) => theme.colors[500]};
   box-shadow: 0px 0px 10px 0px rgba(20, 20, 22, 0.64);
+  z-index: ${Z_INDEX.MODAL};
 `;
 const OptionItem = styled.li<{ isSelected?: boolean }>`
   padding: 18px 26px;

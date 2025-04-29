@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import { ROUTES } from 'shared/config/routes';
 
-const AdminCheckPage = lazy(() => import('../../pages/admin/check'));
+const AdminPermitPage = lazy(() => import('../../pages/admin/permit'));
 const AdminDeletedPage = lazy(() => import('../../pages/admin/delete'));
 const AdminNoticePage = lazy(() => import('../../pages/admin/notice'));
 const AdminNoticeDetailPage = lazy(() => import('../../pages/admin/noticeDetail'));
@@ -47,7 +47,7 @@ export const AppRouter = () => {
       <Route path={ROUTES.ADMIN.CREATE_NOTICE} element={<AdminCreateNoticePage />} />
       <Route path={ROUTES.ADMIN.UPDATE_NOTICE} element={<AdminUpdateNoticePage />} />
       <Route path={ROUTES.ADMIN.USER} element={<AdminUserPage />} />
-      <Route path={ROUTES.ADMIN.CHECK} element={<AdminCheckPage />} />
+      <Route path={ROUTES.ADMIN.PERMIT} element={<AdminPermitPage />} />
       <Route path={ROUTES.ADMIN.POST_REPORT} element={<AdminPostReportPage />} />
       <Route path={ROUTES.ADMIN.REVIEW_REPORT} element={<AdminReviewReportPage />} />
       <Route path={ROUTES.ADMIN.DELETED} element={<AdminDeletedPage />} />
