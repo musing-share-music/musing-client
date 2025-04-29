@@ -6,6 +6,9 @@ import GenreMusic from 'features/home/ui/GenreMusic';
 import { MainItem } from 'entities/home/model/types';
 
 import { useUserInfoStore } from 'shared/store/userInfo';
+// import { CreatePlayListModal } from 'shared/ui/Modal/PlayListModal/CreatePlayList';
+// import { PersistPlayListModal } from 'shared/ui/Modal/PlayListModal/PersistPlayList';
+// import { AddPlayListModal } from 'shared/ui/Modal/PlayListModal/AddPlayList';
 
 import CommunityMusic from './CommunityMusic';
 import HotMusic from './HotMusic';
@@ -34,6 +37,13 @@ export const Main = ({ mainData }: MainItemProps) => {
 
   return (
     <MainContents>
+      {/* <AddPlayListModal
+        open={true}
+        children={undefined}
+        onClose={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+      ></AddPlayListModal> */}
       <ComponentWrapper marginBottom={40}>
         {mainData?.noticeDto ? <ThumbnailMusic noticeDto={mainData?.noticeDto} /> : null}
       </ComponentWrapper>
@@ -74,7 +84,7 @@ export const Main = ({ mainData }: MainItemProps) => {
 //스타일링
 const MainContents = styled.div`
   width: 100%;
-  height: 2832px;
+  min-height: 1800px;
 `;
 
 const ComponentWrapper = styled.div<{ marginBottom?: number }>`

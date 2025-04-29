@@ -18,16 +18,17 @@ import { LikeButton } from './LikeButton';
 
 interface MusicInfoProps extends BoardDetail {
   boardId: number;
+  isLikedClick: boolean;
 }
 
 export const MusicInfo = ({
   boardId,
+  isLikedClick,
   musicTitle,
   artist,
   hashtags,
   genre,
   thumbNailLink,
-  permitRegister,
 }: MusicInfoProps) => {
   const [open, setOpen] = useState(false);
   const deletePostMutation = useDeletePostMutation();
@@ -89,7 +90,7 @@ export const MusicInfo = ({
           </TrackDetailsBlock>
 
           <ButtonBlock>
-            <LikeButton />
+            <LikeButton isLikedClick={isLikedClick} />
             <Button variant="outlined">플레이리스트에 추가</Button>
           </ButtonBlock>
 

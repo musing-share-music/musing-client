@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import { community } from 'entities/community/api/community.query';
 import { ReviewForm } from 'entities/reply/ui/ReplyForm';
@@ -19,6 +19,7 @@ import { Layout, LeftContainer, RightContainer, Section, SectionTitle } from './
 export const DetailPage = () => {
   const params = useParams();
   const isAdmin = useAdminInfoStore((state) => state.isAdmin);
+  const location = useLocation();
 
   const boardId = Number(params.id);
 
@@ -37,7 +38,7 @@ export const DetailPage = () => {
     <Layout>
       <LeftContainer>
         <Suspense fallback={<LeftContainerSkeleton />}>
-          <MusicInfo boardId={boardId} {...data} />
+          <MusicInfo boardId={boardId} {...data} isLikedClick={location.state?.isLikedClick} />
           <AdminMenu boardId={boardId} isAdmin={isAdmin} />
           <AnchorButton />
         </Suspense>

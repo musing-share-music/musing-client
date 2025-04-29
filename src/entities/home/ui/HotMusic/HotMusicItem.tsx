@@ -1,27 +1,51 @@
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 
 import { RecommendGenresItem } from 'entities/home/model/types';
 import { HoverRevealButton } from 'entities/home/ui/HoverRevealButton';
 
 import btn_add from 'shared/assets/image/main/btn-add.png';
+import { ROUTES } from 'shared/config/routes';
 import { withHover, WithHoverProps } from 'shared/ui/withHover';
 
 interface RecommendGenresItemProps {
   item: RecommendGenresItem;
+  onAddPlaylistClick?: () => void;
 }
 
-const HotMusicItemBase = ({ item, isHover }: RecommendGenresItemProps & WithHoverProps) => {
+const HotMusicItemBase = ({ item, isHover, onAddPlaylistClick }: RecommendGenresItemProps & WithHoverProps) => {
+  const navigate = useNavigate();
   return (
     <HotMusingImageWrapper>
       <HotMusingImage src={item.thumbNailLink} alt="이미지" className="main-image" />
       <Border />
       <HoverItemBox>
+        <ButtonBlock>
+          <HotButton src={btn_add} alt="추가" className="btn_add" onClick={onAddPlaylistClick} />
+          <HoverRevealButton
+            isHover={isHover}
+            menuItem={[
+              {
+                onClick: async () => {
+                  await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()));
+                },
+                content: '곡정보',
+              },
+              {
+                onClick: async () => {
+                  await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()), { state: { isLikedClick: true } });
+                },
+                content: '좋아요',
+              },
+              {
+                content: '플레이리스트 추가',
+                onClick: onAddPlaylistClick ? onAddPlaylistClick : () => {},
+              },
+            ]}
+          />
+        </ButtonBlock>
         <HotTitle>{item.musicName}</HotTitle>
         <HotSubTitle>{item.artists[0]?.name}</HotSubTitle>
-        <ButtonBlock>
-          <HotButton src={btn_add} alt="추가" className="btn_add" />
-          <HoverRevealButton isHover={isHover} menuItem={[]} />
-        </ButtonBlock>
       </HoverItemBox>
     </HotMusingImageWrapper>
   );
@@ -33,7 +57,7 @@ const ButtonBlock = styled.div`
   display: flex;
   justify-content: center;
   gap: 22px;
-  margin-top: 16px;
+  margin-bottom: 30px;
 `;
 
 const HoverItemBox = styled.div`

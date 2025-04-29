@@ -1,19 +1,45 @@
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 
 import { LikeMusicDtosItem } from 'entities/home/model/types';
 import { HoverRevealButton } from 'entities/home/ui/HoverRevealButton';
 
+import { ROUTES } from 'shared/config/routes';
 import { withHover, WithHoverProps } from 'shared/ui/withHover';
 
 interface LikeMusicDtosItemProps {
   item: LikeMusicDtosItem;
+  onAddPlaylistClick?: () => void;
 }
 
-const LikeMusicItemBase = ({ item, isHover }: LikeMusicDtosItemProps & WithHoverProps) => {
+const LikeMusicItemBase = ({ item, isHover, onAddPlaylistClick }: LikeMusicDtosItemProps & WithHoverProps) => {
+  const navigate = useNavigate();
   return (
     <LikeMusingImageWrapper>
       <LikeMusingImage src={item.thumbNailLink} alt="이미지" className="main-image" />
-      <HoverRevealButton top={12} right={12} isHover={isHover} menuItem={[]} />
+      <HoverRevealButton
+        isHover={isHover!}
+        menuItem={[
+          {
+            onClick: async () => {
+              await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()));
+            },
+            content: '곡정보',
+          },
+          {
+            onClick: async () => {
+              await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()), { state: { isLikedClick: true } });
+            },
+            content: '좋아요',
+          },
+          {
+            content: '플레이리스트 추가',
+            onClick: onAddPlaylistClick ? onAddPlaylistClick : () => {},
+          },
+        ]}
+        top={24}
+        right={24}
+      />
 
       <LikeTextBlock>
         <LikeTitle>{item.artists[0]?.name}</LikeTitle>

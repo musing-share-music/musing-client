@@ -50,6 +50,11 @@ const URL = {
       REJECT_BOARD: 'musing/admin/board/non/permit', // 게시글 승인 거절
     },
 
+    // 플레이리스트
+    PLAYLIST: {
+      LIST: 'musing/playlist/playlist',
+    },
+
     TOKENREISSUE: 'musing/auth/reissue', //토큰 재발급
   } as const,
 };
