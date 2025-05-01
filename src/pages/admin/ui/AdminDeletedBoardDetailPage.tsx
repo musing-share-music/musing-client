@@ -6,7 +6,6 @@ import { useParams } from 'react-router-dom';
 import { AnchorButton } from 'pages/detail/ui/AnchorButton';
 import { ReviewList } from 'pages/detail/ui/ReviewList';
 
-import { AdminLayout } from 'widgets/ui';
 import { MusicInfo } from 'widgets/ui/MusicInfo';
 
 import { adminDeletedBoardList } from 'entities/adminDeleted/api/adminDeleted.query';
@@ -33,7 +32,7 @@ export const AdminDeletedBoardDetailPage = () => {
   });
 
   return (
-    <AdminLayout>
+    <>
       <LeftContainer>
         <Suspense fallback={<LeftContainerSkeleton />}>
           <MusicInfo boardId={boardId} {...data} />
@@ -50,7 +49,7 @@ export const AdminDeletedBoardDetailPage = () => {
         </Section>
         <ReviewList />
       </RightContainer>
-    </AdminLayout>
+    </>
   );
 };
 

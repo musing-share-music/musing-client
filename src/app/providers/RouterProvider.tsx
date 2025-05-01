@@ -1,6 +1,8 @@
 import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import { AdminLayout, MainLayout } from 'widgets/ui';
+
 import { ROUTES } from 'shared/config/routes';
 
 const AdminDeletedBoardDetailPage = lazy(() => import('../../pages/admin/deletedDetail'));
@@ -29,31 +31,34 @@ const NoticeDetailPage = lazy(() => import('../../pages/noticeDetail'));
 export const AppRouter = () => {
   return (
     <Routes>
-      <Route path={ROUTES.HOME} element={<Home />} />
-      <Route path={ROUTES.COMMUNITY.COMMUNITY} element={<Community />} />
-      <Route path={ROUTES.DEMO} element={<Demo />} />
-      <Route path={ROUTES.DETAIL} element={<MusicDetail />} />
-      <Route path={ROUTES.CREATE} element={<Create />} />
-      <Route path={ROUTES.PLAYLIST} element={<PlayList />} />
+      <Route element={<MainLayout />}>
+        <Route path={ROUTES.HOME} element={<Home />} />
+        <Route path={ROUTES.COMMUNITY.COMMUNITY} element={<Community />} />
+        <Route path={ROUTES.DEMO} element={<Demo />} />
+        <Route path={ROUTES.DETAIL} element={<MusicDetail />} />
+        <Route path={ROUTES.CREATE} element={<Create />} />
+        <Route path={ROUTES.PLAYLIST} element={<PlayList />} />
 
-      <Route path={ROUTES.MEMBERINFO.MEMBERINFO} element={<MemberInfo />} />
-      <Route path={ROUTES.MEMBERINFO.MEMBERINFOCOMMUNITY} element={<MemberCommunity />} />
-      <Route path={ROUTES.MEMBERINFO.MEMBERINFOREVIEW} element={<MemberReview />} />
+        <Route path={ROUTES.MEMBERINFO.MEMBERINFO} element={<MemberInfo />} />
+        <Route path={ROUTES.MEMBERINFO.MEMBERINFOCOMMUNITY} element={<MemberCommunity />} />
+        <Route path={ROUTES.MEMBERINFO.MEMBERINFOREVIEW} element={<MemberReview />} />
 
-      <Route path={ROUTES.NOTICE} element={<NoticePage />} />
-      <Route path={ROUTES.NOTICE_DETAIL} element={<NoticeDetailPage />} />
+        <Route path={ROUTES.NOTICE} element={<NoticePage />} />
+        <Route path={ROUTES.NOTICE_DETAIL} element={<NoticeDetailPage />} />
+      </Route>
 
-      <Route path={ROUTES.ADMIN.NOTICE} element={<AdminNoticePage />} />
-      <Route path={ROUTES.ADMIN.NOTICE_DETAIL} element={<AdminNoticeDetailPage />} />
-      <Route path={ROUTES.ADMIN.CREATE_NOTICE} element={<AdminCreateNoticePage />} />
-      <Route path={ROUTES.ADMIN.UPDATE_NOTICE} element={<AdminUpdateNoticePage />} />
-      <Route path={ROUTES.ADMIN.USER} element={<AdminUserPage />} />
-      <Route path={ROUTES.ADMIN.PERMIT} element={<AdminPermitPage />} />
-      <Route path={ROUTES.ADMIN.POST_REPORT} element={<AdminPostReportPage />} />
-      <Route path={ROUTES.ADMIN.REVIEW_REPORT} element={<AdminReviewReportPage />} />
-      <Route path={ROUTES.ADMIN.DELETED} element={<AdminDeletedPage />} />
-      <Route path={ROUTES.ADMIN.DELETED_DETAIL} element={<AdminDeletedBoardDetailPage />} />
-
+      <Route element={<AdminLayout />}>
+        <Route path={ROUTES.ADMIN.NOTICE} element={<AdminNoticePage />} />
+        <Route path={ROUTES.ADMIN.NOTICE_DETAIL} element={<AdminNoticeDetailPage />} />
+        <Route path={ROUTES.ADMIN.CREATE_NOTICE} element={<AdminCreateNoticePage />} />
+        <Route path={ROUTES.ADMIN.UPDATE_NOTICE} element={<AdminUpdateNoticePage />} />
+        <Route path={ROUTES.ADMIN.USER} element={<AdminUserPage />} />
+        <Route path={ROUTES.ADMIN.PERMIT} element={<AdminPermitPage />} />
+        <Route path={ROUTES.ADMIN.POST_REPORT} element={<AdminPostReportPage />} />
+        <Route path={ROUTES.ADMIN.REVIEW_REPORT} element={<AdminReviewReportPage />} />
+        <Route path={ROUTES.ADMIN.DELETED} element={<AdminDeletedPage />} />
+        <Route path={ROUTES.ADMIN.DELETED_DETAIL} element={<AdminDeletedBoardDetailPage />} />
+      </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

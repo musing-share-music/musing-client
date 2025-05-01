@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Outlet } from 'react-router-dom';
 
 import { HEADER_HEIGHT } from 'widgets/config/headerHeight';
 import { NAV_BAR_WIDTH } from 'widgets/config/navBarWidth';
@@ -9,7 +10,7 @@ import { useErrorModalStore } from 'shared/store/errorModalStore';
 import { useUserInfoStore } from 'shared/store/userInfo';
 import { ErrorModal } from 'shared/ui/Modal';
 
-export const MainLayout = ({ children }: { children: React.ReactNode }) => {
+export const MainLayout = () => {
   const { isOpen, message, closeModal } = useErrorModalStore();
   const { isLogin } = useUserInfoStore();
 
@@ -24,7 +25,9 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
           <ErrorModal open={isOpen} onClose={closeModal}>
             {message}
           </ErrorModal>
-          <ContentsContainer>{children}</ContentsContainer>
+          <ContentsContainer>
+            <Outlet />
+          </ContentsContainer>
         </ScrollableMainContainer>
       </RightContainer>
     </PageLayout>

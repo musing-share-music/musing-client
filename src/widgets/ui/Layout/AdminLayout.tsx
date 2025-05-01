@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 import { HEADER_HEIGHT } from 'widgets/config/headerHeight';
 import { NAV_BAR_WIDTH } from 'widgets/config/navBarWidth';
@@ -10,7 +10,7 @@ import { useAdminInfoQuery } from 'entities/adminIInfo/api/adminInfo.query';
 
 import { useUserInfoStore } from 'shared/store/userInfo';
 
-export const AdminLayout = ({ children }: { children: React.ReactNode }) => {
+export const AdminLayout = () => {
   const { isLogin } = useUserInfoStore();
   const { data, isLoading } = useAdminInfoQuery();
 
@@ -26,7 +26,9 @@ export const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       </LeftContainer>
       <RightContainer>
         <ScrollableMainContainer>
-          <ContentsContainer>{children}</ContentsContainer>
+          <ContentsContainer>
+            <Outlet />
+          </ContentsContainer>
         </ScrollableMainContainer>
       </RightContainer>
     </PageLayout>
