@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 
 import { userSearchFilterOptions } from 'pages/admin/config/searchFilterOptions';
 
-import { AdminLayout } from 'widgets/ui/Layout';
-
 import { Button, Filter, Pagination, SearchInputWithFilter, Table } from 'shared/ui';
 
 import {
@@ -81,28 +79,26 @@ export const AdminUserPage = () => {
   ];
 
   return (
-    <AdminLayout>
-      <Container>
-        <BoardContainer>
-          <Header>
-            <H1>회원 조회</H1>
-          </Header>
-          <TableContainer>
-            <Table head={tableHead} data={tableData} />
-          </TableContainer>
-          <PaginationBlock>
-            <Pagination totalPages={1} />
-          </PaginationBlock>
-        </BoardContainer>
-        <FilterBlock>
-          <SearchInputWithFilter
-            options={userSearchFilterOptions}
-            searchFilterPlaceholder="회원 ID"
-            placeholder="내용을 입력해 주세요."
-          />
-        </FilterBlock>
-      </Container>
-    </AdminLayout>
+    <Container>
+      <BoardContainer>
+        <Header>
+          <H1>회원 조회</H1>
+        </Header>
+        <TableContainer>
+          <Table head={tableHead} data={tableData} />
+        </TableContainer>
+        <PaginationBlock>
+          <Pagination totalPages={1} />
+        </PaginationBlock>
+      </BoardContainer>
+      <FilterBlock>
+        <SearchInputWithFilter
+          options={userSearchFilterOptions}
+          searchFilterPlaceholder="회원 ID"
+          placeholder="내용을 입력해 주세요."
+        />
+      </FilterBlock>
+    </Container>
   );
 };
 
