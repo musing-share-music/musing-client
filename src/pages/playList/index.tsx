@@ -1,12 +1,6 @@
-import { MainLayout } from 'widgets/ui/';
-
 import { PlayListPage } from 'shared/ui/';
 
 const PlayList = () => {
-  return (
-    <MainLayout>
-      <PlayListPage></PlayListPage>
-    </MainLayout>
-  );
+  return <PlayListPage></PlayListPage>;
 };
 export default PlayList;

@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import { deletedSearchFilterOptions } from 'pages/admin/config/searchFilterOptions';
 
-import { AdminLayout } from 'widgets/ui/Layout';
-
 import { useAdminDeletedBoardList } from 'entities/adminDeleted/api/adminDeleted.query';
 
 import { Pagination, SearchInputWithFilter, Table } from 'shared/ui';
@@ -52,27 +50,25 @@ export const AdminDeletedPage = () => {
   };
 
   return (
-    <AdminLayout>
-      <Container>
-        <BoardContainer>
-          <Header>
-            <H1>삭제된 게시글 조회</H1>
-          </Header>
-          <TableContainer>
-            <Table head={tableHead} data={tableData} isLoading={isLoading} />
-          </TableContainer>
-          <PaginationBlock>
-            <Pagination totalPages={totalPages} activePage={activePage} onClick={handlePageClick} />
-          </PaginationBlock>
-        </BoardContainer>
-        <FilterBlock>
-          <SearchInputWithFilter
-            options={deletedSearchFilterOptions}
-            searchFilterPlaceholder="작성자"
-            placeholder="내용을 입력해 주세요."
-          />
-        </FilterBlock>
-      </Container>
-    </AdminLayout>
+    <Container>
+      <BoardContainer>
+        <Header>
+          <H1>삭제된 게시글 조회</H1>
+        </Header>
+        <TableContainer>
+          <Table head={tableHead} data={tableData} isLoading={isLoading} />
+        </TableContainer>
+        <PaginationBlock>
+          <Pagination totalPages={totalPages} activePage={activePage} onClick={handlePageClick} />
+        </PaginationBlock>
+      </BoardContainer>
+      <FilterBlock>
+        <SearchInputWithFilter
+          options={deletedSearchFilterOptions}
+          searchFilterPlaceholder="작성자"
+          placeholder="내용을 입력해 주세요."
+        />
+      </FilterBlock>
+    </Container>
   );
 };
