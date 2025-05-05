@@ -35,20 +35,6 @@ export const AdminMenu = ({ boardId, isAdmin }: { boardId: number; isAdmin: bool
     },
   });
 
-  // 게시글 삭제
-  const deleteBoardMutation = useMutation({
-    mutationFn: ,
-    onSuccess: async () => {
-      window.alert('게시글이 삭제되었습니다.');
-      await queryClient.invalidateQueries({
-        queryKey: [community.detail(boardId)],
-      });
-    },
-    onError: (error) => {
-      window.alert(error.message);
-    },
-  });
-
   const reportMenu = [
     { text: '확인', onClick: () => {} },
     { text: '삭제', onClick: () => {} },
