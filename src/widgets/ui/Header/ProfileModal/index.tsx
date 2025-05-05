@@ -18,7 +18,6 @@ export const ProfileModal = forwardRef<ProfileModalRef, ProfileModalProps>(({ is
   const navigate = useNavigate();
 
   const { userInfo, logout } = useUserInfoStore();
-  const navigate = useNavigate();
 
   const alarmData = useNotificationStore((state) => state.notifications);
 
