@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 import { forwardRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { ProfileModalRef } from 'widgets/config/profileModal';
 
 import URL from 'shared/config/urls';
+import useNotificationStore from 'shared/store/notificationStore';
 import { useUserInfoStore } from 'shared/store/userInfo';
 import { Button } from 'shared/ui/Button';
 
@@ -11,14 +13,12 @@ interface ProfileModalProps {
   isOpen: boolean;
 }
 
-const ALARM_DATA = [
-  { id: 0, message: '알림이 도착했습니다', isRead: false, createdAt: '2분 전' },
-  { id: 0, message: '알림이 도착했습니다', isRead: true, createdAt: '2분 전' },
-  { id: 0, message: '알림이 도착했습니다', isRead: true, createdAt: '2분 전' },
-];
-
 export const ProfileModal = forwardRef<ProfileModalRef, ProfileModalProps>(({ isOpen }, ref) => {
+  const navigate = useNavigate();
+
   const { userInfo, logout } = useUserInfoStore();
+
+  const alarmData = useNotificationStore((state) => state.notifications);
 
   if (!isOpen) return;
 
@@ -44,10 +44,15 @@ export const ProfileModal = forwardRef<ProfileModalRef, ProfileModalProps>(({ is
 
       <SectionText>알림</SectionText>
       <Box>
-        {ALARM_DATA.map(({ message, id, createdAt, isRead }) => (
-          <AlarmItem key={id}>
-            <Message isRead={isRead}>{message}</Message>
-            {!isRead && <Time>{createdAt}</Time>}
+        {alarmData.map(({ id, content, urlLink, isRead }) => (
+          <AlarmItem
+            key={id}
+            onClick={async () => {
+              await navigate(urlLink);
+            }}
+          >
+            <Message isRead={isRead}>{content}</Message>
+            {!isRead && <Time></Time>}
           </AlarmItem>
         ))}
       </Box>
@@ -55,11 +60,14 @@ export const ProfileModal = forwardRef<ProfileModalRef, ProfileModalProps>(({ is
   );
 });
 
-const AlarmItem = styled.div`
+const AlarmItem = styled.button`
   display: flex;
   justify-content: space-between;
   padding: 20px 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors[400]};
+  appearance: none;
+  border: none;
+  text-align: left;
 
   &:first-child {
     padding-top: 0;
