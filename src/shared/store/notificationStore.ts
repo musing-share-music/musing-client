@@ -10,6 +10,7 @@ interface Notification {
 interface NotificationStore {
   notifications: Notification[];
   addNotification: (notification: Notification) => void;
+  markAsRead: (id: number) => void;
 }
 
 const useNotificationStore = create<NotificationStore>((set) => ({
@@ -17,6 +18,10 @@ const useNotificationStore = create<NotificationStore>((set) => ({
   addNotification: (notification) =>
     set((state) => ({
       notifications: [...state.notifications, notification],
+    })),
+  markAsRead: (id) =>
+    set((state) => ({
+      notifications: state.notifications.map((n) => (n.id === id ? { ...n, isRead: true } : n)),
     })),
 }));
 
