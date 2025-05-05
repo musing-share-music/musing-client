@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 
 import { NavBarSizeProps } from 'widgets/ui/NavBar/type';
 
@@ -11,7 +12,7 @@ interface NavLinkProps extends NavBarSizeProps {
   iconActive: string;
 }
 
-export const NavLink = styled.a<NavLinkProps>`
+export const NavLink = styled(Link)<NavLinkProps>`
   display: flex;
   align-items: center;
   padding: 8px;
