@@ -27,7 +27,8 @@ const handleTokenReissue = async (error: AxiosError): Promise<AxiosResponse | un
   const userInfo = getUserInfo();
 
   if (!userInfo?.userId) {
-    window.location.href = '/';
+    useErrorModalStore.getState().openModal('인증 정보가 없습니다. 다시 로그인해주세요.', true);
+    pendingTokenReissueError = error;
     return Promise.reject(error);
   }
 
@@ -41,16 +42,18 @@ const handleTokenReissue = async (error: AxiosError): Promise<AxiosResponse | un
     }
   } catch (reissueError) {
     console.log(reissueError);
-    useErrorModalStore.getState().openModal('토큰 재발급에 실패했습니다. 다시 로그인해주세요.');
-    window.location.href = '/';
+    useErrorModalStore.getState().openModal('토큰 재발급에 실패했습니다. 다시 로그인해주세요.', true);
+    pendingTokenReissueError = error;
   }
+
+  return Promise.reject(error);
 };
 
 // 모달의 확인 버튼 클릭 이벤트를 처리하기 위한 커스텀 이벤트
 let pendingTokenReissueError: AxiosError | null = null;
 window.addEventListener('token-reissue-confirmed', () => {
   if (pendingTokenReissueError) {
-    void handleTokenReissue(pendingTokenReissueError);
+    window.location.href = '/';
     pendingTokenReissueError = null;
   }
 });
@@ -59,10 +62,11 @@ axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => response,
   async (error: AxiosError) => {
     if (error.response?.status === 401) {
-      // 401 에러 발생 시 모달만 띄우고 확인 버튼 클릭을 기다림
-      useErrorModalStore.getState().openModal('세션이 만료되었습니다. 확인 버튼을 클릭하면 토큰을 재발급합니다.', true);
-      pendingTokenReissueError = error;
-      return Promise.reject(error); // 현재 요청은 실패로 처리
+      try {
+        return await handleTokenReissue(error);
+      } catch (reissueError) {
+        return Promise.reject(reissueError);
+      }
     }
     return Promise.reject(error);
   },

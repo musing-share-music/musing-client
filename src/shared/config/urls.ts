@@ -52,6 +52,11 @@ const URL = {
       REMOVED_BOARD_DETAIL: 'musing/admin/board/list/removed/detail', // 삭제된 게시글 상세
     },
 
+    // 플레이리스트
+    PLAYLIST: {
+      LIST: 'musing/playlist/playlist',
+    },
+
     TOKENREISSUE: 'musing/auth/reissue', //토큰 재발급
   } as const,
 };

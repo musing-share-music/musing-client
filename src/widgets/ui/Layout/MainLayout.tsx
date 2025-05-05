@@ -55,7 +55,27 @@ const RightContainer = styled.div`
 export const ScrollableContainer = styled.div`
   flex: 1;
   overflow-y: auto;
-  scroll-behavior: smooth; // 스크롤 시 부드러운 애니메이션
+  scroll-behavior: smooth;
+
+  /* 스크롤바 스타일 */
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  /* 스크롤바 썸(잡는 부분) */
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors[500]};
+    border-radius: 4px;
+    &:hover {
+      background: ${({ theme }) => theme.colors[300]};
+    }
+  }
+
+  /* 스크롤바 트랙 (배경) */
+  &::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.colors[800]};
+    border-radius: 4px;
+  }
 `;
 const ScrollableMainContainer = styled(ScrollableContainer)`
   padding-top: ${HEADER_HEIGHT}px; // Header 높이를 고려한 여백

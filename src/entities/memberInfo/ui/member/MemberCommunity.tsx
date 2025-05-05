@@ -26,7 +26,9 @@ export const MemberCommunity = ({ boardDtos }: MemberInfoItemProps) => {
           {boardDtos.map((item, index) => {
             return (
               <div key={index}>
-                <CommunityListWrapper>
+                <CommunityListWrapper
+                  onClick={async () => await navigate(ROUTES.DETAIL.replace(':id', item.artists[0].id.toString()))}
+                >
                   <CommunityList>
                     <ListImg src={item.thumbNailLink} />
                     <ListContent>

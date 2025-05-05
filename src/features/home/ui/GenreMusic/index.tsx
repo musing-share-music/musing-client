@@ -1,12 +1,16 @@
 import styled from '@emotion/styled';
 import { Key, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useGetGenreQuery } from 'features/home/lib/useGetGenreQuery';
 
 import { GenreMusics, GenreMusicsItem, LikeGenre, LikeGenreItem } from 'entities/home/model/types';
 
-import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
+// import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
+import { ROUTES } from 'shared/config/routes';
 import { Nodata } from 'shared/ui';
+import { DownArrowButton } from 'shared/ui/';
+import { AddPlayListModal } from 'shared/ui/Modal/PlayListModal/AddPlayList';
 
 import { GenreMusicItem } from './GenreMusicItem';
 
@@ -15,46 +19,58 @@ interface genreMusicsProps {
   likeGenre: LikeGenre;
 }
 
-const GenreMusic = ({ genreMusics, likeGenre }: genreMusicsProps) => {
+const GenreMusic = ({ likeGenre }: genreMusicsProps) => {
+  const navigate = useNavigate();
+
   const filterLikeGenre = Array.from(new Map(likeGenre.map((item) => [item.id, item])).values());
 
   const [activeCtgId, setActiveCtgId] = useState<number>(filterLikeGenre[0].id);
   const [activeCtgName, setActiveCtgName] = useState<string>(filterLikeGenre[0].genreName);
+
+  const [modalOpen, setModalOpen] = useState(false);
 
   const { data } = useGetGenreQuery(activeCtgName);
 
   const CategoryClick = (Category: LikeGenreItem) => {
     setActiveCtgId(Category.id);
     setActiveCtgName(Category.genreName);
-    console.log(genreMusics);
   };
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
   return (
     <GenreContainer>
+      <AddPlayListModal open={modalOpen} onClose={closeModal} children={undefined} />
       <PreferTagWrapper>
         {filterLikeGenre.map((item, index) => (
           <PreferTag key={index} active={activeCtgId === item.id} onClick={() => CategoryClick(item)}>
             {item.genreName}
           </PreferTag>
         ))}
-        <Arrowdown />
+        <DownArrowButton backgroundColor={500} hoverBackgroundColor={300} iconColor="primary1Hover1" disabled={true} />
       </PreferTagWrapper>
-
       <TitleBlock>
         <PageTitle>{activeCtgName}</PageTitle>
         <SubTitle>장르의 음악</SubTitle>
       </TitleBlock>
-
       <GenreMusingBlock>
         {data?.length === 0 ? (
           <Nodata Comment={`아직 ${activeCtgName} 장르의 음악이 없어요.`} />
         ) : (
           <>
             {data?.slice(0, 4).map((item: GenreMusicsItem, index: Key | null | undefined) => (
-              <GenreMusicItem key={index} item={item} />
+              <GenreMusicItem key={index} item={item} onAddPlaylistClick={openModal} />
             ))}
             <GenreMore>
-              <TitleBlock className="more">
+              <TitleBlock
+                className="more"
+                onClick={async () =>
+                  await navigate(ROUTES.COMMUNITY.COMMUNITY, {
+                    state: { activeCtgName: activeCtgName, activeCtgId: activeCtgId },
+                  })
+                }
+              >
                 <PageTitle>{activeCtgName}</PageTitle>
                 <SubTitle>장르 더 듣기</SubTitle>
               </TitleBlock>
@@ -116,8 +132,10 @@ const GenreMore = styled.div`
 
 const PreferTagWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 40px;
+  max-width: 100%;
 `;
 
 const PreferTag = styled.label<{ active: boolean }>`

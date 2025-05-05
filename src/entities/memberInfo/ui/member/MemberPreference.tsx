@@ -21,10 +21,9 @@ import { Genre } from 'entities/genre/model/genre';
 import { MemberInfoItem } from 'entities/memberInfo/model/types';
 import { Mood } from 'entities/mood/model/mood';
 
-import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
 import { useAdminInfoStore } from 'shared/store/adminInfo';
 import { commonStyles } from 'shared/styles/common';
-import { Chip, Modal, TextInput } from 'shared/ui/';
+import { Chip, DownArrowButton, Modal, TextInput } from 'shared/ui/';
 
 type ModalType = 'genre' | 'mood' | 'artist' | null;
 type Artist = string;
@@ -133,7 +132,12 @@ export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreference
               {memberInfoItem?.likeGenre.slice(0, 9).map((item, index) => (
                 <PreferTag key={index}>{item.genreName}</PreferTag>
               ))}
-              <Arrowdown></Arrowdown>
+              <DownArrowButton
+                backgroundColor={500}
+                hoverBackgroundColor={300}
+                iconColor="primary1Hover1"
+                disabled={true}
+              />
             </PreferTagWrapper>
           </GenrePreference>
           <PreferButton onClick={() => openModal('genre')}>수정</PreferButton>
@@ -149,7 +153,12 @@ export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreference
               {memberInfoItem?.likeMood.slice(0, 9).map((item, index) => (
                 <PreferTag key={index}>{item.moodName}</PreferTag>
               ))}
-              <Arrowdown></Arrowdown>
+              <DownArrowButton
+                backgroundColor={500}
+                hoverBackgroundColor={300}
+                iconColor="primary1Hover1"
+                disabled={true}
+              />
             </PreferTagWrapper>
           </GenrePreference>
           <PreferButton onClick={() => openModal('mood')}>수정</PreferButton>
@@ -165,7 +174,12 @@ export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreference
               {memberInfoItem?.likeArtist.slice(0, 9).map((item, index) => (
                 <PreferTag key={index}>{item?.name}</PreferTag>
               ))}
-              <Arrowdown></Arrowdown>
+              <DownArrowButton
+                backgroundColor={500}
+                hoverBackgroundColor={300}
+                iconColor="primary1Hover1"
+                disabled={true}
+              />
             </PreferTagWrapper>
           </GenrePreference>
           <PreferButton onClick={() => openModal('artist')}>수정</PreferButton>

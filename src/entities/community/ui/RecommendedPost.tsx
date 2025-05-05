@@ -35,7 +35,11 @@ const RecommendedPost = ({ boardPopUpDto }: BoardPopUpDtoProps) => {
         <PostCard>
           <PostImage src={recommendBoardFirstDto.thumbNailLink}></PostImage>
           <PostContent>
-            <PostInfo>
+            <PostInfo
+              onClick={async () =>
+                await navigate(ROUTES.DETAIL.replace(':id', recommendBoardFirstDto.artists[0].id.toString()))
+              }
+            >
               <PostSongInfo>
                 {recommendBoardFirstDto.musicName} · {recommendBoardFirstDto.artists[0]?.name}
               </PostSongInfo>
@@ -48,7 +52,12 @@ const RecommendedPost = ({ boardPopUpDto }: BoardPopUpDtoProps) => {
               </PostRateArea>
               <PostArrowWrapper>
                 <PostArrow src={arrow2}></PostArrow>
-                <PostArrowHover src={gradient}></PostArrowHover>
+                <PostArrowHover
+                  src={gradient}
+                  onClick={async () =>
+                    await navigate(ROUTES.DETAIL.replace(':id', recommendBoardFirstDto.artists[0].id.toString()))
+                  }
+                ></PostArrowHover>
               </PostArrowWrapper>
             </PostAction>
           </PostContent>
@@ -82,7 +91,10 @@ const RecommendedPost = ({ boardPopUpDto }: BoardPopUpDtoProps) => {
             }
 
             return (
-              <PostComuItem key={index}>
+              <PostComuItem
+                key={index}
+                onClick={async () => await navigate(ROUTES.DETAIL.replace(':id', item.artists[0].id.toString()))}
+              >
                 <PostComuImage src={item.thumbNailLink} />
                 <PostComuSongInfo>
                   {item.musicName} · {item.artists[0]?.name}
@@ -154,6 +166,7 @@ const PostInfo = styled.div`
   left: 32px;
   width: 418px;
   height: 128px;
+  cursor: pointer;
 `;
 
 const PostSongInfo = styled.div`
@@ -236,6 +249,7 @@ const PostComuItem = styled.div`
   height: 50%;
   border: 1px solid ${({ theme }) => theme.colors[500]};
   position: relative;
+  cursor: pointer;
 `;
 
 const PostComuImage = styled.img`
