@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { reportSearchFilterOptions } from 'pages/admin/config/searchFilterOptions';
 
-import { AdminLayout } from 'widgets/ui/Layout';
-
 import { ROUTES } from 'shared/config/routes';
 import { Button, Filter, Pagination, SearchInputWithFilter, Table } from 'shared/ui';
 import { ConfirmModal } from 'shared/ui/Modal';
@@ -100,35 +98,33 @@ export const AdminPostReportPage = () => {
 
   return (
     <>
-      <AdminLayout>
-        <Container>
-          <BoardContainer>
-            <Header>
-              <H1>신고 접수</H1>
-              <OptionBox>
-                <OptionButton isActive={isPost}>게시글</OptionButton>
-                <OptionDivider />
-                <OptionButton isActive={!isPost} onClick={toggleMenu}>
-                  댓글
-                </OptionButton>
-              </OptionBox>
-            </Header>
-            <TableContainer>
-              <Table head={tableHead} data={tableData} />
-            </TableContainer>
-            <PaginationBlock>
-              <Pagination totalPages={0} />
-            </PaginationBlock>
-          </BoardContainer>
-          <FilterBlock>
-            <SearchInputWithFilter
-              options={reportSearchFilterOptions}
-              searchFilterPlaceholder="작성자"
-              placeholder="내용을 입력해 주세요."
-            />
-          </FilterBlock>
-        </Container>
-      </AdminLayout>
+      <Container>
+        <BoardContainer>
+          <Header>
+            <H1>신고 접수</H1>
+            <OptionBox>
+              <OptionButton isActive={isPost}>게시글</OptionButton>
+              <OptionDivider />
+              <OptionButton isActive={!isPost} onClick={toggleMenu}>
+                댓글
+              </OptionButton>
+            </OptionBox>
+          </Header>
+          <TableContainer>
+            <Table head={tableHead} data={tableData} />
+          </TableContainer>
+          <PaginationBlock>
+            <Pagination totalPages={0} />
+          </PaginationBlock>
+        </BoardContainer>
+        <FilterBlock>
+          <SearchInputWithFilter
+            options={reportSearchFilterOptions}
+            searchFilterPlaceholder="작성자"
+            placeholder="내용을 입력해 주세요."
+          />
+        </FilterBlock>
+      </Container>
       <ConfirmModal
         text={`정말 ${isPost ? '게시글' : '댓글'}을
         삭제하시겠어요?`}

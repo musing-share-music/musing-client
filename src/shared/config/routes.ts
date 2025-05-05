@@ -46,6 +46,7 @@ export const ROUTES = {
     UPDATE_NOTICE: '/admin/update-notice/:id', // 공지사항 수정
     PERMIT: '/admin/permit', // 관리자 확인
     DELETED: '/admin/deleted', // 삭제된 게시글 조회
+    DELETED_DETAIL: '/admin/deleted/:id', // 삭제된 게시글 상세
   },
 } as const;
 

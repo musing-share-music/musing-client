@@ -1,8 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
-import { AdminLayout } from 'widgets/ui';
-
 import { NoticeForm } from 'features/updateNotice/ui/UpdateForm';
 
 import { notice } from 'entities/notice/api/notice.query';
@@ -18,13 +16,11 @@ export const AdminUpdateNoticePage = () => {
   });
 
   return (
-    <AdminLayout>
-      <NoticeForm
-        noticeId={noticeId}
-        title={data?.title || ''}
-        content={data?.content || ''}
-        imageUrl={data?.imageUrl || []}
-      />
-    </AdminLayout>
+    <NoticeForm
+      noticeId={noticeId}
+      title={data?.title || ''}
+      content={data?.content || ''}
+      imageUrl={data?.imageUrl || []}
+    />
   );
 };

@@ -3,8 +3,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import { AdminLayout } from 'widgets/ui';
-
 import { fetchRemoveNotice } from 'entities/notice/api';
 import { adminNotice, notice } from 'entities/notice/api/notice.query';
 
@@ -37,42 +35,40 @@ export const AdminNoticeDetailPage = () => {
   };
 
   return (
-    <AdminLayout>
-      <Layout>
-        {!isLoading && data ? (
-          <Section>
-            <Header>
-              <TitleBlock>
-                <Title>{data.title}</Title>
-                <ButtonBox>
-                  <Button onClick={handleClickModal}>삭제</Button>
-                  <StyledLink to={`/admin/update-notice/${noticeId}`}>편집</StyledLink>
-                </ButtonBox>
-              </TitleBlock>
-              <InfoBlock>
-                <Author>작성자 {data.username}</Author>
-                <CreatedAt>작성일 {new Date(data.createdAt).toLocaleDateString()}</CreatedAt>
-              </InfoBlock>
-            </Header>
+    <Layout>
+      {!isLoading && data ? (
+        <Section>
+          <Header>
+            <TitleBlock>
+              <Title>{data.title}</Title>
+              <ButtonBox>
+                <Button onClick={handleClickModal}>삭제</Button>
+                <StyledLink to={`/admin/update-notice/${noticeId}`}>편집</StyledLink>
+              </ButtonBox>
+            </TitleBlock>
+            <InfoBlock>
+              <Author>작성자 {data.username}</Author>
+              <CreatedAt>작성일 {new Date(data.createdAt).toLocaleDateString()}</CreatedAt>
+            </InfoBlock>
+          </Header>
 
-            <Body>
-              {data.imageUrl?.map((url, index) => (
-                <img key={index} src={url} alt="notice" />
-              ))}
-              <TextBox>{data.content}</TextBox>
-            </Body>
+          <Body>
+            {data.imageUrl?.map((url, index) => (
+              <img key={index} src={url} alt="notice" />
+            ))}
+            <TextBox>{data.content}</TextBox>
+          </Body>
 
-            <ConfirmModal
-              text="정말 삭제하시겠습니까?"
-              confirmText="삭제하기"
-              open={open}
-              onClose={() => setOpen(false)}
-              onConfirm={() => deleteMutation.mutate({ noticeId: data.id })}
-            />
-          </Section>
-        ) : null}
-      </Layout>
-    </AdminLayout>
+          <ConfirmModal
+            text="정말 삭제하시겠습니까?"
+            confirmText="삭제하기"
+            open={open}
+            onClose={() => setOpen(false)}
+            onConfirm={() => deleteMutation.mutate({ noticeId: data.id })}
+          />
+        </Section>
+      ) : null}
+    </Layout>
   );
 };
 

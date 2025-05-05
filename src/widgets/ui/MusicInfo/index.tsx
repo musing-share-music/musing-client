@@ -29,6 +29,7 @@ export const MusicInfo = ({
   hashtags,
   genre,
   thumbNailLink,
+  permitRegister,
 }: MusicInfoProps) => {
   const [open, setOpen] = useState(false);
   const deletePostMutation = useDeletePostMutation();

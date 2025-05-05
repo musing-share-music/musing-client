@@ -21,7 +21,6 @@ import { Genre } from 'entities/genre/model/genre';
 import { MemberInfoItem } from 'entities/memberInfo/model/types';
 import { Mood } from 'entities/mood/model/mood';
 
-import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
 import { useAdminInfoStore } from 'shared/store/adminInfo';
 import { commonStyles } from 'shared/styles/common';
 import { Chip, DownArrowButton, Modal, TextInput } from 'shared/ui/';

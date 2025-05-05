@@ -3,8 +3,6 @@ import { useState } from 'react';
 
 import { checkSearchFilterOptions } from 'pages/admin/config/searchFilterOptions';
 
-import { AdminLayout } from 'widgets/ui/Layout';
-
 import { adminPermit } from 'entities/adminPermit/api/adminPermit.query';
 
 import { Pagination, SearchInputWithFilter, Table } from 'shared/ui';
@@ -55,27 +53,25 @@ export const AdminPermitPage = () => {
   };
 
   return (
-    <AdminLayout>
-      <Container>
-        <BoardContainer>
-          <Header>
-            <H1>관리자 확인</H1>
-          </Header>
-          <TableContainer>
-            <Table head={tableHead} data={tableData} isLoading={isLoading} />
-          </TableContainer>
-          <PaginationBlock>
-            <Pagination totalPages={totalPages} activePage={activePage} onClick={handlePageClick} />
-          </PaginationBlock>
-        </BoardContainer>
-        <FilterBlock>
-          <SearchInputWithFilter
-            options={checkSearchFilterOptions}
-            searchFilterPlaceholder="작성자"
-            placeholder="내용을 입력해 주세요."
-          />
-        </FilterBlock>
-      </Container>
-    </AdminLayout>
+    <Container>
+      <BoardContainer>
+        <Header>
+          <H1>관리자 확인</H1>
+        </Header>
+        <TableContainer>
+          <Table head={tableHead} data={tableData} isLoading={isLoading} />
+        </TableContainer>
+        <PaginationBlock>
+          <Pagination totalPages={totalPages} activePage={activePage} onClick={handlePageClick} />
+        </PaginationBlock>
+      </BoardContainer>
+      <FilterBlock>
+        <SearchInputWithFilter
+          options={checkSearchFilterOptions}
+          searchFilterPlaceholder="작성자"
+          placeholder="내용을 입력해 주세요."
+        />
+      </FilterBlock>
+    </Container>
   );
 };

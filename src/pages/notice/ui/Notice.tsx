@@ -3,8 +3,6 @@ import { useState } from 'react';
 
 import { noticeSearchFilterOptions } from 'pages/admin/config/searchFilterOptions';
 
-import { MainLayout } from 'widgets/ui';
-
 import { notice } from 'entities/notice/api/notice.query';
 
 import { ROUTES } from 'shared/config/routes';
@@ -56,30 +54,28 @@ export const NoticePage = () => {
   };
 
   return (
-    <MainLayout>
-      <Container>
-        <BoardContainer>
-          <Header>
-            <H1>공지사항</H1>
-            <Button width={132} variant="primaryOutline">
-              작성
-            </Button>
-          </Header>
-          <TableContainer>
-            <Table head={tableHead} data={tableData} isLoading={isLoading} />
-          </TableContainer>
-          <PaginationBlock>
-            <Pagination totalPages={totalPages} activePage={activePage} onClick={handlePageClick} />
-          </PaginationBlock>
-        </BoardContainer>
-        <FilterBlock>
-          <SearchInputWithFilter
-            options={noticeSearchFilterOptions}
-            searchFilterPlaceholder="작성자"
-            placeholder="내용을 입력해 주세요."
-          />
-        </FilterBlock>
-      </Container>
-    </MainLayout>
+    <Container>
+      <BoardContainer>
+        <Header>
+          <H1>공지사항</H1>
+          <Button width={132} variant="primaryOutline">
+            작성
+          </Button>
+        </Header>
+        <TableContainer>
+          <Table head={tableHead} data={tableData} isLoading={isLoading} />
+        </TableContainer>
+        <PaginationBlock>
+          <Pagination totalPages={totalPages} activePage={activePage} onClick={handlePageClick} />
+        </PaginationBlock>
+      </BoardContainer>
+      <FilterBlock>
+        <SearchInputWithFilter
+          options={noticeSearchFilterOptions}
+          searchFilterPlaceholder="작성자"
+          placeholder="내용을 입력해 주세요."
+        />
+      </FilterBlock>
+    </Container>
   );
 };
