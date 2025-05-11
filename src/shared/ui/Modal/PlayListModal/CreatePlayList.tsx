@@ -1,4 +1,7 @@
 import styled from '@emotion/styled';
+import { useState } from 'react';
+
+import { usePlayListSavePostMutation } from 'features/playlist/lib/usePostPlayListSaveQuery';
 
 import { Button } from 'shared/ui/Button';
 import { Modal } from 'shared/ui/Modal/BaseModal';
@@ -10,6 +13,14 @@ interface CreatePlayListModalProps extends OuterCloseModalProps {
 }
 
 export const CreatePlayListModal = ({ onOpenPersistModal, ...props }: CreatePlayListModalProps) => {
+  const playListSave = usePlayListSavePostMutation();
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+
+  const createPlatList = () => {
+    playListSave.mutate({ title, description });
+  };
+
   return (
     <OuterCloseModal {...props}>
       <Content>
@@ -18,8 +29,18 @@ export const CreatePlayListModal = ({ onOpenPersistModal, ...props }: CreatePlay
           <SubTitle>최대 3개까지 생성할 수 있어요.</SubTitle>
         </TitleWrap>
         <InputWrap>
-          <InputTitle placeholder="제목을 입력해 주세요."></InputTitle>
-          <TextAreaContent placeholder="내용을 입력해 주세요."></TextAreaContent>
+          <InputTitle
+            placeholder="제목을 입력해 주세요."
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+          ></InputTitle>
+          <TextAreaContent
+            placeholder="내용을 입력해 주세요."
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
+          ></TextAreaContent>
         </InputWrap>
         <GuideWrap>
           <GuideText1>유튜브 플레이리스트와 연동할 수도 있어요!</GuideText1>
@@ -37,7 +58,13 @@ export const CreatePlayListModal = ({ onOpenPersistModal, ...props }: CreatePlay
             </PeristButton>
           </ButtonWrap>
           <ButtonWrap>
-            <Button onClick={props.onClose}>생성</Button>
+            <Button
+              onClick={() => {
+                createPlatList();
+              }}
+            >
+              생성
+            </Button>
           </ButtonWrap>
         </ButtonBlock>
       </Content>

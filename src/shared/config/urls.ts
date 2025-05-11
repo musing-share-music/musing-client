@@ -47,7 +47,10 @@ const URL = {
 
     // 플레이리스트
     PLAYLIST: {
-      LIST: 'musing/playlist/playlist',
+      SAVE: 'musing/playlist',
+      LIST: 'getUserPlaylists',
+      INFO: 'save-playlist',
+      VIDEOINFO: 'getVideoInfo',
     },
 
     TOKENREISSUE: 'musing/auth/reissue', //토큰 재발급
