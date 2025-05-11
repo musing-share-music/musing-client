@@ -23,6 +23,7 @@ export const Contents = ({
   content,
   createdAt,
   updatedAt,
+  imageUrl,
 }: ContentsProps) => {
   const videoId = getYoutubeVideoId(youtubeLink);
   return (
@@ -64,6 +65,9 @@ export const Contents = ({
         <YoutubePreview id={ANCHOR_CONTENT}>
           <YoutubeIframe videoId={videoId} />
         </YoutubePreview>
+        {imageUrl?.map((url, index) => (
+          <img key={index} src={url} alt="notice" />
+        ))}
         <TextBox>{content}</TextBox>
       </Body>
     </Section>

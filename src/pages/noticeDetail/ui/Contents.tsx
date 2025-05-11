@@ -22,6 +22,9 @@ export const Contents = ({ data }: ContentsProps) => {
       </Header>
 
       <Body>
+        {data.imageUrl?.map((url, index) => (
+          <img key={index} src={url} alt="notice" />
+        ))}
         <TextBox>{data.content}</TextBox>
       </Body>
     </Section>
