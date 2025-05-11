@@ -6,7 +6,6 @@ import { AdminLayout, MainLayout } from 'widgets/ui';
 import { ROUTES } from 'shared/config/routes';
 
 const AdminDeletedBoardDetailPage = lazy(() => import('../../pages/admin/deletedDetail'));
-const AdminDeletedBoardDetailPage = lazy(() => import('../../pages/admin/deletedDetail'));
 const AdminPermitPage = lazy(() => import('../../pages/admin/permit'));
 const AdminDeletedPage = lazy(() => import('../../pages/admin/delete'));
 const AdminNoticePage = lazy(() => import('../../pages/admin/notice'));

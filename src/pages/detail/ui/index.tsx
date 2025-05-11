@@ -5,8 +5,6 @@ import { useLocation, useParams } from 'react-router-dom';
 
 import { MusicInfo } from 'widgets/ui/MusicInfo';
 
-import { MusicInfo } from 'widgets/ui/MusicInfo';
-
 import { community } from 'entities/community/api/community.query';
 import { ReviewForm } from 'entities/reply/ui/ReplyForm';
 
