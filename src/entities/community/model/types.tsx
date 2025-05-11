@@ -89,6 +89,7 @@ export interface BoardDetail {
   updatedAt: string;
   username: string;
   permitRegister: 'NON_CHECK' | string;
+  imageUrl?: string[];
 }
 
 export interface DeletePostResponseData {
