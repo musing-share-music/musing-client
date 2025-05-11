@@ -8,7 +8,7 @@ interface NavBarItemProps extends NavItemWithIcon, NavBarSizeProps {}
 export const NavBarItem = ({ href, activeIcon, icon, text, size = 'large' }: NavBarItemProps) => {
   return (
     <NavBarItemEle>
-      <NavLink size={size} href={href} iconActive={activeIcon}>
+      <NavLink size={size} to={href} iconActive={activeIcon}>
         <IconBox src={icon} />
         {text}
       </NavLink>

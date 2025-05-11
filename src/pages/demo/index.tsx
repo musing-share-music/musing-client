@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 
 import { useGetMainQuery } from 'pages/home/lib/useGetMainQuery';
 
-import { MainLayout } from 'widgets/ui/';
-
 import { MusicSelectionModal } from 'features/musicPreference/ui/MusicPreferenceModal';
 
 import { Main } from 'entities/home/ui/index';
@@ -28,10 +26,10 @@ const Home = () => {
   return isLoading ? (
     <Spinner isLoading={isLoading}></Spinner>
   ) : (
-    <MainLayout>
+    <>
       {data?.data ? <Main mainData={data?.data} /> : null}
       <MusicSelectionModal open={open} onClose={() => setOpen(false)} />
-    </MainLayout>
+    </>
   );
 };
 

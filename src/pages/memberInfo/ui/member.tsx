@@ -1,7 +1,5 @@
 import { useGetMemberInfoQuery } from 'pages/memberInfo/lib/useGetMemberInfoQuery';
 
-import { MainLayout } from 'widgets/ui/Layout';
-
 import { MemberInfoPage } from 'entities/memberInfo/ui/member';
 
 import { Spinner } from 'shared/ui/Spinner';
@@ -12,7 +10,7 @@ const MemberInfo = () => {
   return isLoading ? (
     <Spinner isLoading={isLoading}></Spinner>
   ) : (
-    <MainLayout>{data ? <MemberInfoPage memberInfo={data} /> : null}</MainLayout>
+    <>{data ? <MemberInfoPage memberInfo={data} /> : null}</>
   );
 };
 

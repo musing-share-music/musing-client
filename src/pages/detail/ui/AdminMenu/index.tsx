@@ -23,11 +23,11 @@ export const AdminMenu = ({ boardId, isAdmin }: { boardId: number; isAdmin: bool
     },
   });
 
-  // 관리자 권한으로 게시글 삭제
-  const deleteBoardMutation = useMutation({
+  // 관리자 권한으로 게시글 승인 취소
+  const rejectBoardMutation = useMutation({
     mutationFn: fetchRejectBoardState,
     onSuccess: async () => {
-      window.alert('게시글이 삭제되었습니다.');
+      window.alert('게시글 승인이 취소되었습니다.');
       await navigate(-1); // 뒤로가기
     },
     onError: (error) => {
@@ -45,16 +45,16 @@ export const AdminMenu = ({ boardId, isAdmin }: { boardId: number; isAdmin: bool
     {
       text: '확인',
       onClick: () => {
-        if (deleteBoardMutation.isPending || perMitBoardMutation.isPending) return;
+        if (rejectBoardMutation.isPending || perMitBoardMutation.isPending) return;
         perMitBoardMutation.mutate({ boardId });
       },
     },
     {
       text: '삭제',
       onClick: () => {
-        if (deleteBoardMutation.isPending || perMitBoardMutation.isPending) return;
+        if (rejectBoardMutation.isPending || perMitBoardMutation.isPending) return;
         if (window.confirm('게시글을 삭제하시겠습니까?')) {
-          deleteBoardMutation.mutate({ boardId });
+          rejectBoardMutation.mutate({ boardId });
         }
       },
     },

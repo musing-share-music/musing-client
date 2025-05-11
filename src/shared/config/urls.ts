@@ -48,11 +48,15 @@ const URL = {
       PERMIT_BOARD_SEARCH: 'musing/admin/board/list/search', // 승인 대기 게시글 검색
       PERMIT_BOARD: 'musing/admin/board/permit', // 게시글 승인
       REJECT_BOARD: 'musing/admin/board/non/permit', // 게시글 승인 거절
+      REMOVED_BOARD_LIST: 'musing/admin/board/list/removed', // 삭제된 게시글 리스트
+      REMOVED_BOARD_DETAIL: 'musing/admin/board/list/removed/detail', // 삭제된 게시글 상세
     },
 
     // 플레이리스트
     PLAYLIST: {
       LIST: 'musing/playlist/playlist',
+      REMOVED_BOARD_LIST: 'musing/admin/board/list/removed', // 삭제된 게시글 리스트
+      REMOVED_BOARD_DETAIL: 'musing/admin/board/list/removed/detail', // 삭제된 게시글 상세
     },
 
     TOKENREISSUE: 'musing/auth/reissue', //토큰 재발급
