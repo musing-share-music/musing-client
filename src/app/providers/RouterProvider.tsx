@@ -23,8 +23,8 @@ const Home = lazy(() => import('../../pages/home'));
 const MemberCommunity = lazy(() => import('../../pages/memberInfo/ui/community'));
 const MemberInfo = lazy(() => import('../../pages/memberInfo/ui/member'));
 const MemberReview = lazy(() => import('../../pages/memberInfo/ui/review'));
-const NotFound = lazy(() => import('../../pages/notFound/NotFound'));
-// const PlayList = lazy(() => import('../../pages/playList'));
+// const NotFound = lazy(() => import('../../pages/notFound/NotFound'));
+const PlayList = lazy(() => import('../../pages/playList'));
 const NoticePage = lazy(() => import('../../pages/notice'));
 const NoticeDetailPage = lazy(() => import('../../pages/noticeDetail'));
 
@@ -37,7 +37,7 @@ export const AppRouter = () => {
         <Route path={ROUTES.DEMO} element={<Demo />} />
         <Route path={ROUTES.DETAIL} element={<MusicDetail />} />
         <Route path={ROUTES.CREATE} element={<Create />} />
-        {/* <Route path={ROUTES.PLAYLIST} element={<PlayList />} /> */}
+        <Route path={ROUTES.PLAYLIST} element={<PlayList />} />
 
         <Route path={ROUTES.MEMBERINFO.MEMBERINFO} element={<MemberInfo />} />
         <Route path={ROUTES.MEMBERINFO.MEMBERINFOCOMMUNITY} element={<MemberCommunity />} />
@@ -59,7 +59,7 @@ export const AppRouter = () => {
         <Route path={ROUTES.ADMIN.DELETED} element={<AdminDeletedPage />} />
         <Route path={ROUTES.ADMIN.DELETED_DETAIL} element={<AdminDeletedBoardDetailPage />} />
       </Route>
-      <Route path="*" element={<NotFound />} />
+      {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
   );
 };
