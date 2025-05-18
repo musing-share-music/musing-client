@@ -5,12 +5,16 @@ import { usePlayListSaveUrlPostMutation } from 'features/playlist/lib/usePostPla
 
 import { Button } from 'shared/ui/Button';
 import { Modal } from 'shared/ui/Modal/BaseModal';
+import { ErrorModal } from 'shared/ui/Modal/ErrorModal';
 import { OuterCloseModal } from 'shared/ui/Modal/OuterCloseModal';
 import { OuterCloseModalProps } from 'shared/ui/Modal/type';
 
 export const PersistPlayListModal = ({ ...props }: OuterCloseModalProps) => {
   const [url, setUrl] = useState('');
+  const [errorModalOpen, setErrorModalOpen] = useState(false); // ✅ 에러 모달 상태
   const SaveUrlMutation = usePlayListSaveUrlPostMutation();
+
+  const closeErrorModal = () => setErrorModalOpen(false); // ✅ 닫기 핸들러
 
   return (
     <OuterCloseModal {...props}>
@@ -19,21 +23,17 @@ export const PersistPlayListModal = ({ ...props }: OuterCloseModalProps) => {
           <Modal.Title>플레이리스트 연동</Modal.Title>
           <SubTitle>유튜브 재생목록에서 list=(PLO4)부분을 확인 후 입력해 주세요.</SubTitle>
         </TitleWrap>
+
         <GuideWrap>
           <GuideText1>예시)</GuideText1>
           <GuideText2>https://www.youtube.com/watch?v=fLi0EJfi_vg&</GuideText2>
           <GuideText3>list=PLO4</GuideText3>
         </GuideWrap>
+
         <InputWrap>
-          <InputTitle
-            placeholder="플레이리스트 ID를 입력해 주세요."
-            onChange={(e) => {
-              setUrl(e.target.value);
-            }}
-          ></InputTitle>
-          {/* <InputTitle placeholder="제목을 입력해 주세요."></InputTitle>
-          <TextAreaContent placeholder="내용을 입력해 주세요."></TextAreaContent> */}
+          <InputTitle placeholder="플레이리스트 ID를 입력해 주세요." onChange={(e) => setUrl(e.target.value)} />
         </InputWrap>
+
         <ButtonBlock>
           <ButtonWrap>
             <Button
@@ -43,7 +43,10 @@ export const PersistPlayListModal = ({ ...props }: OuterCloseModalProps) => {
                   { url },
                   {
                     onSuccess: () => {
-                      props.onClose(); // ✅ 성공 후에만 닫힘
+                      props.onClose();
+                    },
+                    onError: () => {
+                      setErrorModalOpen(true);
                     },
                   },
                 );
@@ -53,6 +56,10 @@ export const PersistPlayListModal = ({ ...props }: OuterCloseModalProps) => {
             </Button>
           </ButtonWrap>
         </ButtonBlock>
+
+        <ErrorModal open={errorModalOpen} onClose={closeErrorModal}>
+          입력하신 플레이리스트는 이미 등록되어 있습니다.
+        </ErrorModal>
       </Content>
     </OuterCloseModal>
   );

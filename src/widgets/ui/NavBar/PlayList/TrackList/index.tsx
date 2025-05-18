@@ -5,11 +5,12 @@ import { TrackItem } from './TrackItem';
 
 export interface TrackListProps extends NavBarSizeProps {
   open: boolean;
+  playListId: string;
 }
 
-export const TrackList = ({ size, open }: TrackListProps) => {
+export const TrackList = ({ size, open, playListId }: TrackListProps) => {
   return (
-    <TrackListContainer size={size} open={open}>
+    <TrackListContainer size={size} open={open} playListId={playListId}>
       <TrackListScrollableContainer>
         {Array.from({ length: 19 }).map((_, idx) => (
           <Track key={idx} size={size}>

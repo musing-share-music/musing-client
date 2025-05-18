@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { useGetPlayListQuery } from 'features/playlist/lib/useGetPlayListQuery';
+
 import { Button } from 'shared/ui/Button';
 import { SelectBox } from 'shared/ui/Input';
 import { Modal } from 'shared/ui/Modal/BaseModal';
@@ -7,6 +9,8 @@ import { OuterCloseModal } from 'shared/ui/Modal/OuterCloseModal';
 import { OuterCloseModalProps } from 'shared/ui/Modal/type';
 
 export const AddPlayListModal = ({ ...props }: OuterCloseModalProps) => {
+  const { data } = useGetPlayListQuery();
+
   return (
     <OuterCloseModal {...props}>
       <Content>
@@ -15,15 +19,10 @@ export const AddPlayListModal = ({ ...props }: OuterCloseModalProps) => {
         </TitleWrap>
         <SelectBox
           placeholder="플레이리스트를 선택해 주세요."
-          options={[
-            { value: '1', label: '사행성 광고 게시글 혹은 댓글' },
-            { value: '2', label: '욕설 및 부적절한 게시글 혹은 댓글' },
-            {
-              value: '3',
-              label: '설명과 일치하지 않는 게시글 혹은 댓글',
-            },
-            { value: '4', label: '기타 사유' },
-          ]}
+          options={data?.playLists.map((playlist: { youtubePlaylistId: string; listname: string }) => ({
+            value: playlist.youtubePlaylistId,
+            label: playlist.listname,
+          }))}
           onChange={(option) => console.log(option)}
         />
         <ButtonBlock>

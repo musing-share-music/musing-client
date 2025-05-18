@@ -3,18 +3,26 @@ import { NavBarSizeProps } from 'widgets/ui/NavBar/type';
 
 import { PlayListCoverWrapper, PlayListInfo } from './styled';
 
+interface PlayList {
+  listname: string;
+  itemCount: number;
+  youtubePlaylistId: string;
+  youtubeLink: string;
+  description: string;
+}
+
 interface PlayListItemProps extends NavBarSizeProps {
   src: string;
   onClick: () => void;
+  list: PlayList;
 }
-
-export const PlayListItem = ({ onClick, src, size }: PlayListItemProps) => {
+export const PlayListItem = ({ onClick, src, size, list }: PlayListItemProps) => {
   return (
-    <PlayListInfo onClick={() => onClick()}>
+    <PlayListInfo onClick={onClick}>
       <PlayListCoverWrapper>
-        <Cover src={src} draggable={false} />
+        <Cover src={list.youtubeLink || src} draggable={false} />
       </PlayListCoverWrapper>
-      {size === 'large' && <Title>플레이리스트1</Title>}
+      {size === 'large' && <Title>{list.listname}</Title>}
     </PlayListInfo>
   );
 };
