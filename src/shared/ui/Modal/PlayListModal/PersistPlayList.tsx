@@ -1,4 +1,7 @@
 import styled from '@emotion/styled';
+import { useState } from 'react';
+
+import { usePlayListSaveUrlPostMutation } from 'features/playlist/lib/usePostPlayListSaveUrlQuery';
 
 import { Button } from 'shared/ui/Button';
 import { Modal } from 'shared/ui/Modal/BaseModal';
@@ -6,26 +9,48 @@ import { OuterCloseModal } from 'shared/ui/Modal/OuterCloseModal';
 import { OuterCloseModalProps } from 'shared/ui/Modal/type';
 
 export const PersistPlayListModal = ({ ...props }: OuterCloseModalProps) => {
+  const [url, setUrl] = useState('');
+  const SaveUrlMutation = usePlayListSaveUrlPostMutation();
+
   return (
     <OuterCloseModal {...props}>
       <Content>
         <TitleWrap>
           <Modal.Title>플레이리스트 연동</Modal.Title>
-          <SubTitle>유튜브 재생목록에서 list=(재생목록 ID)부분을 확인 후 입력해 주세요.</SubTitle>
+          <SubTitle>유튜브 재생목록에서 list=(PLO4)부분을 확인 후 입력해 주세요.</SubTitle>
         </TitleWrap>
         <GuideWrap>
           <GuideText1>예시)</GuideText1>
-          <GuideText2>https://youtube.com/playlist?</GuideText2>
-          <GuideText3>list=ABC1234_EXPLAYlist</GuideText3>
+          <GuideText2>https://www.youtube.com/watch?v=fLi0EJfi_vg&</GuideText2>
+          <GuideText3>list=PLO4</GuideText3>
         </GuideWrap>
         <InputWrap>
-          <InputTitle placeholder="플레이리스트 ID를 입력해 주세요."></InputTitle>
-          <InputTitle placeholder="제목을 입력해 주세요."></InputTitle>
-          <TextAreaContent placeholder="내용을 입력해 주세요."></TextAreaContent>
+          <InputTitle
+            placeholder="플레이리스트 ID를 입력해 주세요."
+            onChange={(e) => {
+              setUrl(e.target.value);
+            }}
+          ></InputTitle>
+          {/* <InputTitle placeholder="제목을 입력해 주세요."></InputTitle>
+          <TextAreaContent placeholder="내용을 입력해 주세요."></TextAreaContent> */}
         </InputWrap>
         <ButtonBlock>
           <ButtonWrap>
-            <Button onClick={props.onClose}>생성</Button>
+            <Button
+              disabled={SaveUrlMutation.isPending}
+              onClick={() => {
+                SaveUrlMutation.mutate(
+                  { url },
+                  {
+                    onSuccess: () => {
+                      props.onClose(); // ✅ 성공 후에만 닫힘
+                    },
+                  },
+                );
+              }}
+            >
+              생성
+            </Button>
           </ButtonWrap>
         </ButtonBlock>
       </Content>

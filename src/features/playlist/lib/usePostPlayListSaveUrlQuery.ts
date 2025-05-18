@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { fetchPostSave } from 'entities/playlist/api/PlayListSave';
+import { fetchPostSaveUrl } from 'entities/playlist/api/PlayListSaveUrl';
 
-export const usePlayListSavePostMutation = () => {
+export const usePlayListSaveUrlPostMutation = () => {
   const queryClient = useQueryClient();
 
   const PlayListSaveMutation = useMutation({
-    mutationFn: ({ title, description }: { title: string; description: string }) => fetchPostSave(title, description),
+    mutationFn: ({ url }: { url: string }) => fetchPostSaveUrl(url),
     onSuccess: async () => {
       await queryClient.invalidateQueries();
     },

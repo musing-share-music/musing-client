@@ -1,10 +1,15 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
-import { fetchGetPlayList } from './PlayListGet';
+import { fetchPostSave } from './PlayListSave';
+import { fetchPostSaveUrl } from './PlayListSaveUrl';
 
 export const playlist = createQueryKeys('playlist', {
-  playlist: (url: string) => ({
-    queryKey: ['playlist'],
-    queryFn: () => fetchGetPlayList(url),
+  saveUrl: (url: string) => ({
+    queryKey: ['saveUrl', url],
+    queryFn: () => fetchPostSaveUrl(url),
+  }),
+  save: (title: string, description: string) => ({
+    queryKey: ['save', title, description],
+    queryFn: () => fetchPostSave(title, description),
   }),
 });

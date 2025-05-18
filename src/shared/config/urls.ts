@@ -47,7 +47,7 @@ const URL = {
 
     // 플레이리스트
     PLAYLIST: {
-      SAVE: 'musing/playlist',
+      SAVE: 'musing/playlist/getUserPlaylist',
       LIST: 'getUserPlaylists',
       INFO: 'save-playlist',
       VIDEOINFO: 'getVideoInfo',
