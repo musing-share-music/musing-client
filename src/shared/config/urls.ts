@@ -49,6 +49,7 @@ const URL = {
     PLAYLIST: {
       SAVE: 'musing/playlist/getUserPlaylist',
       LIST: 'musing/playlist/selectMyPlayLists',
+      REMOVE: 'musing/playlist/remove',
     },
 
     TOKENREISSUE: 'musing/auth/reissue', //토큰 재발급
