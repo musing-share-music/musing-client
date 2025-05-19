@@ -13,6 +13,10 @@ export const Title = styled.p`
   margin: 0px;
   color: ${({ theme }) => theme.colors[100]};
   ${({ theme }) => theme.fonts.wantedSans.B6};
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 150px;
 `;
 
 export const Cover = styled.img`

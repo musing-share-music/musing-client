@@ -1,82 +1,92 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import IconCheck from 'shared/assets/image/icons/icon-check.svg?react';
 import CoverSrc from 'shared/assets/image/main/image1.png';
+import { ROUTES } from 'shared/config/routes';
 
 import { MoreButton } from './MoreButton';
 // import { commonStyles } from 'shared/styles/common';
 
-export const PlayListMusicList = () => {
+export interface Video {
+  name: string;
+  playtime: string | null;
+  albumName: string;
+  songLink: string;
+  thumbNailLink: string;
+  genres: string[] | null;
+}
+
+export interface VideoProps {
+  videoList: Video[];
+  modify: boolean;
+}
+
+export const PlayListMusicList = ({ videoList, modify }: VideoProps) => {
   // const [open, setOpen] = useState(false);
   // const [isChecked, setisChecked] = useState([true, false]);
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const isChecked = [true, false];
-  console.log(open);
-  const menuItem = [
-    {
-      content: '곡 정보',
-      onClick: () => {
-        setOpen(true);
-      },
-    },
-    {
-      content: '좋아요',
-      onClick: () => {
-        setOpen(true);
-      },
-    },
-    {
-      content: '플레이리스트 추가',
-      onClick: () => {
-        setOpen(true);
-      },
-    },
-  ];
+
   return (
     <>
       <PlayListMusicBox>
-        <PlayListCheckBlock>
-          <CheckBoxWrapper>
-            <CheckBox type="checkbox" />
-            <IconCheckStyled />
-            <CheckBoxLabel>전체 선택</CheckBoxLabel>
-          </CheckBoxWrapper>
+        {modify ? (
+          <PlayListCheckBlock>
+            <CheckBoxWrapper>
+              <CheckBox type="checkbox" />
+              <IconCheckStyled />
+              <CheckBoxLabel>전체 선택</CheckBoxLabel>
+            </CheckBoxWrapper>
 
-          <CheckInfoBlock>
-            <CheckCount>3곡 선택</CheckCount>
-            <CheckDelete>삭제</CheckDelete>
-          </CheckInfoBlock>
-        </PlayListCheckBlock>
+            <CheckInfoBlock>
+              <CheckCount>{videoList?.length}곡 선택</CheckCount>
+              <CheckDelete>삭제</CheckDelete>
+            </CheckInfoBlock>
+          </PlayListCheckBlock>
+        ) : (
+          ''
+        )}
 
-        <PlayListItem isChecked={isChecked[0]}>
-          <PlayListInfoBlock>
-            <PlayListInfoImg src={CoverSrc}></PlayListInfoImg>
-            <PlayListInfo>
-              <PlayListInfoTitle>Pink!</PlayListInfoTitle>
-              <PlayListInfoName>권진아</PlayListInfoName>
-              <TagBlock>
-                <Tag>K-POP</Tag> <Tag>귀여운</Tag>
-              </TagBlock>
-            </PlayListInfo>
-          </PlayListInfoBlock>
-          <MoreButton menuItem={menuItem} />
-        </PlayListItem>
-
-        <PlayListItem isChecked={isChecked[1]}>
-          <PlayListInfoBlock>
-            <PlayListInfoImg src={CoverSrc}></PlayListInfoImg>
-            <PlayListInfo>
-              <PlayListInfoTitle>Pink!</PlayListInfoTitle>
-              <PlayListInfoName>권진아</PlayListInfoName>
-              <TagBlock>
-                <Tag>K-POP</Tag> <Tag>귀여운</Tag>
-              </TagBlock>
-            </PlayListInfo>
-          </PlayListInfoBlock>
-          <MoreButton menuItem={menuItem} />
-        </PlayListItem>
+        {videoList?.map((item, idex) => (
+          <PlayListItem
+            isChecked={isChecked[1]}
+            key={idex}
+            onClick={() => {
+              window.open(item.songLink, '_blank');
+            }}
+          >
+            <PlayListInfoBlock>
+              <PlayListInfoImg src={item.thumbNailLink}></PlayListInfoImg>
+              <PlayListInfo>
+                <PlayListInfoTitle>{item.albumName}</PlayListInfoTitle>
+                <PlayListInfoName>{item.name}</PlayListInfoName>
+                <TagBlock>
+                  <Tag>K-POP</Tag> <Tag>귀여운</Tag>
+                </TagBlock>
+              </PlayListInfo>
+            </PlayListInfoBlock>
+            <MoreButton
+              menuItem={[
+                {
+                  onClick: async () => {
+                    await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()));
+                  },
+                  content: '곡정보',
+                },
+                {
+                  onClick: async () => {
+                    await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()), { state: { isLikedClick: true } });
+                  },
+                  content: '좋아요',
+                },
+              ]}
+            />
+          </PlayListItem>
+        ))}
       </PlayListMusicBox>
     </>
   );
@@ -189,11 +199,12 @@ const PlayListItem = styled.div<{ isChecked: boolean }>`
           border-radius: 8px;
           align-items: center;
         `};
+  cursor: pointer;
 `;
 
 const PlayListInfoBlock = styled.div`
-  width: 314px;
-  height: 144px;
+  min-width: 314px;
+  min-height: 144px;
   display: flex;
   gap: 28px;
 `;
@@ -205,8 +216,8 @@ const PlayListInfoImg = styled.img`
 `;
 
 const PlayListInfo = styled.div`
-  width: 142px;
-  height: 144px;
+  min-width: 400px;
+  min-height: 144px;
   padding: 8px;
   position: relative;
 `;
@@ -217,6 +228,11 @@ const PlayListInfoTitle = styled.div`
   position: absolute;
   left: 0px;
   top: 8px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%; // 또는 정확한 너비 지정 (예: 150px)
 `;
 
 const PlayListInfoName = styled.div`

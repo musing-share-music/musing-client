@@ -49,6 +49,7 @@ const URL = {
     PLAYLIST: {
       SAVE: 'musing/playlist/getUserPlaylist',
       LIST: 'musing/playlist/selectMyPlayLists',
+      DETAIL: 'musing/playlist/SelectMyDBPlaylist',
       REMOVE: 'musing/playlist/remove',
     },
 

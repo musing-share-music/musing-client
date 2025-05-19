@@ -48,7 +48,7 @@ export const PlayList = ({ size }: NavBarSizeProps) => {
           alert('플레이리스트가 삭제되었습니다.');
           setOpen(false);
         },
-        onError: (error: unknown) => {
+        onError: () => {
           setErrorMessage('플레이리스트 삭제 중 오류가 발생했습니다.');
           setErrorModalOpen(true);
           setOpen(false);
