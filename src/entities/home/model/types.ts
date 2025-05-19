@@ -25,6 +25,7 @@ export type GenreMusicsItem = {
     },
   ];
   thumbNailLink: string;
+  musicLink: string;
 };
 export type GenreMusics = GenreMusicsItem[];
 
@@ -39,6 +40,7 @@ export type LikeMusicDtosItem = {
     },
   ];
   thumbNailLink: string;
+  musicLink: string;
 };
 export type LikeMusicDtos = LikeMusicDtosItem[];
 
@@ -53,6 +55,7 @@ export type RecommendGenresItem = {
     },
   ];
   thumbNailLink: string;
+  musicLink: string;
 };
 export type RecommendGenres = RecommendGenresItem[];
 
@@ -89,6 +92,7 @@ export type HotMusicBoard = {
     },
   ];
   thumbNailLink: string;
+  musicLink: string;
 };
 
 // 추천 음악 리스트
