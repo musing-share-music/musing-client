@@ -1,11 +1,14 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
+import { SavePlayListPayload } from 'entities/playlist/type';
+
 import { fetchGetPlayList } from './PlayList';
 import { fetchPostAddMusing } from './PlayListAdd ';
 import { fetchGetPlayListDetail } from './PlayListDetail';
 import { fetchPostModify } from './PlayListModify ';
 import { fetchPostRemove } from './PlayListRemove';
 import { fetchPostSave } from './PlayListSave';
+import { fetchPostSaveAll } from './PlayListSaveAll';
 import { fetchPostSaveUrl } from './PlayListSaveUrl';
 
 export const playlist = createQueryKeys('playlist', {
@@ -25,6 +28,11 @@ export const playlist = createQueryKeys('playlist', {
     queryKey: ['save', listName, description],
     queryFn: () => fetchPostSave(listName, description),
   }),
+  saveAll: (payload: SavePlayListPayload) => ({
+    queryKey: ['save', payload.representative.listName],
+    queryFn: () => fetchPostSaveAll(payload),
+  }),
+
   remove: (playlistId: string, deleteVideoLinks: string) => ({
     queryKey: ['modify', playlistId],
     queryFn: () => fetchPostModify(playlistId, deleteVideoLinks),

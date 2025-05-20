@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useGetPlayListDetailQuery } from 'features/playlist/lib/useGetPlayListDetailQuery';
+import { usePlayListSaveAllPostMutation } from 'features/playlist/lib/usePostPlayListSaveAllQuery';
+
+import { Representative, SavePlayListPayload } from 'entities/playlist/type';
 
 import { PlayListMusicInfo } from './PlayListMusicInfo';
 import { PlayListMusicList } from './PlayListMusicList';
@@ -15,8 +18,16 @@ export const PlayListPage = () => {
   const { data, refetch } = useGetPlayListDetailQuery(id, {
     enabled: !!id,
   });
-
   const [modify, setModify] = useState(false);
+
+  const [modifyData, setModifyData] = useState<SavePlayListPayload>(data);
+  useEffect(() => {
+    if (data) {
+      setModifyData(data);
+    }
+  }, [data]);
+
+  const saveAllMutation = usePlayListSaveAllPostMutation();
 
   return (
     <Layout>
@@ -26,6 +37,16 @@ export const PlayListPage = () => {
           modify={modify}
           setModify={setModify}
           onRefresh={refetch}
+          onSave={() => {
+            saveAllMutation.mutate(modifyData, {
+              onSuccess: () => {
+                setModify(false);
+              },
+              onError: () => {
+                alert('실패');
+              },
+            });
+          }}
         />
       </LeftContainer>
       <RightContainer>

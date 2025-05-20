@@ -23,12 +23,13 @@ interface RepresentativeProps {
   modify: boolean;
   setModify: React.Dispatch<React.SetStateAction<boolean>>;
   onRefresh: () => void;
+  onSave: () => void;
 }
 
-export const PlayListMusicInfo = ({ representative, modify, setModify, onRefresh }: RepresentativeProps) => {
+export const PlayListMusicInfo = ({ representative, modify, setModify, onRefresh, onSave }: RepresentativeProps) => {
   // const theme = useTheme();
   const [open, setOpen] = useState(false);
-
+  const [modifyRep, setModifyRep] = useState(representative);
   // const isLiked = false;
   // const color = isLiked ? theme.colors.primary1 : theme.colors[200];
 
@@ -48,7 +49,16 @@ export const PlayListMusicInfo = ({ representative, modify, setModify, onRefresh
           <TrackDetails>
             <Box>
               {modify ? (
-                <InputTitle placeholder="제목을 입력해주세요." defaultValue={representative?.listName}></InputTitle>
+                <InputTitle
+                  placeholder="제목을 입력해주세요."
+                  defaultValue={representative?.listName}
+                  onChange={(e) =>
+                    setModifyRep({
+                      ...modifyRep!,
+                      listName: e.target.value,
+                    })
+                  }
+                ></InputTitle>
               ) : (
                 <Title>{representative?.listName}</Title>
               )}
@@ -57,6 +67,12 @@ export const PlayListMusicInfo = ({ representative, modify, setModify, onRefresh
                 <TextAreaContent
                   placeholder="내용을 입력해주세요."
                   defaultValue={representative?.description}
+                  onChange={(e) =>
+                    setModifyRep({
+                      ...modifyRep!,
+                      description: e.target.value,
+                    })
+                  }
                 ></TextAreaContent>
               ) : (
                 <Description>{representative?.description}</Description>
@@ -121,7 +137,13 @@ export const PlayListMusicInfo = ({ representative, modify, setModify, onRefresh
           >
             취소
           </CancelButton>
-          <SaveButton>저장</SaveButton>
+          <SaveButton
+            onClick={() => {
+              onSave();
+            }}
+          >
+            저장
+          </SaveButton>
         </EditButtonBlock>
       ) : (
         ''
