@@ -12,7 +12,7 @@ export const PlayListPage = () => {
   const location = useLocation();
   const id = location.state?.id;
 
-  const { data } = useGetPlayListDetailQuery(id, {
+  const { data, refetch } = useGetPlayListDetailQuery(id, {
     enabled: !!id,
   });
 
@@ -21,7 +21,12 @@ export const PlayListPage = () => {
   return (
     <Layout>
       <LeftContainer>
-        <PlayListMusicInfo representative={data?.representative} modify={modify} setModify={setModify} />
+        <PlayListMusicInfo
+          representative={data?.representative}
+          modify={modify}
+          setModify={setModify}
+          onRefresh={refetch}
+        />
       </LeftContainer>
       <RightContainer>
         <PlayListMusicList videoList={data?.videoList} modify={modify}></PlayListMusicList>

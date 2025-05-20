@@ -1,6 +1,7 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
 import { fetchGetPlayList } from './PlayList';
+import { fetchPostAddMusing } from './PlayListAdd ';
 import { fetchGetPlayListDetail } from './PlayListDetail';
 import { fetchPostRemove } from './PlayListRemove';
 import { fetchPostSave } from './PlayListSave';
@@ -26,5 +27,9 @@ export const playlist = createQueryKeys('playlist', {
   remove: (playlistId: string) => ({
     queryKey: ['remove', playlistId],
     queryFn: () => fetchPostRemove(playlistId),
+  }),
+  add: (playlistId: string, musicUrl: string) => ({
+    queryKey: ['remove', playlistId, musicUrl],
+    queryFn: () => fetchPostAddMusing(playlistId, musicUrl),
   }),
 });

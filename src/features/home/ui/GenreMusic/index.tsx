@@ -38,10 +38,10 @@ const GenreMusic = ({ likeGenre }: genreMusicsProps) => {
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
+  const [selectedData, setSelectedData] = useState<GenreMusicsItem | null>(null);
 
   return (
     <GenreContainer>
-      <AddPlayListModal open={modalOpen} onClose={closeModal} children={undefined} />
       <PreferTagWrapper>
         {filterLikeGenre.map((item, index) => (
           <PreferTag key={index} active={activeCtgId === item.id} onClick={() => CategoryClick(item)}>
@@ -60,7 +60,14 @@ const GenreMusic = ({ likeGenre }: genreMusicsProps) => {
         ) : (
           <>
             {data?.slice(0, 4).map((item: GenreMusicsItem, index: Key | null | undefined) => (
-              <GenreMusicItem key={index} item={item} onAddPlaylistClick={openModal} />
+              <GenreMusicItem
+                key={index}
+                item={item}
+                onAddPlaylistClick={() => {
+                  setSelectedData(item); // 선택한 곡 저장
+                  openModal(); // 모달 열기
+                }}
+              />
             ))}
             <GenreMore>
               <TitleBlock
@@ -75,6 +82,8 @@ const GenreMusic = ({ likeGenre }: genreMusicsProps) => {
                 <SubTitle>장르 더 듣기</SubTitle>
               </TitleBlock>
             </GenreMore>
+
+            <AddPlayListModal open={modalOpen} onClose={closeModal} children={undefined} data={selectedData} />
           </>
         )}
       </GenreMusingBlock>

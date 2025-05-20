@@ -22,11 +22,13 @@ interface RepresentativeProps {
   representative: Representative;
   modify: boolean;
   setModify: React.Dispatch<React.SetStateAction<boolean>>;
+  onRefresh: () => void;
 }
 
-export const PlayListMusicInfo = ({ representative, modify, setModify }: RepresentativeProps) => {
+export const PlayListMusicInfo = ({ representative, modify, setModify, onRefresh }: RepresentativeProps) => {
   // const theme = useTheme();
   const [open, setOpen] = useState(false);
+
   // const isLiked = false;
   // const color = isLiked ? theme.colors.primary1 : theme.colors[200];
 
@@ -76,9 +78,13 @@ export const PlayListMusicInfo = ({ representative, modify, setModify }: Represe
 
         {!modify ? (
           <AdminBlock>
-            <AdminConfirm>
+            <AdminConfirm
+              onClick={() => {
+                onRefresh();
+              }}
+            >
               갱신하기
-              <IconTooltip></IconTooltip>
+              <IconTooltip />
             </AdminConfirm>
             <ToolTip>
               플레이리스트가 실제 유튜브와 <br></br> 일치하지 않는다면 갱신하기를 눌러 주세요.

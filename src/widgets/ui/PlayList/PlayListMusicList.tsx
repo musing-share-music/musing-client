@@ -241,6 +241,10 @@ const PlayListInfoName = styled.div`
   position: absolute;
   left: 0px;
   top: 40px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 400px;
 `;
 
 const TagBlock = styled.div`
