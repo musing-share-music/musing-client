@@ -14,11 +14,11 @@ interface CreatePlayListModalProps extends OuterCloseModalProps {
 
 export const CreatePlayListModal = ({ onOpenPersistModal, ...props }: CreatePlayListModalProps) => {
   const playListSave = usePlayListSavePostMutation();
-  const [title, setTitle] = useState('');
+  const [listName, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
   const createPlatList = () => {
-    playListSave.mutate({ title, description });
+    playListSave.mutate({ listName, description });
   };
 
   return (

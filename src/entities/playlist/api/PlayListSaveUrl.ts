@@ -5,7 +5,7 @@ import axiosInstance from 'shared/lib/axiosInstance';
 export const fetchPostSaveUrl = async (url: string) => {
   const response = await axiosInstance({
     method: 'GET',
-    url: URL.SERVERURL + URL.API.PLAYLIST.SAVE,
+    url: URL.SERVERURL + URL.API.PLAYLIST.SAVEURL,
     params: { url: url },
   });
   return response.data;

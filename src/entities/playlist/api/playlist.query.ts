@@ -3,6 +3,7 @@ import { createQueryKeys } from '@lukemorales/query-key-factory';
 import { fetchGetPlayList } from './PlayList';
 import { fetchPostAddMusing } from './PlayListAdd ';
 import { fetchGetPlayListDetail } from './PlayListDetail';
+import { fetchPostModify } from './PlayListModify ';
 import { fetchPostRemove } from './PlayListRemove';
 import { fetchPostSave } from './PlayListSave';
 import { fetchPostSaveUrl } from './PlayListSaveUrl';
@@ -20,11 +21,15 @@ export const playlist = createQueryKeys('playlist', {
     queryKey: ['saveUrl', url],
     queryFn: () => fetchPostSaveUrl(url),
   }),
-  save: (title: string, description: string) => ({
-    queryKey: ['save', title, description],
-    queryFn: () => fetchPostSave(title, description),
+  save: (listName: string, description: string) => ({
+    queryKey: ['save', listName, description],
+    queryFn: () => fetchPostSave(listName, description),
   }),
-  remove: (playlistId: string) => ({
+  remove: (playlistId: string, deleteVideoLinks: string) => ({
+    queryKey: ['modify', playlistId],
+    queryFn: () => fetchPostModify(playlistId, deleteVideoLinks),
+  }),
+  modify: (playlistId: string) => ({
     queryKey: ['remove', playlistId],
     queryFn: () => fetchPostRemove(playlistId),
   }),

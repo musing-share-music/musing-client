@@ -6,7 +6,8 @@ export const usePlayListSavePostMutation = () => {
   const queryClient = useQueryClient();
 
   const PlayListSaveMutation = useMutation({
-    mutationFn: ({ title, description }: { title: string; description: string }) => fetchPostSave(title, description),
+    mutationFn: ({ listName, description }: { listName: string; description: string }) =>
+      fetchPostSave(listName, description),
     onSuccess: async () => {
       await queryClient.invalidateQueries();
     },
