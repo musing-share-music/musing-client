@@ -17,10 +17,6 @@ export const CreatePlayListModal = ({ onOpenPersistModal, ...props }: CreatePlay
   const [listName, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  const createPlatList = () => {
-    playListSave.mutate({ listName, description });
-  };
-
   return (
     <OuterCloseModal {...props}>
       <Content>
@@ -60,7 +56,19 @@ export const CreatePlayListModal = ({ onOpenPersistModal, ...props }: CreatePlay
           <ButtonWrap>
             <Button
               onClick={() => {
-                createPlatList();
+                playListSave.mutate(
+                  { listName, description },
+                  {
+                    onSuccess: () => {
+                      alert('플레이리스트가 추가되었습니다.');
+                      props.onClose();
+                    },
+                    onError: () => {
+                      alert('플레이리스트 추가 중 오류가 발생했습니다.');
+                      props.onClose();
+                    },
+                  },
+                );
               }}
             >
               생성
