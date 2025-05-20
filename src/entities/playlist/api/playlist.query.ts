@@ -33,9 +33,9 @@ export const playlist = createQueryKeys('playlist', {
     queryFn: () => fetchPostSaveAll(payload),
   }),
 
-  remove: (playlistId: string, deleteVideoLinks: string) => ({
-    queryKey: ['modify', playlistId],
-    queryFn: () => fetchPostModify(playlistId, deleteVideoLinks),
+  remove: (playlistId: string, deleteVideoLinks: string[], body: { title: string; description: string }) => ({
+    queryKey: ['modify', playlistId, deleteVideoLinks, body],
+    queryFn: () => fetchPostModify(playlistId, deleteVideoLinks, body),
   }),
   modify: (playlistId: string) => ({
     queryKey: ['remove', playlistId],

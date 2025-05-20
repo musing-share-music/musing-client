@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useGetPlayListDetailQuery } from 'features/playlist/lib/useGetPlayListDetailQuery';
+import { usePlayListModifyPostMutation } from 'features/playlist/lib/usePostPlayListModifyQuery';
 import { usePlayListSaveAllPostMutation } from 'features/playlist/lib/usePostPlayListSaveAllQuery';
 
 import { Representative, SavePlayListPayload } from 'entities/playlist/type';
@@ -28,9 +29,25 @@ export const PlayListPage = () => {
   }, [data]);
 
   const saveAllMutation = usePlayListSaveAllPostMutation();
+  const modifyMutation = usePlayListModifyPostMutation();
 
   return (
     <Layout>
+      <button
+        onClick={() => {
+          modifyMutation.mutate({
+            playlistId: modifyData?.representative.youtubePlaylistId,
+            deleteVideoLinks: [modifyData?.videoList[4].songLink],
+            body: {
+              title: modifyData?.representative.listName ?? '',
+              description: modifyData?.representative.description ?? '',
+            },
+          });
+        }}
+      >
+        테스트 클릭
+      </button>
+
       <LeftContainer>
         <PlayListMusicInfo
           representative={data?.representative}

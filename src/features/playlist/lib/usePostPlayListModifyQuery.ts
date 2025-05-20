@@ -6,8 +6,15 @@ export const usePlayListModifyPostMutation = () => {
   const queryClient = useQueryClient();
 
   const PlayListModifyMutation = useMutation({
-    mutationFn: ({ playlistId, deleteVideoLinks }: { playlistId: string; deleteVideoLinks: string }) =>
-      fetchPostModify(playlistId, deleteVideoLinks),
+    mutationFn: ({
+      playlistId,
+      deleteVideoLinks,
+      body,
+    }: {
+      playlistId: string;
+      deleteVideoLinks: string[];
+      body: { title: string; description: string };
+    }) => fetchPostModify(playlistId, deleteVideoLinks, body),
     onSuccess: async () => {
       await queryClient.invalidateQueries();
     },
