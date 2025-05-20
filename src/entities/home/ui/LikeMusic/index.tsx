@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import { LikeMusicDtos } from 'entities/home/model/types';
+import { LikeMusicDtos, LikeMusicDtosItem } from 'entities/home/model/types';
 
 import arrow2 from 'shared/assets/image/main/arrow 2.png';
 import { Nodata } from 'shared/ui';
@@ -82,10 +82,11 @@ const LikeMusic = ({ likeMusicDtos }: LikeMusicDtosProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
+  const [selectedData, setSelectedData] = useState<LikeMusicDtosItem | null>(null);
 
   return (
     <LikeContainer>
-      <AddPlayListModal open={modalOpen} onClose={closeModal} children={undefined} />
+      <AddPlayListModal open={modalOpen} onClose={closeModal} children={undefined} data={selectedData} />
 
       <TitleBlock>
         <PageTitle>좋아요</PageTitle>
@@ -98,7 +99,14 @@ const LikeMusic = ({ likeMusicDtos }: LikeMusicDtosProps) => {
         ) : (
           <>
             {limitedLikeMusicList.map((item, index) => (
-              <LikeMusicItem key={index} item={item} onAddPlaylistClick={openModal} />
+              <LikeMusicItem
+                key={index}
+                item={item}
+                onAddPlaylistClick={() => {
+                  setSelectedData(item);
+                  openModal();
+                }}
+              />
             ))}
 
             <LikeMore>

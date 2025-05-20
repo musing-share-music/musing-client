@@ -64,8 +64,8 @@ const GenreMusic = ({ likeGenre }: genreMusicsProps) => {
                 key={index}
                 item={item}
                 onAddPlaylistClick={() => {
-                  setSelectedData(item); // 선택한 곡 저장
-                  openModal(); // 모달 열기
+                  setSelectedData(item);
+                  openModal();
                 }}
               />
             ))}

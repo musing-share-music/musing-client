@@ -4,7 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
-import { RecommendGenre, RecommendGenres } from 'entities/home/model/types';
+import { RecommendGenre, RecommendGenres, RecommendGenresItem } from 'entities/home/model/types';
 
 import { Nodata } from 'shared/ui';
 import { AddPlayListModal } from 'shared/ui/Modal/PlayListModal/AddPlayList';
@@ -117,6 +117,7 @@ const HotMusic = ({ recommendGenre, recommendGenres }: RecommendGenreProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
+  const [selectedData, setSelectedData] = useState<RecommendGenresItem | null>(null);
 
   const settings = {
     dots: true,
@@ -128,7 +129,7 @@ const HotMusic = ({ recommendGenre, recommendGenres }: RecommendGenreProps) => {
 
   return (
     <HotContainer>
-      <AddPlayListModal open={modalOpen} onClose={closeModal} children={undefined} />
+      <AddPlayListModal open={modalOpen} onClose={closeModal} children={undefined} data={selectedData} />
       <HotContainerWrapper>
         {recommendGenres.length === 0 ? (
           <Nodata Comment={'아직 핫한 음악이 없어요.'}></Nodata>
@@ -145,7 +146,14 @@ const HotMusic = ({ recommendGenre, recommendGenres }: RecommendGenreProps) => {
 
             <SliderWrapper {...settings}>
               {recommendGenres.map((item, index) => (
-                <HotMusicItem item={item} key={index} onAddPlaylistClick={openModal} />
+                <HotMusicItem
+                  item={item}
+                  key={index}
+                  onAddPlaylistClick={() => {
+                    setSelectedData(item);
+                    openModal();
+                  }}
+                />
               ))}
             </SliderWrapper>
           </>
