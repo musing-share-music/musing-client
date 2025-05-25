@@ -12,3 +12,19 @@ export interface Reply {
 
 export type SortType = 'date' | 'starScore' | 'onlyReview';
 export type Sort = 'DESC' | 'ASC';
+
+export interface FetchPostReplyWriteDto {
+  boardId: number;
+  replyDto: {
+    content: Reply['content'];
+    starScore: Reply['starScore'];
+  };
+}
+
+export interface FetchPostReplyWriteResponse {
+  data: {
+    replyDto: Reply;
+  };
+  message: string;
+  statusCode: number;
+}
