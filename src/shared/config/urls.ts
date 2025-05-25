@@ -24,6 +24,9 @@ const URL = {
     BOARD_DETAIL: 'musing/board/selectDetail', // 게시글 상세 조회
     VALIDATE_YOUTUBE_URL: 'checkURL', // 유튜브 url 검증
     REPLY: (boardId: number) => `/musing/board/${boardId}/reply`, // 리뷰 조회
+    REPLY_WRITE: `/musing/reply/write`, // 리뷰 작성
+    REPLY_DELETE: `/musing/reply`, // 리뷰 삭제
+    REPLY_MODIFY: `/musing/reply/modify`, // 리뷰 수정
     NOTICE: 'musing/notice/list', // 공지사항 리스트
     NOTICE_DETAIL: 'musing/notice', // 공지사항 상세 페이지
 

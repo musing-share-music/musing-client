@@ -1,4 +1,4 @@
-import { Reply, Sort, SortType } from 'entities/reply/model/type';
+import { FetchPostReplyWriteDto, FetchPostReplyWriteResponse, Reply, Sort, SortType } from 'entities/reply/model/type';
 
 import URL from 'shared/config/urls';
 import axiosInstance from 'shared/lib/axiosInstance';
@@ -19,6 +19,37 @@ interface FetchGetReplyResponse extends Pagination {
 export const fetchGetReply = async ({ boardId, ...params }: FetchGetReplyDto) => {
   const response = await axiosInstance.get<FetchGetReplyResponse>(URL.API.REPLY(boardId), {
     params,
+  });
+
+  return response.data;
+};
+
+// 리뷰 작성
+export const fetchPostReplyWrite = async (params: FetchPostReplyWriteDto) => {
+  const response = await axiosInstance.post<FetchPostReplyWriteResponse>(URL.API.REPLY_WRITE, null, {
+    params: {
+      boardId: params.boardId,
+      content: params.replyDto.content,
+      starScore: params.replyDto.starScore,
+    },
+  });
+
+  return response.data;
+};
+
+// 리뷰 수정
+export const fetchModifyReply = async (replyId: number, content: string) => {
+  const response = await axiosInstance.put<Reply>(URL.API.REPLY_MODIFY, {
+    replyId,
+    content,
+  });
+  return response.data;
+};
+
+// 리뷰 삭제
+export const fetchDeleteReply = async (replyId: number) => {
+  const response = await axiosInstance.delete<Reply>(URL.API.REPLY_DELETE, {
+    data: { replyId },
   });
 
   return response.data;
