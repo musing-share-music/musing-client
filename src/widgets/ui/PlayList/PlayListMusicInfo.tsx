@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+// import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
@@ -297,11 +297,11 @@ const TextAreaContent = styled.textarea`
 
 const RateBlock = styled.div``;
 
-const ButtonBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`;
+// const ButtonBlock = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   gap: 12px;
+// `;
 
 const Button = styled.button`
   display: flex;
@@ -320,43 +320,43 @@ const Button = styled.button`
   ${commonStyles.hoverTransition}
 `;
 
-const Count = styled.span<{ color: string }>`
-  color: ${({ color }) => color};
-`;
+// const Count = styled.span<{ color: string }>`
+//   color: ${({ color }) => color};
+// `;
 
-const LikeButton = styled(Button)<{ isLiked: boolean }>`
-  ${({ isLiked, theme }) =>
-    isLiked
-      ? css`
-          color: ${theme.colors.primary1};
-          border: 1px solid ${theme.colors.primary1};
-          // hover 스타일 제거
-          &:hover {
-            background: transparent;
-          }
-        `
-      : css`
-          &:hover {
-            ${Count} {
-              color: ${theme.colors.primary1};
-            }
-            svg path {
-              fill: ${theme.colors.primary1};
-            }
-          }
-          &:active {
-            color: ${theme.colors.primary2};
-            border-color: ${theme.colors.primary2};
-            ${Count} {
-              color: ${theme.colors.primary2};
-            }
-            background: transparent;
-            svg path {
-              fill: ${theme.colors.primary2};
-            }
-          }
-        `};
-`;
+// const LikeButton = styled(Button)<{ isLiked: boolean }>`
+//   ${({ isLiked, theme }) =>
+//     isLiked
+//       ? css`
+//           color: ${theme.colors.primary1};
+//           border: 1px solid ${theme.colors.primary1};
+//           // hover 스타일 제거
+//           &:hover {
+//             background: transparent;
+//           }
+//         `
+//       : css`
+//           &:hover {
+//             ${Count} {
+//               color: ${theme.colors.primary1};
+//             }
+//             svg path {
+//               fill: ${theme.colors.primary1};
+//             }
+//           }
+//           &:active {
+//             color: ${theme.colors.primary2};
+//             border-color: ${theme.colors.primary2};
+//             ${Count} {
+//               color: ${theme.colors.primary2};
+//             }
+//             background: transparent;
+//             svg path {
+//               fill: ${theme.colors.primary2};
+//             }
+//           }
+//         `};
+// `;
 
 const EditButtonBlock = styled.div`
   width: 336px;

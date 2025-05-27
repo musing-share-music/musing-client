@@ -5,7 +5,7 @@ import { useGetPlayListDetailQuery } from 'features/playlist/lib/useGetPlayListD
 import { usePlayListModifyPostMutation } from 'features/playlist/lib/usePostPlayListModifyQuery';
 import { usePlayListSaveAllPostMutation } from 'features/playlist/lib/usePostPlayListSaveAllQuery';
 
-import { Representative, SavePlayListPayload } from 'entities/playlist/type';
+import { SavePlayListPayload } from 'entities/playlist/type';
 
 import { PlayListMusicInfo } from './PlayListMusicInfo';
 import { PlayListMusicList } from './PlayListMusicList';

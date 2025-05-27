@@ -13,7 +13,7 @@ interface PlayList {
   youtubePlaylistId: string;
   youtubeLink: string;
   description: string;
-  thumbnailUrl: string;
+  thumbnailUrl?: string;
 }
 
 interface PlayListItemProps extends NavBarSizeProps {
