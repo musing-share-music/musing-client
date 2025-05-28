@@ -69,7 +69,7 @@ export const PlayListMusicList = ({ videoList, modify }: VideoProps) => {
                 </TagBlock>
               </PlayListInfo>
             </PlayListInfoBlock>
-            <MoreButton
+            {/* <MoreButton
               menuItem={[
                 {
                   onClick: async () => {
@@ -84,7 +84,7 @@ export const PlayListMusicList = ({ videoList, modify }: VideoProps) => {
                   content: '좋아요',
                 },
               ]}
-            />
+            /> */}
           </PlayListItem>
         ))}
       </PlayListMusicBox>

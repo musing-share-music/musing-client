@@ -4,12 +4,15 @@ import TempCoverSrc from 'widgets/ui/NavBar/cover.png';
 import { NavBarSizeProps } from 'widgets/ui/NavBar/type';
 import { DeleteReviewModal } from 'widgets/ui/PlayList/DeleteReviewModal';
 
+import { useGetPlayListAllQuery } from 'features/playlist/lib/useGetPlayListAllQuery';
 import { useGetPlayListQuery } from 'features/playlist/lib/useGetPlayListQuery';
 import { usePlayListRemovePostMutation } from 'features/playlist/lib/usePostPlayListRemoveQuery';
 
 import IconFold from 'shared/assets/image/icons/nav-bar/icon-fold.svg?react';
+import { useUserInfoStore } from 'shared/store/userInfo';
 import { ErrorModal } from 'shared/ui/Modal/ErrorModal';
 import { MoreButton } from 'shared/ui/MoreButton';
+import { Spinner } from 'shared/ui/Spinner';
 
 import { PlayListItem } from './PlayListItem';
 import { PlayListContainer, PlayListFoldButton, ShowAllPlayListButton } from './styled';
@@ -24,7 +27,10 @@ interface PlayList {
 }
 
 export const PlayList = ({ size }: NavBarSizeProps) => {
-  const { data } = useGetPlayListQuery();
+  const { isLogin } = useUserInfoStore();
+  const { data } = useGetPlayListQuery(isLogin());
+  const { data: dataAll } = useGetPlayListAllQuery(isLogin());
+
   const removeMutation = usePlayListRemovePostMutation();
 
   const [openIndexes, setOpenIndexes] = useState<number[]>([]);
@@ -74,8 +80,8 @@ export const PlayList = ({ size }: NavBarSizeProps) => {
                   {
                     content: '플레이리스트 삭제',
                     onClick: () => {
-                      setTargetPlaylistId(item.youtubePlaylistId); // 삭제 대상 설정
-                      setOpen(true); // 삭제 모달 열기
+                      setTargetPlaylistId(item.youtubePlaylistId);
+                      setOpen(true);
                     },
                   },
                 ]}
@@ -83,7 +89,14 @@ export const PlayList = ({ size }: NavBarSizeProps) => {
             )}
           </PlayListContainer>
 
-          <TrackList size={size} open={openIndexes.includes(index)} playListId={item.youtubePlaylistId} />
+          {dataAll ? (
+            <TrackList
+              size={size}
+              open={openIndexes.includes(index)}
+              playListId={item.youtubePlaylistId}
+              listAll={dataAll[index]?.videoList ?? []}
+            />
+          ) : null}
         </div>
       ))}
 
@@ -101,6 +114,25 @@ export const PlayList = ({ size }: NavBarSizeProps) => {
       <ErrorModal open={errorModalOpen} onClose={closeErrorModal}>
         {errorMessage}
       </ErrorModal>
+
+      {removeMutation.isPending && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 9999,
+          }}
+        >
+          <Spinner />
+        </div>
+      )}
     </>
   );
 };

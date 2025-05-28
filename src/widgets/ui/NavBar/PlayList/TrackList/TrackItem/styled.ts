@@ -15,4 +15,8 @@ export const ArtistName = styled.p`
   margin: 0px;
   color: ${({ theme }) => theme.colors[200]};
   ${({ theme }) => theme.fonts.wantedSans.C1};
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 150px;
 `;

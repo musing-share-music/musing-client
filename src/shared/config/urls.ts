@@ -51,6 +51,7 @@ const URL = {
       SAVE: 'musing/playlist/addNewPlaylist',
       SAVEALL: 'musing/playlist/savePlaylist',
       LIST: 'musing/playlist/selectMyPlayLists',
+      LISTALL: 'musing/playlist/selectMyAllPlayListInfo',
       DETAIL: 'musing/playlist/SelectMyDBPlaylist',
       ADD: 'musing/playlist/addMusicToPlaylist',
       REMOVE: 'musing/playlist/remove',

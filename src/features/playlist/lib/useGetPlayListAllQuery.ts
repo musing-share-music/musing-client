@@ -2,10 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 
 import { playlist } from 'entities/playlist/api/playlist.query';
 
-function useGetPlayListQuery(enabled = false, queryConfig = {}) {
+function useGetPlayListAllQuery(enabled = false, queryConfig = {}) {
   const { data, error, isLoading } = useQuery({
     select: (data) => data.data,
-    ...playlist.list(),
+    ...playlist.listAll(),
     retry: 3,
     enabled,
     ...queryConfig,
@@ -14,4 +14,4 @@ function useGetPlayListQuery(enabled = false, queryConfig = {}) {
   return { data, isLoading, error };
 }
 
-export { useGetPlayListQuery };
+export { useGetPlayListAllQuery };

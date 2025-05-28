@@ -4,6 +4,7 @@ import { SavePlayListPayload } from 'entities/playlist/type';
 
 import { fetchGetPlayList } from './PlayList';
 import { fetchPostAddMusing } from './PlayListAdd ';
+import { fetchGetPlayListAll } from './PlayListAll';
 import { fetchGetPlayListDetail } from './PlayListDetail';
 import { fetchPostModify } from './PlayListModify ';
 import { fetchPostRemove } from './PlayListRemove';
@@ -15,6 +16,10 @@ export const playlist = createQueryKeys('playlist', {
   list: () => ({
     queryKey: ['list'],
     queryFn: () => fetchGetPlayList(),
+  }),
+  listAll: () => ({
+    queryKey: ['listAll'],
+    queryFn: () => fetchGetPlayListAll(),
   }),
   detail: (id: string) => ({
     queryKey: ['detail', id],
