@@ -1,12 +1,12 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 import IconCheck from 'shared/assets/image/icons/icon-check.svg?react';
 // import CoverSrc from 'shared/assets/image/main/image1.png';
-import { ROUTES } from 'shared/config/routes';
+// import { ROUTES } from 'shared/config/routes';
 
-import { MoreButton } from './MoreButton';
+// import { MoreButton } from './MoreButton';
 // import { commonStyles } from 'shared/styles/common';
 
 export interface Video {
@@ -27,7 +27,7 @@ export interface VideoProps {
 export const PlayListMusicList = ({ videoList, modify }: VideoProps) => {
   // const [open, setOpen] = useState(false);
   // const [isChecked, setisChecked] = useState([true, false]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // const [open, setOpen] = useState(false);
   const isChecked = [true, false];
 
