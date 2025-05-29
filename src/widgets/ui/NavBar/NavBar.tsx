@@ -14,8 +14,6 @@ export const NavBar = () => {
 
       <Aside>
         <PlayList size={size} />
-        <PlayList size={size} />
-        <PlayList size={size} />
       </Aside>
 
       <Footer size={size} onClickFoldButton={toggleNavBar} />

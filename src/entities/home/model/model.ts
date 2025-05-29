@@ -29,6 +29,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
     {
       id: 2,
@@ -40,6 +41,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
     {
       id: 3,
@@ -51,6 +53,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
     {
       id: 4,
@@ -62,6 +65,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
   ],
 
@@ -76,6 +80,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
     {
       id: 2,
@@ -87,6 +92,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
     {
       id: 3,
@@ -98,6 +104,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
     {
       id: 4,
@@ -109,6 +116,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
     {
       id: 5,
@@ -120,6 +128,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
     {
       id: 6,
@@ -131,6 +140,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
     {
       id: 7,
@@ -142,6 +152,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
     {
       id: 8,
@@ -153,6 +164,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
   ],
 
@@ -172,6 +184,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
     {
       id: 2,
@@ -183,6 +196,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
     {
       id: 3,
@@ -194,6 +208,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
     {
       id: 4,
@@ -205,6 +220,7 @@ export const MAIN_ITEM: MainItem = {
         },
       ],
       thumbNailLink: image,
+      musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
     },
   ],
 
@@ -219,6 +235,7 @@ export const MAIN_ITEM: MainItem = {
       },
     ],
     thumbNailLink: 'https://img.youtube.com/vi/o1sUaVJUeB0/maxresdefault.jpg',
+    musicLink: 'https://www.youtube.com/watch?v=aXgSHL7efKg',
   },
 
   recentBoard: [

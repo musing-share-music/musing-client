@@ -57,7 +57,15 @@ const URL = {
 
     // 플레이리스트
     PLAYLIST: {
-      LIST: 'musing/playlist/playlist',
+      SAVEURL: 'musing/playlist/getUserPlaylist',
+      SAVE: 'musing/playlist/addNewPlaylist',
+      SAVEALL: 'musing/playlist/savePlaylist',
+      LIST: 'musing/playlist/selectMyPlayLists',
+      LISTALL: 'musing/playlist/selectMyAllPlayListInfo',
+      DETAIL: 'musing/playlist/SelectMyDBPlaylist',
+      ADD: 'musing/playlist/addMusicToPlaylist',
+      REMOVE: 'musing/playlist/remove',
+      MODIFY: 'musing/playlist/modify',
       REMOVED_BOARD_LIST: 'musing/admin/board/list/removed', // 삭제된 게시글 리스트
       REMOVED_BOARD_DETAIL: 'musing/admin/board/list/removed/detail', // 삭제된 게시글 상세
     },

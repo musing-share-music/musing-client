@@ -1,79 +1,153 @@
-import { css, useTheme } from '@emotion/react';
+// import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import IconHeart from 'shared/assets/image/icons/icon-heart.svg?react';
+// import IconHeart from 'shared/assets/image/icons/icon-heart.svg?react';
 import IconTooltip from 'shared/assets/image/icons/icon-tooltip.svg?react';
-import CoverSrc from 'shared/assets/image/main/image1.png';
+// import CoverSrc from 'shared/assets/image/main/image1.png';
 import { commonStyles } from 'shared/styles/common';
 
 import { DeleteReviewModal } from './DeleteReviewModal';
 
-export const PlayListMusicInfo = () => {
-  const theme = useTheme();
+interface Representative {
+  listName: string;
+  description: string;
+  itemCount: number;
+  youtubePlaylistId: string;
+  youtubePlaylistUrl: string;
+  thumbnailUrl: string;
+}
+
+interface RepresentativeProps {
+  representative: Representative;
+  modify: boolean;
+  setModify: React.Dispatch<React.SetStateAction<boolean>>;
+  onRefresh: () => void;
+  onSave: () => void;
+}
+
+export const PlayListMusicInfo = ({ representative, modify, setModify, onRefresh, onSave }: RepresentativeProps) => {
+  // const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const isLiked = false;
-  const color = isLiked ? theme.colors.primary1 : theme.colors[200];
+  const [modifyRep, setModifyRep] = useState(representative);
+  // const isLiked = false;
+  // const color = isLiked ? theme.colors.primary1 : theme.colors[200];
 
   return (
     <>
       <MusicInfoBox>
         <CoverBox>
-          <CoverImg src={CoverSrc} />
+          <CoverImg
+            src={representative?.thumbnailUrl}
+            onClick={() => {
+              window.open(representative.youtubePlaylistUrl, '_blank');
+            }}
+          />
         </CoverBox>
 
         <TrackDetailsBlock>
           <TrackDetails>
             <Box>
-              <Title>Pink!</Title>
-              <InputTitle placeholder="제목을 입력해주세요."></InputTitle>
+              {modify ? (
+                <InputTitle
+                  placeholder="제목을 입력해주세요."
+                  defaultValue={representative?.listName}
+                  onChange={(e) =>
+                    setModifyRep({
+                      ...modifyRep!,
+                      listName: e.target.value,
+                    })
+                  }
+                ></InputTitle>
+              ) : (
+                <Title>{representative?.listName}</Title>
+              )}
 
-              <Description>
-                플레이리스트 설명!입니다. 플레이리스트 소개 기입 가능 네 줄까지만 보여지도록 네 줄까지만 보여지도록 네
-                줄까지만 보여지도록 네 줄까지만 보여지도록
-              </Description>
-              <TextAreaContent placeholder="내용을 입력해주세요."></TextAreaContent>
+              {modify ? (
+                <TextAreaContent
+                  placeholder="내용을 입력해주세요."
+                  defaultValue={representative?.description}
+                  onChange={(e) =>
+                    setModifyRep({
+                      ...modifyRep!,
+                      description: e.target.value,
+                    })
+                  }
+                ></TextAreaContent>
+              ) : (
+                <Description>{representative?.description}</Description>
+              )}
             </Box>
             {/* <MoreButton menuItem={menuItem} /> */}
           </TrackDetails>
           <RateBlock></RateBlock>
         </TrackDetailsBlock>
 
-        <ButtonBlock>
+        {/* <ButtonBlock>
           <LikeButton isLiked={isLiked}>
             <IconHeart fill={color} />
             좋아요
             <Count color={color}>(11)</Count>
           </LikeButton>
           <Button>플레이리스트에 추가</Button>
-        </ButtonBlock>
+        </ButtonBlock> */}
 
-        <AdminBlock>
-          <AdminConfirm>
-            갱신하기
-            <IconTooltip></IconTooltip>
-          </AdminConfirm>
-          <ToolTip>
-            플레이리스트가 실제 유튜브와 <br></br> 일치하지 않는다면 갱신하기를 눌러 주세요.
-          </ToolTip>
-
-          <AdminEdit>
-            <EditAction>수정</EditAction>
-            <EditAction
+        {!modify ? (
+          <AdminBlock>
+            <AdminConfirm
               onClick={() => {
-                setOpen(true);
+                onRefresh();
               }}
             >
-              삭제
-            </EditAction>
-            <DeleteReviewModal open={open} onClose={() => setOpen(false)} onConfirm={() => {}} />
-          </AdminEdit>
-        </AdminBlock>
+              갱신하기
+              <IconTooltip />
+            </AdminConfirm>
+            <ToolTip>
+              플레이리스트가 실제 유튜브와 <br></br> 일치하지 않는다면 갱신하기를 눌러 주세요.
+            </ToolTip>
+
+            <AdminEdit>
+              <EditAction
+                onClick={() => {
+                  setModify(true);
+                }}
+              >
+                수정
+              </EditAction>
+              <EditAction
+                onClick={() => {
+                  setOpen(true);
+                }}
+              >
+                삭제
+              </EditAction>
+              <DeleteReviewModal open={open} onClose={() => setOpen(false)} onConfirm={() => {}} />
+            </AdminEdit>
+          </AdminBlock>
+        ) : (
+          ''
+        )}
       </MusicInfoBox>
-      <EditButtonBlock>
-        <CancelButton>취소</CancelButton>
-        <SaveButton>저장</SaveButton>
-      </EditButtonBlock>
+      {modify ? (
+        <EditButtonBlock>
+          <CancelButton
+            onClick={() => {
+              setModify(false);
+            }}
+          >
+            취소
+          </CancelButton>
+          <SaveButton
+            onClick={() => {
+              onSave();
+            }}
+          >
+            저장
+          </SaveButton>
+        </EditButtonBlock>
+      ) : (
+        ''
+      )}
     </>
   );
 };
@@ -123,6 +197,7 @@ const AdminConfirm = styled.div`
   background: ${({ theme }) => theme.colors[600]};
   color: ${({ theme }) => theme.colors[100]};
   ${({ theme }) => theme.fonts.wantedSans.C1};
+  cursor: pointer;
 
   &:hover + ${ToolTip} {
     opacity: 1;
@@ -154,6 +229,7 @@ const CoverImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  cursor: pointer;
 `;
 
 const TrackDetailsBlock = styled.div``;
@@ -221,11 +297,11 @@ const TextAreaContent = styled.textarea`
 
 const RateBlock = styled.div``;
 
-const ButtonBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`;
+// const ButtonBlock = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   gap: 12px;
+// `;
 
 const Button = styled.button`
   display: flex;
@@ -244,43 +320,43 @@ const Button = styled.button`
   ${commonStyles.hoverTransition}
 `;
 
-const Count = styled.span<{ color: string }>`
-  color: ${({ color }) => color};
-`;
+// const Count = styled.span<{ color: string }>`
+//   color: ${({ color }) => color};
+// `;
 
-const LikeButton = styled(Button)<{ isLiked: boolean }>`
-  ${({ isLiked, theme }) =>
-    isLiked
-      ? css`
-          color: ${theme.colors.primary1};
-          border: 1px solid ${theme.colors.primary1};
-          // hover 스타일 제거
-          &:hover {
-            background: transparent;
-          }
-        `
-      : css`
-          &:hover {
-            ${Count} {
-              color: ${theme.colors.primary1};
-            }
-            svg path {
-              fill: ${theme.colors.primary1};
-            }
-          }
-          &:active {
-            color: ${theme.colors.primary2};
-            border-color: ${theme.colors.primary2};
-            ${Count} {
-              color: ${theme.colors.primary2};
-            }
-            background: transparent;
-            svg path {
-              fill: ${theme.colors.primary2};
-            }
-          }
-        `};
-`;
+// const LikeButton = styled(Button)<{ isLiked: boolean }>`
+//   ${({ isLiked, theme }) =>
+//     isLiked
+//       ? css`
+//           color: ${theme.colors.primary1};
+//           border: 1px solid ${theme.colors.primary1};
+//           // hover 스타일 제거
+//           &:hover {
+//             background: transparent;
+//           }
+//         `
+//       : css`
+//           &:hover {
+//             ${Count} {
+//               color: ${theme.colors.primary1};
+//             }
+//             svg path {
+//               fill: ${theme.colors.primary1};
+//             }
+//           }
+//           &:active {
+//             color: ${theme.colors.primary2};
+//             border-color: ${theme.colors.primary2};
+//             ${Count} {
+//               color: ${theme.colors.primary2};
+//             }
+//             background: transparent;
+//             svg path {
+//               fill: ${theme.colors.primary2};
+//             }
+//           }
+//         `};
+// `;
 
 const EditButtonBlock = styled.div`
   width: 336px;

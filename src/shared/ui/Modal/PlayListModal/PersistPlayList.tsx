@@ -1,33 +1,65 @@
 import styled from '@emotion/styled';
+import { useState } from 'react';
+
+import { usePlayListSaveUrlPostMutation } from 'features/playlist/lib/usePostPlayListSaveUrlQuery';
 
 import { Button } from 'shared/ui/Button';
 import { Modal } from 'shared/ui/Modal/BaseModal';
+import { ErrorModal } from 'shared/ui/Modal/ErrorModal';
 import { OuterCloseModal } from 'shared/ui/Modal/OuterCloseModal';
 import { OuterCloseModalProps } from 'shared/ui/Modal/type';
 
 export const PersistPlayListModal = ({ ...props }: OuterCloseModalProps) => {
+  const [url, setUrl] = useState('');
+  const [errorModalOpen, setErrorModalOpen] = useState(false); // ✅ 에러 모달 상태
+  const SaveUrlMutation = usePlayListSaveUrlPostMutation();
+
+  const closeErrorModal = () => setErrorModalOpen(false); // ✅ 닫기 핸들러
+
   return (
     <OuterCloseModal {...props}>
       <Content>
         <TitleWrap>
           <Modal.Title>플레이리스트 연동</Modal.Title>
-          <SubTitle>유튜브 재생목록에서 list=(재생목록 ID)부분을 확인 후 입력해 주세요.</SubTitle>
+          <SubTitle>유튜브 재생목록에서 list=(PLO4)부분을 확인 후 입력해 주세요.</SubTitle>
         </TitleWrap>
+
         <GuideWrap>
           <GuideText1>예시)</GuideText1>
-          <GuideText2>https://youtube.com/playlist?</GuideText2>
-          <GuideText3>list=ABC1234_EXPLAYlist</GuideText3>
+          <GuideText2>https://www.youtube.com/watch?v=fLi0EJfi_vg&</GuideText2>
+          <GuideText3>list=PLO4</GuideText3>
         </GuideWrap>
+
         <InputWrap>
-          <InputTitle placeholder="플레이리스트 ID를 입력해 주세요."></InputTitle>
-          <InputTitle placeholder="제목을 입력해 주세요."></InputTitle>
-          <TextAreaContent placeholder="내용을 입력해 주세요."></TextAreaContent>
+          <InputTitle placeholder="플레이리스트 ID를 입력해 주세요." onChange={(e) => setUrl(e.target.value)} />
         </InputWrap>
+
         <ButtonBlock>
           <ButtonWrap>
-            <Button onClick={props.onClose}>생성</Button>
+            <Button
+              disabled={SaveUrlMutation.isPending}
+              onClick={() => {
+                SaveUrlMutation.mutate(
+                  { url },
+                  {
+                    onSuccess: () => {
+                      props.onClose();
+                    },
+                    onError: () => {
+                      setErrorModalOpen(true);
+                    },
+                  },
+                );
+              }}
+            >
+              생성
+            </Button>
           </ButtonWrap>
         </ButtonBlock>
+
+        <ErrorModal open={errorModalOpen} onClose={closeErrorModal}>
+          입력하신 플레이리스트는 이미 등록되어 있습니다.
+        </ErrorModal>
       </Content>
     </OuterCloseModal>
   );
@@ -85,24 +117,24 @@ const InputTitle = styled.input`
   }
 `;
 
-const TextAreaContent = styled.textarea`
-  display: flex;
-  width: 100%;
-  min-height: 116px;
-  resize: none;
-  padding: 20px 24px;
-  border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.colors[300]};
-  color: ${({ theme }) => theme.colors[200]};
-  ${({ theme }) => theme.fonts.wantedSans.B4};
-  &::placeholder {
-    ${({ theme }) => theme.colors[200]};
-  }
-  &:disabled {
-    background-color: ${({ theme }) => theme.colors[600]};
-    color: ${({ theme }) => theme.colors[200]};
-  }
-`;
+// const TextAreaContent = styled.textarea`
+//   display: flex;
+//   width: 100%;
+//   min-height: 116px;
+//   resize: none;
+//   padding: 20px 24px;
+//   border-radius: 8px;
+//   border: 1px solid ${({ theme }) => theme.colors[300]};
+//   color: ${({ theme }) => theme.colors[200]};
+//   ${({ theme }) => theme.fonts.wantedSans.B4};
+//   &::placeholder {
+//     ${({ theme }) => theme.colors[200]};
+//   }
+//   &:disabled {
+//     background-color: ${({ theme }) => theme.colors[600]};
+//     color: ${({ theme }) => theme.colors[200]};
+//   }
+// `;
 
 const GuideWrap = styled.div`
   display: flex;
