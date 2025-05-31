@@ -9,7 +9,7 @@ import { Step, StepContent } from 'features/musicPreference/model/type';
 import { Genre, GenreId } from 'entities/genre/model/genre';
 import { Mood, MoodId } from 'entities/mood/model/mood';
 
-import URL from 'shared/config/urls';
+// import URL from 'shared/config/urls';
 import { useUserInfoStore } from 'shared/store/userInfo';
 import { Chip, Modal, RightArrowButton, TextInput } from 'shared/ui/';
 
@@ -137,7 +137,7 @@ export const MusicSelectionModal = ({ open, onClose }: { open: boolean; onClose:
         artistMutation.mutate(Array.from(artist), {
           onSuccess: () => {
             onClose();
-            window.location.href = URL.GOOGLELOGIN;
+            window.location.href = '/';
           },
         });
         break;
