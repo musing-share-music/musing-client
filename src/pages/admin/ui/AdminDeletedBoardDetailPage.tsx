@@ -45,7 +45,7 @@ export const AdminDeletedBoardDetailPage = () => {
         </Suspense>
         <Section>
           <SectionTitle>리뷰 작성</SectionTitle>
-          <ReviewForm />
+          <ReviewForm boardId={boardId} />
         </Section>
         <ReviewList />
       </RightContainer>
