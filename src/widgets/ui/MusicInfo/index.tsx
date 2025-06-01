@@ -157,6 +157,7 @@ const AdminConfirm = styled.div`
   border-radius: 24px;
   background: ${({ theme }) => theme.colors[600]};
   color: ${({ theme }) => theme.colors[100]};
+  white-space: nowrap;
   ${({ theme }) => theme.fonts.wantedSans.C1};
 
   &:hover ${ToolTip} {
