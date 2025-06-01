@@ -12,7 +12,7 @@ export interface FetchGetReplyDto {
 }
 
 interface FetchGetReplyResponse extends Pagination {
-  data: { content: Reply[] };
+  data: { content: Reply[]; totalElements: number };
   message: string;
 }
 
