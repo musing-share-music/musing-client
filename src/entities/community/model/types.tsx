@@ -88,6 +88,7 @@ export interface BoardDetail {
   createdAt: string;
   updatedAt: string;
   username: string;
+  email: string;
   permitRegister: 'NON_CHECK' | string;
   imageUrl?: string[];
 }
