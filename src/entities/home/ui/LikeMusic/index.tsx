@@ -6,6 +6,8 @@ import { LikeMusicDtos, LikeMusicDtosItem } from 'entities/home/model/types';
 import arrow2 from 'shared/assets/image/main/arrow 2.png';
 import { Nodata } from 'shared/ui';
 import { AddPlayListModal } from 'shared/ui/Modal/PlayListModal/AddPlayList';
+import { CreatePlayListModal } from 'shared/ui/Modal/PlayListModal/CreatePlayList';
+import { PersistPlayListModal } from 'shared/ui/Modal/PlayListModal/PersistPlayList';
 
 import { LikeMoreItem } from './LikeMoreItem';
 import { LikeMusicItem } from './LikeMusicItem';
@@ -82,11 +84,30 @@ const LikeMusic = ({ likeMusicDtos }: LikeMusicDtosProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
+
+  const [isCreateOpen, setCreateOpen] = useState(false);
+  const [isPersistOpen, setPersistOpen] = useState(false);
   const [selectedData, setSelectedData] = useState<LikeMusicDtosItem | null>(null);
 
   return (
     <LikeContainer>
-      <AddPlayListModal open={modalOpen} onClose={closeModal} children={undefined} data={selectedData} />
+      <AddPlayListModal
+        open={modalOpen}
+        onClose={closeModal}
+        children={undefined}
+        data={selectedData}
+        onOpenCreateModal={() => setCreateOpen(true)}
+      />
+      <CreatePlayListModal
+        open={isCreateOpen}
+        onClose={() => setCreateOpen(false)}
+        onOpenPersistModal={() => {
+          setCreateOpen(false);
+          setPersistOpen(true);
+        }}
+        children={undefined}
+      />
+      <PersistPlayListModal open={isPersistOpen} onClose={() => setPersistOpen(false)} children={undefined} />
 
       <TitleBlock>
         <PageTitle>좋아요</PageTitle>

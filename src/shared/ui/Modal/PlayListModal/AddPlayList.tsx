@@ -14,6 +14,7 @@ import { OuterCloseModalProps } from 'shared/ui/Modal/type';
 
 interface AddPlayListModalProps extends OuterCloseModalProps {
   data: GenreMusicsItem | null;
+  onOpenCreateModal?: () => void;
 }
 
 export const AddPlayListModal = ({ ...props }: AddPlayListModalProps) => {
@@ -28,14 +29,24 @@ export const AddPlayListModal = ({ ...props }: AddPlayListModalProps) => {
         <TitleWrap>
           <Modal.Title>나의 플레이리스트</Modal.Title>
         </TitleWrap>
+
         <SelectBox
-          placeholder="플레이리스트를 선택해 주세요."
-          options={data?.playLists.map((playlist: { youtubePlaylistId: string; listname: string }) => ({
-            value: playlist.youtubePlaylistId,
-            label: playlist.listname,
-          }))}
+          placeholder={
+            !data?.playLists || data.playLists.length === 0
+              ? '플레이리스트가 없습니다. 먼저 생성해주세요.'
+              : '플레이리스트를 선택해 주세요.'
+          }
+          options={
+            data?.playLists?.map((playlist: { youtubePlaylistId: string; listname: string }) => ({
+              value: playlist.youtubePlaylistId,
+              label: playlist.listname,
+            })) ?? []
+          }
           onChange={(option) => setPlayListLink(option.value)}
         />
+
+        <AddPlayList onClick={props.onOpenCreateModal}>플레이리스트 추가</AddPlayList>
+
         <ButtonBlock>
           <ButtonWrap>
             <Button
@@ -92,4 +103,10 @@ const ButtonWrap = styled.div`
   min-width: 163px;
   display: flex;
   gap: 23px;
+`;
+
+const AddPlayList = styled.div`
+  color: ${({ theme }) => theme.colors.secondary1};
+  ${({ theme }) => theme.fonts.wantedSans.B5};
+  cursor: pointer;
 `;

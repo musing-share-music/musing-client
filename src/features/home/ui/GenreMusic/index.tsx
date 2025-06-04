@@ -11,6 +11,8 @@ import { ROUTES } from 'shared/config/routes';
 import { Nodata } from 'shared/ui';
 import { DownArrowButton } from 'shared/ui/';
 import { AddPlayListModal } from 'shared/ui/Modal/PlayListModal/AddPlayList';
+import { CreatePlayListModal } from 'shared/ui/Modal/PlayListModal/CreatePlayList';
+import { PersistPlayListModal } from 'shared/ui/Modal/PlayListModal/PersistPlayList';
 
 import { GenreMusicItem } from './GenreMusicItem';
 
@@ -38,6 +40,9 @@ const GenreMusic = ({ likeGenre }: genreMusicsProps) => {
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
+
+  const [isCreateOpen, setCreateOpen] = useState(false);
+  const [isPersistOpen, setPersistOpen] = useState(false);
   const [selectedData, setSelectedData] = useState<GenreMusicsItem | null>(null);
 
   return (
@@ -83,7 +88,23 @@ const GenreMusic = ({ likeGenre }: genreMusicsProps) => {
               </TitleBlock>
             </GenreMore>
 
-            <AddPlayListModal open={modalOpen} onClose={closeModal} children={undefined} data={selectedData} />
+            <AddPlayListModal
+              open={modalOpen}
+              onClose={closeModal}
+              children={undefined}
+              data={selectedData}
+              onOpenCreateModal={() => setCreateOpen(true)}
+            />
+            <CreatePlayListModal
+              open={isCreateOpen}
+              onClose={() => setCreateOpen(false)}
+              onOpenPersistModal={() => {
+                setCreateOpen(false);
+                setPersistOpen(true);
+              }}
+              children={undefined}
+            />
+            <PersistPlayListModal open={isPersistOpen} onClose={() => setPersistOpen(false)} children={undefined} />
           </>
         )}
       </GenreMusingBlock>
