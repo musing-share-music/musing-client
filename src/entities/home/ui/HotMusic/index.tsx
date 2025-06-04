@@ -8,6 +8,8 @@ import { RecommendGenre, RecommendGenres, RecommendGenresItem } from 'entities/h
 
 import { Nodata } from 'shared/ui';
 import { AddPlayListModal } from 'shared/ui/Modal/PlayListModal/AddPlayList';
+import { CreatePlayListModal } from 'shared/ui/Modal/PlayListModal/CreatePlayList';
+import { PersistPlayListModal } from 'shared/ui/Modal/PlayListModal/PersistPlayList';
 
 import { HotMusicItem } from './HotMusicItem';
 
@@ -117,6 +119,9 @@ const HotMusic = ({ recommendGenre, recommendGenres }: RecommendGenreProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
+
+  const [isCreateOpen, setCreateOpen] = useState(false);
+  const [isPersistOpen, setPersistOpen] = useState(false);
   const [selectedData, setSelectedData] = useState<RecommendGenresItem | null>(null);
 
   const settings = {
@@ -129,7 +134,23 @@ const HotMusic = ({ recommendGenre, recommendGenres }: RecommendGenreProps) => {
 
   return (
     <HotContainer>
-      <AddPlayListModal open={modalOpen} onClose={closeModal} children={undefined} data={selectedData} />
+      <AddPlayListModal
+        open={modalOpen}
+        onClose={closeModal}
+        children={undefined}
+        data={selectedData}
+        onOpenCreateModal={() => setCreateOpen(true)}
+      />
+      <CreatePlayListModal
+        open={isCreateOpen}
+        onClose={() => setCreateOpen(false)}
+        onOpenPersistModal={() => {
+          setCreateOpen(false);
+          setPersistOpen(true);
+        }}
+        children={undefined}
+      />
+      <PersistPlayListModal open={isPersistOpen} onClose={() => setPersistOpen(false)} children={undefined} />
       <HotContainerWrapper>
         {recommendGenres.length === 0 ? (
           <Nodata Comment={'아직 핫한 음악이 없어요.'}></Nodata>
