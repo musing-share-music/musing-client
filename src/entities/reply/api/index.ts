@@ -38,10 +38,21 @@ export const fetchPostReplyWrite = async (params: FetchPostReplyWriteDto) => {
 };
 
 // 리뷰 수정
-export const fetchModifyReply = async (replyId: number, content: string) => {
-  const response = await axiosInstance.put<Reply>(URL.API.REPLY_MODIFY, {
-    replyId,
-    content,
+export const fetchModifyReply = async ({
+  replyId,
+  starScore,
+  content,
+}: {
+  replyId: number;
+  starScore: number;
+  content: string;
+}) => {
+  const response = await axiosInstance.put<Reply>(URL.API.REPLY_MODIFY, null, {
+    params: {
+      replyId,
+      starScore,
+      content,
+    },
   });
   return response.data;
 };
@@ -49,7 +60,9 @@ export const fetchModifyReply = async (replyId: number, content: string) => {
 // 리뷰 삭제
 export const fetchDeleteReply = async (replyId: number) => {
   const response = await axiosInstance.delete<Reply>(URL.API.REPLY_DELETE, {
-    data: { replyId },
+    params: {
+      replyId,
+    },
   });
 
   return response.data;
