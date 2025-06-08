@@ -27,6 +27,7 @@ const URL = {
     REPLY_WRITE: `/musing/reply/write`, // 리뷰 작성
     REPLY_DELETE: `/musing/reply`, // 리뷰 삭제
     REPLY_MODIFY: `/musing/reply/modify`, // 리뷰 수정
+    REPLY_MY: '/musing/reply/myReply', // 내 리뷰 조회
     NOTICE: 'musing/notice/list', // 공지사항 리스트
     NOTICE_DETAIL: 'musing/notice', // 공지사항 상세 페이지
 

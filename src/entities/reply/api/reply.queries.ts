@@ -1,20 +1,33 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { FetchPostReplyWriteResponse, Reply } from 'entities/reply/model/type';
 
-import { fetchGetReply, FetchGetReplyDto, fetchPostReplyWrite } from '.';
+import {
+  fetchDeleteReply,
+  fetchGetMyReply,
+  fetchGetReply,
+  FetchGetReplyDto,
+  fetchModifyReply,
+  fetchPostReplyWrite,
+} from '.';
 
 export const reply = createQueryKeys('reply', {
+  all: () => ({
+    queryKey: ['reply'] as const,
+  }),
   list: ({ boardId, ...filters }: FetchGetReplyDto) => ({
-    queryKey: [{ boardId, ...filters }],
+    queryKey: ['reply', 'list', boardId, filters] as const,
     queryFn: () => fetchGetReply({ boardId, ...filters }),
+  }),
+  myReply: (boardId?: number) => ({
+    queryKey: ['reply', 'my', boardId] as const,
+    queryFn: () => fetchGetMyReply(boardId),
   }),
 });
 
 export const useReplyWriteMutation = (boardId: number) => {
   const queryClient = useQueryClient();
-
   const queryKey = [reply.list({ boardId })];
   const tempUuId = Date.now();
 
@@ -38,7 +51,50 @@ export const useReplyWriteMutation = (boardId: number) => {
       });
     },
     onSettled: async () => {
-      await queryClient.invalidateQueries({ queryKey });
+      await queryClient.invalidateQueries({
+        queryKey: reply.list({ boardId }).queryKey,
+      });
+      await queryClient.invalidateQueries({
+        queryKey: reply.myReply(boardId).queryKey,
+      });
     },
+  });
+};
+
+export const useDeleteReplyMutation = (boardId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (replyId: number) => fetchDeleteReply(replyId),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: reply.list({ boardId }).queryKey,
+      });
+      await queryClient.invalidateQueries({
+        queryKey: reply.myReply(boardId).queryKey,
+      });
+    },
+  });
+};
+
+export const useModifyReplyMutation = (boardId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ replyId, content, starScore }: { replyId: number; content: string; starScore: number }) =>
+      fetchModifyReply({ replyId, content, starScore }),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: reply.list({ boardId }).queryKey });
+      await queryClient.invalidateQueries({
+        queryKey: reply.myReply(boardId).queryKey,
+      });
+    },
+  });
+};
+
+export const useMyRepliesQuery = (boardId?: number, queryConfig = {}) => {
+  return useQuery({
+    ...reply.myReply(boardId),
+    ...queryConfig,
   });
 };
