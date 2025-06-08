@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { startTransition, useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ANCHOR_REVIEW } from 'pages/detail/config/anchor';
 import { REVIEW_FILTER_OPTIONS } from 'pages/detail/config/filterOption';
 
-import { fetchGetReply } from 'entities/reply/api';
+import { fetchDeleteReply, fetchGetReply } from 'entities/reply/api';
 import { reply } from 'entities/reply/api/reply.queries';
 import { Sort, SortType } from 'entities/reply/model/type';
 import { Reply } from 'entities/reply/ui/Reply';
@@ -18,11 +18,23 @@ export const ReviewList = () => {
   const [sortType, setSortType] = useState<SortType>();
   const [sort, setSort] = useState<Sort>();
   const [page, setPage] = useState(1);
+  const queryClient = useQueryClient();
 
   const boardId = Number(params.id);
+  const { queryKey } = reply.list({ boardId, sortType, sort, page });
+
+  const deleteReplyMutation = useMutation({
+    mutationFn: (replyId: number) => fetchDeleteReply(replyId),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey });
+    },
+  });
+
+  const handleDeleteReply = (replyId: number) => {
+    void deleteReplyMutation.mutate(replyId);
+  };
 
   // 게시글 댓글
-  const { queryKey } = reply.list({ boardId, sortType, sort, page });
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage, isError } = useInfiniteQuery({
     queryFn: ({ pageParam = 1 }) =>
       fetchGetReply({
@@ -88,7 +100,7 @@ export const ReviewList = () => {
         />
       </SectionTitle>
       <ReplyList id={ANCHOR_REVIEW}>
-        <Reply comments={allReviews} />
+        <Reply comments={allReviews} onDeleteReply={handleDeleteReply} />
         {isFetchingNextPage && (
           <LoadingContainer>
             <Skeleton />
