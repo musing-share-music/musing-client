@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { ANCHOR_REVIEW } from 'pages/detail/config/anchor';
 import { REVIEW_FILTER_OPTIONS } from 'pages/detail/config/filterOption';
 
-import { fetchDeleteReply, fetchGetReply } from 'entities/reply/api';
+import { fetchDeleteReply, fetchGetReply, fetchModifyReply } from 'entities/reply/api';
 import { reply } from 'entities/reply/api/reply.queries';
 import { Sort, SortType } from 'entities/reply/model/type';
 import { Reply } from 'entities/reply/ui/Reply';
@@ -30,8 +30,20 @@ export const ReviewList = () => {
     },
   });
 
+  const modifyReplyMutation = useMutation({
+    mutationFn: ({ replyId, content, starScore }: { replyId: number; content: string; starScore: number }) =>
+      fetchModifyReply({ replyId, content, starScore }),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey });
+    },
+  });
+
   const handleDeleteReply = (replyId: number) => {
     void deleteReplyMutation.mutate(replyId);
+  };
+
+  const handleModifyReply = (replyId: number, content: string, starScore: number) => {
+    void modifyReplyMutation.mutate({ replyId, content, starScore });
   };
 
   // 게시글 댓글
@@ -100,7 +112,7 @@ export const ReviewList = () => {
         />
       </SectionTitle>
       <ReplyList id={ANCHOR_REVIEW}>
-        <Reply comments={allReviews} onDeleteReply={handleDeleteReply} />
+        <Reply comments={allReviews} onDeleteReply={handleDeleteReply} onModifyReply={handleModifyReply} />
         {isFetchingNextPage && (
           <LoadingContainer>
             <Skeleton />

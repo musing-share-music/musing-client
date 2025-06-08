@@ -6,21 +6,45 @@ import { Reply as TReply } from 'entities/reply/model/type';
 import { ProfileImage } from 'entities/user/ui/ProfileImage';
 
 import { useUserInfoStore } from 'shared/store/userInfo';
+import { TextArea } from 'shared/ui';
 import { StarRatingInput } from 'shared/ui/Input';
 import { ConfirmModal } from 'shared/ui/Modal';
+
 interface ReplyProps {
   comments: TReply[];
   onDeleteReply: (replyId: number) => void;
+  onModifyReply: (replyId: number, content: string, starScore: number) => void;
 }
 
-export const Reply = ({ comments, onDeleteReply }: ReplyProps) => {
+export const Reply = ({ comments, onDeleteReply, onModifyReply }: ReplyProps) => {
   const [selectedReplyId, setSelectedReplyId] = useState<string | null>(null);
+  const [editingReplyId, setEditingReplyId] = useState<string | null>(null);
+  const [editContent, setEditContent] = useState('');
   const { userInfo } = useUserInfoStore();
+
+  const handleEditStart = (replyId: string, content: string) => {
+    setEditingReplyId(replyId);
+    setEditContent(content);
+  };
+
+  const handleEditCancel = () => {
+    setEditingReplyId(null);
+    setEditContent('');
+  };
+
+  const handleEditSubmit = (replyId: string, starScore: number) => {
+    if (editContent.trim()) {
+      onModifyReply(Number(replyId), editContent, starScore);
+      setEditingReplyId(null);
+      setEditContent('');
+    }
+  };
 
   return (
     <>
       {comments.map(({ id: replyId, content, starScore, profileInfo }) => {
         const isAuthor = userInfo.email === profileInfo.email;
+        const isEditing = editingReplyId === replyId;
 
         return (
           <ReplyBox key={replyId}>
@@ -36,10 +60,31 @@ export const Reply = ({ comments, onDeleteReply }: ReplyProps) => {
                 </ReplyUserIdBlock>
                 <ButtonGroup>
                   {!isAuthor && <ReportButton />}
-                  {isAuthor && <DeleteButton onClick={() => setSelectedReplyId(replyId)}>삭제</DeleteButton>}
+                  {isAuthor && !isEditing && (
+                    <>
+                      <EditButton onClick={() => handleEditStart(replyId, content)}>수정</EditButton>
+                      <DeleteButton onClick={() => setSelectedReplyId(replyId)}>삭제</DeleteButton>
+                    </>
+                  )}
+                  {isEditing && (
+                    <>
+                      <EditButton onClick={() => handleEditSubmit(replyId, starScore)}>완료</EditButton>
+                      <CancelButton onClick={handleEditCancel}>취소</CancelButton>
+                    </>
+                  )}
                 </ButtonGroup>
               </Block>
-              <Content>{content}</Content>
+              {isEditing ? (
+                <EditContent>
+                  <TextArea
+                    value={editContent}
+                    onChange={(e) => setEditContent(e.target.value)}
+                    placeholder="수정할 내용을 입력하세요"
+                  />
+                </EditContent>
+              ) : (
+                <Content>{content}</Content>
+              )}
             </Box>
           </ReplyBox>
         );
@@ -119,7 +164,7 @@ const ScoreBox = styled.div`
 const DeleteModal = ({ open, onClose, onConfirm }: { open: boolean; onClose: () => void; onConfirm: () => void }) => {
   return (
     <ConfirmModal
-      text="정말 댓글을 삭제 하시겠어요?"
+      text="정말 리뷰를 삭제 하시겠어요?"
       confirmText="삭제하기"
       open={open}
       onClose={onClose}
@@ -127,3 +172,27 @@ const DeleteModal = ({ open, onClose, onConfirm }: { open: boolean; onClose: () 
     />
   );
 };
+
+const EditContent = styled.div`
+  width: 100%;
+  margin-top: 8px;
+`;
+
+const EditButton = styled.button`
+  padding: 0;
+  border: none;
+  background: none;
+  color: ${({ theme }) => theme.colors[200]};
+  ${({ theme }) => theme.fonts.wantedSans.C1};
+  cursor: pointer;
+  &:hover {
+    border-bottom: 1px solid ${({ theme }) => theme.colors[200]};
+  }
+`;
+
+const CancelButton = styled(EditButton)`
+  color: ${({ theme }) => theme.colors[300]};
+  &:hover {
+    border-bottom: 1px solid ${({ theme }) => theme.colors[300]};
+  }
+`;
