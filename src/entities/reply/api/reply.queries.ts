@@ -3,7 +3,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { FetchPostReplyWriteResponse, Reply } from 'entities/reply/model/type';
 
-import { fetchGetMyReply, fetchGetReply, FetchGetReplyDto, fetchModifyReply, fetchPostReplyWrite } from '.';
+import {
+  fetchDeleteReply,
+  fetchGetMyReply,
+  fetchGetReply,
+  FetchGetReplyDto,
+  fetchModifyReply,
+  fetchPostReplyWrite,
+} from '.';
 
 export const reply = createQueryKeys('reply', {
   list: ({ boardId, ...filters }: FetchGetReplyDto) => ({
@@ -47,15 +54,31 @@ export const useReplyWriteMutation = (boardId: number) => {
   });
 };
 
-export const useReplyEditMutation = (boardId: number) => {
+export const useDeleteReplyMutation = (boardId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (replyId: number) => fetchDeleteReply(replyId),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: reply.list({ boardId }).queryKey,
+      });
+      await queryClient.invalidateQueries({
+        queryKey: reply.myReply(boardId).queryKey,
+      });
+    },
+  });
+};
+
+export const useModifyReplyMutation = (boardId: number) => {
   const queryClient = useQueryClient();
   const queryKey = [reply.list({ boardId })];
 
   return useMutation({
-    mutationFn: fetchModifyReply,
+    mutationFn: ({ replyId, content, starScore }: { replyId: number; content: string; starScore: number }) =>
+      fetchModifyReply({ replyId, content, starScore }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey });
-      await queryClient.invalidateQueries({ queryKey: reply.myReply(boardId).queryKey });
     },
   });
 };

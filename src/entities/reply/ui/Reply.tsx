@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
+import { DeleteReviewModal } from 'widgets/ui/PlayList/DeleteReviewModal';
+
 import { ReportButton } from 'entities/community/ui/ReportButton';
 import { Reply as TReply } from 'entities/reply/model/type';
 import { ProfileImage } from 'entities/user/ui/ProfileImage';
@@ -8,7 +10,6 @@ import { ProfileImage } from 'entities/user/ui/ProfileImage';
 import { useUserInfoStore } from 'shared/store/userInfo';
 import { TextArea } from 'shared/ui';
 import { StarRatingInput } from 'shared/ui/Input';
-import { ConfirmModal } from 'shared/ui/Modal';
 
 interface ReplyProps {
   comments: TReply[];
@@ -47,53 +48,56 @@ export const Reply = ({ comments, onDeleteReply, onModifyReply }: ReplyProps) =>
         const isEditing = editingReplyId === replyId;
 
         return (
-          <ReplyBox key={replyId}>
-            <ProfileImage width={56} height={56} src={profileInfo.profileUrl || ''} />
-            <Box>
-              <Block>
-                <ReplyUserIdBlock>
-                  <UserName>{profileInfo.name}</UserName>
-                  <ScoreBox>
-                    <StarRatingInput value={starScore} enabled={false} />
-                    {starScore}
-                  </ScoreBox>
-                </ReplyUserIdBlock>
-                <ButtonGroup>
-                  {!isAuthor && <ReportButton />}
-                  {isAuthor && !isEditing && (
-                    <>
-                      <EditButton onClick={() => handleEditStart(replyId, content)}>수정</EditButton>
-                      <DeleteButton onClick={() => setSelectedReplyId(replyId)}>삭제</DeleteButton>
-                    </>
-                  )}
-                  {isEditing && (
-                    <>
-                      <EditButton onClick={() => handleEditSubmit(replyId, starScore)}>완료</EditButton>
-                      <CancelButton onClick={handleEditCancel}>취소</CancelButton>
-                    </>
-                  )}
-                </ButtonGroup>
-              </Block>
-              {isEditing ? (
-                <EditContent>
-                  <TextArea
-                    value={editContent}
-                    onChange={(e) => setEditContent(e.target.value)}
-                    placeholder="수정할 내용을 입력하세요"
-                  />
-                </EditContent>
-              ) : (
-                <Content>{content}</Content>
-              )}
-            </Box>
-          </ReplyBox>
+          <>
+            <ReplyBox key={replyId}>
+              <ProfileImage width={56} height={56} src={profileInfo.profileUrl || ''} />
+              <Box>
+                <Block>
+                  <ReplyUserIdBlock>
+                    <UserName>{profileInfo.name}</UserName>
+                    <ScoreBox>
+                      <StarRatingInput value={starScore} enabled={false} />
+                      {starScore}
+                    </ScoreBox>
+                  </ReplyUserIdBlock>
+                  <ButtonGroup>
+                    {!isAuthor && <ReportButton />}
+                    {isAuthor && !isEditing && (
+                      <>
+                        <EditButton onClick={() => handleEditStart(replyId, content)}>수정</EditButton>
+                        <DeleteButton onClick={() => setSelectedReplyId(replyId)}>삭제</DeleteButton>
+                      </>
+                    )}
+                    {isEditing && (
+                      <>
+                        <EditButton onClick={() => handleEditSubmit(replyId, starScore)}>완료</EditButton>
+                        <CancelButton onClick={handleEditCancel}>취소</CancelButton>
+                      </>
+                    )}
+                  </ButtonGroup>
+                </Block>
+                {isEditing ? (
+                  <EditContent>
+                    <TextArea
+                      value={editContent}
+                      onChange={(e) => setEditContent(e.target.value)}
+                      placeholder="수정할 내용을 입력하세요"
+                    />
+                  </EditContent>
+                ) : (
+                  <Content>{content}</Content>
+                )}
+              </Box>
+            </ReplyBox>
+            <DeleteReviewModal
+              open={!!selectedReplyId}
+              onClose={() => setSelectedReplyId(null)}
+              onConfirm={() => selectedReplyId && onDeleteReply(Number(selectedReplyId))}
+              hasReview={isAuthor}
+            />
+          </>
         );
       })}
-      <DeleteModal
-        open={!!selectedReplyId}
-        onClose={() => setSelectedReplyId(null)}
-        onConfirm={() => selectedReplyId && onDeleteReply(Number(selectedReplyId))}
-      />
     </>
   );
 };
@@ -160,18 +164,6 @@ const ScoreBox = styled.div`
   color: ${({ theme }) => theme.colors[200]};
   ${({ theme }) => theme.fonts.wantedSans.B4};
 `;
-
-const DeleteModal = ({ open, onClose, onConfirm }: { open: boolean; onClose: () => void; onConfirm: () => void }) => {
-  return (
-    <ConfirmModal
-      text="정말 리뷰를 삭제 하시겠어요?"
-      confirmText="삭제하기"
-      open={open}
-      onClose={onClose}
-      onConfirm={onConfirm}
-    />
-  );
-};
 
 const EditContent = styled.div`
   width: 100%;

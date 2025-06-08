@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
-import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { startTransition, useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ANCHOR_REVIEW } from 'pages/detail/config/anchor';
 import { REVIEW_FILTER_OPTIONS } from 'pages/detail/config/filterOption';
 
-import { fetchDeleteReply, fetchGetReply, fetchModifyReply } from 'entities/reply/api';
-import { reply } from 'entities/reply/api/reply.queries';
+import { fetchGetReply } from 'entities/reply/api';
+import { reply, useDeleteReplyMutation, useModifyReplyMutation } from 'entities/reply/api/reply.queries';
 import { Sort, SortType } from 'entities/reply/model/type';
 import { Reply } from 'entities/reply/ui/Reply';
 
@@ -18,25 +18,12 @@ export const ReviewList = () => {
   const [sortType, setSortType] = useState<SortType>();
   const [sort, setSort] = useState<Sort>();
   const [page, setPage] = useState(1);
-  const queryClient = useQueryClient();
 
   const boardId = Number(params.id);
   const { queryKey } = reply.list({ boardId, sortType, sort, page });
 
-  const deleteReplyMutation = useMutation({
-    mutationFn: (replyId: number) => fetchDeleteReply(replyId),
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey });
-    },
-  });
-
-  const modifyReplyMutation = useMutation({
-    mutationFn: ({ replyId, content, starScore }: { replyId: number; content: string; starScore: number }) =>
-      fetchModifyReply({ replyId, content, starScore }),
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey });
-    },
-  });
+  const deleteReplyMutation = useDeleteReplyMutation(boardId);
+  const modifyReplyMutation = useModifyReplyMutation(boardId);
 
   const handleDeleteReply = (replyId: number) => {
     deleteReplyMutation.mutate(replyId);
