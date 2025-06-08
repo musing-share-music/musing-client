@@ -1,14 +1,18 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { FetchPostReplyWriteResponse, Reply } from 'entities/reply/model/type';
 
-import { fetchGetReply, FetchGetReplyDto, fetchPostReplyWrite } from '.';
+import { fetchGetMyReply, fetchGetReply, FetchGetReplyDto, fetchModifyReply, fetchPostReplyWrite } from '.';
 
 export const reply = createQueryKeys('reply', {
   list: ({ boardId, ...filters }: FetchGetReplyDto) => ({
     queryKey: [{ boardId, ...filters }],
     queryFn: () => fetchGetReply({ boardId, ...filters }),
+  }),
+  myReply: (boardId?: number) => ({
+    queryKey: ['myReply', boardId],
+    queryFn: () => fetchGetMyReply(boardId),
   }),
 });
 
@@ -40,5 +44,25 @@ export const useReplyWriteMutation = (boardId: number) => {
     onSettled: async () => {
       await queryClient.invalidateQueries({ queryKey });
     },
+  });
+};
+
+export const useReplyEditMutation = (boardId: number) => {
+  const queryClient = useQueryClient();
+  const queryKey = [reply.list({ boardId })];
+
+  return useMutation({
+    mutationFn: fetchModifyReply,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey });
+      await queryClient.invalidateQueries({ queryKey: reply.myReply(boardId).queryKey });
+    },
+  });
+};
+
+export const useMyRepliesQuery = (boardId?: number, queryConfig = {}) => {
+  return useQuery({
+    ...reply.myReply(boardId),
+    ...queryConfig,
   });
 };

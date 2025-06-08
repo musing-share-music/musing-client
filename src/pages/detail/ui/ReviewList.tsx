@@ -39,7 +39,7 @@ export const ReviewList = () => {
   });
 
   const handleDeleteReply = (replyId: number) => {
-    void deleteReplyMutation.mutate(replyId);
+    deleteReplyMutation.mutate(replyId);
   };
 
   const handleModifyReply = (replyId: number, content: string, starScore: number) => {

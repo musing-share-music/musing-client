@@ -11,7 +11,7 @@ export const DeleteReviewModal = ({
 }) => {
   return (
     <ConfirmModal
-      text={`정말 플레이리스트를 
+      text={`정말 리뷰를 
               삭제하시겠어요?`}
       confirmText="삭제하기"
       open={open}
