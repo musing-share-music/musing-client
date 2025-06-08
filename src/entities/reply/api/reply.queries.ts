@@ -13,19 +13,21 @@ import {
 } from '.';
 
 export const reply = createQueryKeys('reply', {
+  all: () => ({
+    queryKey: ['reply'] as const,
+  }),
   list: ({ boardId, ...filters }: FetchGetReplyDto) => ({
-    queryKey: [{ boardId, ...filters }],
+    queryKey: ['reply', 'list', boardId, filters] as const,
     queryFn: () => fetchGetReply({ boardId, ...filters }),
   }),
   myReply: (boardId?: number) => ({
-    queryKey: ['myReply', boardId],
+    queryKey: ['reply', 'my', boardId] as const,
     queryFn: () => fetchGetMyReply(boardId),
   }),
 });
 
 export const useReplyWriteMutation = (boardId: number) => {
   const queryClient = useQueryClient();
-
   const queryKey = [reply.list({ boardId })];
   const tempUuId = Date.now();
 
@@ -49,7 +51,12 @@ export const useReplyWriteMutation = (boardId: number) => {
       });
     },
     onSettled: async () => {
-      await queryClient.invalidateQueries({ queryKey });
+      await queryClient.invalidateQueries({
+        queryKey: reply.list({ boardId }).queryKey,
+      });
+      await queryClient.invalidateQueries({
+        queryKey: reply.myReply(boardId).queryKey,
+      });
     },
   });
 };
@@ -72,13 +79,15 @@ export const useDeleteReplyMutation = (boardId: number) => {
 
 export const useModifyReplyMutation = (boardId: number) => {
   const queryClient = useQueryClient();
-  const queryKey = [reply.list({ boardId })];
 
   return useMutation({
     mutationFn: ({ replyId, content, starScore }: { replyId: number; content: string; starScore: number }) =>
       fetchModifyReply({ replyId, content, starScore }),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey });
+      await queryClient.invalidateQueries({ queryKey: reply.list({ boardId }).queryKey });
+      await queryClient.invalidateQueries({
+        queryKey: reply.myReply(boardId).queryKey,
+      });
     },
   });
 };
