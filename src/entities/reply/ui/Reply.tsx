@@ -4,6 +4,7 @@ import { ReportButton } from 'entities/community/ui/ReportButton';
 import { Reply as TReply } from 'entities/reply/model/type';
 import { ProfileImage } from 'entities/user/ui/ProfileImage';
 
+import { useUserInfoStore } from 'shared/store/userInfo';
 import { StarRatingInput } from 'shared/ui/Input';
 
 interface ReplyProps {
@@ -11,6 +12,7 @@ interface ReplyProps {
 }
 
 export const Reply = ({ comments }: ReplyProps) => {
+  const author = useUserInfoStore((state) => state.userInfo.email);
   return (
     <>
       {comments.map(({ id: userId, content, starScore, profileInfo }) => (
@@ -25,7 +27,7 @@ export const Reply = ({ comments }: ReplyProps) => {
                   {starScore}
                 </ScoreBox>
               </ReplyUserIdBlock>
-              <ReportButton />
+              {author !== profileInfo.email && <ReportButton />}
             </Block>
             <Content>{content}</Content>
           </Box>
