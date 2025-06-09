@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useEffect, useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 
 import IconCheck from 'shared/assets/image/icons/icon-check.svg?react';
@@ -22,73 +23,96 @@ export interface Video {
 export interface VideoProps {
   videoList: Video[];
   modify: boolean;
+  setVideoList: (videos: Video[]) => void;
 }
 
-export const PlayListMusicList = ({ videoList, modify }: VideoProps) => {
-  // const [open, setOpen] = useState(false);
-  // const [isChecked, setisChecked] = useState([true, false]);
-  // const navigate = useNavigate();
-  // const [open, setOpen] = useState(false);
-  const isChecked = [true, false];
+export const PlayListMusicList = ({ videoList, modify, setVideoList }: VideoProps) => {
+  const [checkedItems, setCheckedItems] = useState<boolean[]>(videoList.map(() => false));
+
+  useEffect(() => {
+    if (Array.isArray(videoList)) {
+      setCheckedItems(videoList.map(() => false));
+    }
+  }, [videoList, modify]);
+
+  const handleToggleItem = (index: number) => {
+    const updated = [...checkedItems];
+    updated[index] = !updated[index];
+    setCheckedItems(updated);
+  };
+
+  const handleSelectAll = () => {
+    setCheckedItems(videoList.map(() => true));
+  };
+
+  const handleDeselectAll = () => {
+    setCheckedItems(videoList.map(() => false));
+  };
+
+  const handleDeleteSelected = () => {
+    const filteredVideos = videoList.filter((_, index) => !checkedItems[index]);
+
+    // ✅ 상위 상태인 modifyData.videoList를 바꾸는 함수 호출
+    setVideoList(filteredVideos);
+
+    // 체크박스 상태 초기화
+    setCheckedItems(filteredVideos.map(() => false));
+  };
+
+  const selectedCount = checkedItems.filter(Boolean).length;
 
   return (
-    <>
-      <PlayListMusicBox>
-        {modify ? (
-          <PlayListCheckBlock>
-            <CheckBoxWrapper>
-              <CheckBox type="checkbox" />
-              <IconCheckStyled />
-              <CheckBoxLabel>전체 선택</CheckBoxLabel>
-            </CheckBoxWrapper>
+    <PlayListMusicBox>
+      {modify && (
+        <PlayListCheckBlock>
+          <CheckBoxWrapper>
+            <CheckBox
+              type="checkbox"
+              onChange={(e) => {
+                if (e.target.checked) {
+                  handleSelectAll();
+                } else {
+                  handleDeselectAll();
+                }
+              }}
+              checked={selectedCount === videoList.length && videoList.length > 0}
+            />
+            <IconCheckStyled />
+            <CheckBoxLabel>전체 선택</CheckBoxLabel>
+          </CheckBoxWrapper>
 
-            <CheckInfoBlock>
-              <CheckCount>{videoList?.length}곡 선택</CheckCount>
-              <CheckDelete>삭제</CheckDelete>
-            </CheckInfoBlock>
-          </PlayListCheckBlock>
-        ) : (
-          ''
-        )}
+          <CheckInfoBlock>
+            <CheckCount>{selectedCount}곡 선택</CheckCount>
+            <CheckDelete onClick={handleDeleteSelected}>삭제</CheckDelete>
+          </CheckInfoBlock>
+        </PlayListCheckBlock>
+      )}
 
-        {videoList?.map((item, idex) => (
-          <PlayListItem
-            isChecked={isChecked[1]}
-            key={idex}
-            onClick={() => {
+      {videoList.map((item, index) => (
+        <PlayListItem
+          isChecked={checkedItems[index]}
+          key={item.id}
+          onClick={() => {
+            if (modify) {
+              handleToggleItem(index);
+            } else {
               window.open(item.songLink, '_blank');
-            }}
-          >
-            <PlayListInfoBlock>
-              <PlayListInfoImg src={item.thumbNailLink}></PlayListInfoImg>
-              <PlayListInfo>
-                <PlayListInfoTitle>{item.albumName}</PlayListInfoTitle>
-                <PlayListInfoName>{item.name}</PlayListInfoName>
-                <TagBlock>
-                  <Tag>K-POP</Tag> <Tag>귀여운</Tag>
-                </TagBlock>
-              </PlayListInfo>
-            </PlayListInfoBlock>
-            {/* <MoreButton
-              menuItem={[
-                {
-                  onClick: async () => {
-                    await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()));
-                  },
-                  content: '곡정보',
-                },
-                {
-                  onClick: async () => {
-                    await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()), { state: { isLikedClick: true } });
-                  },
-                  content: '좋아요',
-                },
-              ]}
-            /> */}
-          </PlayListItem>
-        ))}
-      </PlayListMusicBox>
-    </>
+            }
+          }}
+        >
+          <PlayListInfoBlock>
+            <PlayListInfoImg src={item.thumbNailLink} />
+            <PlayListInfo>
+              <PlayListInfoTitle>{item.albumName}</PlayListInfoTitle>
+              <PlayListInfoName>{item.name}</PlayListInfoName>
+              {/* <TagBlock>
+                <Tag>K-POP</Tag> <Tag>귀여운</Tag>
+              </TagBlock> */}
+            </PlayListInfo>
+          </PlayListInfoBlock>
+        </PlayListItem>
+      ))}
+    </PlayListMusicBox>
   );
 };
 
