@@ -49,7 +49,7 @@ export const PlayListPage = () => {
 
   return (
     <Layout>
-      <button
+      {/* <button
         onClick={() => {
           modifyMutation.mutate({
             playlistId: modifyData?.representative.youtubePlaylistId,
@@ -62,7 +62,7 @@ export const PlayListPage = () => {
         }}
       >
         테스트 클릭
-      </button>
+      </button> */}
 
       <LeftContainer>
         <PlayListMusicInfo

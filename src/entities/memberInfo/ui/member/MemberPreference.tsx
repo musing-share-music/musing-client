@@ -289,6 +289,7 @@ export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreference
 
         <DeleteReviewModal
           text={'정말 회원을 탈퇴하시겠습니까?'}
+          confirmText={'탈퇴하기'}
           open={delOpen}
           onClose={() => setDelOpen(false)}
           onConfirm={() => {
