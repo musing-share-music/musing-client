@@ -163,4 +163,5 @@ const TextBox = styled.div`
   padding: 12px 24px;
   color: ${({ theme }) => theme.colors[100]};
   ${({ theme }) => theme.fonts.wantedSans.B7};
+  white-space: pre-wrap;
 `;

@@ -8,6 +8,7 @@ import { getYoutubeVideoId } from 'features/createPost/lib/youtubeId';
 import { BoardDetail } from 'entities/community/model/types';
 import { ReportButton } from 'entities/community/ui/ReportButton';
 
+import { useUserInfoStore } from 'shared/store/userInfo';
 import { RightDownArrowButton, YoutubeIframe } from 'shared/ui/';
 
 import { Section } from './styled';
@@ -24,8 +25,12 @@ export const Contents = ({
   createdAt,
   updatedAt,
   imageUrl,
+  email,
 }: ContentsProps) => {
+  const { userInfo } = useUserInfoStore();
   const videoId = getYoutubeVideoId(youtubeLink);
+  const isAuthor = userInfo.email === email;
+
   return (
     <Section>
       <Header>
@@ -33,7 +38,7 @@ export const Contents = ({
           <Title>{title}</Title>
           <ButtonBox>
             <ReportButton />
-            <Edit>편집</Edit>
+            {isAuthor && <Edit>편집</Edit>}
           </ButtonBox>
         </TitleBlock>
         <InfoBlock>
@@ -158,4 +163,5 @@ const TextBox = styled.div`
   padding: 12px 24px;
   color: ${({ theme }) => theme.colors[100]};
   ${({ theme }) => theme.fonts.wantedSans.B7};
+  white-space: pre-wrap;
 `;

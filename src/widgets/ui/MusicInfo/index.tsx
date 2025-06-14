@@ -11,6 +11,7 @@ import { useDeletePostMutation } from 'features/community/deletePost/lib/useDele
 import { BoardDetail } from 'entities/community/model/types';
 
 import { ROUTES } from 'shared/config/routes';
+import { useUserInfoStore } from 'shared/store/userInfo';
 import { Button, StarRatingInput } from 'shared/ui/';
 import { CommonTag } from 'shared/ui/Tag';
 
@@ -30,10 +31,15 @@ export const MusicInfo = ({
   genre,
   thumbNailLink,
   permitRegister,
+  email,
 }: MusicInfoProps) => {
   const [open, setOpen] = useState(false);
+  const { userInfo } = useUserInfoStore();
+
   const deletePostMutation = useDeletePostMutation();
   const navigate = useNavigate();
+
+  const isAuthor = userInfo.email === email;
 
   const menuItem = [
     {
@@ -44,10 +50,9 @@ export const MusicInfo = ({
     },
   ];
 
-  // TODO: 상세 조회 api 연동 후 기능 확인
   // 리뷰 삭제 핸들러
   const handleDeleteReview = () => {
-    if (deletePostMutation.isPending) return;
+    if (!isAuthor || deletePostMutation.isPending) return;
 
     deletePostMutation.mutate(
       { boardId: boardId },
@@ -157,6 +162,7 @@ const AdminConfirm = styled.div`
   border-radius: 24px;
   background: ${({ theme }) => theme.colors[600]};
   color: ${({ theme }) => theme.colors[100]};
+  white-space: nowrap;
   ${({ theme }) => theme.fonts.wantedSans.C1};
 
   &:hover ${ToolTip} {

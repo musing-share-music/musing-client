@@ -7,6 +7,7 @@ export interface Reply {
   profileInfo: {
     name: string;
     profileUrl: string;
+    email: string;
   };
 }
 
