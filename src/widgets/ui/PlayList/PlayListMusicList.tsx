@@ -271,22 +271,22 @@ const PlayListInfoName = styled.div`
   max-width: 400px;
 `;
 
-const TagBlock = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  position: absolute;
-  left: 0px;
-  bottom: 8px;
-  height: 33px;
-  width: 300px;
-`;
+// const TagBlock = styled.div`
+//   display: flex;
+//   align-items: center;
+//   gap: 12px;
+//   flex-wrap: wrap;
+//   position: absolute;
+//   left: 0px;
+//   bottom: 8px;
+//   height: 33px;
+//   width: 300px;
+// `;
 
-const Tag = styled.div`
-  padding: 6px 10px 7px 10px;
-  border-radius: 4px;
-  background: ${({ theme }) => theme.colors[400]};
-  color: ${({ theme }) => theme.colors[200]};
-  ${({ theme }) => theme.fonts.wantedSans.B6};
-`;
+// const Tag = styled.div`
+//   padding: 6px 10px 7px 10px;
+//   border-radius: 4px;
+//   background: ${({ theme }) => theme.colors[400]};
+//   color: ${({ theme }) => theme.colors[200]};
+//   ${({ theme }) => theme.fonts.wantedSans.B6};
+// `;

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useGetPlayListDetailQuery } from 'features/playlist/lib/useGetPlayListDetailQuery';
-import { usePlayListModifyPostMutation } from 'features/playlist/lib/usePostPlayListModifyQuery';
+// import { usePlayListModifyPostMutation } from 'features/playlist/lib/usePostPlayListModifyQuery';
 import { usePlayListSaveAllPostMutation } from 'features/playlist/lib/usePostPlayListSaveAllQuery';
 
 import { SavePlayListPayload } from 'entities/playlist/type';
@@ -29,7 +29,7 @@ export const PlayListPage = () => {
   }, [data]);
 
   const saveAllMutation = usePlayListSaveAllPostMutation();
-  const modifyMutation = usePlayListModifyPostMutation();
+  // const modifyMutation = usePlayListModifyPostMutation();
 
   // 대표 정보 업데이트 함수
   const handleUpdateRepresentative = (updatedRep: SavePlayListPayload['representative']) => {
