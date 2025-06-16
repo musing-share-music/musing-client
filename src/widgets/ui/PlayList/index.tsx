@@ -6,6 +6,8 @@ import { usePlayListModifyPostMutation } from 'features/playlist/lib/usePostPlay
 
 import { SavePlayListPayload } from 'entities/playlist/type';
 
+import { Spinner } from 'shared/ui/Spinner';
+
 import { PlayListMusicInfo } from './PlayListMusicInfo';
 import { PlayListMusicList, Video } from './PlayListMusicList';
 import { Layout, LeftContainer, RightContainer } from './styled';
@@ -22,7 +24,8 @@ export const PlayListPage = () => {
   const [modifyData, setModifyData] = useState<SavePlayListPayload>(data);
 
   const [deleteVideos, setDeleteVideos] = useState<Video[]>([]);
-  console.log(deleteVideos);
+
+  const [pageLoading, setPageLoading] = useState(false);
 
   useEffect(() => {
     if (data) {
@@ -59,10 +62,12 @@ export const PlayListPage = () => {
           onSave={(updatedRep) => {
             handleUpdateRepresentative(updatedRep);
 
+            setPageLoading(true);
+
             modifyMutation.mutate(
               {
                 playlistId: modifyData?.representative.youtubePlaylistId,
-                deleteVideoLinks: deleteVideos.map((v) => v.songLink),
+                deleteVideoLinks: deleteVideos.length > 0 ? deleteVideos.map((v) => v.songLink) : [''],
                 body: {
                   title: updatedRep.listName,
                   description: updatedRep.description,
@@ -70,10 +75,13 @@ export const PlayListPage = () => {
               },
               {
                 onSuccess: () => {
+                  setPageLoading(false);
                   setModify(false);
+                  alert('플레이리스트가 성공적으로 수정되었습니다.');
                 },
                 onError: () => {
-                  alert('실패');
+                  setPageLoading(false);
+                  alert('수정에 실패했습니다. 다시 시도해주세요.');
                 },
               },
             );

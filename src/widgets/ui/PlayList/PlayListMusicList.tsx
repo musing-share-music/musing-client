@@ -95,7 +95,7 @@ export const PlayListMusicList = ({ videoList, modify, setVideoList, setDeleteVi
       {videoList.map((item, index) => (
         <PlayListItem
           isChecked={checkedItems[index]}
-          key={item.id}
+          key={index}
           onClick={() => {
             if (modify) {
               handleToggleItem(index);
