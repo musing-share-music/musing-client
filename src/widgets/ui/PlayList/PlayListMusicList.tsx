@@ -24,9 +24,10 @@ export interface VideoProps {
   videoList: Video[];
   modify: boolean;
   setVideoList: (videos: Video[]) => void;
+  setDeleteVideos: (videos: Video[]) => void;
 }
 
-export const PlayListMusicList = ({ videoList, modify, setVideoList }: VideoProps) => {
+export const PlayListMusicList = ({ videoList, modify, setVideoList, setDeleteVideos }: VideoProps) => {
   const [checkedItems, setCheckedItems] = useState<boolean[]>(videoList.map(() => false));
 
   useEffect(() => {
@@ -51,9 +52,12 @@ export const PlayListMusicList = ({ videoList, modify, setVideoList }: VideoProp
 
   const handleDeleteSelected = () => {
     const filteredVideos = videoList.filter((_, index) => !checkedItems[index]);
+    const deleteVideos = videoList.filter((_, index) => checkedItems[index]);
 
-    // ✅ 상위 상태인 modifyData.videoList를 바꾸는 함수 호출
+    // 상위 상태인 modifyData.videoList를 바꾸는 함수 호출
     setVideoList(filteredVideos);
+
+    setDeleteVideos(deleteVideos);
 
     // 체크박스 상태 초기화
     setCheckedItems(filteredVideos.map(() => false));
@@ -237,6 +241,7 @@ const PlayListInfoImg = styled.img`
   width: 144px;
   height: 144px;
   border-radius: 6px;
+  object-fit: cover;
 `;
 
 const PlayListInfo = styled.div`

@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useGetPlayListDetailQuery } from 'features/playlist/lib/useGetPlayListDetailQuery';
-// import { usePlayListModifyPostMutation } from 'features/playlist/lib/usePostPlayListModifyQuery';
-import { usePlayListSaveAllPostMutation } from 'features/playlist/lib/usePostPlayListSaveAllQuery';
+import { usePlayListModifyPostMutation } from 'features/playlist/lib/usePostPlayListModifyQuery';
 
 import { SavePlayListPayload } from 'entities/playlist/type';
 
 import { PlayListMusicInfo } from './PlayListMusicInfo';
-import { PlayListMusicList } from './PlayListMusicList';
+import { PlayListMusicList, Video } from './PlayListMusicList';
 import { Layout, LeftContainer, RightContainer } from './styled';
 
 export const PlayListPage = () => {
@@ -22,14 +21,16 @@ export const PlayListPage = () => {
   const [modify, setModify] = useState(false);
   const [modifyData, setModifyData] = useState<SavePlayListPayload>(data);
 
+  const [deleteVideos, setDeleteVideos] = useState<Video[]>([]);
+  console.log(deleteVideos);
+
   useEffect(() => {
     if (data) {
       setModifyData(data);
     }
   }, [data]);
 
-  const saveAllMutation = usePlayListSaveAllPostMutation();
-  // const modifyMutation = usePlayListModifyPostMutation();
+  const modifyMutation = usePlayListModifyPostMutation();
 
   // 대표 정보 업데이트 함수
   const handleUpdateRepresentative = (updatedRep: SavePlayListPayload['representative']) => {
@@ -49,21 +50,6 @@ export const PlayListPage = () => {
 
   return (
     <Layout>
-      {/* <button
-        onClick={() => {
-          modifyMutation.mutate({
-            playlistId: modifyData?.representative.youtubePlaylistId,
-            deleteVideoLinks: [modifyData?.videoList[4].songLink], // 예시
-            body: {
-              title: modifyData?.representative.listName ?? '',
-              description: modifyData?.representative.description ?? '',
-            },
-          });
-        }}
-      >
-        테스트 클릭
-      </button> */}
-
       <LeftContainer>
         <PlayListMusicInfo
           representative={modifyData?.representative}
@@ -73,10 +59,14 @@ export const PlayListPage = () => {
           onSave={(updatedRep) => {
             handleUpdateRepresentative(updatedRep);
 
-            saveAllMutation.mutate(
+            modifyMutation.mutate(
               {
-                ...modifyData,
-                representative: updatedRep,
+                playlistId: modifyData?.representative.youtubePlaylistId,
+                deleteVideoLinks: deleteVideos.map((v) => v.songLink),
+                body: {
+                  title: updatedRep.listName,
+                  description: updatedRep.description,
+                },
               },
               {
                 onSuccess: () => {
@@ -93,7 +83,12 @@ export const PlayListPage = () => {
 
       <RightContainer>
         {modifyData && (
-          <PlayListMusicList videoList={modifyData.videoList} modify={modify} setVideoList={handleUpdateVideoList} />
+          <PlayListMusicList
+            videoList={modifyData.videoList}
+            modify={modify}
+            setVideoList={handleUpdateVideoList}
+            setDeleteVideos={setDeleteVideos}
+          />
         )}
       </RightContainer>
     </Layout>

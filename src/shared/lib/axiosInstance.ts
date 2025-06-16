@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import qs from 'qs';
 
 import URL from 'shared/config/urls';
 import { useErrorModalStore } from 'shared/store/errorModalStore';
@@ -20,6 +21,7 @@ const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
 });
 
 // 토큰 재발급 처리를 위한 함수
