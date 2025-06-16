@@ -53,6 +53,7 @@ export const PlayListPage = () => {
 
   return (
     <Layout>
+      {pageLoading && <Spinner isLoading={pageLoading} />}
       <LeftContainer>
         <PlayListMusicInfo
           representative={modifyData?.representative}
@@ -67,7 +68,7 @@ export const PlayListPage = () => {
             modifyMutation.mutate(
               {
                 playlistId: modifyData?.representative.youtubePlaylistId,
-                deleteVideoLinks: deleteVideos.length > 0 ? deleteVideos.map((v) => v.songLink) : [''],
+                deleteVideoLinks: deleteVideos.map((v) => v.songLink) || [''],
                 body: {
                   title: updatedRep.listName,
                   description: updatedRep.description,
