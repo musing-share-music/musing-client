@@ -51,7 +51,7 @@ export const AddPlayListModal = ({ ...props }: AddPlayListModalProps) => {
           onChange={(option) => setPlayListLink(option.value)}
         />
 
-        {!data?.playLists || data.playLists.length === 0 || playListLink === '' ? (
+        {!data?.playLists || data.playLists.length === 0 ? (
           ''
         ) : (
           <AddPlayList onClick={props.onOpenCreateModal}>플레이리스트 추가</AddPlayList>
