@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { LikeMusicDtos, LikeMusicDtosItem } from 'entities/home/model/types';
 
 import arrow2 from 'shared/assets/image/main/arrow 2.png';
+import { useUserInfoStore } from 'shared/store/userInfo';
 import { Nodata } from 'shared/ui';
+import { ErrorModal } from 'shared/ui/Modal';
 import { AddPlayListModal } from 'shared/ui/Modal/PlayListModal/AddPlayList';
 import { CreatePlayListModal } from 'shared/ui/Modal/PlayListModal/CreatePlayList';
 import { PersistPlayListModal } from 'shared/ui/Modal/PlayListModal/PersistPlayList';
@@ -87,7 +89,10 @@ const LikeMusic = ({ likeMusicDtos }: LikeMusicDtosProps) => {
 
   const [isCreateOpen, setCreateOpen] = useState(false);
   const [isPersistOpen, setPersistOpen] = useState(false);
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState<LikeMusicDtosItem | null>(null);
+
+  const { isLogin } = useUserInfoStore();
 
   return (
     <LikeContainer>
@@ -108,6 +113,15 @@ const LikeMusic = ({ likeMusicDtos }: LikeMusicDtosProps) => {
         children={undefined}
       />
       <PersistPlayListModal open={isPersistOpen} onClose={() => setPersistOpen(false)} children={undefined} />
+      <ErrorModal
+        title={'로그인이 필요한 서비스입니다'}
+        open={errorModalOpen}
+        onClose={() => {
+          setErrorModalOpen(false);
+        }}
+      >
+        {'로그인 후 이용해 주세요.'}
+      </ErrorModal>
 
       <TitleBlock>
         <PageTitle>좋아요</PageTitle>
@@ -124,8 +138,12 @@ const LikeMusic = ({ likeMusicDtos }: LikeMusicDtosProps) => {
                 key={index}
                 item={item}
                 onAddPlaylistClick={() => {
-                  setSelectedData(item);
-                  openModal();
+                  if (isLogin()) {
+                    setSelectedData(item);
+                    openModal();
+                  } else {
+                    setErrorModalOpen(true);
+                  }
                 }}
               />
             ))}

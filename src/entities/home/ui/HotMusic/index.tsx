@@ -6,7 +6,9 @@ import 'slick-carousel/slick/slick.css';
 
 import { RecommendGenre, RecommendGenres, RecommendGenresItem } from 'entities/home/model/types';
 
+import { useUserInfoStore } from 'shared/store/userInfo';
 import { Nodata } from 'shared/ui';
+import { ErrorModal } from 'shared/ui/Modal';
 import { AddPlayListModal } from 'shared/ui/Modal/PlayListModal/AddPlayList';
 import { CreatePlayListModal } from 'shared/ui/Modal/PlayListModal/CreatePlayList';
 import { PersistPlayListModal } from 'shared/ui/Modal/PlayListModal/PersistPlayList';
@@ -122,7 +124,10 @@ const HotMusic = ({ recommendGenre, recommendGenres }: RecommendGenreProps) => {
 
   const [isCreateOpen, setCreateOpen] = useState(false);
   const [isPersistOpen, setPersistOpen] = useState(false);
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState<RecommendGenresItem | null>(null);
+
+  const { isLogin } = useUserInfoStore();
 
   const settings = {
     dots: true,
@@ -151,6 +156,15 @@ const HotMusic = ({ recommendGenre, recommendGenres }: RecommendGenreProps) => {
         children={undefined}
       />
       <PersistPlayListModal open={isPersistOpen} onClose={() => setPersistOpen(false)} children={undefined} />
+      <ErrorModal
+        title={'로그인이 필요한 서비스입니다'}
+        open={errorModalOpen}
+        onClose={() => {
+          setErrorModalOpen(false);
+        }}
+      >
+        {'로그인 후 이용해 주세요.'}
+      </ErrorModal>
       <HotContainerWrapper>
         {recommendGenres.length === 0 ? (
           <Nodata Comment={'아직 핫한 음악이 없어요.'}></Nodata>
@@ -171,8 +185,12 @@ const HotMusic = ({ recommendGenre, recommendGenres }: RecommendGenreProps) => {
                   item={item}
                   key={index}
                   onAddPlaylistClick={() => {
-                    setSelectedData(item);
-                    openModal();
+                    if (isLogin()) {
+                      setSelectedData(item);
+                      openModal();
+                    } else {
+                      setErrorModalOpen(true);
+                    }
                   }}
                 />
               ))}

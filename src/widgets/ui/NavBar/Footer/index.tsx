@@ -21,7 +21,6 @@ export const Footer = ({ size, onClickFoldButton }: FooterProps) => {
   const [errorModalOpen, setErrorModalOpen] = useState(false);
 
   const { isLogin } = useUserInfoStore();
-  console.log(isLogin());
 
   return (
     <StyledFooter size={size}>
