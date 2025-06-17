@@ -11,10 +11,10 @@ import { OuterCloseModalProps } from 'shared/ui/Modal/type';
 
 export const PersistPlayListModal = ({ ...props }: OuterCloseModalProps) => {
   const [url, setUrl] = useState('');
-  const [errorModalOpen, setErrorModalOpen] = useState(false); // ✅ 에러 모달 상태
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
   const SaveUrlMutation = usePlayListSaveUrlPostMutation();
 
-  const closeErrorModal = () => setErrorModalOpen(false); // ✅ 닫기 핸들러
+  const closeErrorModal = () => setErrorModalOpen(false);
 
   return (
     <OuterCloseModal {...props}>
@@ -58,7 +58,7 @@ export const PersistPlayListModal = ({ ...props }: OuterCloseModalProps) => {
         </ButtonBlock>
 
         <ErrorModal open={errorModalOpen} onClose={closeErrorModal}>
-          입력하신 플레이리스트는 이미 등록되어 있습니다.
+          플레이리스트 등록 중 오류가 발생하였습니다. 다시 등록해주세요.
         </ErrorModal>
       </Content>
     </OuterCloseModal>

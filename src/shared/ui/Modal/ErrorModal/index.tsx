@@ -6,13 +6,17 @@ import { Modal } from 'shared/ui/Modal/BaseModal';
 import { OuterCloseModal } from 'shared/ui/Modal/OuterCloseModal';
 import { OuterCloseModalProps } from 'shared/ui/Modal/type';
 
-export const ErrorModal = ({ children, ...props }: OuterCloseModalProps) => {
+interface ErrorModalProps extends OuterCloseModalProps {
+  title?: string;
+}
+
+export const ErrorModal = ({ children, ...props }: ErrorModalProps) => {
   return (
     <OuterCloseModal {...props}>
       <Content>
         <TitleWrap>
           <ErrorIcon></ErrorIcon>
-          <Modal.Title>문제가 발생했습니다.</Modal.Title>
+          <Modal.Title>{props.title ? props.title : '문제가 발생했습니다.'}</Modal.Title>
         </TitleWrap>
         {children}
         <ButtonBlock>
