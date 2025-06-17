@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useGetPlayListQuery } from 'features/playlist/lib/useGetPlayListQuery';
 import { usePlayListAddtMutation } from 'features/playlist/lib/usePostPlayListAddQuery';
@@ -22,6 +22,12 @@ export const AddPlayListModal = ({ ...props }: AddPlayListModalProps) => {
   const addMutation = usePlayListAddtMutation();
   const musicLink = props.data?.musicLink;
   const [playListLink, setPlayListLink] = useState('');
+
+  useEffect(() => {
+    if (props.open == false) {
+      setPlayListLink('');
+    }
+  }, [props.open]);
 
   return (
     <OuterCloseModal {...props}>
@@ -50,6 +56,7 @@ export const AddPlayListModal = ({ ...props }: AddPlayListModalProps) => {
         <ButtonBlock>
           <ButtonWrap>
             <Button
+              disabled={!data?.playLists || data.playLists.length === 0 || playListLink === ''}
               onClick={() => {
                 addMutation.mutate(
                   {
