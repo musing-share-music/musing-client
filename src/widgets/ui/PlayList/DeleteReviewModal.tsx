@@ -5,9 +5,6 @@ export const DeleteReviewModal = ({
   onClose,
   onConfirm,
   hasReview,
-  text = `정말 플레이리스트를 
-              삭제하시겠어요?`,
-  confirmText = '삭제하기',
 }: {
   open: boolean;
   onClose: () => void;
