@@ -4,12 +4,13 @@ export interface Genre {
 }
 
 export interface Video {
+  id: string;
   name: string;
-  playtime: string;
+  playtime: string | null;
   albumName: string;
   songLink: string;
   thumbNailLink: string;
-  genres: Genre[];
+  genres: string[] | null;
 }
 
 export interface Representative {

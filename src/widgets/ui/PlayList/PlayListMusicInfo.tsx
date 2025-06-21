@@ -23,7 +23,7 @@ interface RepresentativeProps {
   modify: boolean;
   setModify: React.Dispatch<React.SetStateAction<boolean>>;
   onRefresh: () => void;
-  onSave: () => void;
+  onSave: (modified: Representative) => void;
 }
 
 export const PlayListMusicInfo = ({ representative, modify, setModify, onRefresh, onSave }: RepresentativeProps) => {
@@ -51,14 +51,14 @@ export const PlayListMusicInfo = ({ representative, modify, setModify, onRefresh
               {modify ? (
                 <InputTitle
                   placeholder="제목을 입력해주세요."
-                  defaultValue={representative?.listName}
+                  value={modifyRep.listName}
                   onChange={(e) =>
-                    setModifyRep({
-                      ...modifyRep!,
+                    setModifyRep((prev) => ({
+                      ...prev,
                       listName: e.target.value,
-                    })
+                    }))
                   }
-                ></InputTitle>
+                />
               ) : (
                 <Title>{representative?.listName}</Title>
               )}
@@ -109,6 +109,7 @@ export const PlayListMusicInfo = ({ representative, modify, setModify, onRefresh
             <AdminEdit>
               <EditAction
                 onClick={() => {
+                  setModifyRep(representative);
                   setModify(true);
                 }}
               >
@@ -132,14 +133,17 @@ export const PlayListMusicInfo = ({ representative, modify, setModify, onRefresh
         <EditButtonBlock>
           <CancelButton
             onClick={() => {
+              setModifyRep(representative); // 원래 값 복원
               setModify(false);
             }}
           >
             취소
           </CancelButton>
+
           <SaveButton
             onClick={() => {
-              onSave();
+              onSave(modifyRep);
+              setModify(false);
             }}
           >
             저장

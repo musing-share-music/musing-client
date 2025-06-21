@@ -10,7 +10,10 @@ export const fetchPostModify = async (
   const response = await axiosInstance({
     method: 'PUT',
     url: URL.SERVERURL + URL.API.PLAYLIST.MODIFY,
-    params: { playlistId, deleteVideoLinks },
+    params: {
+      playlistId,
+      deleteVideoLinks: deleteVideoLinks.length > 0 ? deleteVideoLinks : [''],
+    },
     data: {
       title: body.title,
       description: body.description,

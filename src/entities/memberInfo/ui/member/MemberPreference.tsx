@@ -1,7 +1,10 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 
+import { DeleteReviewModal } from 'widgets/ui/PlayList/DeleteReviewModal';
+
 import { GenreChipCheckbox } from 'features/genre/selectMood/ui';
+import { useGetWithDrawQuery } from 'features/memberInfo/lib/useGetWithDrawQuery';
 import { useArtistPostMutation } from 'features/memberInfo/lib/usePostArtistQuery';
 import { useGenrePostMutation } from 'features/memberInfo/lib/usePostGenreQuery';
 import { useMoodPostMutation } from 'features/memberInfo/lib/usePostMoodQuery';
@@ -21,9 +24,12 @@ import { Genre } from 'entities/genre/model/genre';
 import { MemberInfoItem } from 'entities/memberInfo/model/types';
 import { Mood } from 'entities/mood/model/mood';
 
+import URL from 'shared/config/urls';
 import { useAdminInfoStore } from 'shared/store/adminInfo';
+import { useUserInfoStore } from 'shared/store/userInfo';
 import { commonStyles } from 'shared/styles/common';
 import { Chip, DownArrowButton, Modal, TextInput } from 'shared/ui/';
+import { Spinner } from 'shared/ui/Spinner';
 
 type ModalType = 'genre' | 'mood' | 'artist' | null;
 type Artist = string;
@@ -36,6 +42,7 @@ interface MemberPreferenceProps {
 export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreferenceProps) => {
   const isAdmin = useAdminInfoStore((state) => state.isAdmin);
   const [open, setOpen] = useState(false);
+  const [delOpen, setDelOpen] = useState(false); // delete의 약어
   const [modalType, setModalType] = useState<ModalType>(null);
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
   const [selectedMoods, setSelectedMoods] = useState<Mood[]>([]);
@@ -45,6 +52,26 @@ export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreference
   const genreMutation = useGenrePostMutation();
   const moodMutation = useMoodPostMutation();
   const artistMutation = useArtistPostMutation();
+
+  const { logout } = useUserInfoStore();
+
+  const [enable, SetEnable] = useState(false);
+  const { data, isLoading, error } = useGetWithDrawQuery(enable);
+
+  useEffect(() => {
+    if (data) {
+      alert('회원탈퇴가 완료되었습니다.');
+      logout();
+      window.location.href = URL.SERVERURL + URL.API.LOGOUT;
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      alert('회원탈퇴에 실패했습니다. 다시 시도해주세요.');
+      SetEnable(false);
+    }
+  }, [error]);
 
   const handleMoodCheck = (mood: Mood[]) => {
     setSelectedMoods(mood);
@@ -62,6 +89,11 @@ export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreference
   const closeModal = () => {
     setModalType(null);
     setOpen(false);
+  };
+
+  const deleteMember = () => {
+    setDelOpen(false);
+    SetEnable(true);
   };
 
   const handleConfirm = () => {
@@ -111,141 +143,161 @@ export const MemberPreference = ({ memberInfoItem, onConfirm }: MemberPreference
   };
 
   return (
-    <MemberInfoContainer>
-      <MemberInfoBox>
-        <MemberInfoWrapper>
-          <MemberInfoImg src={memberInfoItem.profile}></MemberInfoImg>
-          <MemverInfoContent>
-            <MemberInfoName>{memberInfoItem.name}</MemberInfoName>
-            <MemberInfoEmail>{memberInfoItem.email}</MemberInfoEmail>
-          </MemverInfoContent>
-        </MemberInfoWrapper>
-        {isAdmin ? <BlockButton>차단</BlockButton> : null}
-      </MemberInfoBox>
+    <>
+      {isLoading && <Spinner isLoading={isLoading}></Spinner>}
+      <MemberInfoContainer>
+        <MemberInfoBox>
+          <MemberInfoWrapper>
+            <MemberInfoImg src={memberInfoItem.profile}></MemberInfoImg>
+            <MemverInfoContent>
+              <MemberInfoName>{memberInfoItem.name}</MemberInfoName>
+              <MemberInfoEmail>{memberInfoItem.email}</MemberInfoEmail>
+              <MoreTitle
+                onClick={() => {
+                  setDelOpen(true);
+                }}
+              >
+                회원탈퇴
+              </MoreTitle>
+            </MemverInfoContent>
+          </MemberInfoWrapper>
+          {isAdmin ? <BlockButton>차단</BlockButton> : null}
+        </MemberInfoBox>
 
-      <MemberPreferBox>
-        <GenrePreferBlock>
-          <GenrePreference>
-            <PreferTitle>나의 선호 장르</PreferTitle>
-            <PreferTagWrapper>
-              {/* 9개까지만 보여줌 */}
-              {memberInfoItem?.likeGenre.slice(0, 9).map((item, index) => (
-                <PreferTag key={index}>{item.genreName}</PreferTag>
-              ))}
-              <DownArrowButton
-                backgroundColor={500}
-                hoverBackgroundColor={300}
-                iconColor="primary1Hover1"
-                disabled={true}
-              />
-            </PreferTagWrapper>
-          </GenrePreference>
-          <PreferButton onClick={() => openModal('genre')}>수정</PreferButton>
-        </GenrePreferBlock>
-      </MemberPreferBox>
-
-      <MemberPreferBox>
-        <GenrePreferBlock>
-          <GenrePreference>
-            <PreferTitle>나의 선호 분위기</PreferTitle>
-            <PreferTagWrapper>
-              {/* 9개까지만 보여줌 */}
-              {memberInfoItem?.likeMood.slice(0, 9).map((item, index) => (
-                <PreferTag key={index}>{item.moodName}</PreferTag>
-              ))}
-              <DownArrowButton
-                backgroundColor={500}
-                hoverBackgroundColor={300}
-                iconColor="primary1Hover1"
-                disabled={true}
-              />
-            </PreferTagWrapper>
-          </GenrePreference>
-          <PreferButton onClick={() => openModal('mood')}>수정</PreferButton>
-        </GenrePreferBlock>
-      </MemberPreferBox>
-
-      <MemberPreferBox>
-        <GenrePreferBlock>
-          <GenrePreference>
-            <PreferTitle>나의 선호 아티스트</PreferTitle>
-            <PreferTagWrapper>
-              {/* 9개까지만 보여줌 */}
-              {memberInfoItem?.likeArtist.slice(0, 9).map((item, index) => (
-                <PreferTag key={index}>{item?.name}</PreferTag>
-              ))}
-              <DownArrowButton
-                backgroundColor={500}
-                hoverBackgroundColor={300}
-                iconColor="primary1Hover1"
-                disabled={true}
-              />
-            </PreferTagWrapper>
-          </GenrePreference>
-          <PreferButton onClick={() => openModal('artist')}>수정</PreferButton>
-        </GenrePreferBlock>
-      </MemberPreferBox>
-
-      <Modal open={open} onClose={closeModal}>
-        <Container>
-          <Header>
-            <Caption>
-              {modalType === 'genre' && '선호하는 장르를 선택해 주세요.'}
-              {modalType === 'mood' && '선호하는 분위기를 선택해 주세요.'}
-              {modalType === 'artist' && '선호하는 아티스트를 추가해 주세요.'}
-            </Caption>
-          </Header>
-          <Form step={modalType as Step} status={'preEnter'}>
-            {modalType === 'genre' && (
-              <ChipBlock>
-                <GenreChipCheckbox initialChecked={memberInfoItem?.likeGenre} onSelectChip={handleGenreCheck} />
-              </ChipBlock>
-            )}
-
-            {modalType === 'mood' && (
-              <ChipBlock>
-                <MoodChipCheckbox initialChecked={memberInfoItem?.likeMood} onSelectChip={handleMoodCheck} />
-              </ChipBlock>
-            )}
-
-            {modalType === 'artist' && (
-              <>
-                <TextInput
-                  placeholder="아티스트명을 입력해주세요."
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      if (e.nativeEvent.isComposing) return; // 한글 입력시, 마지막 글자가 추가되는 현상 방지
-                      addArtist(inputValue);
-                      setInputValue('');
-                    }
-                  }}
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
+        <MemberPreferBox>
+          <GenrePreferBlock>
+            <GenrePreference>
+              <PreferTitle>나의 선호 장르</PreferTitle>
+              <PreferTagWrapper>
+                {/* 9개까지만 보여줌 */}
+                {memberInfoItem?.likeGenre.slice(0, 9).map((item, index) => (
+                  <PreferTag key={index}>{item.genreName}</PreferTag>
+                ))}
+                <DownArrowButton
+                  backgroundColor={500}
+                  hoverBackgroundColor={300}
+                  iconColor="primary1Hover1"
+                  disabled={true}
                 />
+              </PreferTagWrapper>
+            </GenrePreference>
+            <PreferButton onClick={() => openModal('genre')}>수정</PreferButton>
+          </GenrePreferBlock>
+        </MemberPreferBox>
+
+        <MemberPreferBox>
+          <GenrePreferBlock>
+            <GenrePreference>
+              <PreferTitle>나의 선호 분위기</PreferTitle>
+              <PreferTagWrapper>
+                {/* 9개까지만 보여줌 */}
+                {memberInfoItem?.likeMood.slice(0, 9).map((item, index) => (
+                  <PreferTag key={index}>{item.moodName}</PreferTag>
+                ))}
+                <DownArrowButton
+                  backgroundColor={500}
+                  hoverBackgroundColor={300}
+                  iconColor="primary1Hover1"
+                  disabled={true}
+                />
+              </PreferTagWrapper>
+            </GenrePreference>
+            <PreferButton onClick={() => openModal('mood')}>수정</PreferButton>
+          </GenrePreferBlock>
+        </MemberPreferBox>
+
+        <MemberPreferBox>
+          <GenrePreferBlock>
+            <GenrePreference>
+              <PreferTitle>나의 선호 아티스트</PreferTitle>
+              <PreferTagWrapper>
+                {/* 9개까지만 보여줌 */}
+                {memberInfoItem?.likeArtist.slice(0, 9).map((item, index) => (
+                  <PreferTag key={index}>{item?.name}</PreferTag>
+                ))}
+                <DownArrowButton
+                  backgroundColor={500}
+                  hoverBackgroundColor={300}
+                  iconColor="primary1Hover1"
+                  disabled={true}
+                />
+              </PreferTagWrapper>
+            </GenrePreference>
+            <PreferButton onClick={() => openModal('artist')}>수정</PreferButton>
+          </GenrePreferBlock>
+        </MemberPreferBox>
+
+        <Modal open={open} onClose={closeModal}>
+          <Container>
+            <Header>
+              <Caption>
+                {modalType === 'genre' && '선호하는 장르를 선택해 주세요.'}
+                {modalType === 'mood' && '선호하는 분위기를 선택해 주세요.'}
+                {modalType === 'artist' && '선호하는 아티스트를 추가해 주세요.'}
+              </Caption>
+            </Header>
+            <Form step={modalType as Step} status={'preEnter'}>
+              {modalType === 'genre' && (
                 <ChipBlock>
-                  {Array.from(artist).map((artistItem) => (
-                    <Chip
-                      key={artistItem}
-                      text={artistItem}
-                      onDelete={() => {
-                        deleteArtist(artistItem);
-                      }}
-                    />
-                  ))}
+                  <GenreChipCheckbox initialChecked={memberInfoItem?.likeGenre} onSelectChip={handleGenreCheck} />
                 </ChipBlock>
-              </>
-            )}
-          </Form>
-          <Footer step={modalType as Step}>
-            <ModalCaption>최소 1개 이상의 태그를 선택해 주세요.</ModalCaption>
-            <ButtonBox>
-              <PreferButton onClick={handleConfirm}>수정</PreferButton>
-            </ButtonBox>
-          </Footer>
-        </Container>
-      </Modal>
-    </MemberInfoContainer>
+              )}
+
+              {modalType === 'mood' && (
+                <ChipBlock>
+                  <MoodChipCheckbox initialChecked={memberInfoItem?.likeMood} onSelectChip={handleMoodCheck} />
+                </ChipBlock>
+              )}
+
+              {modalType === 'artist' && (
+                <>
+                  <TextInput
+                    placeholder="아티스트명을 입력해주세요."
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (e.nativeEvent.isComposing) return; // 한글 입력시, 마지막 글자가 추가되는 현상 방지
+                        addArtist(inputValue);
+                        setInputValue('');
+                      }
+                    }}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                  />
+                  <ChipBlock>
+                    {Array.from(artist).map((artistItem) => (
+                      <Chip
+                        key={artistItem}
+                        text={artistItem}
+                        onDelete={() => {
+                          deleteArtist(artistItem);
+                        }}
+                      />
+                    ))}
+                  </ChipBlock>
+                </>
+              )}
+            </Form>
+            <Footer step={modalType as Step}>
+              <ModalCaption>최소 1개 이상의 태그를 선택해 주세요.</ModalCaption>
+              <ButtonBox>
+                <PreferButton onClick={handleConfirm}>수정</PreferButton>
+              </ButtonBox>
+            </Footer>
+          </Container>
+        </Modal>
+
+        <DeleteReviewModal
+          text={'정말 회원을 탈퇴하시겠습니까?'}
+          confirmText={'탈퇴하기'}
+          open={delOpen}
+          onClose={() => setDelOpen(false)}
+          onConfirm={() => {
+            deleteMember();
+          }}
+        />
+      </MemberInfoContainer>
+    </>
   );
 };
 
@@ -421,3 +473,9 @@ const ButtonBox = styled.div`
 //   justify-content: space-between;
 //   width: 100%;
 // `;
+
+const MoreTitle = styled.div`
+  color: ${({ theme }) => theme.colors.secondary1};
+  ${({ theme }) => theme.fonts.wantedSans.B5};
+  cursor: pointer;
+`;

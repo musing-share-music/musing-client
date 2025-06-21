@@ -8,9 +8,13 @@ import { GenreMusics, GenreMusicsItem, LikeGenre, LikeGenreItem } from 'entities
 
 // import Arrowdown from 'shared/assets/image/icons/icon-arrowdown.svg?react';
 import { ROUTES } from 'shared/config/routes';
+import { useUserInfoStore } from 'shared/store/userInfo';
 import { Nodata } from 'shared/ui';
 import { DownArrowButton } from 'shared/ui/';
+import { ErrorModal } from 'shared/ui/Modal';
 import { AddPlayListModal } from 'shared/ui/Modal/PlayListModal/AddPlayList';
+import { CreatePlayListModal } from 'shared/ui/Modal/PlayListModal/CreatePlayList';
+import { PersistPlayListModal } from 'shared/ui/Modal/PlayListModal/PersistPlayList';
 
 import { GenreMusicItem } from './GenreMusicItem';
 
@@ -38,7 +42,13 @@ const GenreMusic = ({ likeGenre }: genreMusicsProps) => {
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
+
+  const [isCreateOpen, setCreateOpen] = useState(false);
+  const [isPersistOpen, setPersistOpen] = useState(false);
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState<GenreMusicsItem | null>(null);
+
+  const { isLogin } = useUserInfoStore();
 
   return (
     <GenreContainer>
@@ -64,8 +74,12 @@ const GenreMusic = ({ likeGenre }: genreMusicsProps) => {
                 key={index}
                 item={item}
                 onAddPlaylistClick={() => {
-                  setSelectedData(item);
-                  openModal();
+                  if (isLogin()) {
+                    setSelectedData(item);
+                    openModal();
+                  } else {
+                    setErrorModalOpen(true);
+                  }
                 }}
               />
             ))}
@@ -83,7 +97,32 @@ const GenreMusic = ({ likeGenre }: genreMusicsProps) => {
               </TitleBlock>
             </GenreMore>
 
-            <AddPlayListModal open={modalOpen} onClose={closeModal} children={undefined} data={selectedData} />
+            <AddPlayListModal
+              open={modalOpen}
+              onClose={closeModal}
+              children={undefined}
+              data={selectedData}
+              onOpenCreateModal={() => setCreateOpen(true)}
+            />
+            <CreatePlayListModal
+              open={isCreateOpen}
+              onClose={() => setCreateOpen(false)}
+              onOpenPersistModal={() => {
+                setCreateOpen(false);
+                setPersistOpen(true);
+              }}
+              children={undefined}
+            />
+            <PersistPlayListModal open={isPersistOpen} onClose={() => setPersistOpen(false)} children={undefined} />
+            <ErrorModal
+              title={'로그인이 필요한 서비스입니다'}
+              open={errorModalOpen}
+              onClose={() => {
+                setErrorModalOpen(false);
+              }}
+            >
+              {'로그인 후 이용해 주세요.'}
+            </ErrorModal>
           </>
         )}
       </GenreMusingBlock>

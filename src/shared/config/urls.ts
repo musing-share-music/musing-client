@@ -41,6 +41,7 @@ const URL = {
       GENREMODIFY: 'musing/user/like/genre', //장르수정
       MOODMODIFY: 'musing/user/like/mood', //무드수정
       ARTISTMODIFY: 'musing/user/like/artist ', //아티스트수정
+      WITHDRAW: 'musing/user/withdraw', // 회원탈퇴
     },
 
     // 관리자
