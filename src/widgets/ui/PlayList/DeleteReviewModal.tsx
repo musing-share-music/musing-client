@@ -4,15 +4,31 @@ export const DeleteReviewModal = ({
   open,
   onClose,
   onConfirm,
-  text = `정말 플레이리스트를 
-              삭제하시겠어요?`,
-  confirmText = '삭제하기',
+  hasReview,
 }: {
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  text?: string;
-  confirmText?: string;
+  hasReview: boolean;
 }) => {
-  return <ConfirmModal text={text} confirmText={confirmText} open={open} onClose={onClose} onConfirm={onConfirm} />;
+  if (hasReview) {
+    return (
+      <ConfirmModal
+        text="작성한 리뷰가 없습니다."
+        confirmText="확인"
+        open={open}
+        onClose={onClose}
+        onConfirm={onClose}
+      />
+    );
+  }
+  return (
+    <ConfirmModal
+      text="정말 리뷰를 삭제 하시겠어요?"
+      confirmText="삭제하기"
+      open={open}
+      onClose={onClose}
+      onConfirm={onConfirm}
+    />
+  );
 };
