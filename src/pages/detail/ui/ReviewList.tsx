@@ -65,8 +65,8 @@ export const ReviewList = () => {
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
 
-    // 스크롤이 페이지 하단에서 100px 이전에 도달하면 다음 페이지 로드
-    if (scrollHeight - scrollTop <= clientHeight + 100) {
+    // 스크롤이 페이지 하단에서 500px 이전에 도달하면 다음 페이지 로드 
+    if (scrollHeight - scrollTop <= clientHeight + 500) {
       if (hasNextPage && !isFetchingNextPage) {
         void fetchNextPage();
       }
