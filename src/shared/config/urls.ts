@@ -53,7 +53,7 @@ const URL = {
       PERMIT_BOARD: 'musing/admin/board/permit', // 게시글 승인
       REJECT_BOARD: 'musing/admin/board/non/permit', // 게시글 승인 거절
       REMOVED_BOARD_LIST: 'musing/admin/board/list/removed', // 삭제된 게시글 리스트
-      REMOVED_BOARD_DETAIL: 'musing/admin/board/list/removed/detail', // 삭제된 게시글 상세
+      REMOVED_BOARD_DETAIL: 'musing/admin/board/removed', // 삭제된 게시글 상세
     },
 
     // 플레이리스트
