@@ -67,8 +67,6 @@ const URL = {
       ADD: 'musing/playlist/addMusicToPlaylist',
       REMOVE: 'musing/playlist/remove',
       MODIFY: 'musing/playlist/modify',
-      REMOVED_BOARD_LIST: 'musing/admin/board/list/removed', // 삭제된 게시글 리스트
-      REMOVED_BOARD_DETAIL: 'musing/admin/board/list/removed/detail', // 삭제된 게시글 상세
     },
 
     TOKENREISSUE: 'musing/auth/reissue', //토큰 재발급
