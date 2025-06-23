@@ -214,6 +214,12 @@ const ThumSelectPost = styled.div<{ open: boolean }>`
   margin-left: auto;
   margin-right: auto;
 
+  display: -webkit-box;
+  -webkit-line-clamp: 12;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   ${({ open }) =>
     !open
       ? css``

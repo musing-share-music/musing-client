@@ -9,6 +9,7 @@ export interface FetchGetReplyDto {
   sortType?: SortType;
   sort?: Sort;
   page?: number;
+  size?: number;
 }
 
 interface FetchGetReplyResponse extends Pagination {
@@ -65,5 +66,20 @@ export const fetchDeleteReply = async (replyId: number) => {
     },
   });
 
+  return response.data;
+};
+
+export interface FetchGetMyReplyResponse {
+  data: Reply;
+  message: string;
+}
+
+// 내 리뷰 조회
+export const fetchGetMyReply = async (boardId?: number) => {
+  const response = await axiosInstance.get<FetchGetMyReplyResponse>(URL.API.REPLY_MY, {
+    params: {
+      boardId,
+    },
+  });
   return response.data;
 };

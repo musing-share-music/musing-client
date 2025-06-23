@@ -4,14 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { MoreButton } from 'pages/detail/ui/MoreButton';
 
-import { DeleteReviewModal } from 'widgets/ui/PlayList/DeleteReviewModal';
-
-import { useDeletePostMutation } from 'features/community/deletePost/lib/useDeletePostMutation';
 
 import { BoardDetail } from 'entities/community/model/types';
+import { useDeleteReplyMutation, useMyRepliesQuery } from 'entities/reply/api/reply.queries';
+import { DeleteReplyModal } from 'entities/reply/ui/DeleteReplyModal';
 
 import { ROUTES } from 'shared/config/routes';
-import { useUserInfoStore } from 'shared/store/userInfo';
 import { Button, StarRatingInput } from 'shared/ui/';
 import { CommonTag } from 'shared/ui/Tag';
 
@@ -31,15 +29,13 @@ export const MusicInfo = ({
   genre,
   thumbNailLink,
   permitRegister,
-  email,
 }: MusicInfoProps) => {
   const [open, setOpen] = useState(false);
-  const { userInfo } = useUserInfoStore();
-
-  const deletePostMutation = useDeletePostMutation();
+  const { data: existingReply } = useMyRepliesQuery(boardId);
+  const deleteReplyMutation = useDeleteReplyMutation(boardId);
   const navigate = useNavigate();
 
-  const isAuthor = userInfo.email === email;
+  const hasReview = !!existingReply?.data;
 
   const menuItem = [
     {
@@ -52,18 +48,15 @@ export const MusicInfo = ({
 
   // 리뷰 삭제 핸들러
   const handleDeleteReview = () => {
-    if (!isAuthor || deletePostMutation.isPending) return;
+    if (!hasReview || deleteReplyMutation.isPending) return;
 
-    deletePostMutation.mutate(
-      { boardId: boardId },
-      {
-        onSuccess: async () => {
-          window.alert('리뷰가 삭제되었습니다.');
-          setOpen(false);
-          await navigate(ROUTES.COMMUNITY.COMMUNITY);
-        },
+    deleteReplyMutation.mutate(boardId, {
+      onSuccess: async () => {
+        window.alert('리뷰가 삭제되었습니다.');
+        setOpen(false);
+        await navigate(ROUTES.COMMUNITY.COMMUNITY);
       },
-    );
+    });
   };
 
   return (
@@ -110,8 +103,9 @@ export const MusicInfo = ({
           </TagBlock>
         </MusicInfoBox>
       </Layout>
-      <DeleteReviewModal
+      <DeleteReplyModal
         open={open}
+        hasReview={hasReview}
         onClose={() => setOpen(false)}
         onConfirm={() => {
           handleDeleteReview();
