@@ -134,7 +134,7 @@ const ToolTip = styled.div`
   opacity: 0;
   position: absolute;
   left: 0;
-  transform: translate(0, -100%);
+  transform: translate(0, -20%);
   padding: 16px 20px 18px 20px;
   border-radius: 6px;
   border: 1px solid ${({ theme }) => theme.colors[400]};
@@ -143,6 +143,7 @@ const ToolTip = styled.div`
   color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts.wantedSans.B6};
   white-space: nowrap;
+  pointer-events: none;
 `;
 
 const AdminConfirm = styled.div`
