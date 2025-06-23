@@ -72,7 +72,7 @@ export const NoticePage = () => {
       <FilterBlock>
         <SearchInputWithFilter
           options={noticeSearchFilterOptions}
-          searchFilterPlaceholder="작성자"
+          searchFilterPlaceholder="제목"
           placeholder="내용을 입력해 주세요."
         />
       </FilterBlock>
