@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { MoreButton } from 'pages/detail/ui/MoreButton';
 
-import { DeleteReviewModal } from 'widgets/ui/PlayList/DeleteReviewModal';
 
 import { BoardDetail } from 'entities/community/model/types';
 import { useDeleteReplyMutation, useMyRepliesQuery } from 'entities/reply/api/reply.queries';
+import { DeleteReplyModal } from 'entities/reply/ui/DeleteReplyModal';
 
 import { ROUTES } from 'shared/config/routes';
 import { Button, StarRatingInput } from 'shared/ui/';
@@ -103,7 +103,7 @@ export const MusicInfo = ({
           </TagBlock>
         </MusicInfoBox>
       </Layout>
-      <DeleteReviewModal
+      <DeleteReplyModal
         open={open}
         hasReview={hasReview}
         onClose={() => setOpen(false)}

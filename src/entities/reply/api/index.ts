@@ -9,6 +9,7 @@ export interface FetchGetReplyDto {
   sortType?: SortType;
   sort?: Sort;
   page?: number;
+  size?: number;
 }
 
 interface FetchGetReplyResponse extends Pagination {
