@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import { DeleteReviewModal } from 'widgets/ui/PlayList/DeleteReviewModal';
-
 import { ReportButton } from 'entities/community/ui/ReportButton';
 import { Reply as TReply } from 'entities/reply/model/type';
+import { DeleteReplyModal } from 'entities/reply/ui/DeleteReplyModal';
 import { ProfileImage } from 'entities/user/ui/ProfileImage';
 
 import { useUserInfoStore } from 'shared/store/userInfo';
@@ -89,7 +88,7 @@ export const Reply = ({ comments, onDeleteReply, onModifyReply }: ReplyProps) =>
                 )}
               </Box>
             </ReplyBox>
-            <DeleteReviewModal
+            <DeleteReplyModal
               open={!!selectedReplyId}
               onClose={() => setSelectedReplyId(null)}
               onConfirm={() => selectedReplyId && onDeleteReply(Number(selectedReplyId))}
