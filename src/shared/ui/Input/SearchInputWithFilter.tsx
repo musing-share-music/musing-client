@@ -88,7 +88,7 @@ const Container = styled.div<{ width: number }>`
   display: flex;
   justify-content: flex-end;
   position: relative;
-  border: 1px solid;
+  border: none;
   width: ${({ width }) => `${width}px`};
 `;
 
