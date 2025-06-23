@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 
-import { useMyRepliesQuery, useReplyEditMutation, useReplyWriteMutation } from 'entities/reply/api/reply.queries';
+import { useModifyReplyMutation, useMyRepliesQuery, useReplyWriteMutation } from 'entities/reply/api/reply.queries';
 import { ProfileImage } from 'entities/user/ui/ProfileImage';
 
 import { Button, StarRatingInput, TextArea } from 'shared/ui/';
@@ -14,7 +14,7 @@ export const ReviewForm = ({ boardId }: { boardId: number }) => {
 
   const { data: existingReply } = useMyRepliesQuery(boardId);
   const writeMutation = useReplyWriteMutation(boardId);
-  const editMutation = useReplyEditMutation(boardId);
+  const editMutation = useModifyReplyMutation(boardId);
 
   useEffect(() => {
     if (existingReply?.data) {
