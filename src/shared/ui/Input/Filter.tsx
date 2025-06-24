@@ -3,20 +3,29 @@ import { useRef, useState } from 'react';
 
 import { useClickOutside } from 'shared/hooks/useClickOutside';
 
-type Option<T> = {
+export interface Option<T> {
   label: string;
   value: T;
-};
+}
 
-type FilterProps<T = string> = {
+export interface FilterProps<T> {
   options: Option<T>[];
   onChange?: (option: Option<T>) => void;
   placeholder?: string;
-};
+  defaultValue?: Option<T>;
+}
 
-export const Filter = <T,>({ options, onChange, placeholder }: FilterProps<T>) => {
+export const Filter = <T,>({ options, onChange, placeholder, defaultValue }: FilterProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<Option<T> | null>(null);
+  const [selectedOption, setSelectedOption] = useState<Option<T> | null>(() => {
+    if (defaultValue) return defaultValue;
+    // placeholder와 일치하는 옵션을 찾아서 초기값으로 설정
+    if (placeholder) {
+      const found = options.find(opt => opt.label === placeholder);
+      if (found) return found;
+    }
+    return null;
+  });
   const ref = useRef<HTMLUListElement>(null);
   const selectRef = useRef<HTMLDivElement>(null);
   useClickOutside({ ref, ignoreRef: selectRef, click: () => setIsOpen(false) });

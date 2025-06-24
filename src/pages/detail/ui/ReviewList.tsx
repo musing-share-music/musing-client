@@ -18,6 +18,7 @@ export const ReviewList = () => {
   const [sortType, setSortType] = useState<SortType>();
   const [sort, setSort] = useState<Sort>();
   const [page, setPage] = useState(1);
+  const [selectedFilter, setSelectedFilter] = useState(REVIEW_FILTER_OPTIONS[0]);
 
   const boardId = Number(params.id);
   const { queryKey } = reply.list({ boardId, sortType, sort, page });
@@ -58,6 +59,11 @@ export const ReviewList = () => {
     });
   };
 
+  const handleFilterChange = (option: { label: string; value: { sortType: SortType; sort: Sort } }) => {
+    setSelectedFilter(option);
+    handleChangeSortType(option.value);
+  };
+
   const handleScroll = useCallback(() => {
     if (typeof window === 'undefined') return;
 
@@ -93,9 +99,10 @@ export const ReviewList = () => {
       <SectionTitle>
         별점 및 리뷰({allReviews.length})
         <Filter
-          placeholder={REVIEW_FILTER_OPTIONS[0].label}
+          placeholder={selectedFilter.label}
           options={REVIEW_FILTER_OPTIONS}
-          onChange={(option) => handleChangeSortType(option.value)}
+          onChange={handleFilterChange}
+          defaultValue={selectedFilter}
         />
       </SectionTitle>
       <ReplyList id={ANCHOR_REVIEW}>
