@@ -29,6 +29,7 @@ export const MusicInfo = ({
   genre,
   thumbNailLink,
   permitRegister,
+  rating,
 }: MusicInfoProps) => {
   const [open, setOpen] = useState(false);
   const { data: existingReply } = useMyRepliesQuery(boardId);
@@ -84,7 +85,7 @@ export const MusicInfo = ({
               <MoreButton menuItem={menuItem} />
             </TrackDetails>
             <RateBlock>
-              <StarRatingInput enabled={false} value={3} />
+              <StarRatingInput enabled={false} value={Math.round(rating)} /> 
             </RateBlock>
           </TrackDetailsBlock>
 

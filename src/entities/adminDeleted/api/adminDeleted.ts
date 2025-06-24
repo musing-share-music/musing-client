@@ -53,6 +53,7 @@ interface FetchGetDeletedBoardDetailResponse {
     updatedAt: string;
     username: string;
     permitRegister: 'NON_CHECK' | string;
+    rating: number;
   };
   message: string;
 }
