@@ -17,12 +17,10 @@ import { LikeButton } from './LikeButton';
 
 interface MusicInfoProps extends BoardDetail {
   boardId: number;
-  isLikedClick: boolean;
 }
 
 export const MusicInfo = ({
   boardId,
-  isLikedClick,
   musicTitle,
   artist,
   hashtags,
@@ -30,6 +28,8 @@ export const MusicInfo = ({
   thumbNailLink,
   permitRegister,
   rating,
+  likeCount,
+  isLike,
 }: MusicInfoProps) => {
   const [open, setOpen] = useState(false);
   const { data: existingReply } = useMyRepliesQuery(boardId);
@@ -90,7 +90,11 @@ export const MusicInfo = ({
           </TrackDetailsBlock>
 
           <ButtonBlock>
-            <LikeButton isLikedClick={isLikedClick} />
+            <LikeButton
+              boardId={boardId}
+              isLike={isLike}
+              likeCount={likeCount}
+            />
             <Button variant="outlined">플레이리스트에 추가</Button>
           </ButtonBlock>
 

@@ -54,6 +54,8 @@ interface FetchGetDeletedBoardDetailResponse {
     username: string;
     permitRegister: 'NON_CHECK' | string;
     rating: number;
+    likeCount: number;
+    isLike: boolean;
   };
   message: string;
 }

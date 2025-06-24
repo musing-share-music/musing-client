@@ -92,6 +92,8 @@ export interface BoardDetail {
   permitRegister: 'NON_CHECK' | string;
   imageUrl?: string[];
   rating: number;
+  likeCount: number;
+  isLike: boolean; // 좋아요 여부
 }
 
 export interface DeletePostResponseData {

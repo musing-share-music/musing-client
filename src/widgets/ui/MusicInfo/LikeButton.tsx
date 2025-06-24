@@ -1,6 +1,7 @@
 import { css, Theme, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
+
+import { useRecommendMutation } from 'entities/community/api/community.query';
 
 import IconHeart from 'shared/assets/image/icons/icon-heart.svg?react';
 import { Button } from 'shared/ui/Button';
@@ -26,38 +27,32 @@ const ButtonStyles = {
 };
 
 interface LikeButtonProps {
-  isLikedClick: boolean;
+  boardId: number;
+  isLike: boolean;
+  likeCount:number;
 }
 
-export const LikeButton = ({ isLikedClick }: LikeButtonProps) => {
+export const LikeButton = ({ boardId, isLike, likeCount }: LikeButtonProps) => {
   const theme = useTheme();
-  const isLiked = false;
-  const color = isLiked ? theme.colors.primary1 : theme.colors[200];
+  const recommendMutation = useRecommendMutation(boardId);
+  const color = isLike ? theme.colors.primary1 : theme.colors[200];
 
-  const likeClick = () => {
-    if (isLikedClick) {
-      console.log('좋아요 클릭됨');
-    }
+  const handleLikeClick = () => {
+    // toggle이 됨
+    recommendMutation.mutate();
   };
-
-  useEffect(() => {
-    if (isLikedClick) {
-      likeClick();
-    }
-  }, [isLikedClick]);
 
   return (
     <Button
       variant="outlined"
-      css={isLiked ? ButtonStyles.liked(theme) : ButtonStyles.unliked(theme)}
-      onClick={() => {
-        likeClick();
-      }}
+      css={isLike ? ButtonStyles.liked(theme) : ButtonStyles.unliked(theme)}
+      onClick={handleLikeClick}
+      disabled={recommendMutation.isPending}
     >
       <Container>
         <IconHeart fill={color} />
         좋아요
-        <Count color={color}>(11)</Count>
+        <Count color={color}>({likeCount})</Count>
       </Container>
     </Button>
   );
