@@ -30,6 +30,7 @@ const URL = {
     REPLY_MY: '/musing/reply/myReply', // 내 리뷰 조회
     NOTICE: 'musing/notice/list', // 공지사항 리스트
     NOTICE_DETAIL: 'musing/notice', // 공지사항 상세 페이지
+    BOARD_RECOMMEND: 'musing/board/recommend',
 
     // 회원정보
     MEMBERINFO: {

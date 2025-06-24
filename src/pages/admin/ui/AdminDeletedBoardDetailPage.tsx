@@ -35,7 +35,7 @@ export const AdminDeletedBoardDetailPage = () => {
     <>
       <LeftContainer>
         <Suspense fallback={<LeftContainerSkeleton />}>
-          <MusicInfo boardId={boardId} {...data} isLikedClick={false} />
+          <MusicInfo boardId={boardId} {...data}  />
           <AnchorButton />
         </Suspense>
       </LeftContainer>
