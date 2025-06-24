@@ -91,6 +91,7 @@ export interface BoardDetail {
   email?: string;
   permitRegister: 'NON_CHECK' | string;
   imageUrl?: string[];
+  rating: number;
 }
 
 export interface DeletePostResponseData {
