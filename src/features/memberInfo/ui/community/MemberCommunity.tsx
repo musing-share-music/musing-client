@@ -114,6 +114,10 @@ export const MemberCommunity = () => {
           onChange={(option) => {
             setSortOrder(option.value);
           }}
+          defaultValue={{
+            label: '최신순',
+            value: 'DESC',
+          }}
         />
       </HeaderBlock>
 
