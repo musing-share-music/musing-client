@@ -7,17 +7,17 @@ import { Footer } from 'widgets/ui/Footer';
 import { Header } from 'widgets/ui/Header';
 import { AdminNavBar } from 'widgets/ui/NavBar';
 
-// import { useAdminInfoQuery } from 'entities/adminIInfo/api/adminInfo.query';
+import { useAdminInfoQuery } from 'entities/adminIInfo/api/adminInfo.query';
 
 import { useUserInfoStore } from 'shared/store/userInfo';
 
 export const AdminLayout = () => {
   const { isLogin } = useUserInfoStore();
-  // const { data, isLoading } = useAdminInfoQuery();
+  const { data, isLoading } = useAdminInfoQuery();
 
-  // if (!isLoading && !data?.isAdmin) {
-  //   return <Navigate to="/" replace />; // 관리자가 아니면 메인 페이지로 리다이렉트
-  // }
+  if (!isLoading && !data?.isAdmin) {
+    return <Navigate to="/" replace />; // 관리자가 아니면 메인 페이지로 리다이렉트
+  }
 
   return (
     <PageLayout>
