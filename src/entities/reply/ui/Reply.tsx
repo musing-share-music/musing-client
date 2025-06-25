@@ -92,7 +92,7 @@ export const Reply = ({ comments, onDeleteReply, onModifyReply }: ReplyProps) =>
               open={!!selectedReplyId}
               onClose={() => setSelectedReplyId(null)}
               onConfirm={() => selectedReplyId && onDeleteReply(Number(selectedReplyId))}
-              hasReview={isAuthor}
+              hasReview={!!comments.find(c => c.id === selectedReplyId)}
             />
           </>
         );
