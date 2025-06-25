@@ -29,7 +29,7 @@ export const GenreMoodModal = ({ open, onClose, onConfirm }: GenreMoodModalProps
 
   const handleConfirm = () => {
     if (!validateTag({ selectedGenre, selectedMood })) {
-      window.alert('장르 1개, 분위기 1개 이상을 선택해 주세요.'); // TODO alert이 아닌 message로 개선
+      window.alert('장르와 분위기를 1개 이상을 선택해 주세요.'); // TODO alert이 아닌 message로 개선
       return;
     }
 
