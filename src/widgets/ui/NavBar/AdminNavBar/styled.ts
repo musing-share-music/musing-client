@@ -37,6 +37,10 @@ export const NavBarContainer = styled.div<NavBarSizeProps>`
   overflow-y: scroll;
   ${toggleAnimation}
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   ${({ size }) =>
     size === 'small' &&
     css`
