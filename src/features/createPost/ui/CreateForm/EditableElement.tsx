@@ -12,6 +12,13 @@ export const EditableElement = forwardRef<HTMLSpanElement, EditableElementProps>
     onChange(value);
   };
 
+  const handlePaste = (event: React.ClipboardEvent<HTMLSpanElement>) => {
+    event.preventDefault();
+    let text = event.clipboardData.getData('text/plain');
+    text = text.replace(/[\r\n]+/g, ' ');
+    document.execCommand('insertText', false, text);
+  };
+
   return (
     <StyledEditableElement
       ref={ref}
@@ -19,6 +26,7 @@ export const EditableElement = forwardRef<HTMLSpanElement, EditableElementProps>
       role="textbox"
       contentEditable
       onInput={handleInput}
+      onPaste={handlePaste}
       data-placeholder={placeholder}
     />
   );
