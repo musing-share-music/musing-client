@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 import { HEADER_HEIGHT } from 'widgets/config/headerHeight';
 import { NAV_BAR_WIDTH } from 'widgets/config/navBarWidth';
+import { Footer } from 'widgets/ui/Footer';
 import { Header } from 'widgets/ui/Header';
 import { NavBar } from 'widgets/ui/NavBar';
 
@@ -28,6 +29,7 @@ export const MainLayout = () => {
           <ContentsContainer>
             <Outlet />
           </ContentsContainer>
+          <Footer></Footer>
         </ScrollableMainContainer>
       </RightContainer>
     </PageLayout>
@@ -78,7 +80,11 @@ export const ScrollableContainer = styled.div`
   }
 `;
 const ScrollableMainContainer = styled(ScrollableContainer)`
-  padding-top: ${HEADER_HEIGHT}px; // Header 높이를 고려한 여백
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  padding-top: ${HEADER_HEIGHT}px;
+  overflow-y: auto;
 `;
 
 // 컨텐츠 width는 1280px로 고정
@@ -86,5 +92,8 @@ const ContentsContainer = styled.div`
   margin: 0 auto;
   min-width: 1280px;
   width: 1280px;
-  scroll-behavior: smooth; // 스크롤 시 부드러운 애니메이션
+  flex: 1;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
 `;

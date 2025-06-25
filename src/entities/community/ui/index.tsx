@@ -20,5 +20,4 @@ export const Community = ({ communityData }: CommunityItemProps) => {
 
 const MainContents = styled.div`
   width: 100%;
-  height: 2832px;
 `;
