@@ -18,9 +18,9 @@ export const validateTag = ({
   selectedMood: Mood[] | null;
   selectedGenre: Genre[] | null;
 }): boolean => {
-  // 장르 1개, 분위기 최소 1개
+  // 장르 및 분위기 최소 1개
   if (!selectedGenre || !selectedMood) return false;
-  return selectedMood.length > 0 && selectedGenre.length === 1;
+  return selectedMood.length > 0 && selectedGenre.length > 0;
 };
 
 /**
