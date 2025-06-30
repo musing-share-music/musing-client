@@ -49,7 +49,7 @@ export const MusicInfo = ({
 
   // 리뷰 삭제 핸들러
   const handleDeleteReview = () => {
-    if (!hasReview || deleteReplyMutation.isPending) return;
+    if (hasReview || deleteReplyMutation.isPending) return;
 
     deleteReplyMutation.mutate(boardId, {
       onSuccess: async () => {

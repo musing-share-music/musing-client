@@ -91,8 +91,13 @@ export const Reply = ({ comments, onDeleteReply, onModifyReply }: ReplyProps) =>
             <DeleteReplyModal
               open={!!selectedReplyId}
               onClose={() => setSelectedReplyId(null)}
-              onConfirm={() => selectedReplyId && onDeleteReply(Number(selectedReplyId))}
-              hasReview={isAuthor}
+              onConfirm={() => {
+                if (selectedReplyId) {
+                  setSelectedReplyId(null);
+                  onDeleteReply(Number(selectedReplyId));
+                }
+              }}
+              hasReview={!!comments.find(c => c.id === selectedReplyId && userInfo.email === c.profileInfo.email)}
             />
           </>
         );

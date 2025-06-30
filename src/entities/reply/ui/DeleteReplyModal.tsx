@@ -11,7 +11,7 @@ export const DeleteReplyModal = ({
   onConfirm: () => void;
   hasReview: boolean;
 }) => {
-  if (hasReview) {
+  if (!hasReview) {
     return (
       <ConfirmModal
         text="작성한 리뷰가 없습니다."
