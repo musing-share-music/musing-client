@@ -31,6 +31,8 @@ const URL = {
     NOTICE: 'musing/notice/list', // 공지사항 리스트
     NOTICE_DETAIL: 'musing/notice', // 공지사항 상세 페이지
     BOARD_RECOMMEND: 'musing/board/recommend',
+    REPORT_BOARD: 'musing/report/board',
+    REPORT_REPLY: 'musing/report/reply',
 
     // 회원정보
     MEMBERINFO: {

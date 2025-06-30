@@ -13,7 +13,9 @@ import { RightDownArrowButton, YoutubeIframe } from 'shared/ui/';
 
 import { Section } from './styled';
 
-type ContentsProps = BoardDetail;
+type ContentsProps = BoardDetail & {
+  id: number;
+};
 
 export const Contents = ({
   title,
@@ -25,7 +27,8 @@ export const Contents = ({
   createdAt,
   updatedAt,
   imageUrl,
-  email,
+  email,  
+  id,
 }: ContentsProps) => {
   const { userInfo } = useUserInfoStore();
   const videoId = getYoutubeVideoId(youtubeLink);
@@ -37,7 +40,7 @@ export const Contents = ({
         <TitleBlock>
           <Title>{title}</Title>
           <ButtonBox>
-            <ReportButton />
+            <ReportButton boardId={id} />
             {isAuthor && <Edit>편집</Edit>}
           </ButtonBox>
         </TitleBlock>

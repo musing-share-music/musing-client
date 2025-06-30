@@ -10,7 +10,9 @@ import { ReportButton } from 'entities/community/ui/ReportButton';
 
 import { RightDownArrowButton, YoutubeIframe } from 'shared/ui/';
 
-type ContentsProps = BoardDetail;
+type ContentsProps = BoardDetail & {
+  id: number;
+};
 
 export const Contents = ({
   title,
@@ -21,6 +23,7 @@ export const Contents = ({
   content,
   createdAt,
   updatedAt,
+  id,
 }: ContentsProps) => {
   const videoId = getYoutubeVideoId(youtubeLink);
   return (
@@ -29,7 +32,7 @@ export const Contents = ({
         <TitleBlock>
           <Title>{title}</Title>
           <ButtonBox>
-            <ReportButton />
+            <ReportButton boardId={id} />
             <Edit>편집</Edit>
           </ButtonBox>
         </TitleBlock>

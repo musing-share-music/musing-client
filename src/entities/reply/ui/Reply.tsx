@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import { ReportButton } from 'entities/community/ui/ReportButton';
 import { Reply as TReply } from 'entities/reply/model/type';
 import { DeleteReplyModal } from 'entities/reply/ui/DeleteReplyModal';
 import { ProfileImage } from 'entities/user/ui/ProfileImage';
@@ -9,6 +8,8 @@ import { ProfileImage } from 'entities/user/ui/ProfileImage';
 import { useUserInfoStore } from 'shared/store/userInfo';
 import { TextArea } from 'shared/ui';
 import { StarRatingInput } from 'shared/ui/Input';
+
+import { ReportButton } from './ReportButton';
 
 interface ReplyProps {
   comments: TReply[];
@@ -60,7 +61,7 @@ export const Reply = ({ comments, onDeleteReply, onModifyReply }: ReplyProps) =>
                     </ScoreBox>
                   </ReplyUserIdBlock>
                   <ButtonGroup>
-                    {!isAuthor && <ReportButton />}
+                    {!isAuthor && <ReportButton replyId={Number(replyId)} />}
                     {isAuthor && !isEditing && (
                       <>
                         <EditButton onClick={() => handleEditStart(replyId, content)}>수정</EditButton>

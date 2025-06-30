@@ -41,7 +41,7 @@ export const AdminDeletedBoardDetailPage = () => {
       </LeftContainer>
       <RightContainer>
         <Suspense fallback={<RightContainerSkeleton />}>
-          <Contents {...data} />
+          <Contents {...data} id={boardId} />
         </Suspense>
         <Section>
           <SectionTitle>리뷰 작성</SectionTitle>

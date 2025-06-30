@@ -4,17 +4,17 @@ import { ComponentProps, useState } from 'react';
 import { ReportModal } from './ReportModal';
 
 type ReportButtonProps = ComponentProps<'button'> & {
-  boardId: number;
+  replyId: number;
 };
 
-export const ReportButton = ({ boardId, ...props }: ReportButtonProps) => {
+export const ReportButton = ({ replyId, ...props }: ReportButtonProps) => {
   const [open, setOpen] = useState(false);
   return (
     <>
       <Report {...props} onClick={() => setOpen(true)}>
         신고
       </Report>
-      <ReportModal open={open} onClose={() => setOpen(false)} boardId={boardId} />
+      <ReportModal open={open} onClose={() => setOpen(false)} replyId={replyId} />
     </>
   );
 };
