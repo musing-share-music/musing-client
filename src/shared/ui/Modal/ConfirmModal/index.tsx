@@ -28,7 +28,7 @@ export const ConfirmModal = ({
 const Content = styled.div`
   display: flex;
   width: 420px;
-  padding: 64px 52px 64px 56px;
+  padding: 80px 52px 64px 56px;
   flex-direction: column;
   align-items: center;
   gap: 24px;
