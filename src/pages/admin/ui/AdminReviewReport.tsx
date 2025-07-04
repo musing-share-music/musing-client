@@ -1,8 +1,11 @@
 import styled from '@emotion/styled';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { reportSearchFilterOptions } from 'pages/admin/config/searchFilterOptions';
+
+import { adminReportReply, useDeleteReportedReply } from 'entities/adminReport/api/queries';
 
 import { ROUTES } from 'shared/config/routes';
 import { Button, Filter, Pagination, SearchInputWithFilter, Table } from 'shared/ui';
@@ -21,14 +24,25 @@ import {
 
 export const AdminReviewReportPage = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false); // 모달 open 상태
+  const [open, setOpen] = useState(false);
+  const [selectedReplyId, setSelectedReplyId] = useState<number | null>(null);
+  const [activePage, setActivePage] = useState(1);
+
+  const { data, isLoading } = useQuery({
+    ...adminReportReply.list(activePage),
+    select: (data) => data.data,
+  });
+
+  const deleteReportedReplyMutation = useDeleteReportedReply();
+
+  const content = data?.content || [];
+  const totalPages = data?.totalPages || 1;
 
   const tableHead = [
-    { key: 'title', content: '제목', width: 40 },
-    { key: 'userId', content: '작성자', width: 10 },
-    { key: 'reportedAt', content: '신고일자', width: 10 },
-    { key: 'reason', content: '신고사유', width: 10 },
-
+    { key: 'replyContent', content: '댓글 내용', width: 40 },
+    { key: 'username', content: '작성자', width: 10 },
+    { key: 'reportDate', content: '신고일자', width: 10 },
+    { key: 'content', content: '신고사유', width: 10 },
     {
       key: 'sort',
       content: (
@@ -44,56 +58,45 @@ export const AdminReviewReportPage = () => {
     },
   ] as const;
 
-  const tableData = [
-    {
-      title: <HoverBox>[신고] 불법 사이트 홍보</HoverBox>,
-      userId: '회원 ID',
-      reportedAt: '2024-12-03',
-      reason: '신고사유',
-      sort: (
-        <Button onClick={() => setOpen(true)} width={48} height={33} variant="outlined">
-          <DeleteButtonText>삭제</DeleteButtonText>
-        </Button>
-      ),
-    },
-    {
-      title: <HoverBox>[신고] 불법 사이트 홍보</HoverBox>,
-      userId: '회원 ID',
-      reportedAt: '2024-12-03',
-      reason: '신고사유',
-      sort: (
-        <Button onClick={() => setOpen(true)} width={48} height={33} variant="outlined">
-          <DeleteButtonText>삭제</DeleteButtonText>
-        </Button>
-      ),
-    },
-    {
-      title: <HoverBox>[신고] 불법 사이트 홍보</HoverBox>,
-      userId: '회원 ID',
-      reportedAt: '2024-12-03',
-      reason: '신고사유',
-      sort: (
-        <Button onClick={() => setOpen(true)} width={48} height={33} variant="outlined">
-          <DeleteButtonText> 삭제</DeleteButtonText>
-        </Button>
-      ),
-    },
-    {
-      title: <HoverBox>[신고] 불법 사이트 홍보</HoverBox>,
-      userId: '회원 ID',
-      reportedAt: '2024-12-03',
-      reason: '신고사유',
-      sort: (
-        <Button onClick={() => setOpen(true)} width={48} height={33} variant="outlined">
-          <DeleteButtonText> 삭제</DeleteButtonText>
-        </Button>
-      ),
-    },
-  ];
+  const tableData = content.map((report) => ({
+    replyContent: <HoverBox>{report.replyContent}</HoverBox>,
+    username: report.username,
+    reportDate: new Date(report.reportDate).toLocaleDateString(),
+    content: report.content,
+    sort: (
+      <Button
+        onClick={() => {
+          setSelectedReplyId(report.replyId);
+          setOpen(true);
+        }}
+        width={48}
+        height={33}
+        variant="outlined"
+      >
+        <DeleteButtonText>삭제</DeleteButtonText>
+      </Button>
+    ),
+  }));
+
+  const handleDelete = async () => {
+    if (!selectedReplyId || deleteReportedReplyMutation.isPending) return;
+
+    try {
+      await deleteReportedReplyMutation.mutateAsync(selectedReplyId);
+      setOpen(false);
+      setSelectedReplyId(null);
+    } catch (error) {
+      console.error('Failed to delete reply:', error);
+    }
+  };
 
   const isPost = false;
   const toggleMenu = async () => {
     await navigate(ROUTES.ADMIN.POST_REPORT); // 게시글 신고 접수 페이지로 이동
+  };
+
+  const handlePageClick = (pageNumber: number) => {
+    setActivePage(pageNumber);
   };
 
   return (
@@ -111,10 +114,10 @@ export const AdminReviewReportPage = () => {
             </OptionBox>
           </Header>
           <TableContainer>
-            <Table head={tableHead} data={tableData} />
+            <Table head={tableHead} data={tableData} isLoading={isLoading} />
           </TableContainer>
           <PaginationBlock>
-            <Pagination totalPages={1} />
+            <Pagination totalPages={totalPages} activePage={activePage} onClick={handlePageClick} />
           </PaginationBlock>
         </BoardContainer>
         <FilterBlock>
@@ -127,29 +130,33 @@ export const AdminReviewReportPage = () => {
       </Container>
 
       <ConfirmModal
-        text={`정말 ${isPost ? '게시글' : '댓글'}을
-              삭제하시겠어요?`}
+        text="정말 댓글을 삭제하시겠어요?"
         confirmText="삭제하기"
         open={open}
         onClose={() => {
           setOpen(false);
+          setSelectedReplyId(null);
         }}
-        onConfirm={() => {
-          setOpen(false);
-        }}
+        onConfirm={handleDelete}
       />
     </>
   );
 };
 
+const DeleteButtonText = styled.span`
+  color: ${({ theme }) => theme.colors.secondary1};
+`;
+
 const OptionBox = styled.div`
   display: flex;
   gap: 20px;
 `;
+
 const OptionDivider = styled.div`
   margin: 10px 0;
   border: 0.5px solid ${({ theme }) => theme.colors[400]};
 `;
+
 const OptionButton = styled.button<{ isActive?: boolean }>`
   padding: 0;
   margin: 0;
@@ -157,8 +164,4 @@ const OptionButton = styled.button<{ isActive?: boolean }>`
   color: ${({ isActive, theme }) => (isActive ? theme.colors[100] : theme.colors[400])};
   cursor: pointer;
   ${({ theme }) => theme.fonts.wantedSans.B3};
-`;
-
-const DeleteButtonText = styled.span`
-  color: ${({ theme }) => theme.colors.secondary1};
 `;
