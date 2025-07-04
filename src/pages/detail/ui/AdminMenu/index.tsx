@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { fetchPermitBoardState, fetchRejectBoardState } from 'entities/adminPermit/api/boardList';
+import { useDeleteReportedBoard } from 'entities/adminReport/api/deleteReportedBoard.query';
 import { community } from 'entities/community/api/community.query';
 
 export const AdminMenu = ({ boardId, isAdmin }: { boardId: number; isAdmin: boolean }) => {
@@ -35,22 +36,30 @@ export const AdminMenu = ({ boardId, isAdmin }: { boardId: number; isAdmin: bool
     },
   });
 
+  const deleteReportedBoardMutation = useDeleteReportedBoard();
+
   const reportMenu = [
-    { text: '확인', onClick: () => {} },
-    { text: '삭제', onClick: () => {} },
-    { text: '삭제 및 차단', onClick: () => {} },
+    {
+      text: '삭제',
+      onClick: () => {
+        if (deleteReportedBoardMutation.isPending) return;
+        if (window.confirm('게시글을 삭제하시겠습니까?')) {
+          deleteReportedBoardMutation.mutate(boardId);
+        }
+      },
+    },
   ];
 
   const permitMenu = [
     {
-      text: '확인',
+      text: '승인',
       onClick: () => {
         if (rejectBoardMutation.isPending || perMitBoardMutation.isPending) return;
         perMitBoardMutation.mutate({ boardId });
       },
     },
     {
-      text: '삭제',
+      text: '거절',
       onClick: () => {
         if (rejectBoardMutation.isPending || perMitBoardMutation.isPending) return;
         if (window.confirm('게시글을 삭제하시겠습니까?')) {

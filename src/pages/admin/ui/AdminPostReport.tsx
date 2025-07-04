@@ -1,8 +1,11 @@
 import styled from '@emotion/styled';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { reportSearchFilterOptions } from 'pages/admin/config/searchFilterOptions';
+
+import { adminReportBoard, useDeleteReportedBoard } from 'entities/adminReport/api/queries';
 
 import { ROUTES } from 'shared/config/routes';
 import { Button, Filter, Pagination, SearchInputWithFilter, Table } from 'shared/ui';
@@ -16,19 +19,31 @@ import {
   Header,
   HoverBox,
   PaginationBlock,
+  StyledLink,
   TableContainer,
 } from './styled';
 
 export const AdminPostReportPage = () => {
-  const [open, setOpen] = useState(false); // 모달 open 상태
+  const [open, setOpen] = useState(false);
+  const [selectedBoardId, setSelectedBoardId] = useState<number | null>(null);
+  const [activePage, setActivePage] = useState(1);
   const navigate = useNavigate();
+
+  const { data, isLoading } = useQuery({
+    ...adminReportBoard.list(activePage),
+    select: (data) => data.data,
+  });
+
+  const deleteReportedBoardMutation = useDeleteReportedBoard();
+
+  const content = data?.content || [];
+  const totalPages = data?.totalPages || 1; // 전체 페이지 수
 
   const tableHead = [
     { key: 'title', content: '제목', width: 40 },
-    { key: 'userId', content: '작성자', width: 10 },
-    { key: 'reportedAt', content: '신고일자', width: 10 },
-    { key: 'reason', content: '신고사유', width: 10 },
-
+    { key: 'username', content: '작성자', width: 10 },
+    { key: 'reportDate', content: '신고일자', width: 10 },
+    { key: 'content', content: '신고사유', width: 10 },
     {
       key: 'sort',
       content: (
@@ -44,52 +59,44 @@ export const AdminPostReportPage = () => {
     },
   ] as const;
 
-  const tableData = [
-    {
-      title: <HoverBox>[신고] 불법 사이트 홍보</HoverBox>,
-      userId: '회원 ID',
-      reportedAt: '2024-12-03',
-      reason: '신고사유',
-      sort: (
-        <Button onClick={() => setOpen(true)} width={48} height={33} variant="outlined">
-          <DeleteButtonText>삭제</DeleteButtonText>
-        </Button>
-      ),
-    },
-    {
-      title: <HoverBox>[신고] 불법 사이트 홍보</HoverBox>,
-      userId: '회원 ID',
-      reportedAt: '2024-12-03',
-      reason: '신고사유',
-      sort: (
-        <Button onClick={() => setOpen(true)} width={48} height={33} variant="outlined">
-          <DeleteButtonText>삭제</DeleteButtonText>
-        </Button>
-      ),
-    },
-    {
-      title: <HoverBox>[신고] 불법 사이트 홍보</HoverBox>,
-      userId: '회원 ID',
-      reportedAt: '2024-12-03',
-      reason: '신고사유',
-      sort: (
-        <Button onClick={() => setOpen(true)} width={48} height={33} variant="outlined">
-          <DeleteButtonText> 삭제</DeleteButtonText>
-        </Button>
-      ),
-    },
-    {
-      title: <HoverBox>[신고] 불법 사이트 홍보</HoverBox>,
-      userId: '회원 ID',
-      reportedAt: '2024-12-03',
-      reason: '신고사유',
-      sort: (
-        <Button onClick={() => setOpen(true)} width={48} height={33} variant="outlined">
-          <DeleteButtonText> 삭제</DeleteButtonText>
-        </Button>
-      ),
-    },
-  ];
+  const tableData = content.map((report) => ({
+    title: (
+      <HoverBox>
+        <StyledLink to={`/detail/${report.boardId}`}>{report.boardTitle}</StyledLink>
+      </HoverBox>
+    ),
+    username: report.username,
+    content: report.content,
+    reportDate: new Date(report.reportDate).toLocaleDateString(),
+    sort: (
+      <Button
+        onClick={() => {
+          setSelectedBoardId(report.boardId);
+          setOpen(true);
+        }}
+        width={48}
+        height={33}
+        variant="outlined"
+      >
+        <DeleteButtonText>삭제</DeleteButtonText>
+      </Button>
+    ),
+  }));
+
+  const handlePageClick = (pageNumber: number) => {
+    setActivePage(pageNumber);
+  };
+
+  const handleDelete = async () => {
+    if (!selectedBoardId || deleteReportedBoardMutation.isPending) return;
+    try {
+      await deleteReportedBoardMutation.mutateAsync(selectedBoardId);
+      setOpen(false);
+      setSelectedBoardId(null);
+    } catch (error) {
+      console.error('Failed to delete board:', error);
+    }
+  };
 
   const isPost = true;
   const toggleMenu = async () => {
@@ -111,10 +118,10 @@ export const AdminPostReportPage = () => {
             </OptionBox>
           </Header>
           <TableContainer>
-            <Table head={tableHead} data={tableData} />
+            <Table head={tableHead} data={tableData} isLoading={isLoading} />
           </TableContainer>
           <PaginationBlock>
-            <Pagination totalPages={0} />
+            <Pagination totalPages={totalPages} activePage={activePage} onClick={handlePageClick} />
           </PaginationBlock>
         </BoardContainer>
         <FilterBlock>
@@ -125,17 +132,16 @@ export const AdminPostReportPage = () => {
           />
         </FilterBlock>
       </Container>
+
       <ConfirmModal
-        text={`정말 ${isPost ? '게시글' : '댓글'}을
-        삭제하시겠어요?`}
+        text={`정말 게시글을 삭제하시겠어요?`}
         confirmText="삭제하기"
         open={open}
         onClose={() => {
           setOpen(false);
+          setSelectedBoardId(null);
         }}
-        onConfirm={() => {
-          setOpen(false);
-        }}
+        onConfirm={handleDelete}
       />
     </>
   );
