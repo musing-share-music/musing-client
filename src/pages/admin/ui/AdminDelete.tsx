@@ -36,7 +36,6 @@ export const AdminDeletedPage = () => {
     return {
       title: (
         <HoverBox>
-          {title}
           <StyledLink to={`/admin/deleted/${id}`}>{title}</StyledLink>
         </HoverBox>
       ),
