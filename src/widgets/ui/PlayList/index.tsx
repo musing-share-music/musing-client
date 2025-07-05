@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import { useGetPlayListDetailQuery } from 'features/playlist/lib/useGetPlayListDetailQuery';
 import { usePlayListModifyPostMutation } from 'features/playlist/lib/usePostPlayListModifyQuery';
+import { usePlayListSyncPostMutation } from 'features/playlist/lib/usePostPlayListSyncQuery';
 
 import { SavePlayListPayload } from 'entities/playlist/type';
 
@@ -34,6 +35,7 @@ export const PlayListPage = () => {
   }, [data]);
 
   const modifyMutation = usePlayListModifyPostMutation();
+  const syncMutation = usePlayListSyncPostMutation();
 
   // 대표 정보 업데이트 함수
   const handleUpdateRepresentative = (updatedRep: SavePlayListPayload['representative']) => {
@@ -51,6 +53,26 @@ export const PlayListPage = () => {
     }));
   };
 
+  // 갱신하기 함수 - SYNC API 호출
+  const handleRefresh = () => {
+    if (modifyData?.representative?.youtubePlaylistId) {
+      setPageLoading(true);
+      syncMutation.mutate(
+        { playlistId: modifyData.representative.youtubePlaylistId },
+        {
+          onSuccess: () => {
+            setPageLoading(false);
+            alert('플레이리스트가 성공적으로 동기화되었습니다.');
+          },
+          onError: () => {
+            setPageLoading(false);
+            alert('동기화에 실패했습니다. 다시 시도해주세요.');
+          },
+        },
+      );
+    }
+  };
+
   return (
     <Layout>
       {pageLoading && <Spinner isLoading={pageLoading} />}
@@ -59,7 +81,7 @@ export const PlayListPage = () => {
           representative={modifyData?.representative}
           modify={modify}
           setModify={setModify}
-          onRefresh={refetch}
+          onRefresh={handleRefresh}
           onSave={(updatedRep) => {
             handleUpdateRepresentative(updatedRep);
 
