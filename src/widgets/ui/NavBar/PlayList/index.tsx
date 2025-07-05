@@ -15,7 +15,8 @@ import { MoreButton } from 'shared/ui/MoreButton';
 import { Spinner } from 'shared/ui/Spinner';
 
 import { PlayListItem } from './PlayListItem';
-import { PlayListContainer, PlayListFoldButton, ShowAllPlayListButton } from './styled';
+import { ShowAllPlayListButton } from './ShowAllPlayListButton';
+import { PlayListContainer, PlayListFoldButton } from './styled';
 import { TrackList } from './TrackList';
 
 interface PlayList {
@@ -112,7 +113,7 @@ export const PlayList = ({ size }: NavBarSizeProps) => {
           <PlayListFoldButton onClick={() => setOpenIndexes([])}>
             <IconFold width={18} height={18} />
           </PlayListFoldButton>
-          <ShowAllPlayListButton>플레이리스트 전체 보기</ShowAllPlayListButton>
+          <ShowAllPlayListButton openIndexes={openIndexes} playLists={data?.playLists || []} />
         </>
       )}
 
