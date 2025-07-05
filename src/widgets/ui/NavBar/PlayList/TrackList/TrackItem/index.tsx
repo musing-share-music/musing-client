@@ -31,12 +31,16 @@ export const TrackItem = ({ size, list }: TrackItemProps) => {
           <TrackInfo>
             <Title>{list.name}</Title>
             <ArtistName>
-              {list.artists && list.artists.map((artist, index) => (
-                <span key={artist.id}>
-                  {artist.name}
-                  {index < list.artists!.length - 1 ? ', ' : ''}
-                </span>
-              ))}
+              {list.artists && list.artists.length > 0 ? (
+                list.artists.map((artist, index) => (
+                  <span key={artist.id}>
+                    {artist.name}
+                    {index < list.artists!.length - 1 ? ', ' : ''}
+                  </span>
+                ))
+              ) : (
+                '가수 정보가 없어요.'
+              )}
             </ArtistName>
           </TrackInfo>
         )}

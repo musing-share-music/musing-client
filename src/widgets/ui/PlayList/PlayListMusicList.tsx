@@ -110,17 +110,25 @@ export const PlayListMusicList = ({ videoList, modify, setVideoList, setDeleteVi
             <PlayListInfo>
               <PlayListInfoTitle>{item.name}</PlayListInfoTitle>
               <PlayListInfoName>
-                {item.artists && item.artists.map((artist, index) => (
-                  <span key={artist.id}>
-                    {artist.name}
-                    {index < item.artists!.length - 1 ? ', ' : ''}
-                  </span>
-                ))}
+                {item.artists && item.artists.length > 0 ? (
+                  item.artists.map((artist, index) => (
+                    <span key={artist.id}>
+                      {artist.name}
+                      {index < item.artists!.length - 1 ? ', ' : ''}
+                    </span>
+                  ))
+                ) : (
+                  '유튜브 연동 시 가수가 표시되지 않아요.'
+                )}
               </PlayListInfoName>
               <TagBlock>
-                {item.genres && item.genres.map((genre, genreIndex) => (
-                  <Tag key={genreIndex}>{genre.genreName}</Tag>
-                ))}
+                {item.genres && item.genres.length > 0 ? (
+                  item.genres.map((genre, genreIndex) => (
+                    <Tag key={genreIndex}>{genre.genreName}</Tag>
+                  ))
+                ) : (
+                  <Tag>장르 정보가 없어요.</Tag>
+                )}
               </TagBlock>
             </PlayListInfo>
           </PlayListInfoBlock>
