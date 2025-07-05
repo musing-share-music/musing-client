@@ -5,7 +5,8 @@ import { TrackItem } from './TrackItem';
 
 export interface TrackItemType {
   albumName: string;
-  genres: string[] | null;
+  artists: Array<{ id: number; name: string }> | null;
+  genres: Array<{ id: number; genreName: string }> | null;
   name: string;
   playtime: string | null;
   songLink: string;
