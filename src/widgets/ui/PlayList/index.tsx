@@ -17,7 +17,7 @@ export const PlayListPage = () => {
   const location = useLocation();
   const id = location.state?.id;
 
-  const { data, refetch } = useGetPlayListDetailQuery(id, {
+  const { data } = useGetPlayListDetailQuery(id, {
     enabled: !!id,
   });
 
@@ -55,10 +55,10 @@ export const PlayListPage = () => {
 
   // 갱신하기 함수 - SYNC API 호출
   const handleRefresh = () => {
-    if (modifyData?.representative?.youtubePlaylistId) {
+    if (modifyData?.representative?.youtubePlaylistUrl) {
       setPageLoading(true);
       syncMutation.mutate(
-        { playlistId: modifyData.representative.youtubePlaylistId },
+        { url: modifyData.representative.youtubePlaylistUrl },
         {
           onSuccess: () => {
             setPageLoading(false);
