@@ -73,6 +73,7 @@ const URL = {
       ADD: 'musing/playlist/addMusicToPlaylist',
       REMOVE: 'musing/playlist/remove',
       MODIFY: 'musing/playlist/modify',
+      SYNC: 'musing/playlist/sync',
     },
 
     TOKENREISSUE: 'musing/auth/reissue', //토큰 재발급
