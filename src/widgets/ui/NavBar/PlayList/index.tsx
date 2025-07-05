@@ -41,7 +41,14 @@ export const PlayList = ({ size }: NavBarSizeProps) => {
   const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지
 
   const toggleTrackList = (index: number) => {
-    setOpenIndexes((prev) => (prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]));
+    setOpenIndexes((prev) => {
+      // 이미 열려있는 플레이리스트를 클릭한 경우 닫기
+      if (prev.includes(index)) {
+        return prev.filter((i) => i !== index);
+      }
+      // 다른 플레이리스트를 클릭한 경우 기존 것을 닫고 새로운 것만 열기
+      return [index];
+    });
   };
 
   const handleDeleteReview = () => {

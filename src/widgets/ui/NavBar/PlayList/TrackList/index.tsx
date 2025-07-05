@@ -1,6 +1,6 @@
 import { NavBarSizeProps } from 'widgets/ui/NavBar/type';
 
-import { Track, TrackListContainer, TrackListScrollableContainer } from './styled';
+import { Track, TrackListContainer, TrackListScrollableContainer, NoMusicText } from './styled';
 import { TrackItem } from './TrackItem';
 
 export interface TrackItemType {
@@ -22,11 +22,15 @@ export const TrackList = ({ size, open, playListId, listAll }: TrackListProps) =
   return (
     <TrackListContainer size={size} open={open} playListId={playListId} listAll={listAll}>
       <TrackListScrollableContainer>
-        {listAll.map((item, idx) => (
-          <Track key={idx} size={size}>
-            <TrackItem size={size} list={item} />
-          </Track>
-        ))}
+        {listAll.length > 0 ? (
+          listAll.map((item, idx) => (
+            <Track key={idx} size={size}>
+              <TrackItem size={size} list={item} />
+            </Track>
+          ))
+        ) : (
+          <NoMusicText>저장된 음악이 없습니다.</NoMusicText>
+        )}
       </TrackListScrollableContainer>
     </TrackListContainer>
   );

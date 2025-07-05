@@ -70,3 +70,13 @@ export const Track = styled.div<NavBarSizeProps>`
       justify-content: center;
     `};
 `;
+
+export const NoMusicText = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  color: ${({ theme }) => theme.colors[200]};
+  ${({ theme }) => theme.fonts.wantedSans.B6};
+  text-align: center;
+`;
