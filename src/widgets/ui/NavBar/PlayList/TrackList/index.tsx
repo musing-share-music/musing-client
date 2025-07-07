@@ -1,6 +1,6 @@
 import { NavBarSizeProps } from 'widgets/ui/NavBar/type';
 
-import { Track, TrackListContainer, TrackListScrollableContainer, NoMusicText } from './styled';
+import { NoMusicText, Track, TrackListContainer, TrackListScrollableContainer } from './styled';
 import { TrackItem } from './TrackItem';
 
 export interface TrackItemType {
