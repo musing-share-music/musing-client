@@ -28,18 +28,26 @@ const tableHead = [
 ] as const;
 
 export const NoticePage = () => {
-  const [activePage, setActivePage] = useState(1); // 현재 페이지 번호
+  const [activePage, setActivePage] = useState(1);
+  const [inputSearch, setInputSearch] = useState<string>('');
 
-  const { data, isLoading } = useQuery({
+  const { data: listData, isLoading } = useQuery({
     ...notice.list({ page: activePage }),
     select: (data) => data.data,
   });
 
-  const content = data?.content || [];
-  const totalPages = data?.totalPages || 1; // 전체 페이지 수
+  const { data: searchResult } = useQuery({
+    ...notice.search({ page: 1, keyword: inputSearch }),
+    enabled: inputSearch.trim() !== '',
+    select: (data) => data.data,
+  });
+
+  const content = inputSearch.trim() ? searchResult?.content || [] : listData?.content || [];
+
+  const totalPages = listData?.totalPages || 1;
 
   const { userInfo } = useUserInfoStore();
-  const isAdmin = userInfo.authority === 'ADMIN'; // 예시: 관리자만 작성 가능
+  const isAdmin = userInfo.authority === 'ADMIN';
 
   const tableData = content.map(({ id, title, username, createdAt }) => {
     return {
@@ -71,15 +79,19 @@ export const NoticePage = () => {
         <TableContainer>
           <Table head={tableHead} data={tableData} isLoading={isLoading} />
         </TableContainer>
-        <PaginationBlock>
-          <Pagination totalPages={totalPages} activePage={activePage} onClick={handlePageClick} />
-        </PaginationBlock>
+        {inputSearch.trim() === '' && (
+          <PaginationBlock>
+            <Pagination totalPages={totalPages} activePage={activePage} onClick={handlePageClick} />
+          </PaginationBlock>
+        )}
       </BoardContainer>
       <FilterBlock>
         <SearchInputWithFilter
           options={noticeSearchFilterOptions}
           searchFilterPlaceholder="제목"
           placeholder="내용을 입력해 주세요."
+          value={inputSearch}
+          onChange={(e) => setInputSearch(e.target.value)}
         />
       </FilterBlock>
     </Container>

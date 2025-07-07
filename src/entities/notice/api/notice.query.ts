@@ -1,6 +1,6 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
-import { fetchGetNotice, fetchGetNoticeDetail } from '.';
+import { fetchGetNotice, fetchGetNoticeDetail, fetchGetNoticeSearch } from '.';
 
 export const notice = createQueryKeys('notice', {
   list: ({ page }: { page: number }) => ({
@@ -10,6 +10,10 @@ export const notice = createQueryKeys('notice', {
   detail: (noticeId: number) => ({
     queryKey: ['detail', { noticeId }],
     queryFn: () => fetchGetNoticeDetail({ noticeId }),
+  }),
+  search: ({ page, keyword }: { page: number; keyword: string }) => ({
+    queryKey: ['search ', { page, keyword }],
+    queryFn: () => fetchGetNoticeSearch({ page, keyword }),
   }),
 });
 
@@ -21,5 +25,9 @@ export const adminNotice = createQueryKeys('adminNotice', {
   detail: (noticeId: number) => ({
     queryKey: ['detail', { noticeId }],
     queryFn: () => fetchGetNoticeDetail({ noticeId }),
+  }),
+  search: ({ page, keyword }: { page: number; keyword: string }) => ({
+    queryKey: ['search ', { page, keyword }],
+    queryFn: () => fetchGetNoticeSearch({ page, keyword }),
   }),
 });

@@ -27,7 +27,7 @@ export const Contents = ({
   createdAt,
   updatedAt,
   imageUrl,
-  email,  
+  email,
   id,
 }: ContentsProps) => {
   const { userInfo } = useUserInfoStore();

@@ -19,6 +19,12 @@ export interface FetchGetNoticeDetailDto {
   noticeId: number;
 }
 
+// 공지사항 검색 request dto
+export interface FetchGetNoticeSearchDto {
+  page?: number; // 페이지
+  keyword?: string;
+}
+
 // 공지사항 상세 조회 response dto
 interface FetchGetNoticeDetailResponse {
   data: Content;
@@ -59,6 +65,13 @@ export const fetchGetNotice = async ({ page = 1 }: FetchGetNoticeDto) => {
 export const fetchGetNoticeDetail = async ({ noticeId }: FetchGetNoticeDetailDto) => {
   const response = await axiosInstance.get<FetchGetNoticeDetailResponse>(URL.API.NOTICE_DETAIL, {
     params: { noticeId },
+  });
+  return response.data;
+};
+
+export const fetchGetNoticeSearch = async ({ page = 1, keyword }: FetchGetNoticeSearchDto) => {
+  const response = await axiosInstance.get<FetchGetNoticeResponse>(URL.API.NOTICE_SEARCH, {
+    params: { page, keyword },
   });
   return response.data;
 };
