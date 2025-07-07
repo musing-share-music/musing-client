@@ -17,7 +17,8 @@ export interface Video {
   albumName: string;
   songLink: string;
   thumbNailLink: string;
-  genres: string[] | null;
+  artists: Array<{ id: number; name: string }> | null;
+  genres: Array<{ id: number; genreName: string }> | null;
 }
 
 export interface VideoProps {
@@ -107,11 +108,28 @@ export const PlayListMusicList = ({ videoList, modify, setVideoList, setDeleteVi
           <PlayListInfoBlock>
             <PlayListInfoImg src={item.thumbNailLink} />
             <PlayListInfo>
-              <PlayListInfoTitle>{item.albumName}</PlayListInfoTitle>
-              <PlayListInfoName>{item.name}</PlayListInfoName>
-              {/* <TagBlock>
-                <Tag>K-POP</Tag> <Tag>귀여운</Tag>
-              </TagBlock> */}
+              <PlayListInfoTitle>{item.name}</PlayListInfoTitle>
+              <PlayListInfoName>
+                {item.artists && item.artists.length > 0 ? (
+                  item.artists.map((artist, index) => (
+                    <span key={artist.id}>
+                      {artist.name}
+                      {index < item.artists!.length - 1 ? ', ' : ''}
+                    </span>
+                  ))
+                ) : (
+                  '유튜브 연동 시 가수가 표시되지 않아요.'
+                )}
+              </PlayListInfoName>
+              <TagBlock>
+                {item.genres && item.genres.length > 0 ? (
+                  item.genres.map((genre, genreIndex) => (
+                    <Tag key={genreIndex}>{genre.genreName}</Tag>
+                  ))
+                ) : (
+                  <Tag>장르 정보가 없어요.</Tag>
+                )}
+              </TagBlock>
             </PlayListInfo>
           </PlayListInfoBlock>
         </PlayListItem>
@@ -276,22 +294,22 @@ const PlayListInfoName = styled.div`
   max-width: 400px;
 `;
 
-// const TagBlock = styled.div`
-//   display: flex;
-//   align-items: center;
-//   gap: 12px;
-//   flex-wrap: wrap;
-//   position: absolute;
-//   left: 0px;
-//   bottom: 8px;
-//   height: 33px;
-//   width: 300px;
-// `;
+const TagBlock = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  position: absolute;
+  left: 0px;
+  bottom: 8px;
+  height: 33px;
+  width: 300px;
+`;
 
-// const Tag = styled.div`
-//   padding: 6px 10px 7px 10px;
-//   border-radius: 4px;
-//   background: ${({ theme }) => theme.colors[400]};
-//   color: ${({ theme }) => theme.colors[200]};
-//   ${({ theme }) => theme.fonts.wantedSans.B6};
-// `;
+const Tag = styled.div`
+  padding: 6px 10px 7px 10px;
+  border-radius: 4px;
+  background: ${({ theme }) => theme.colors[400]};
+  color: ${({ theme }) => theme.colors[200]};
+  ${({ theme }) => theme.fonts.wantedSans.B6};
+`;

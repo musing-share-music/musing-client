@@ -8,7 +8,8 @@ import { ArtistName, TrackInfo, TrackInfoContainer } from './styled';
 
 export interface TrackItemType {
   albumName: string;
-  genres: string[] | null;
+  artists: Array<{ id: number; name: string }> | null;
+  genres: Array<{ id: number; genreName: string }> | null;
   name: string;
   playtime: string | null;
   songLink: string;
@@ -28,8 +29,19 @@ export const TrackItem = ({ size, list }: TrackItemProps) => {
         </CoverWrapper>
         {size === 'large' && (
           <TrackInfo>
-            <Title>{list.albumName}</Title>
-            <ArtistName>{list.name} </ArtistName>
+            <Title>{list.name}</Title>
+            <ArtistName>
+              {list.artists && list.artists.length > 0 ? (
+                list.artists.map((artist, index) => (
+                  <span key={artist.id}>
+                    {artist.name}
+                    {index < list.artists!.length - 1 ? ', ' : ''}
+                  </span>
+                ))
+              ) : (
+                '가수 정보가 없어요.'
+              )}
+            </ArtistName>
           </TrackInfo>
         )}
       </TrackInfoContainer>

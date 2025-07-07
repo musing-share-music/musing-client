@@ -10,7 +10,8 @@ export interface Video {
   albumName: string;
   songLink: string;
   thumbNailLink: string;
-  genres: string[] | null;
+  artists: Array<{ id: number; name: string }> | null;
+  genres: Array<{ id: number; genreName: string }> | null;
 }
 
 export interface Representative {

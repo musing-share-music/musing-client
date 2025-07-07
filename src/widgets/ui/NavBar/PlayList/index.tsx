@@ -15,7 +15,8 @@ import { MoreButton } from 'shared/ui/MoreButton';
 import { Spinner } from 'shared/ui/Spinner';
 
 import { PlayListItem } from './PlayListItem';
-import { PlayListContainer, PlayListFoldButton, ShowAllPlayListButton } from './styled';
+import { ShowAllPlayListButton } from './ShowAllPlayListButton';
+import { PlayListContainer, PlayListFoldButton } from './styled';
 import { TrackList } from './TrackList';
 
 interface PlayList {
@@ -41,7 +42,14 @@ export const PlayList = ({ size }: NavBarSizeProps) => {
   const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지
 
   const toggleTrackList = (index: number) => {
-    setOpenIndexes((prev) => (prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]));
+    setOpenIndexes((prev) => {
+      // 이미 열려있는 플레이리스트를 클릭한 경우 닫기
+      if (prev.includes(index)) {
+        return prev.filter((i) => i !== index);
+      }
+      // 다른 플레이리스트를 클릭한 경우 기존 것을 닫고 새로운 것만 열기
+      return [index];
+    });
   };
 
   const handleDeleteReview = () => {
@@ -105,7 +113,7 @@ export const PlayList = ({ size }: NavBarSizeProps) => {
           <PlayListFoldButton onClick={() => setOpenIndexes([])}>
             <IconFold width={18} height={18} />
           </PlayListFoldButton>
-          <ShowAllPlayListButton>플레이리스트 전체 보기</ShowAllPlayListButton>
+          <ShowAllPlayListButton openIndexes={openIndexes} playLists={data?.playLists || []} />
         </>
       )}
 
