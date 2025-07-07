@@ -14,6 +14,7 @@ import { Button, StarRatingInput } from 'shared/ui/';
 import { CommonTag } from 'shared/ui/Tag';
 
 import { LikeButton } from './LikeButton';
+import { AddPlayListModal } from 'shared/ui/Modal/PlayListModal/AddPlayList';
 
 interface MusicInfoProps extends BoardDetail {
   boardId: number;
@@ -26,12 +27,14 @@ export const MusicInfo = ({
   hashtags,
   genre,
   thumbNailLink,
+  songLink,
   permitRegister,
   rating,
   likeCount,
   isLike,
 }: MusicInfoProps) => {
   const [open, setOpen] = useState(false);
+  const [addPlayListOpen, setAddPlayListOpen] = useState(false);
   const { data: existingReply } = useMyRepliesQuery(boardId);
   const deleteReplyMutation = useDeleteReplyMutation(boardId);
   const navigate = useNavigate();
@@ -58,6 +61,18 @@ export const MusicInfo = ({
         await navigate(ROUTES.COMMUNITY.COMMUNITY);
       },
     });
+  };
+
+  const musicItem = {
+    id: boardId,
+    musicName: musicTitle,
+    musicLink: songLink,
+    artists: [
+      Array.isArray(artist)
+        ? { id: 0, name: artist[0] }
+        : { id: 0, name: artist }
+    ] as [{ id: number; name: string; }],
+    thumbNailLink,
   };
 
   return (
@@ -95,7 +110,9 @@ export const MusicInfo = ({
               isLike={isLike}
               likeCount={likeCount}
             />
-            <Button variant="outlined">플레이리스트에 추가</Button>
+            <Button variant="outlined" onClick={() => setAddPlayListOpen(true)}>
+              플레이리스트에 추가
+            </Button>
           </ButtonBlock>
 
           <TagBlock>
@@ -108,6 +125,7 @@ export const MusicInfo = ({
           </TagBlock>
         </MusicInfoBox>
       </Layout>
+      <AddPlayListModal open={addPlayListOpen} onClose={() => setAddPlayListOpen(false)} data={musicItem} children={undefined} />
       <DeleteReplyModal
         open={open}
         hasReview={hasReview}
