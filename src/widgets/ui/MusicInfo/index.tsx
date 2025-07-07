@@ -11,10 +11,10 @@ import { DeleteReplyModal } from 'entities/reply/ui/DeleteReplyModal';
 
 import { ROUTES } from 'shared/config/routes';
 import { Button, StarRatingInput } from 'shared/ui/';
+import { AddPlayListModal } from 'shared/ui/Modal/PlayListModal/AddPlayList';
 import { CommonTag } from 'shared/ui/Tag';
 
 import { LikeButton } from './LikeButton';
-import { AddPlayListModal } from 'shared/ui/Modal/PlayListModal/AddPlayList';
 
 interface MusicInfoProps extends BoardDetail {
   boardId: number;
