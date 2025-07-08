@@ -1,6 +1,8 @@
 // import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { usePlayListRemovePostMutation } from 'features/playlist/lib/usePostPlayListRemoveQuery';
 
 // import IconHeart from 'shared/assets/image/icons/icon-heart.svg?react';
 import IconTooltip from 'shared/assets/image/icons/icon-tooltip.svg?react';
@@ -32,6 +34,8 @@ export const PlayListMusicInfo = ({ representative, modify, setModify, onRefresh
   const [modifyRep, setModifyRep] = useState(representative);
   // const isLiked = false;
   // const color = isLiked ? theme.colors.primary1 : theme.colors[200];
+  const removeMutation = usePlayListRemovePostMutation();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -122,7 +126,26 @@ export const PlayListMusicInfo = ({ representative, modify, setModify, onRefresh
               >
                 삭제
               </EditAction>
-              <DeleteReviewModal open={open} onClose={() => setOpen(false)} onConfirm={() => {}} />
+              <DeleteReviewModal
+                open={open}
+                onClose={() => setOpen(false)}
+                onConfirm={() => {
+                  if (removeMutation.isPending) return;
+                  removeMutation.mutate(
+                    { playlistId: representative.youtubePlaylistId, shouldNavigate: true, navigate },
+                    {
+                      onSuccess: () => {
+                        setOpen(false);
+                        alert('플레이리스트가 삭제되었습니다.');
+                      },
+                      onError: () => {
+                        alert('플레이리스트 삭제 중 오류가 발생했습니다.');
+                        setOpen(false);
+                      },
+                    },
+                  );
+                }}
+              />
             </AdminEdit>
           </AdminBlock>
         ) : (
