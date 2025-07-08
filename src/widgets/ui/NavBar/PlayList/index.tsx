@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import TempCoverSrc from 'widgets/ui/NavBar/cover.png';
 import { NavBarSizeProps } from 'widgets/ui/NavBar/type';
@@ -33,6 +34,7 @@ export const PlayList = ({ size }: NavBarSizeProps) => {
   const { data: dataAll } = useGetPlayListAllQuery(isLogin());
 
   const removeMutation = usePlayListRemovePostMutation();
+  const navigate = useNavigate();
 
   const [openIndexes, setOpenIndexes] = useState<number[]>([]);
   const [open, setOpen] = useState(false); // 삭제 모달 오픈 상태
@@ -56,10 +58,9 @@ export const PlayList = ({ size }: NavBarSizeProps) => {
     if (!targetPlaylistId || removeMutation.isPending) return;
 
     removeMutation.mutate(
-      { playlistId: targetPlaylistId },
+      { playlistId: targetPlaylistId, shouldNavigate: false, navigate },
       {
         onSuccess: () => {
-          alert('플레이리스트가 삭제되었습니다.');
           setOpen(false);
         },
         onError: () => {
