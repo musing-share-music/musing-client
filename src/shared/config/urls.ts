@@ -32,6 +32,8 @@ const URL = {
     NOTICE_DETAIL: 'musing/notice', // 공지사항 상세 페이지
     NOTICE_SEARCH: 'musing/notice/list/search',
     BOARD_RECOMMEND: 'musing/board/recommend',
+    REPORT_BOARD: 'musing/report/board',
+    REPORT_REPLY: 'musing/report/reply',
 
     // 회원정보
     MEMBERINFO: {
@@ -57,6 +59,8 @@ const URL = {
       REJECT_BOARD: 'musing/admin/board/non/permit', // 게시글 승인 거절
       REMOVED_BOARD_LIST: 'musing/admin/board/list/removed', // 삭제된 게시글 리스트
       REMOVED_BOARD_DETAIL: 'musing/admin/board/removed', // 삭제된 게시글 상세
+      REPORT_REPLY_LIST: 'musing/admin/report/reply/list', // 신고된 댓글 리스트
+      REPORT_BOARD_LIST: 'musing/admin/report/board/list', // 신고된 게시글 리스트
     },
 
     // 플레이리스트
@@ -70,6 +74,7 @@ const URL = {
       ADD: 'musing/playlist/addMusicToPlaylist',
       REMOVE: 'musing/playlist/remove',
       MODIFY: 'musing/playlist/modify',
+      SYNC: 'musing/playlist/sync', //플레이리스트 갱신
     },
 
     TOKENREISSUE: 'musing/auth/reissue', //토큰 재발급
