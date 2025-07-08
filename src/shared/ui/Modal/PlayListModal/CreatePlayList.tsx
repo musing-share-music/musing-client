@@ -55,6 +55,7 @@ export const CreatePlayListModal = ({ onOpenPersistModal, ...props }: CreatePlay
           </ButtonWrap>
           <ButtonWrap>
             <Button
+              disabled={playListSave.isPending}
               onClick={() => {
                 playListSave.mutate(
                   { listName, description },
