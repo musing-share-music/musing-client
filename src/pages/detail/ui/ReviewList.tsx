@@ -115,7 +115,7 @@ export const ReviewList = () => {
   return (
     <Section>
       <SectionTitle>
-        별점 및 리뷰({allReviews.length})
+        별점 및 리뷰({data?.pages[0].data.totalElements})
         <Filter
           placeholder={selectedFilter.label}
           options={REVIEW_FILTER_OPTIONS}
