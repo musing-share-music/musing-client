@@ -52,7 +52,11 @@ const ThumbnailMusic = ({ noticeDto }: NoticeDtoProps) => {
           {open && (
             <>
               <CustomHr open={open} />
-              <ThumSelectPost open={open}>{noticeDto.content}</ThumSelectPost>
+              <ThumSelectPost open={open}>
+                {noticeDto.content.split('\n').map((line, index) => (
+                  <div key={index}>{line}</div>
+                ))}
+              </ThumSelectPost>
             </>
           )}
         </ThumSelectBlock>
