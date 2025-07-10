@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { startTransition, useCallback, useRef, useEffect, useState } from 'react';
+import { startTransition, useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ANCHOR_REVIEW } from 'pages/detail/config/anchor';
@@ -91,7 +91,7 @@ export const ReviewList = () => {
     const observer = new window.IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          fetchNextPage();
+          void fetchNextPage();
         }
       },
       { rootMargin: '200px' } // 미리 로드
