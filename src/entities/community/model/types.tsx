@@ -43,6 +43,7 @@ export type Moodboard = {
 };
 
 export type BoardDtosItem = {
+  id: number; // 게시글 고유 ID 추가
   title: string;
   musicName: string;
   artists: Artistboard[];
