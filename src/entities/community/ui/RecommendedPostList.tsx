@@ -137,13 +137,13 @@ const RecommendedPostList = ({ boardDtos }: BoardDtosProps) => {
         {musingList?.map((item, index) => (
           <CommunityItem key={index}>
             <CommunityImageWrapper
-              onClick={async () => await navigate(ROUTES.DETAIL.replace(':id', item.artists[0].id.toString()))}
+              onClick={async () => await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()))}
             >
               <CommunityImage src={item.thumbNailLink} alt="Community" />
             </CommunityImageWrapper>
             <CommuityContent>
               <CommunityInfo
-                onClick={async () => await navigate(ROUTES.DETAIL.replace(':id', item.artists[0].id.toString()))}
+                onClick={async () => await navigate(ROUTES.DETAIL.replace(':id', item.id.toString()))}
               >
                 <CommunitySongInfo>
                   {item.musicName} · {item.artists[0]?.name}
